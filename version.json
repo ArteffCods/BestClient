@@ -1,7 +1,7 @@
 {
-  "version": "0.2.3",
-  "notes": "Bigger news images that grow on hover, Stay-open default, build dropdown, darker switches.",
-  "tag": "v0.2.3",
-  "asset": "BestClient-Setup-0.2.3.exe",
-  "sha256": "faf7cb3b189b205af0c76e2f7208b869c67ced650b63ff78ffc3aefecefa3ee5"
+  "version": "0.2.4",
+  "notes": "Store cards show author, tags and follower counts, custom sort dropdown, opaque panels.",
+  "tag": "v0.2.4",
+  "asset": "BestClient-Setup-0.2.4.exe",
+  "sha256": "59031b77af67fed774866a5c3a4ef52227982b1be2b5c4601036eed5f2687412"
 }
