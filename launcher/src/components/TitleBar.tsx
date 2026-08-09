@@ -3,15 +3,18 @@
 interface Props {
   version: string;
   minecraft: string;
+  fabric: string;
 }
 
-export function TitleBar({ version, minecraft }: Props) {
+export function TitleBar({ version, minecraft, fabric }: Props) {
   return (
-    <header className="drag-region flex h-11 shrink-0 items-center justify-between border-b border-ink-700 bg-ink-950/60 pl-4 pr-0">
-      <div className="flex items-baseline gap-3">
-        <span className="brand-text text-[15px] font-bold tracking-tight">BestClient</span>
-        <span className="text-[11px] text-ink-500">
-          v{version} · Minecraft {minecraft}
+    <header className="drag-region flex h-10 shrink-0 items-center justify-between border-b border-edge bg-void pl-4 pr-0">
+      <div className="flex items-center gap-4">
+        <span className="display-caps text-[13px] text-ink">
+          Best<span className="text-rose">Client</span>
+        </span>
+        <span className="font-mono text-[10px] tracking-wider text-ink-faint">
+          v{version} · MC {minecraft} · FABRIC {fabric}
         </span>
       </div>
 
@@ -20,20 +23,20 @@ export function TitleBar({ version, minecraft }: Props) {
           type="button"
           aria-label="Kicsinyítés"
           onClick={() => void window.bestclient?.minimize()}
-          className="grid h-full w-12 place-items-center text-brand-300/70 transition hover:bg-ink-700 hover:text-brand-200"
+          className="grid h-full w-11 place-items-center text-ink-dim transition-colors hover:bg-panel-high hover:text-ink"
         >
-          <svg width="11" height="11" viewBox="0 0 11 11" aria-hidden="true">
-            <rect x="0" y="5" width="11" height="1" fill="currentColor" />
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+            <rect x="0" y="4.5" width="10" height="1" fill="currentColor" />
           </svg>
         </button>
         <button
           type="button"
           aria-label="Bezárás"
           onClick={() => void window.bestclient?.close()}
-          className="grid h-full w-12 place-items-center text-brand-300/70 transition hover:bg-brand-600 hover:text-white"
+          className="grid h-full w-11 place-items-center text-ink-dim transition-colors hover:bg-rose-deep hover:text-white"
         >
-          <svg width="11" height="11" viewBox="0 0 11 11" aria-hidden="true">
-            <path d="M0 0 L11 11 M11 0 L0 11" stroke="currentColor" strokeWidth="1.2" />
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+            <path d="M0 0 L10 10 M10 0 L0 10" stroke="currentColor" strokeWidth="1.2" />
           </svg>
         </button>
       </div>

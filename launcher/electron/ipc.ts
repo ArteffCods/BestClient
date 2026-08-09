@@ -6,7 +6,7 @@ import { BRAND, LOCKED_SERVER, TARGET } from './core/brand';
 import { installClient } from './core/install';
 import { launchGame } from './core/launch';
 import { log } from './core/logger';
-import { defaultEnabledSlugs, loadPack } from './core/modpack';
+import { loadPack, reconcileSelection } from './core/modpack';
 import { applyPvpDefaults } from './core/options';
 import { dirs } from './core/paths';
 import { readServerList } from './core/servers';
@@ -44,11 +44,9 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
 
   ipcMain.handle(CHANNELS.settingsGet, async () => {
     const settings = readSettings();
+    const pack = await loadPack();
 
-    // First run: start from the pack's recommended selection.
-    if (settings.enabledMods.length === 0) {
-      writeSettings({ enabledMods: await defaultEnabledSlugs() });
-    }
+    writeSettings(reconcileSelection(pack, settings.enabledMods, settings.knownMods));
 
     return publicSettings();
   });
@@ -106,6 +104,15 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
     logout();
   });
 
+  ipcMain.handle(CHANNELS.repair, async () => {
+    const install = await installClient(
+      (progress) => send(CHANNELS.onInstallProgress, progress),
+      { repair: true },
+    );
+
+    return { unavailableMods: install.unavailableMods, dependencies: install.dependencies };
+  });
+
   ipcMain.handle(CHANNELS.optionsReset, () => applyPvpDefaults(true));
 
   ipcMain.handle(CHANNELS.openInstanceFolder, async () => {
@@ -157,6 +164,6 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
       getWindow()?.hide();
     }
 
-    return { unavailableMods: install.unavailableMods };
+    return { unavailableMods: install.unavailableMods, dependencies: install.dependencies };
   });
 }

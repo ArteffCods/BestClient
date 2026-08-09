@@ -2,7 +2,7 @@ import fs from 'node:fs';
 
 import { log } from './logger';
 import { USER_AGENT } from './net';
-import { resourceFile } from './paths';
+import { parseJson, resourceFile } from './paths';
 import { readSettings, writeSettings, type MinecraftAccount } from './store';
 
 const DEVICE_CODE_URL = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/devicecode';
@@ -37,7 +37,7 @@ function clientId(): string {
 
   try {
     const raw = fs.readFileSync(resourceFile('auth.json'), 'utf8');
-    const parsed = JSON.parse(raw) as { clientId?: string };
+    const parsed = parseJson<{ clientId?: string }>(raw);
 
     if (parsed.clientId?.trim()) return parsed.clientId.trim();
   } catch {

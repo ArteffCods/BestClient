@@ -3,8 +3,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { log } from './logger';
-import { downloadAll, downloadFile, fetchJson, type DownloadTask, type ProgressFn } from './net';
-import { dirs, exists } from './paths';
+import {
+  downloadAll,
+  downloadFile,
+  fetchJson,
+  type DownloadTask,
+  type ProgressFn,
+  type VerifyMode,
+} from './net';
+import { dirs, exists, parseJson } from './paths';
 
 const VERSION_MANIFEST = 'https://piston-meta.mojang.com/mc/game/version_manifest_v2.json';
 const ASSET_CDN = 'https://resources.download.minecraft.net';
@@ -68,7 +75,7 @@ export async function resolveVanilla(versionId: string): Promise<VersionJson> {
   const target = path.join(dirs().versions, versionId, `${versionId}.json`);
 
   if (await exists(target)) {
-    return JSON.parse(await fs.promises.readFile(target, 'utf8')) as VersionJson;
+    return parseJson<VersionJson>(await fs.promises.readFile(target, 'utf8'));
   }
 
   const manifest = await fetchJson<{ versions: ManifestEntry[] }>(VERSION_MANIFEST);
@@ -157,7 +164,7 @@ export interface ResolvedLibraries {
   tasks: DownloadTask[];
 }
 
-export function resolveLibraries(versions: VersionJson[]): ResolvedLibraries {
+export function resolveLibraries(versions: VersionJson[], verify: VerifyMode = 'size'): ResolvedLibraries {
   const classpath: string[] = [];
   const nativeJars: string[] = [];
   const tasks: DownloadTask[] = [];
@@ -177,7 +184,7 @@ export function resolveLibraries(versions: VersionJson[]): ResolvedLibraries {
       const dest = path.join(dirs().libraries, ...relative.split('/'));
 
       if (artifact?.url) {
-        tasks.push({ url: artifact.url, dest, sha1: artifact.sha1, size: artifact.size });
+        tasks.push({ url: artifact.url, dest, sha1: artifact.sha1, size: artifact.size, verify });
       } else if (library.url) {
         // Fabric meta entries: only a Maven base URL is given.
         tasks.push({
@@ -185,6 +192,7 @@ export function resolveLibraries(versions: VersionJson[]): ResolvedLibraries {
           dest,
           sha1: library.sha1,
           size: library.size,
+          verify,
         });
       } else {
         log.warn(`Library ${library.name} has no download URL, skipping.`);
@@ -202,7 +210,11 @@ export function resolveLibraries(versions: VersionJson[]): ResolvedLibraries {
   return { classpath, nativeJars, tasks };
 }
 
-export async function installClientJar(version: VersionJson, onProgress?: ProgressFn): Promise<string> {
+export async function installClientJar(
+  version: VersionJson,
+  onProgress?: ProgressFn,
+  verify: VerifyMode = 'size',
+): Promise<string> {
   const client = version.downloads?.client;
 
   if (!client) {
@@ -212,13 +224,17 @@ export async function installClientJar(version: VersionJson, onProgress?: Progre
   const dest = path.join(dirs().versions, version.id, `${version.id}.jar`);
 
   onProgress?.({ done: 0, total: 1, bytes: 0, label: 'Minecraft kliens letöltése' });
-  await downloadFile({ url: client.url, dest, sha1: client.sha1, size: client.size });
+  await downloadFile({ url: client.url, dest, sha1: client.sha1, size: client.size, verify });
   onProgress?.({ done: 1, total: 1, bytes: client.size, label: 'Minecraft kliens kész' });
 
   return dest;
 }
 
-export async function installAssets(version: VersionJson, onProgress?: ProgressFn): Promise<void> {
+export async function installAssets(
+  version: VersionJson,
+  onProgress?: ProgressFn,
+  verify: VerifyMode = 'size',
+): Promise<void> {
   const index = version.assetIndex;
 
   if (!index) {
@@ -229,7 +245,7 @@ export async function installAssets(version: VersionJson, onProgress?: ProgressF
   const indexFile = path.join(dirs().assetIndexes, `${index.id}.json`);
   await downloadFile({ url: index.url, dest: indexFile, sha1: index.sha1, size: index.size });
 
-  const parsed = JSON.parse(await fs.promises.readFile(indexFile, 'utf8')) as AssetIndex;
+  const parsed = parseJson<AssetIndex>(await fs.promises.readFile(indexFile, 'utf8'));
 
   const tasks: DownloadTask[] = Object.values(parsed.objects).map((object) => {
     const prefix = object.hash.slice(0, 2);
@@ -239,10 +255,11 @@ export async function installAssets(version: VersionJson, onProgress?: ProgressF
       dest: path.join(dirs().assetObjects, prefix, object.hash),
       sha1: object.hash,
       size: object.size,
+      verify,
     };
   });
 
-  await downloadAll(tasks, 'Játék assetek', onProgress, 16);
+  await downloadAll(tasks, 'Játék assetek', onProgress, 20);
 }
 
 /** Unpacks every native jar into `natives/<versionId>` so the JVM can load the DLLs. */

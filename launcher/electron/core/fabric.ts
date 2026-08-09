@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { fetchJson } from './net';
-import { dirs, exists } from './paths';
+import { dirs, exists, parseJson } from './paths';
 import type { VersionJson } from './vanilla';
 
 const FABRIC_META = 'https://meta.fabricmc.net/v2';
@@ -17,7 +17,7 @@ export async function resolveFabric(minecraft: string, loader: string): Promise<
   const target = path.join(dirs().versions, id, `${id}.json`);
 
   if (await exists(target)) {
-    return JSON.parse(await fs.promises.readFile(target, 'utf8')) as VersionJson;
+    return parseJson<VersionJson>(await fs.promises.readFile(target, 'utf8'));
   }
 
   const url = `${FABRIC_META}/versions/loader/${encodeURIComponent(minecraft)}/${encodeURIComponent(loader)}/profile/json`;

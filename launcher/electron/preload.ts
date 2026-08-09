@@ -5,6 +5,7 @@ import {
   type AppInfo,
   type DeviceCodeEvent,
   type InstallProgressEvent,
+  type InstallSummary,
   type PackView,
   type PublicAccount,
   type PublicSettings,
@@ -40,8 +41,10 @@ const api = {
   logout: (): Promise<void> => ipcRenderer.invoke(CHANNELS.authLogout),
   currentAccount: (): Promise<PublicAccount | null> => ipcRenderer.invoke(CHANNELS.authCurrent),
 
-  play: (quickConnect?: string | null): Promise<{ unavailableMods: string[] }> =>
+  play: (quickConnect?: string | null): Promise<InstallSummary> =>
     ipcRenderer.invoke(CHANNELS.play, quickConnect ?? null),
+
+  repair: (): Promise<InstallSummary> => ipcRenderer.invoke(CHANNELS.repair),
 
   resetPvpOptions: (): Promise<{ applied: string[] }> => ipcRenderer.invoke(CHANNELS.optionsReset),
   openInstanceFolder: (): Promise<void> => ipcRenderer.invoke(CHANNELS.openInstanceFolder),

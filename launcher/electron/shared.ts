@@ -15,6 +15,7 @@ export interface PublicAccount {
 export interface PublicSettings {
   memoryMb: number;
   enabledMods: string[];
+  knownMods: string[];
   seededSuggestedServer: boolean;
   appliedPvpDefaults: boolean;
   closeOnLaunch: boolean;
@@ -44,6 +45,13 @@ export interface InstallProgressEvent {
   percent: number;
   label: string;
   detail: string;
+}
+
+export interface InstallSummary {
+  /** Pack slugs with no build for the target Minecraft version. */
+  unavailableMods: string[];
+  /** Titles of the libraries installed automatically to satisfy hard requirements. */
+  dependencies: string[];
 }
 
 export interface DeviceCodeEvent {
@@ -77,6 +85,7 @@ export const CHANNELS = {
   authLogout: 'auth:logout',
   authCurrent: 'auth:current',
   play: 'play:run',
+  repair: 'install:repair',
   serversList: 'servers:list',
   optionsReset: 'options:reset',
   openInstanceFolder: 'folder:instance',

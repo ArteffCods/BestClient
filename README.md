@@ -15,9 +15,11 @@ PvP-re optimalizált Minecraft launcher és kliens a **BestPvP** hálózathoz.
 |---|---|
 | **Teljes telepítés** | Java 21 (Temurin), Minecraft 1.21.11, Fabric Loader, könyvtárak, assetek, natives — mind automatikusan, SHA-1 ellenőrzéssel |
 | **Mod-szinkron** | A `resources/bestclient-pack.json`-ban leírt modok a Modrinth API-ról, mindig a legfrissebb 1.21.11-es Fabric buildben |
+| **Függőségfeloldás** | A kötelező (`required`) függőségek tranzitívan feloldódnak. Enélkül a Fabric el sem indul: pl. a Particle Core `fabric-language-kotlin`-t és `fzzy_config`-ot igényel |
 | **Rögzített szerver** | `bestpvp.eu` a lista első helyén, minden indítás előtt visszaállítva; `bestpvp.hu` egyszer beszúrva (ez törölhető) |
 | **PvP beállítások** | `options.txt` alapérték: vsync ki, view bobbing ki, minimál partikulák, entity shadow ki, fast graphics, 0 screen/FOV effekt |
-| **GC-hangolás** | G1GC 50 ms pause target, `AlwaysPreTouch`, `ParallelRefProcEnabled` — a cél a lapos frame time, nem a nyers throughput |
+| **GC-hangolás** | G1GC 50 ms pause target, `Xms == Xmx` + `AlwaysPreTouch`, `MaxTenuringThreshold=1`, `IHOP=15` — a cél a lapos frame time, nem a nyers throughput |
+| **Folyamat-prioritás** | A játék *above-normal* prioritást kap (nem *high*: az OS input- és audioszálának éheztetése rontana, nem javítana) |
 | **Bejelentkezés** | Microsoft device-code OAuth → Xbox Live → XSTS → Minecraft; a token a `launcher.json`-ban marad, a rendererhez soha nem jut el |
 
 ---
@@ -109,12 +111,35 @@ A játék könyvtára (mods, config, saves): `%APPDATA%\.bestclient\instance\`
 
 ---
 
-## Márka
+## Fájlellenőrzés: miért méret és nem hash
+
+Normál indításkor a launcher a **méret** alapján dönti el, hogy egy meglévő fájl jó-e.
+Ez nem lazaság: minden fájl SHA-1-e ellenőrzésre kerül *letöltéskor*, mielőtt a helyére
+kerül, az assetek pedig a saját hash-ük alatt tárolódnak, a könyvtárak pedig
+verziószám alatt — egyik sem tud csendben megváltozni. Ha minden indításnál újra
+hashelnénk a ~4000 asset objektumot, az több száz megabájt beolvasása lenne, minden
+új információ nélkül.
+
+A **Beállítások → Fájlok ellenőrzése és javítása** gomb az, ami mindent újra végighashel
+és pótolja, ami sérült.
+
+---
+
+## Márka és arculat
 
 | | |
 |---|---|
 | Soft accent | `#ffb8e0` |
 | Strong accent | `#ff75c3` |
+| Display | Bahnschrift (kondenzált, DIN-alapú — Windows sajátja) |
+| Számok | Cascadia Mono |
+
+A felület szándékosan **telemetria-panel** logikát követ, nem általános sötét dashboardot:
+a közönség FPS- és ping-overlayeket olvas, ezért minden szám monospace, a szekciócímek
+kondenzált nagybetűk, és kártyaárnyék helyett hajszálvonalak tagolnak.
+
+A szignatúra elem: **az indítógomb maga a folyamatjelző**. Egy launchernek egy dolga van,
+ezért egy kontrollt kap — a gomb feltöltődik a telepítés alatt, és a végén „elsül".
 
 A színek egy helyen élnek: `launcher/electron/core/brand.ts` és `launcher/src/app/globals.css`.
 

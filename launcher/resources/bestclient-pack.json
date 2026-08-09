@@ -52,12 +52,28 @@
       "note": "Blokkoldalak cullingja."
     },
     {
-      "slug": "modernfix",
-      "name": "ModernFix",
+      "slug": "ferrite-core",
+      "name": "FerriteCore",
       "category": "performance",
       "locked": false,
       "defaultEnabled": true,
-      "note": "Gyorsabb indítás és kisebb memóriahasználat."
+      "note": "Jelentősen kisebb memóriahasználat – kevesebb és rövidebb GC-szünet."
+    },
+    {
+      "slug": "threadtweak",
+      "name": "ThreadTweak",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Háttérszálak prioritásának hangolása, hogy a renderszál kapja a CPU-t."
+    },
+    {
+      "slug": "nvidium",
+      "name": "Nvidium",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "Csak NVIDIA kártyán (Turing vagy újabb) és Sodiummal működik, és még béta. Ha megy, nagy FPS-nyereség – ha fekete képet ad, kapcsold ki."
     },
     {
       "slug": "sodium-extra",

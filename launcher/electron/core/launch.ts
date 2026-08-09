@@ -1,5 +1,6 @@
 import { app } from 'electron';
 import { spawn, type ChildProcess } from 'node:child_process';
+import os from 'node:os';
 import path from 'node:path';
 
 import { BRAND } from './brand';
@@ -22,19 +23,41 @@ export interface LaunchHandle {
 }
 
 /**
- * Client-side GC tuning. The goal is a flat frame time rather than raw throughput:
- * a 50 ms pause target with G1 keeps collections short enough that they do not show
- * up as a dropped hit, and pre-touching the heap avoids page faults mid-fight.
+ * Client-side GC tuning. The goal is a flat frame time, not raw throughput - in PvP a
+ * single 200 ms pause is a missed hit, while a slightly lower average FPS is invisible.
+ *
+ * - `MaxGCPauseMillis=50`      target short enough to hide inside a frame budget.
+ * - `G1NewSizePercent=20`      Minecraft allocates hard and dies young; a big eden keeps
+ *                              collections in the cheap young generation.
+ * - `MaxTenuringThreshold=1`   stops short-lived render garbage from being promoted into
+ *                              the old generation, where cleaning it is far more costly.
+ * - `IHOP=15`                  starts the concurrent cycle early so a mixed collection is
+ *                              never forced at a bad moment.
+ * - `AlwaysPreTouch`           pays for every heap page up front instead of taking page
+ *                              faults mid-fight.
+ * - `ParallelRefProcEnabled`   reference processing is a common long-pause contributor.
+ * - `PerfDisableSharedMem`     stops the JVM writing perf counters to a memory-mapped file
+ *                              in /tmp, which can stall on a busy disk.
+ * - `DisableExplicitGC`        neutralises System.gc() calls from mods.
  */
 const PERFORMANCE_FLAGS = [
   '-XX:+UnlockExperimentalVMOptions',
   '-XX:+UseG1GC',
-  '-XX:G1NewSizePercent=20',
-  '-XX:G1ReservePercent=20',
   '-XX:MaxGCPauseMillis=50',
+  '-XX:G1NewSizePercent=20',
+  '-XX:G1MaxNewSizePercent=40',
+  '-XX:G1ReservePercent=20',
   '-XX:G1HeapRegionSize=32M',
+  '-XX:G1HeapWastePercent=5',
+  '-XX:G1MixedGCCountTarget=4',
+  '-XX:G1MixedGCLiveThresholdPercent=90',
+  '-XX:G1RSetUpdatingPauseTimePercent=5',
+  '-XX:InitiatingHeapOccupancyPercent=15',
+  '-XX:SurvivorRatio=32',
+  '-XX:MaxTenuringThreshold=1',
   '-XX:+ParallelRefProcEnabled',
   '-XX:+AlwaysPreTouch',
+  '-XX:+PerfDisableSharedMem',
   '-XX:+DisableExplicitGC',
 ];
 
@@ -90,7 +113,9 @@ export function buildCommand(
   const memory = Math.max(1024, Math.round(options.memoryMb));
 
   const command = [
-    `-Xms${Math.min(memory, 1024)}M`,
+    // Xms == Xmx on purpose: combined with AlwaysPreTouch the whole heap is committed
+    // and touched once at startup, so the JVM never grows the heap mid-fight.
+    `-Xms${memory}M`,
     `-Xmx${memory}M`,
     ...PERFORMANCE_FLAGS,
     `-Dminecraft.launcher.brand=${BRAND.name.toLowerCase()}`,
@@ -128,6 +153,18 @@ export async function launchGame(
     cwd: dirs().instance,
     windowsHide: true,
   });
+
+  // Above-normal keeps the render thread ahead of background work (updaters, browsers)
+  // when the CPU is contended. Deliberately not HIGH: starving the OS input and audio
+  // threads makes the game feel worse, not better.
+  if (child.pid) {
+    try {
+      os.setPriority(child.pid, os.constants.priority.PRIORITY_ABOVE_NORMAL);
+      log.info('Raised the game process priority to above-normal.');
+    } catch (error) {
+      log.warn('Could not raise the game process priority.', error);
+    }
+  }
 
   const pump = (chunk: Buffer) => {
     for (const line of chunk.toString('utf8').split(/\r?\n/)) {

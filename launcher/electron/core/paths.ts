@@ -73,6 +73,17 @@ export function resourceFile(...segments: string[]): string {
   return path.join(base, ...segments);
 }
 
+/**
+ * JSON.parse that tolerates a UTF-8 byte order mark.
+ *
+ * Notepad and PowerShell's `Set-Content -Encoding utf8` both prepend a BOM, and
+ * `JSON.parse` rejects the resulting string. Every JSON file the launcher reads can be
+ * hand-edited, so none of them may blow up over an invisible leading character.
+ */
+export function parseJson<T>(raw: string): T {
+  return JSON.parse(raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw) as T;
+}
+
 export async function exists(target: string): Promise<boolean> {
   try {
     await fs.promises.access(target);

@@ -13,6 +13,7 @@ export interface PublicAccount {
 export interface PublicSettings {
   memoryMb: number;
   enabledMods: string[];
+  knownMods: string[];
   seededSuggestedServer: boolean;
   appliedPvpDefaults: boolean;
   closeOnLaunch: boolean;
@@ -46,6 +47,11 @@ export interface InstallProgressEvent {
   detail: string;
 }
 
+export interface InstallSummary {
+  unavailableMods: string[];
+  dependencies: string[];
+}
+
 export interface DeviceCodeEvent {
   userCode: string;
   verificationUri: string;
@@ -72,7 +78,8 @@ export interface BestClientApi {
   cancelLogin(): Promise<void>;
   logout(): Promise<void>;
   currentAccount(): Promise<PublicAccount | null>;
-  play(quickConnect?: string | null): Promise<{ unavailableMods: string[] }>;
+  play(quickConnect?: string | null): Promise<InstallSummary>;
+  repair(): Promise<InstallSummary>;
   resetPvpOptions(): Promise<{ applied: string[] }>;
   openInstanceFolder(): Promise<void>;
   openExternal(url: string): Promise<void>;

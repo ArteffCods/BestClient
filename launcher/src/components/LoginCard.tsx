@@ -15,20 +15,20 @@ interface Props {
 export function LoginCard({ account, deviceCode, busy, error, onLogin, onCancel, onLogout }: Props) {
   if (account) {
     return (
-      <div className="flex items-center gap-3 rounded-xl border border-ink-700 bg-ink-800 px-4 py-3">
-        {/* Deliberately no remote skin service: the launcher should not leak the
-            player's UUID to a third party just to draw a 36px avatar. */}
-        <div className="brand-gradient grid h-9 w-9 place-items-center rounded-md text-sm font-bold text-ink-950">
-          {account.username.slice(0, 1).toUpperCase()}
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-brand-100">{account.username}</p>
-          <p className="text-[11px] text-ink-500">Microsoft-fiók</p>
+      <div className="border-t border-edge pt-3">
+        <p className="eyebrow mb-2">Fiók</p>
+        <div className="flex items-center gap-2.5">
+          {/* No remote skin service: drawing a 32px avatar is not worth handing the
+              player's UUID to a third party. */}
+          <div className="brand-gradient grid h-8 w-8 shrink-0 place-items-center rounded font-display text-sm font-bold text-void">
+            {account.username.slice(0, 1).toUpperCase()}
+          </div>
+          <p className="min-w-0 flex-1 truncate text-[13px] text-ink">{account.username}</p>
         </div>
         <button
           type="button"
           onClick={onLogout}
-          className="rounded-lg border border-ink-600 px-3 py-1.5 text-xs text-brand-300 transition hover:border-brand-500 hover:text-brand-200"
+          className="mt-2.5 w-full rounded border border-edge py-1.5 text-[11px] text-ink-dim transition-colors hover:border-edge-bright hover:text-ink"
         >
           Kijelentkezés
         </button>
@@ -38,45 +38,41 @@ export function LoginCard({ account, deviceCode, busy, error, onLogin, onCancel,
 
   if (deviceCode) {
     return (
-      <div className="rounded-xl border border-brand-500/40 bg-ink-800 p-4">
-        <p className="text-xs text-brand-300">Nyisd meg a linket, és írd be ezt a kódot:</p>
-        <p className="my-3 select-text text-center font-mono text-2xl font-bold tracking-[0.3em] text-brand-100">
+      <div className="border-t border-rose/30 pt-3">
+        <p className="eyebrow mb-2 text-rose-soft">Kód</p>
+        <p className="select-text text-center font-mono text-lg font-bold tracking-[0.2em] text-ink">
           {deviceCode.userCode}
         </p>
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => void window.bestclient.openExternal(deviceCode.verificationUri)}
-            className="brand-gradient flex-1 rounded-lg px-3 py-2 text-xs font-semibold text-ink-950 transition hover:brightness-110"
-          >
-            Megnyitás a böngészőben
-          </button>
-          <button
-            type="button"
-            onClick={onCancel}
-            className="rounded-lg border border-ink-600 px-3 py-2 text-xs text-brand-300 transition hover:border-brand-500"
-          >
-            Mégse
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => void window.bestclient.openExternal(deviceCode.verificationUri)}
+          className="brand-gradient mt-2.5 w-full rounded py-1.5 text-[11px] font-semibold text-void transition hover:brightness-110"
+        >
+          Megnyitás böngészőben
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="mt-1.5 w-full rounded border border-edge py-1.5 text-[11px] text-ink-dim transition-colors hover:border-edge-bright hover:text-ink"
+        >
+          Mégse
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl border border-ink-700 bg-ink-800 p-4">
-      <p className="mb-3 text-xs text-ink-500">
-        A játékhoz saját Microsoft-fiók és Minecraft: Java Edition licenc szükséges.
-      </p>
+    <div className="border-t border-edge pt-3">
+      <p className="eyebrow mb-2">Fiók</p>
       <button
         type="button"
         disabled={busy}
         onClick={onLogin}
-        className="brand-gradient w-full rounded-lg px-3 py-2.5 text-sm font-semibold text-ink-950 transition hover:brightness-110 disabled:opacity-50"
+        className="w-full rounded border border-rose/40 bg-panel-high py-2 text-[11px] font-semibold text-rose-soft transition-colors hover:border-rose hover:bg-rose/10 disabled:opacity-50"
       >
-        {busy ? 'Bejelentkezés folyamatban…' : 'Bejelentkezés Microsoft-fiókkal'}
+        {busy ? 'Bejelentkezés…' : 'Bejelentkezés'}
       </button>
-      {error ? <p className="mt-3 text-xs leading-relaxed text-brand-500">{error}</p> : null}
+      {error ? <p className="mt-2 text-[11px] leading-snug text-danger">{error}</p> : null}
     </div>
   );
 }
