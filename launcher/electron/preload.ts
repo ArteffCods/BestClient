@@ -4,6 +4,7 @@ import {
   CHANNELS,
   type AppInfo,
   type DeviceCodeEvent,
+  type AuthConfigStatus,
   type InstallProgressEvent,
   type InstallSummary,
   type PackView,
@@ -37,6 +38,9 @@ const api = {
   getServers: (): Promise<ServerListEntry[]> => ipcRenderer.invoke(CHANNELS.serversList),
 
   login: (): Promise<PublicAccount> => ipcRenderer.invoke(CHANNELS.authLogin),
+  getAuthConfig: (): Promise<AuthConfigStatus> => ipcRenderer.invoke(CHANNELS.authConfigGet),
+  setAuthClientId: (clientId: string): Promise<AuthConfigStatus> =>
+    ipcRenderer.invoke(CHANNELS.authConfigSet, clientId),
   cancelLogin: (): Promise<void> => ipcRenderer.invoke(CHANNELS.authCancel),
   logout: (): Promise<void> => ipcRenderer.invoke(CHANNELS.authLogout),
   currentAccount: (): Promise<PublicAccount | null> => ipcRenderer.invoke(CHANNELS.authCurrent),

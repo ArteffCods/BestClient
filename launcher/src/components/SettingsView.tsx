@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import type { AppInfo, PublicSettings, ServerListEntry } from '@/types/bestclient';
+import type { AppInfo, AuthConfigStatus, PublicSettings, ServerListEntry } from '@/types/bestclient';
 
 interface Props {
   info: AppInfo | null;
@@ -15,6 +15,13 @@ interface Props {
 
 export function SettingsView({ info, settings, servers, busy, onPatch, onRepair }: Props) {
   const [note, setNote] = useState<string | null>(null);
+  const [authConfig, setAuthConfig] = useState<AuthConfigStatus | null>(null);
+  const [clientId, setClientId] = useState('');
+  const [authNote, setAuthNote] = useState<string | null>(null);
+
+  useEffect(() => {
+    void window.bestclient.getAuthConfig().then(setAuthConfig);
+  }, []);
 
   if (!settings || !info) {
     return <p className="text-sm text-ink-faint">Beállítások betöltése…</p>;
@@ -105,7 +112,71 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
           </div>
         </Section>
 
-        <Section title="Karbantartás" delay={180}>
+        <Section title="Microsoft auth" delay={160}>
+          <div className="space-y-3">
+            <p className="text-[11.5px] leading-relaxed text-ink-dim">
+              A launcher beépített publikus client ID-vel működik – bejelentkezéshez nem kell
+              semmit beállítanod. Ha saját Azure appot akarsz használni, add meg az ID-t itt.
+            </p>
+
+            <div>
+              <label className="eyebrow mb-2 block" htmlFor="azure-client-id">
+                Azure Application client ID (opcionális)
+              </label>
+              <input
+                id="azure-client-id"
+                type="text"
+                value={clientId}
+                placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                onChange={(event) => setClientId(event.target.value)}
+                className="w-full rounded border border-edge bg-void px-3 py-2 font-mono text-[11px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-rose"
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Action
+                onClick={async () => {
+                  setAuthNote(null);
+                  try {
+                    setAuthConfig(await window.bestclient.setAuthClientId(clientId));
+                    setClientId('');
+                    setAuthNote('Saját client ID mentve – onnantól azzal jelentkezik be a launcher.');
+                  } catch (error) {
+                    setAuthNote(error instanceof Error ? error.message : String(error));
+                  }
+                }}
+              >
+                Client ID mentése
+              </Action>
+              <Action onClick={() => void window.bestclient.openExternal('https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade')}>
+                Azure appok
+              </Action>
+              <Action
+                onClick={async () => {
+                  setAuthConfig(await window.bestclient.setAuthClientId(''));
+                }}
+              >
+                Vissza az alapértelmezettre
+              </Action>
+            </div>
+
+            <p className="text-[11.5px] leading-relaxed text-ink-faint">
+              Állapot:{' '}
+              <span className="text-rose-soft">
+                {authConfig?.source === 'env'
+                  ? 'környezeti változó'
+                  : authConfig?.source === 'file'
+                    ? 'saját'
+                    : 'alapértelmezett'}
+              </span>
+              {authConfig?.file ? <span className="block truncate font-mono">{authConfig.file}</span> : null}
+            </p>
+
+            {authNote ? <p className="text-[11.5px] text-rose-soft">{authNote}</p> : null}
+          </div>
+        </Section>
+
+        <Section title="Karbantartás" delay={200}>
           <div className="flex flex-wrap gap-2">
             <Action
               disabled={busy}
@@ -138,7 +209,7 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
           {note ? <p className="mt-2 text-[11.5px] text-rose-soft">{note}</p> : null}
         </Section>
 
-        <Section title="Verziók" delay={220}>
+        <Section title="Verziók" delay={240}>
           <dl className="grid grid-cols-2 gap-y-2 text-[12px]">
             <Row term="Launcher" value={info.version} />
             <Row term="Minecraft" value={info.target.minecraft} />

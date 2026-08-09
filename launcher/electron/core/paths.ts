@@ -66,11 +66,12 @@ export async function ensureDirs(): Promise<void> {
 
 /** Resolves a file bundled with the launcher itself (works both packed and unpacked). */
 export function resourceFile(...segments: string[]): string {
-  const base = app.isPackaged
-    ? path.join(process.resourcesPath, 'resources')
-    : path.join(app.getAppPath(), 'resources');
+  return path.join(app.getAppPath(), 'resources', ...segments);
+}
 
-  return path.join(base, ...segments);
+/** Resolves a resource file next to the installed app, useful for local secrets. */
+export function externalResourceFile(...segments: string[]): string {
+  return path.join(process.resourcesPath, 'resources', ...segments);
 }
 
 /**

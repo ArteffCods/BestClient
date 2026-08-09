@@ -57,7 +57,14 @@ export interface InstallSummary {
 export interface DeviceCodeEvent {
   userCode: string;
   verificationUri: string;
+  verificationUriComplete?: string;
   expiresInSeconds: number;
+}
+
+export interface AuthConfigStatus {
+  configured: boolean;
+  source: 'env' | 'file' | 'default' | null;
+  file: string;
 }
 
 export interface ServerListEntry {
@@ -81,6 +88,8 @@ export const CHANNELS = {
   settingsSet: 'settings:set',
   packGet: 'pack:get',
   authLogin: 'auth:login',
+  authConfigGet: 'auth:config-get',
+  authConfigSet: 'auth:config-set',
   authCancel: 'auth:cancel',
   authLogout: 'auth:logout',
   authCurrent: 'auth:current',

@@ -12,9 +12,7 @@ const DEV_URL = 'http://127.0.0.1:4571';
 const APP_ORIGIN = 'app://bestclient';
 
 /** Root of the exported Next.js renderer. */
-const rendererRoot = app.isPackaged
-  ? path.join(process.resourcesPath, 'out')
-  : path.join(app.getAppPath(), 'out');
+const rendererRoot = path.join(app.getAppPath(), 'out');
 
 let mainWindow: BrowserWindow | null = null;
 

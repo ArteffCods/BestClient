@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import type { ChildProcess } from 'node:child_process';
 
-import { currentAccount, loginWithDeviceCode, logout } from './core/auth';
+import { authConfigStatus, currentAccount, loginWithDeviceCode, logout, saveAuthClientId } from './core/auth';
 import { BRAND, LOCKED_SERVER, TARGET } from './core/brand';
 import { installClient } from './core/install';
 import { launchGame } from './core/launch';
@@ -80,6 +80,12 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
   ipcMain.handle(CHANNELS.authCurrent, async () => {
     const account = await currentAccount();
     return account ? { uuid: account.uuid, username: account.username } : null;
+  });
+
+  ipcMain.handle(CHANNELS.authConfigGet, () => authConfigStatus());
+
+  ipcMain.handle(CHANNELS.authConfigSet, async (_event, clientId: string) => {
+    return saveAuthClientId(clientId);
   });
 
   ipcMain.handle(CHANNELS.authLogin, async () => {

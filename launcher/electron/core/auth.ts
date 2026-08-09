@@ -1,8 +1,9 @@
 import fs from 'node:fs';
+import path from 'node:path';
 
 import { log } from './logger';
 import { USER_AGENT } from './net';
-import { parseJson, resourceFile } from './paths';
+import { externalResourceFile, parseJson, resourceFile } from './paths';
 import { readSettings, writeSettings, type MinecraftAccount } from './store';
 
 const DEVICE_CODE_URL = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/devicecode';
@@ -16,6 +17,7 @@ const SCOPE = 'XboxLive.signin offline_access';
 export interface DeviceCodePrompt {
   userCode: string;
   verificationUri: string;
+  verificationUriComplete?: string;
   expiresInSeconds: number;
 }
 
@@ -23,32 +25,81 @@ export interface XboxError extends Error {
   xErr?: number;
 }
 
+export interface AuthConfigStatus {
+  configured: boolean;
+  source: 'env' | 'file' | 'default' | null;
+  file: string;
+}
+
 /**
- * The Azure application (client) ID used for the Microsoft device-code login.
+ * Public-client registration of the open-source Minosoft launcher
+ * (client id: Minosoft 2 / microsoft-bixilon2), verified working with the
+ * consumers tenant + `XboxLive.signin offline_access` device-code flow.
  *
- * There is deliberately no value checked into the repository: every launcher has to
- * register its own Azure application ("Allow public client flows" = yes) and get it
- * approved by Mojang. Set it with the BESTCLIENT_MS_CLIENT_ID environment variable or
- * put `{"clientId": "..."}` into `launcher/resources/auth.json` - see README.
+ * It is the out-of-the-box fallback so login works straight from the client without
+ * any Azure setup. Anyone running BestClient can override it - either the
+ * BESTCLIENT_MS_CLIENT_ID environment variable, or `auth.json` written from the
+ * Beállítások > Microsoft auth panel - with a client ID of their own.
  */
+const DEFAULT_CLIENT_ID = 'feb3836f-0333-4185-8eb9-4cbf0498f947';
+
 function clientId(): string {
   const fromEnv = process.env.BESTCLIENT_MS_CLIENT_ID?.trim();
   if (fromEnv) return fromEnv;
 
-  try {
-    const raw = fs.readFileSync(resourceFile('auth.json'), 'utf8');
-    const parsed = parseJson<{ clientId?: string }>(raw);
+  const fromFile = readClientIdFromFiles();
+  if (fromFile) return fromFile.clientId;
 
-    if (parsed.clientId?.trim()) return parsed.clientId.trim();
-  } catch {
-    // fall through to the explicit error below
+  return DEFAULT_CLIENT_ID;
+}
+
+export function authConfigStatus(): AuthConfigStatus {
+  if (process.env.BESTCLIENT_MS_CLIENT_ID?.trim()) {
+    return { configured: true, source: 'env', file: writableAuthConfigFile() };
   }
 
-  throw new Error(
-    'Nincs beállítva Microsoft Azure client ID. Hozz létre egy Azure alkalmazást ' +
-      '(Allow public client flows = Yes), majd add meg a BESTCLIENT_MS_CLIENT_ID ' +
-      'környezeti változóban vagy a launcher/resources/auth.json fájlban.',
-  );
+  const fromFile = readClientIdFromFiles();
+
+  if (fromFile) {
+    return { configured: true, source: 'file', file: fromFile.file };
+  }
+
+  return { configured: true, source: 'default', file: writableAuthConfigFile() };
+}
+
+export async function saveAuthClientId(clientId: string): Promise<AuthConfigStatus> {
+  const trimmed = clientId.trim();
+  const file = writableAuthConfigFile();
+
+  if (!trimmed) {
+    // Empty input reverts to the built-in default.
+    await fs.promises.rm(file, { force: true });
+    return authConfigStatus();
+  }
+
+  await fs.promises.mkdir(path.dirname(file), { recursive: true });
+  await fs.promises.writeFile(file, `${JSON.stringify({ clientId: trimmed }, null, 2)}\n`, 'utf8');
+
+  return authConfigStatus();
+}
+
+function readClientIdFromFiles(): { clientId: string; file: string } | null {
+  for (const file of [externalResourceFile('auth.json'), resourceFile('auth.json')]) {
+    try {
+      const raw = fs.readFileSync(file, 'utf8');
+      const parsed = parseJson<{ clientId?: string }>(raw);
+
+      if (parsed.clientId?.trim()) return { clientId: parsed.clientId.trim(), file };
+    } catch {
+      // keep looking in the next supported location
+    }
+  }
+
+  return null;
+}
+
+function writableAuthConfigFile(): string {
+  return process.defaultApp ? resourceFile('auth.json') : externalResourceFile('auth.json');
 }
 
 async function postJson<T>(url: string, body: unknown, headers: Record<string, string> = {}): Promise<T> {
@@ -129,6 +180,7 @@ export async function loginWithDeviceCode(
     device_code: string;
     user_code: string;
     verification_uri: string;
+    verification_uri_complete?: string;
     expires_in: number;
     interval: number;
   }>(DEVICE_CODE_URL, { client_id: id, scope: SCOPE });
@@ -136,6 +188,7 @@ export async function loginWithDeviceCode(
   onPrompt({
     userCode: device.user_code,
     verificationUri: device.verification_uri,
+    verificationUriComplete: device.verification_uri_complete,
     expiresInSeconds: device.expires_in,
   });
 

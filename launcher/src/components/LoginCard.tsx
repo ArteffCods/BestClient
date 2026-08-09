@@ -40,12 +40,34 @@ export function LoginCard({ account, deviceCode, busy, error, onLogin, onCancel,
     return (
       <div className="border-t border-rose/30 pt-3">
         <p className="eyebrow mb-2 text-rose-soft">Kód</p>
-        <p className="select-text text-center font-mono text-lg font-bold tracking-[0.2em] text-ink">
-          {deviceCode.userCode}
+        <div className="flex items-center justify-center gap-2">
+          <p className="select-text text-center font-mono text-lg font-bold tracking-[0.2em] text-ink">
+            {deviceCode.userCode}
+          </p>
+          <button
+            type="button"
+            aria-label="Kód másolása"
+            onClick={() => void navigator.clipboard.writeText(deviceCode.userCode)}
+            className="grid h-6 w-6 place-items-center rounded border border-edge text-ink-dim transition-colors hover:border-rose/60 hover:text-ink"
+          >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="2" />
+              <path
+                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
+            </svg>
+          </button>
+        </div>
+        <p className="mt-2 text-center text-[10px] leading-snug text-ink-dim">
+          Nyisd meg a linket, és írd be a fenti kódot.
         </p>
         <button
           type="button"
-          onClick={() => void window.bestclient.openExternal(deviceCode.verificationUri)}
+          onClick={() =>
+            void window.bestclient.openExternal(deviceCode.verificationUriComplete ?? deviceCode.verificationUri)
+          }
           className="brand-gradient mt-2.5 w-full rounded py-1.5 text-[11px] font-semibold text-void transition hover:brightness-110"
         >
           Megnyitás böngészőben

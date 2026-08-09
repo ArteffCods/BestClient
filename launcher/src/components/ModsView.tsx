@@ -19,20 +19,19 @@ const CATEGORY_LABEL: Record<ModCategory, string> = {
   risky: 'Kockázatos',
 };
 
-/** Only `risky` gets a warning colour — the rest stay in the brand's own range. */
 const CATEGORY_STYLE: Record<ModCategory, string> = {
-  core: 'border-rose/40 text-rose-soft',
-  performance: 'border-edge-bright text-ink-dim',
-  pvp: 'border-edge-bright text-ink-dim',
-  library: 'border-edge text-ink-faint',
-  risky: 'border-warn/50 text-warn',
+  core: 'text-rose-soft',
+  performance: 'text-ink',
+  pvp: 'text-rose-soft',
+  library: 'text-ink-dim',
+  risky: 'text-warn',
 };
 
 const ORDER: ModCategory[] = ['core', 'performance', 'pvp', 'library', 'risky'];
 
 export function ModsView({ pack, enabled, unavailable, dependencies, onToggle }: Props) {
   if (!pack) {
-    return <p className="text-sm text-ink-faint">Modlista betöltése…</p>;
+    return <p className="text-sm text-ink-faint">Modlista betöltése...</p>;
   }
 
   const groups = ORDER.map((category) => ({
@@ -46,12 +45,12 @@ export function ModsView({ pack, enabled, unavailable, dependencies, onToggle }:
     <div className="mx-auto max-w-2xl">
       <div className="rise flex items-baseline justify-between">
         <h2 className="display-caps text-[26px] leading-none text-ink">Modok</h2>
-        <span className="font-mono text-[12px] tabular-nums text-ink-dim">
+        <span className="font-mono text-[12px] tabular-nums text-rose-soft">
           {activeCount}/{pack.mods.length} aktív
         </span>
       </div>
 
-      <p className="rise mt-3 text-[12px] leading-relaxed text-ink-faint" style={{ animationDelay: '60ms' }}>
+      <p className="rise mt-3 text-[12px] leading-relaxed text-ink-dim" style={{ animationDelay: '60ms' }}>
         A modok a Modrinthről töltődnek le, mindig a {pack.minecraft} verzióhoz tartozó legfrissebb
         Fabric buildben. Indításkor szinkronizálódnak: amit kikapcsolsz, azt a launcher törli a mods
         mappából. A kézzel bemásolt jarokhoz nem nyúl.
@@ -61,7 +60,7 @@ export function ModsView({ pack, enabled, unavailable, dependencies, onToggle }:
         {groups.map((group, index) => (
           <section key={group.category} className="rise" style={{ animationDelay: `${100 + index * 40}ms` }}>
             <div className="mb-2.5 flex items-center gap-3">
-              <h3 className="eyebrow">{CATEGORY_LABEL[group.category]}</h3>
+              <h3 className="font-mono text-[11px] text-rose-soft">{CATEGORY_LABEL[group.category]}</h3>
               <span className="h-px flex-1 bg-edge" />
             </div>
 
@@ -82,18 +81,18 @@ export function ModsView({ pack, enabled, unavailable, dependencies, onToggle }:
         {dependencies.length > 0 ? (
           <section className="rise">
             <div className="mb-2.5 flex items-center gap-3">
-              <h3 className="eyebrow">Automatikus függőségek</h3>
+              <h3 className="font-mono text-[11px] text-rose-soft">Automatikus függőségek</h3>
               <span className="h-px flex-1 bg-edge" />
             </div>
-            <p className="mb-2 text-[11.5px] leading-relaxed text-ink-faint">
-              A Fabric nem indul el, ha egy mod kötelező függősége hiányzik, ezért ezeket a
-              launcher magától telepíti.
+            <p className="mb-2 text-[11.5px] leading-relaxed text-ink-dim">
+              A Fabric nem indul el, ha egy mod kötelező függősége hiányzik, ezért ezeket a launcher
+              magától telepíti.
             </p>
             <ul className="flex flex-wrap gap-1.5">
               {dependencies.map((name) => (
                 <li
                   key={name}
-                  className="rounded border border-edge bg-panel px-2 py-1 font-mono text-[10px] text-ink-dim"
+                  className="rounded border border-edge bg-panel px-2 py-1 font-mono text-[10px] text-rose-soft"
                 >
                   {name}
                 </li>
@@ -119,7 +118,7 @@ function ModRow({
 }) {
   return (
     <label
-      className={`flex items-start gap-3 rounded-lg border bg-panel px-3.5 py-3 transition-colors ${
+      className={`grid grid-cols-[38px_1fr_auto] items-center gap-3 rounded-lg border bg-panel px-3.5 py-3 transition-colors ${
         mod.locked
           ? 'cursor-default border-edge'
           : checked
@@ -127,34 +126,46 @@ function ModRow({
             : 'cursor-pointer border-edge hover:border-edge-bright'
       }`}
     >
+      <ModIcon mod={mod} />
+      <span className="min-w-0">
+        <span className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+          <span className="text-[13px] font-medium text-ink">{mod.name}</span>
+          <span className={`font-mono text-[10px] ${CATEGORY_STYLE[mod.category]}`}>
+            {CATEGORY_LABEL[mod.category]}
+          </span>
+          {mod.locked ? <span className="font-mono text-[10px] text-rose-soft">kötelező</span> : null}
+          {unavailable ? <span className="font-mono text-[10px] text-danger">nem elérhető</span> : null}
+        </span>
+        <span className="mt-1 block text-[11.5px] leading-relaxed text-ink-dim">{mod.note}</span>
+      </span>
       <input
         type="checkbox"
         checked={checked}
         disabled={mod.locked}
         onChange={(event) => onToggle(mod.slug, event.target.checked)}
-        className="mt-1 h-3.5 w-3.5 shrink-0 accent-rose"
+        className="h-3.5 w-3.5 shrink-0 accent-rose"
       />
-      <span className="min-w-0 flex-1">
-        <span className="flex flex-wrap items-center gap-2">
-          <span className="text-[13px] font-medium text-ink">{mod.name}</span>
-          <span
-            className={`rounded border px-1.5 py-px font-mono text-[9px] uppercase tracking-wider ${CATEGORY_STYLE[mod.category]}`}
-          >
-            {CATEGORY_LABEL[mod.category]}
-          </span>
-          {mod.locked ? (
-            <span className="font-mono text-[9px] uppercase tracking-wider text-ink-faint">
-              kötelező
-            </span>
-          ) : null}
-          {unavailable ? (
-            <span className="rounded border border-danger/50 px-1.5 py-px font-mono text-[9px] uppercase tracking-wider text-danger">
-              nem elérhető
-            </span>
-          ) : null}
-        </span>
-        <span className="mt-1 block text-[11.5px] leading-relaxed text-ink-faint">{mod.note}</span>
-      </span>
     </label>
+  );
+}
+
+function ModIcon({ mod }: { mod: PackModView }) {
+  return (
+    <span className="grid h-[38px] w-[38px] shrink-0 place-items-center">
+      {mod.iconUrl ? (
+        <img
+          src={mod.iconUrl}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          className="h-full w-full rounded-[25%] border border-edge-bright bg-void object-cover"
+          draggable={false}
+        />
+      ) : (
+        <span className="brand-gradient grid h-full w-full place-items-center rounded-[25%] border border-edge-bright font-display text-[13px] font-bold text-void">
+          {mod.name.slice(0, 1).toUpperCase()}
+        </span>
+      )}
+    </span>
   );
 }

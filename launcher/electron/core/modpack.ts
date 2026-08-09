@@ -17,6 +17,7 @@ export interface PackMod {
   /** Locked mods cannot be turned off - the client does not work without them. */
   locked: boolean;
   defaultEnabled: boolean;
+  iconUrl?: string;
   note: string;
 }
 
@@ -63,6 +64,7 @@ interface ModrinthVersion {
 interface ModrinthProject {
   slug: string;
   title: string;
+  icon_url: string | null;
 }
 
 let packCache: Pack | null = null;
@@ -248,6 +250,7 @@ export async function resolveMods(pack: Pack, enabled: readonly string[]): Promi
         category: 'library',
         locked: true,
         defaultEnabled: true,
+        iconUrl: item.project.icon_url ?? undefined,
         note: `Automatikusan telepítve – a(z) ${item.entry.requiredBy} igényli.`,
         projectId: item.version.project_id,
         versionNumber: item.version.version_number,

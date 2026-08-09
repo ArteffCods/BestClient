@@ -29,6 +29,7 @@ export interface PackModView {
   category: ModCategory;
   locked: boolean;
   defaultEnabled: boolean;
+  iconUrl?: string;
   note: string;
 }
 
@@ -55,7 +56,14 @@ export interface InstallSummary {
 export interface DeviceCodeEvent {
   userCode: string;
   verificationUri: string;
+  verificationUriComplete?: string;
   expiresInSeconds: number;
+}
+
+export interface AuthConfigStatus {
+  configured: boolean;
+  source: 'env' | 'file' | 'default' | null;
+  file: string;
 }
 
 export interface ServerListEntry {
@@ -75,6 +83,8 @@ export interface BestClientApi {
   getPack(): Promise<PackView>;
   getServers(): Promise<ServerListEntry[]>;
   login(): Promise<PublicAccount>;
+  getAuthConfig(): Promise<AuthConfigStatus>;
+  setAuthClientId(clientId: string): Promise<AuthConfigStatus>;
   cancelLogin(): Promise<void>;
   logout(): Promise<void>;
   currentAccount(): Promise<PublicAccount | null>;
