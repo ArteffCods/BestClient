@@ -11,7 +11,11 @@ export function TitleBar({ version, minecraft, fabric }: Props) {
     <header className="drag-region flex h-10 shrink-0 items-center justify-between border-b border-edge bg-void pl-3 pr-0">
       <div className="flex items-center gap-3">
         {/* Served from public/logo.png through the app:// protocol. Decorative next to
-            the wordmark, so it stays out of the accessibility tree. */}
+            the wordmark, so it stays out of the accessibility tree.
+
+            The artwork carries its own dark tile and corner radius, so no rounding is
+            applied here — it would clip the corners twice. The hairline ring is what
+            separates the tile (#1a1a1a) from the title bar (#08060b). */}
         <img
           src="/logo.png"
           alt=""
@@ -19,7 +23,7 @@ export function TitleBar({ version, minecraft, fabric }: Props) {
           width={22}
           height={22}
           draggable={false}
-          className="rounded-[5px]"
+          className="ring-1 ring-edge"
         />
 
         <span className="display-caps text-[13px] text-ink">

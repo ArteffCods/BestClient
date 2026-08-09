@@ -154,8 +154,9 @@ A **Beállítások → Fájlok ellenőrzése és javítása** gomb az, ami minde
 
 ### Logó és ikonok
 
-Forrás: `launcher/resources/logo-source.png` (1920×1920, átlátszó háttér). Ebből
-generálódik minden más, a `scripts/make-icons.ps1` segítségével:
+Forrás: `launcher/resources/logo-source.png` (1920×1920). A kép saját sötét
+csempét (`#1a1a1a`) és lekerekített sarkot hoz magával, a sarkokon kívül átlátszó.
+Ebből generálódik minden más, a `scripts/make-icons.ps1` segítségével:
 
 | Fájl | Mire |
 |---|---|
@@ -165,6 +166,10 @@ generálódik minden más, a `scripts/make-icons.ps1` segítségével:
 
 Ha cserélni akarod a logót: írd felül a `logo-source.png`-t, majd futtasd a
 `scripts/make-icons.ps1`-et.
+
+> A címsorban a logó **nem kap külön lekerekítést** — az a képen már benne van, a
+> CSS-ből hozzáadott sarok kétszer vágná le. Helyette hajszálvékony keret választja
+> el a csempét (`#1a1a1a`) a címsor hátterétől (`#08060b`).
 
 A felület szándékosan **telemetria-panel** logikát követ, nem általános sötét dashboardot:
 a közönség FPS- és ping-overlayeket olvas, ezért minden szám monospace, a szekciócímek
