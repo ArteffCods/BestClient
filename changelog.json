@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.2.3",
+    "date": "2026-08-09",
+    "title": "Bigger news banners, Stay-open default, build dropdown",
+    "description": "News banners are larger and grow on hover instead of zooming, the launcher stays open by default when the game starts, and switching a mod's build is a dropdown next to the version button.",
+    "changes": [
+      "News banners are bigger; on hover they grow instead of zooming, so the picture's edges are never clipped",
+      "Settings: new \"Stay open\" option, on by default - the launcher keeps its window when the game starts; Minimise launcher and Hide launcher remain",
+      "The build picker is now a dropdown attached to the version button, opening above or below it depending on the space",
+      "The on/off switches use a darker, stronger green"
+    ]
+  },
+  {
     "version": "0.2.2",
     "date": "2026-08-09",
     "title": "White button text, restored button colours, clean news banners",

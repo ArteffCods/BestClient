@@ -1,7 +1,7 @@
 {
-  "version": "0.2.2",
-  "notes": "White button text, restored button colours, fixed news banners, Minecraft MOTD emojis.",
-  "tag": "v0.2.2",
-  "asset": "BestClient-Setup-0.2.2.exe",
-  "sha256": "8ca99d825513dc7516c4394437f0bd8153fa67997affa44241a74818ed50df2d"
+  "version": "0.2.3",
+  "notes": "Bigger news images that grow on hover, Stay-open default, build dropdown, darker switches.",
+  "tag": "v0.2.3",
+  "asset": "BestClient-Setup-0.2.3.exe",
+  "sha256": "faf7cb3b189b205af0c76e2f7208b869c67ced650b63ff78ffc3aefecefa3ee5"
 }
