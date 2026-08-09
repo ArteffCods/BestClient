@@ -12,11 +12,11 @@ interface Props {
 }
 
 const CATEGORY_LABEL: Record<ModCategory, string> = {
-  core: 'Alap',
-  performance: 'Teljesítmény',
+  core: 'Core',
+  performance: 'Performance',
   pvp: 'PvP',
-  library: 'Könyvtár',
-  risky: 'Kockázatos',
+  library: 'Library',
+  risky: 'Risky',
 };
 
 const CATEGORY_STYLE: Record<ModCategory, string> = {
@@ -31,7 +31,7 @@ const ORDER: ModCategory[] = ['core', 'performance', 'pvp', 'library', 'risky'];
 
 export function ModsView({ pack, enabled, unavailable, dependencies, onToggle }: Props) {
   if (!pack) {
-    return <p className="text-sm text-ink-faint">Modlista betöltése...</p>;
+    return <p className="text-sm text-ink-faint">Loading mod list…</p>;
   }
 
   const groups = ORDER.map((category) => ({
@@ -44,16 +44,16 @@ export function ModsView({ pack, enabled, unavailable, dependencies, onToggle }:
   return (
     <div className="mx-auto max-w-2xl">
       <div className="rise flex items-baseline justify-between">
-        <h2 className="display-caps text-[26px] leading-none text-ink">Modok</h2>
+        <h2 className="display-caps text-[26px] leading-none text-ink">Mods</h2>
         <span className="font-mono text-[12px] tabular-nums text-rose-soft">
-          {activeCount}/{pack.mods.length} aktív
+          {activeCount}/{pack.mods.length} active
         </span>
       </div>
 
       <p className="rise mt-3 text-[12px] leading-relaxed text-ink-dim" style={{ animationDelay: '60ms' }}>
-        A modok a Modrinthről töltődnek le, mindig a {pack.minecraft} verzióhoz tartozó legfrissebb
-        Fabric buildben. Indításkor szinkronizálódnak: amit kikapcsolsz, azt a launcher törli a mods
-        mappából. A kézzel bemásolt jarokhoz nem nyúl.
+        Mods are downloaded from Modrinth, always the newest Fabric build for {pack.minecraft}.
+        They sync on launch: anything you turn off is removed from the mods folder. Jars you
+        dropped in by hand are never touched.
       </p>
 
       <div className="mt-7 space-y-7">
@@ -81,12 +81,12 @@ export function ModsView({ pack, enabled, unavailable, dependencies, onToggle }:
         {dependencies.length > 0 ? (
           <section className="rise">
             <div className="mb-2.5 flex items-center gap-3">
-              <h3 className="font-mono text-[11px] text-rose-soft">Automatikus függőségek</h3>
+              <h3 className="font-mono text-[11px] text-rose-soft">Automatic dependencies</h3>
               <span className="h-px flex-1 bg-edge" />
             </div>
             <p className="mb-2 text-[11.5px] leading-relaxed text-ink-dim">
-              A Fabric nem indul el, ha egy mod kötelező függősége hiányzik, ezért ezeket a launcher
-              magától telepíti.
+              Fabric will not start if a mod's required dependency is missing, so the launcher
+              installs these automatically.
             </p>
             <ul className="flex flex-wrap gap-1.5">
               {dependencies.map((name) => (
@@ -133,8 +133,8 @@ function ModRow({
           <span className={`font-mono text-[10px] ${CATEGORY_STYLE[mod.category]}`}>
             {CATEGORY_LABEL[mod.category]}
           </span>
-          {mod.locked ? <span className="font-mono text-[10px] text-rose-soft">kötelező</span> : null}
-          {unavailable ? <span className="font-mono text-[10px] text-danger">nem elérhető</span> : null}
+          {mod.locked ? <span className="font-mono text-[10px] text-rose-soft">required</span> : null}
+          {unavailable ? <span className="font-mono text-[10px] text-danger">unavailable</span> : null}
         </span>
         <span className="mt-1 block text-[11.5px] leading-relaxed text-ink-dim">{mod.note}</span>
       </span>

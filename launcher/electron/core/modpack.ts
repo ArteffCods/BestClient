@@ -251,7 +251,7 @@ export async function resolveMods(pack: Pack, enabled: readonly string[]): Promi
         locked: true,
         defaultEnabled: true,
         iconUrl: item.project.icon_url ?? undefined,
-        note: `Automatikusan telepítve – a(z) ${item.entry.requiredBy} igényli.`,
+        note: `Installed automatically — required by ${item.entry.requiredBy}.`,
         projectId: item.version.project_id,
         versionNumber: item.version.version_number,
         fileName: item.file.filename,

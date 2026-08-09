@@ -24,18 +24,18 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
   }, []);
 
   if (!settings || !info) {
-    return <p className="text-sm text-ink-faint">Beállítások betöltése…</p>;
+    return <p className="text-sm text-ink-faint">Loading settings…</p>;
   }
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h2 className="rise display-caps text-[26px] leading-none text-ink">Beállítások</h2>
+      <h2 className="rise display-caps text-[26px] leading-none text-ink">Settings</h2>
 
       <div className="mt-7 space-y-4">
-        <Section title="Memória" delay={60}>
+        <Section title="Memory" delay={60}>
           <p className="mb-4 text-[12px] leading-relaxed text-ink-faint">
-            A JVM-nek adott maximum. PvP-hez 4–6 GB bőven elég: a felesleges heap nem hoz FPS-t,
-            viszont hosszabb GC-szünetet igen, és a szünet az, ami elveszi a találatot.
+            Maximum handed to the JVM. 4–6 GB is plenty for PvP: extra heap brings no FPS, only
+            longer GC pauses — and it is the pause that costs you the hit.
           </p>
           <div className="flex items-center gap-5">
             <input
@@ -45,7 +45,7 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
               step={512}
               value={settings.memoryMb}
               onChange={(event) => onPatch({ memoryMb: Number(event.target.value) })}
-              aria-label="Memória"
+              aria-label="Memory"
               className="h-1 flex-1 accent-rose"
             />
             <span className="w-16 text-right font-mono text-[15px] tabular-nums text-rose-soft">
@@ -54,10 +54,10 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
           </div>
         </Section>
 
-        <Section title="Szerverlista" delay={100}>
+        <Section title="Server list" delay={100}>
           {servers.length === 0 ? (
             <p className="text-[12px] text-ink-faint">
-              Még nincs szerverlista – az első indítás után jelenik meg.
+              No server list yet — it appears after the first launch.
             </p>
           ) : (
             <ul className="space-y-px overflow-hidden rounded border border-edge">
@@ -72,7 +72,7 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
                   </span>
                   {server.locked ? (
                     <span className="shrink-0 rounded border border-rose/50 px-1.5 py-px font-mono text-[9px] uppercase tracking-wider text-rose-soft">
-                      rögzített
+                      pinned
                     </span>
                   ) : null}
                 </li>
@@ -80,15 +80,15 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
             </ul>
           )}
           <p className="mt-3 text-[11.5px] leading-relaxed text-ink-faint">
-            A <span className="font-mono text-ink-dim">{info.lockedServer.address}</span> bejegyzést a
-            launcher minden indítás előtt visszaírja a lista elejére. Játék közben törölhető, de a
-            következő indításnál újra ott lesz.
+            The launcher writes the <span className="font-mono text-ink-dim">{info.lockedServer.address}</span>{' '}
+            entry back to the top of the list before every launch. It can be deleted in-game, but it
+            returns on the next start.
           </p>
         </Section>
 
-        <Section title="Indítás" delay={140}>
+        <Section title="Launch" delay={140}>
           <label className="flex cursor-pointer items-center justify-between py-1.5">
-            <span className="text-[13px] text-ink">Launcher elrejtése indításkor</span>
+            <span className="text-[13px] text-ink">Hide launcher on launch</span>
             <input
               type="checkbox"
               checked={settings.closeOnLaunch}
@@ -99,7 +99,7 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
 
           <div className="pt-3">
             <label className="eyebrow mb-2 block" htmlFor="jvm-args">
-              Extra JVM-argumentumok
+              Extra JVM arguments
             </label>
             <input
               id="jvm-args"
@@ -115,13 +115,13 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
         <Section title="Microsoft auth" delay={160}>
           <div className="space-y-3">
             <p className="text-[11.5px] leading-relaxed text-ink-dim">
-              A launcher beépített publikus client ID-vel működik – bejelentkezéshez nem kell
-              semmit beállítanod. Ha saját Azure appot akarsz használni, add meg az ID-t itt.
+              The launcher ships with a built-in public client ID — you don't need to set anything
+              to sign in. To use your own Azure app, enter its ID here.
             </p>
 
             <div>
               <label className="eyebrow mb-2 block" htmlFor="azure-client-id">
-                Azure Application client ID (opcionális)
+                Azure Application client ID (optional)
               </label>
               <input
                 id="azure-client-id"
@@ -140,34 +140,34 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
                   try {
                     setAuthConfig(await window.bestclient.setAuthClientId(clientId));
                     setClientId('');
-                    setAuthNote('Saját client ID mentve – onnantól azzal jelentkezik be a launcher.');
+                    setAuthNote('Your client ID is saved — the launcher will sign in with it from now on.');
                   } catch (error) {
                     setAuthNote(error instanceof Error ? error.message : String(error));
                   }
                 }}
               >
-                Client ID mentése
+                Save client ID
               </Action>
               <Action onClick={() => void window.bestclient.openExternal('https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade')}>
-                Azure appok
+                Azure apps
               </Action>
               <Action
                 onClick={async () => {
                   setAuthConfig(await window.bestclient.setAuthClientId(''));
                 }}
               >
-                Vissza az alapértelmezettre
+                Back to default
               </Action>
             </div>
 
             <p className="text-[11.5px] leading-relaxed text-ink-faint">
-              Állapot:{' '}
+              Status:{' '}
               <span className="text-rose-soft">
                 {authConfig?.source === 'env'
-                  ? 'környezeti változó'
+                  ? 'environment variable'
                   : authConfig?.source === 'file'
-                    ? 'saját'
-                    : 'alapértelmezett'}
+                    ? 'custom'
+                    : 'default'}
               </span>
               {authConfig?.file ? <span className="block truncate font-mono">{authConfig.file}</span> : null}
             </p>
@@ -176,7 +176,7 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
           </div>
         </Section>
 
-        <Section title="Karbantartás" delay={200}>
+        <Section title="Maintenance" delay={200}>
           <div className="flex flex-wrap gap-2">
             <Action
               disabled={busy}
@@ -185,31 +185,31 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
                 onRepair();
               }}
             >
-              {busy ? 'Ellenőrzés fut…' : 'Fájlok ellenőrzése és javítása'}
+              {busy ? 'Verifying…' : 'Verify and repair files'}
             </Action>
             <Action
               onClick={async () => {
                 const result = await window.bestclient.resetPvpOptions();
-                setNote(`${result.applied.length} beállítás visszaállítva.`);
+                setNote(`${result.applied.length} settings restored.`);
               }}
             >
-              PvP alapbeállítások visszaállítása
+              Reset PvP defaults
             </Action>
             <Action onClick={() => void window.bestclient.openInstanceFolder()}>
-              Játék mappa megnyitása
+              Open game folder
             </Action>
           </div>
 
           <p className="mt-3 text-[11.5px] leading-relaxed text-ink-faint">
-            Normál indításkor a launcher méret alapján ellenőrzi a meglévő fájlokat – a letöltéskori
-            SHA-1 ellenőrzés után ez elég, és nem olvas be több száz megabájtot minden indulásnál. Az
-            ellenőrzés-gomb az, ami minden fájlt újra végighashel és pótolja, ami sérült.
+            On a normal launch the launcher checks existing files by size — after the download-time
+            SHA-1 check that is enough, and it avoids reading hundreds of megabytes on every start.
+            This button re-hashes every file and replaces whatever is corrupt.
           </p>
 
           {note ? <p className="mt-2 text-[11.5px] text-rose-soft">{note}</p> : null}
         </Section>
 
-        <Section title="Verziók" delay={240}>
+        <Section title="Versions" delay={240}>
           <dl className="grid grid-cols-2 gap-y-2 text-[12px]">
             <Row term="Launcher" value={info.version} />
             <Row term="Minecraft" value={info.target.minecraft} />

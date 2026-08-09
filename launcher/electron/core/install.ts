@@ -54,13 +54,13 @@ export interface InstallResult {
 }
 
 const STEPS = [
-  'Java futtatókörnyezet',
-  'Verzióadatok',
-  'Könyvtárak',
-  'Játék assetek',
+  'Java runtime',
+  'Version metadata',
+  'Libraries',
+  'Game assets',
   'Natives',
-  'Modok',
-  'Kliens beállítások',
+  'Mods',
+  'Client configuration',
 ] as const;
 
 /**
@@ -96,7 +96,7 @@ export async function installClient(
   };
 
   // 1 - Java 21
-  emit(1, 'Java ellenőrzése');
+  emit(1, 'Checking Java');
   const javaPath = await ensureJava(relay(1));
 
   // 2 - version metadata
@@ -108,33 +108,30 @@ export async function installClient(
 
   // 3 - libraries (Fabric first so the loader wins on the classpath)
   const libraries = resolveLibraries([fabric, vanilla], verify);
-  emit(3, `${libraries.tasks.length} könyvtár`);
-  await downloadAll(libraries.tasks, 'Könyvtárak', relay(3), 8);
+  emit(3, `${libraries.tasks.length} libraries`);
+  await downloadAll(libraries.tasks, 'Libraries', relay(3), 8);
 
   // 4 - assets
-  emit(4, 'Assetek ellenőrzése');
+  emit(4, 'Verifying assets');
   await installAssets(vanilla, relay(4), verify);
 
   // 5 - natives
-  emit(5, 'Natives kicsomagolása');
+  emit(5, 'Extracting natives');
   const nativesDir = await extractNatives(pack.minecraft, libraries.nativeJars);
 
   // 6 - mods
-  emit(6, 'Modok feloldása a Modrinthről');
+  emit(6, 'Resolving mods from Modrinth');
   const resolved = await resolveMods(pack, settings.enabledMods);
   await syncMods(resolved.mods, relay(6), verify);
 
   // 7 - client configuration
-  emit(7, 'Szerverlista és beállítások');
-  const servers = await ensureLockedServer(!settings.seededSuggestedServer);
+  emit(7, 'Server list and settings');
+  const servers = await ensureLockedServer();
   const gameOptions = await applyPvpDefaults(!settings.appliedPvpDefaults);
 
-  writeSettings({
-    seededSuggestedServer: settings.seededSuggestedServer || servers.seeded,
-    appliedPvpDefaults: true,
-  });
+  writeSettings({ appliedPvpDefaults: true });
 
-  emit(7, 'Kész', 1);
+  emit(7, 'Done', 1);
   log.info(
     `Install complete: ${resolved.mods.length} mod (${resolved.dependencies.length} dependency), ` +
       `servers.dat restored=${servers.restored}, options.txt keys=${gameOptions.applied.length}`,

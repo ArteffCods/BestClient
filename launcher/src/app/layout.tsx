@@ -4,7 +4,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'BestClient',
-  description: 'PvP-optimalizalt Minecraft launcher',
+  description: 'PvP-optimized Minecraft launcher',
 };
 
 export const viewport: Viewport = {
@@ -13,7 +13,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="hu">
+    <html lang="en">
       <body className="h-full antialiased">{children}</body>
     </html>
   );

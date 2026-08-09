@@ -16,11 +16,8 @@ export const LOCKED_SERVER = {
   address: 'bestpvp.eu',
 } as const;
 
-/** Seeded once on the first launch, but the player is free to delete this one. */
-export const SUGGESTED_SERVER = {
-  name: 'BestPvP.hu',
-  address: 'bestpvp.hu',
-} as const;
+/** Addresses the launcher strips from servers.dat before every launch. */
+export const REMOVED_SERVERS = ['bestpvp.hu'] as const;
 
 export const TARGET = {
   minecraft: '1.21.11',

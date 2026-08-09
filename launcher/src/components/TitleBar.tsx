@@ -38,7 +38,7 @@ export function TitleBar({ version, minecraft, fabric }: Props) {
       <div className="flex h-full">
         <button
           type="button"
-          aria-label="Kicsinyítés"
+          aria-label="Minimize"
           onClick={() => void window.bestclient?.minimize()}
           className="no-drag grid h-full w-11 place-items-center text-ink-dim transition-colors hover:bg-panel-high hover:text-ink"
         >
@@ -48,7 +48,7 @@ export function TitleBar({ version, minecraft, fabric }: Props) {
         </button>
         <button
           type="button"
-          aria-label="Bezárás"
+          aria-label="Close"
           onClick={() => void window.bestclient?.close()}
           className="no-drag grid h-full w-11 place-items-center text-ink-dim transition-colors hover:bg-rose-deep hover:text-white"
         >

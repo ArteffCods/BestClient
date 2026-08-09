@@ -177,7 +177,7 @@ export async function launchGame(
 
   child.on('error', (error) => {
     log.error('Failed to start the game process.', error);
-    onLog(`[launcher] A játék indítása sikertelen: ${error.message}`);
+    onLog(`[launcher] Failed to start the game: ${error.message}`);
     onExit(null);
   });
 

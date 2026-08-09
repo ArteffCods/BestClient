@@ -140,15 +140,15 @@ async function downloadJava(onProgress?: ProgressFn): Promise<string> {
   const pkg = asset.binary.package;
   const archive = path.join(dirs().java, pkg.name);
 
-  onProgress?.({ done: 0, total: 1, bytes: 0, label: `Java ${TARGET.javaMajor} letöltése` });
+  onProgress?.({ done: 0, total: 1, bytes: 0, label: `Downloading Java ${TARGET.javaMajor}` });
 
   let bytes = 0;
   await downloadFile({ url: pkg.link, dest: archive, size: pkg.size }, (delta) => {
     bytes += delta;
-    onProgress?.({ done: 0, total: 1, bytes, label: `Java ${TARGET.javaMajor} letöltése` });
+    onProgress?.({ done: 0, total: 1, bytes, label: `Downloading Java ${TARGET.javaMajor}` });
   });
 
-  onProgress?.({ done: 0, total: 1, bytes, label: `Java ${TARGET.javaMajor} kicsomagolása` });
+  onProgress?.({ done: 0, total: 1, bytes, label: `Extracting Java ${TARGET.javaMajor}` });
 
   const zip = new AdmZip(archive);
   zip.extractAllTo(dirs().java, true);
@@ -160,7 +160,7 @@ async function downloadJava(onProgress?: ProgressFn): Promise<string> {
     throw new Error(`Java ${TARGET.javaMajor} was extracted but no javaw.exe was found inside it.`);
   }
 
-  onProgress?.({ done: 1, total: 1, bytes, label: `Java ${TARGET.javaMajor} kész` });
+  onProgress?.({ done: 1, total: 1, bytes, label: `Java ${TARGET.javaMajor} ready` });
   log.info(`Installed managed Java runtime: ${asset.release_name}`);
 
   return installed;

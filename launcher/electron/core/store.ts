@@ -26,8 +26,6 @@ export interface Settings {
    * still respecting a mod the player deliberately switched off.
    */
   knownMods: string[];
-  /** Set once the removable bestpvp.hu entry has been offered. */
-  seededSuggestedServer: boolean;
   /** Set once the PvP options.txt baseline has been written. */
   appliedPvpDefaults: boolean;
   closeOnLaunch: boolean;
@@ -42,7 +40,6 @@ const DEFAULTS: Settings = {
   memoryMb: 4096,
   enabledMods: [],
   knownMods: [],
-  seededSuggestedServer: false,
   appliedPvpDefaults: false,
   closeOnLaunch: false,
   extraJvmArgs: '',

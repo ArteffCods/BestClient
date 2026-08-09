@@ -21,9 +21,9 @@ import type {
 type Tab = 'play' | 'mods' | 'settings';
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'play', label: 'Játék' },
-  { id: 'mods', label: 'Modok' },
-  { id: 'settings', label: 'Beállítások' },
+  { id: 'play', label: 'Play' },
+  { id: 'mods', label: 'Mods' },
+  { id: 'settings', label: 'Settings' },
 ];
 
 const MAX_LOG_LINES = 400;
@@ -104,7 +104,7 @@ export default function Page() {
         setBusy(false);
 
         if (code !== 0 && code !== null) {
-          setPlayError(`A játék ${code} hibakóddal lépett ki. A részletek a naplóban.`);
+          setPlayError(`The game exited with code ${code}. See the log for details.`);
           setShowLogs(true);
         }
       }),
@@ -231,8 +231,8 @@ export default function Page() {
             Best<span className="text-rose">Client</span>
           </h1>
           <p className="max-w-md text-sm leading-relaxed text-ink-dim">
-            A preload híd nem töltődött be, így a launcher nem éri el a rendszerfunkciókat.
-            Indítsd újra az alkalmazást – ha a hiba megmarad, futtasd újra a{' '}
+            The preload bridge did not load, so the launcher can't reach system functions.
+            Restart the app — if the error persists, run{' '}
             <code className="rounded bg-panel px-1 py-0.5 font-mono text-rose-soft">
               npm run build:main
             </code>{' '}
@@ -336,7 +336,7 @@ export default function Page() {
           aria-expanded={showLogs}
           className="flex w-full items-center justify-between px-4 py-1.5 transition-colors hover:bg-panel"
         >
-          <span className="eyebrow">Napló · {logs.length} sor</span>
+          <span className="eyebrow">Log · {logs.length} lines</span>
           <span aria-hidden="true" className="text-[10px] text-ink-faint">
             {showLogs ? '▾' : '▸'}
           </span>
@@ -346,7 +346,7 @@ export default function Page() {
           <div className="h-44 overflow-y-auto border-t border-edge bg-[#050308] px-4 py-2">
             {logs.length === 0 ? (
               <p className="font-mono text-[11px] text-ink-faint">
-                A játék kimenete itt jelenik meg indítás után.
+                The game output appears here after launch.
               </p>
             ) : (
               logs.map((line, index) => (
@@ -392,10 +392,10 @@ function PlayStage({
     launchState === 'running'
       ? 'Fut'
       : launchState === 'working'
-        ? 'Telepítés'
+        ? 'Installing'
         : launchState === 'locked'
-          ? 'Zárolva'
-          : 'Kész';
+          ? 'Locked'
+          : 'Ready';
 
   return (
     // Title and launch control anchored top-left; nothing floats in the middle.
@@ -419,15 +419,15 @@ function PlayStage({
         className="rise mt-7 flex max-w-xl flex-wrap items-stretch"
         style={{ animationDelay: '120ms' }}
       >
-        <Readout label="Modok" value={String(activeModCount)} />
-        <Readout label="Memória" value={`${(memoryMb / 1024).toFixed(1)} GB`} />
+        <Readout label="Mods" value={String(activeModCount)} />
+        <Readout label="Memory" value={`${(memoryMb / 1024).toFixed(1)} GB`} />
         <Readout label="Java" value={String(info?.target.javaMajor ?? 21)} />
-        <Readout label="Állapot" value={statusWord} accent={launchState === 'ready'} last />
+        <Readout label="Status" value={statusWord} accent={launchState === 'ready'} last />
       </div>
 
       {unavailable.length > 0 ? (
         <p className="mt-6 max-w-xl rounded-lg border border-warn/40 bg-warn/5 px-4 py-3 text-[12px] leading-relaxed text-warn">
-          Ezekhez nincs {info?.target.minecraft} build, ezért kimaradtak:{' '}
+          No {info?.target.minecraft} build for these, so they were skipped:{' '}
           <span className="font-mono">{unavailable.join(', ')}</span>
         </p>
       ) : null}

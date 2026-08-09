@@ -6,7 +6,7 @@ interface Props {
   state: LaunchState;
   /** 0–100, only meaningful while `working`. */
   percent: number;
-  /** Which install step is running, e.g. "Könyvtárak". */
+  /** Which install step is running, e.g. "Libraries". */
   step: string;
   target: string;
   onClick: () => void;
@@ -24,19 +24,19 @@ export function LaunchButton({ state, percent, step, target, onClick }: Props) {
 
   const caption =
     state === 'locked'
-      ? 'Jelentkezz be'
+      ? 'Sign in'
       : state === 'running'
-        ? 'Fut'
+        ? 'Running'
         : state === 'working'
-          ? step || 'Előkészítés'
-          : 'Indítás';
+          ? step || 'Preparing'
+          : 'Play';
 
   return (
     <button
       type="button"
       disabled={disabled}
       onClick={onClick}
-      aria-label={state === 'ready' ? `Indítás – ${target}` : caption}
+      aria-label={state === 'ready' ? `Play – ${target}` : caption}
       aria-busy={state === 'working'}
       className={`no-drag group relative h-[76px] w-full overflow-hidden rounded-lg border text-left transition-colors duration-200 ${
         state === 'ready'

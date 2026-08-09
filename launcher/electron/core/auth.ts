@@ -39,7 +39,7 @@ export interface AuthConfigStatus {
  * It is the out-of-the-box fallback so login works straight from the client without
  * any Azure setup. Anyone running BestClient can override it - either the
  * BESTCLIENT_MS_CLIENT_ID environment variable, or `auth.json` written from the
- * Beállítások > Microsoft auth panel - with a client ID of their own.
+ * Settings > Microsoft auth panel - with a client ID of their own.
  */
 const DEFAULT_CLIENT_ID = 'feb3836f-0333-4185-8eb9-4cbf0498f947';
 
@@ -197,11 +197,11 @@ export async function loginWithDeviceCode(
 
   for (;;) {
     if (shouldCancel()) {
-      throw new Error('A bejelentkezést megszakítottad.');
+      throw new Error('You cancelled the sign-in.');
     }
 
     if (Date.now() > deadline) {
-      throw new Error('A bejelentkezési kód lejárt, próbáld újra.');
+      throw new Error('The sign-in code expired, please try again.');
     }
 
     await delay(interval);
@@ -224,7 +224,7 @@ export async function loginWithDeviceCode(
     }
 
     if (!token.access_token || !token.refresh_token) {
-      throw new Error('A Microsoft válasza nem tartalmazott használható tokent.');
+      throw new Error('Microsoft returned no usable token.');
     }
 
     return exchangeForMinecraft(token.access_token, token.refresh_token);
@@ -241,7 +241,7 @@ export async function refreshAccount(account: MinecraftAccount): Promise<Minecra
   });
 
   if (token.error || !token.access_token) {
-    throw new Error(token.error_description ?? 'A munkamenet nem újítható meg, jelentkezz be újra.');
+    throw new Error(token.error_description ?? 'The session could not be renewed, please sign in again.');
   }
 
   return exchangeForMinecraft(token.access_token, token.refresh_token ?? account.refreshToken);
@@ -296,7 +296,7 @@ async function exchangeForMinecraft(microsoftToken: string, refreshToken: string
   const userHash = xsts.DisplayClaims.xui[0]?.uhs;
 
   if (!userHash) {
-    throw new Error('Az Xbox válasz nem tartalmazott felhasználói hash-t.');
+    throw new Error('The Xbox response contained no user hash.');
   }
 
   const minecraft = await postJson<{ access_token: string; expires_in: number }>(MC_LOGIN_URL, {
@@ -311,11 +311,11 @@ async function exchangeForMinecraft(microsoftToken: string, refreshToken: string
   });
 
   if (profileResponse.status === 404) {
-    throw new Error('Ehhez a fiókhoz nem tartozik Minecraft: Java Edition profil.');
+    throw new Error('This account has no Minecraft: Java Edition profile.');
   }
 
   if (!profileResponse.ok) {
-    throw new Error(`A Minecraft profil lekérdezése sikertelen: HTTP ${profileResponse.status}`);
+    throw new Error(`Failed to fetch the Minecraft profile: HTTP ${profileResponse.status}`);
   }
 
   const profile = (await profileResponse.json()) as { id: string; name: string };
@@ -332,16 +332,16 @@ async function exchangeForMinecraft(microsoftToken: string, refreshToken: string
 function describeXstsError(error: XboxError): string {
   switch (error.xErr) {
     case 2148916233:
-      return 'Ehhez a Microsoft-fiókhoz nem tartozik Xbox profil. Hozz létre egyet az xbox.com oldalon.';
+      return 'This Microsoft account has no Xbox profile. Create one at xbox.com.';
     case 2148916235:
-      return 'Az Xbox Live nem érhető el ebben az országban.';
+      return 'Xbox Live is not available in this country.';
     case 2148916236:
     case 2148916237:
-      return 'A fiókhoz felnőttkori ellenőrzés szükséges.';
+      return 'This account requires adult verification.';
     case 2148916238:
-      return 'Gyerekfiók: előbb egy családhoz kell adni a fiókot.';
+      return 'Child account: it must be added to a family first.';
     default:
-      return `Az Xbox hitelesítés sikertelen. ${error.message}`;
+      return `Xbox authentication failed. ${error.message}`;
   }
 }
 

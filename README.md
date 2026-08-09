@@ -16,7 +16,7 @@ PvP-re optimalizált Minecraft launcher és kliens a **BestPvP** hálózathoz.
 | **Teljes telepítés** | Java 21 (Temurin), Minecraft 1.21.11, Fabric Loader, könyvtárak, assetek, natives — mind automatikusan, SHA-1 ellenőrzéssel |
 | **Mod-szinkron** | A `resources/bestclient-pack.json`-ban leírt modok a Modrinth API-ról, mindig a legfrissebb 1.21.11-es Fabric buildben |
 | **Függőségfeloldás** | A kötelező (`required`) függőségek tranzitívan feloldódnak. Enélkül a Fabric el sem indul: pl. a Particle Core `fabric-language-kotlin`-t és `fzzy_config`-ot igényel |
-| **Rögzített szerver** | `bestpvp.eu` a lista első helyén, minden indítás előtt visszaállítva; `bestpvp.hu` egyszer beszúrva (ez törölhető) |
+| **Rögzített szerver** | `bestpvp.eu` a lista első helyén, minden indítás előtt visszaállítva |
 | **PvP beállítások** | `options.txt` alapérték: vsync ki, view bobbing ki, minimál partikulák, entity shadow ki, fast graphics, 0 screen/FOV effekt |
 | **GC-hangolás** | G1GC 50 ms pause target, `Xms == Xmx` + `AlwaysPreTouch`, `MaxTenuringThreshold=1`, `IHOP=15` — a cél a lapos frame time, nem a nyers throughput |
 | **Folyamat-prioritás** | A játék *above-normal* prioritást kap (nem *high*: az OS input- és audioszálának éheztetése rontana, nem javítana) |

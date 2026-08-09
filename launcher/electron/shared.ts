@@ -16,7 +16,6 @@ export interface PublicSettings {
   memoryMb: number;
   enabledMods: string[];
   knownMods: string[];
-  seededSuggestedServer: boolean;
   appliedPvpDefaults: boolean;
   closeOnLaunch: boolean;
   extraJvmArgs: string;

@@ -9,7 +9,7 @@ import { log } from './core/logger';
 import { loadPack, reconcileSelection } from './core/modpack';
 import { applyPvpDefaults } from './core/options';
 import { dirs } from './core/paths';
-import { readServerList } from './core/servers';
+import { ensureLockedServer, readServerList } from './core/servers';
 import {
   listAccounts,
   publicSettings,
@@ -95,7 +95,12 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
   });
 
   ipcMain.handle(CHANNELS.packGet, () => loadPack());
-  ipcMain.handle(CHANNELS.serversList, () => readServerList());
+  ipcMain.handle(CHANNELS.serversList, async () => {
+    // Normalize the list on read too, so a delisted server (bestpvp.hu) disappears as
+    // soon as the launcher opens, not only after the next Play.
+    await ensureLockedServer();
+    return readServerList();
+  });
 
   ipcMain.handle(CHANNELS.authCurrent, async () => {
     const account = await currentAccount();
@@ -166,13 +171,13 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
 
   ipcMain.handle(CHANNELS.play, async (_event, quickConnect: string | null) => {
     if (gameProcess && gameProcess.exitCode === null) {
-      throw new Error('A játék már fut.');
+      throw new Error('The game is already running.');
     }
 
     const account = await currentAccount();
 
     if (!account) {
-      throw new Error('Előbb jelentkezz be a Microsoft-fiókoddal.');
+      throw new Error('Sign in with your Microsoft account first.');
     }
 
     const install = await installClient((progress) => send(CHANNELS.onInstallProgress, progress));

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import type { DeviceCodeEvent, PublicAccount } from '@/types/bestclient';
 
@@ -81,18 +81,41 @@ export function LoginCard({
   onSelect,
   onRemove,
 }: Props) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Close the switcher on an outside click or Escape.
+  useEffect(() => {
+    if (!open) return;
+
+    const onPointer = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) setOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+
+    document.addEventListener('mousedown', onPointer);
+    document.addEventListener('keydown', onKey);
+
+    return () => {
+      document.removeEventListener('mousedown', onPointer);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
   // Signing a new account in: show the device code and nothing else.
   if (deviceCode) {
     return (
       <div className="border-t border-rose/30 pt-3">
-        <p className="eyebrow mb-2 text-rose-soft">Kód</p>
+        <p className="eyebrow mb-2 text-rose-soft">Code</p>
         <div className="flex items-center justify-center gap-2">
           <p className="select-text text-center font-mono text-lg font-bold tracking-[0.2em] text-ink">
             {deviceCode.userCode}
           </p>
           <button
             type="button"
-            aria-label="Kód másolása"
+            aria-label="Copy code"
             onClick={() => void navigator.clipboard.writeText(deviceCode.userCode)}
             className="grid h-6 w-6 place-items-center rounded border border-edge text-ink-dim transition-colors hover:border-rose/60 hover:text-ink"
           >
@@ -107,7 +130,7 @@ export function LoginCard({
           </button>
         </div>
         <p className="mt-2 text-center text-[10px] leading-snug text-ink-dim">
-          Nyisd meg a linket, és írd be a fenti kódot.
+          Open the link and enter the code above.
         </p>
         <button
           type="button"
@@ -118,14 +141,14 @@ export function LoginCard({
           }
           className="brand-gradient mt-2.5 w-full rounded py-1.5 text-[11px] font-semibold text-void transition hover:brightness-110"
         >
-          Megnyitás böngészőben
+          Open in browser
         </button>
         <button
           type="button"
           onClick={onCancel}
           className="mt-1.5 w-full rounded border border-edge py-1.5 text-[11px] text-ink-dim transition-colors hover:border-edge-bright hover:text-ink"
         >
-          Mégse
+          Cancel
         </button>
       </div>
     );
@@ -141,7 +164,7 @@ export function LoginCard({
           onClick={onLogin}
           className="w-full rounded border border-rose/40 bg-panel-high py-2 text-[11px] font-semibold text-rose-soft transition-colors hover:border-rose hover:bg-rose/10 disabled:opacity-50"
         >
-          {busy ? 'Bejelentkezés…' : 'Bejelentkezés'}
+          {busy ? 'Signing in…' : 'Sign in'}
         </button>
         {error ? <p className="mt-2 text-[11px] leading-snug text-danger">{error}</p> : null}
       </div>
@@ -149,45 +172,86 @@ export function LoginCard({
   }
 
   const active = accounts.find((entry) => entry.uuid === activeUuid) ?? accounts[0]!;
-  const others = accounts.filter((entry) => entry.uuid !== active.uuid);
 
   return (
-    <div className="space-y-2.5 border-t border-edge pt-3">
-      <div className="flex items-center gap-2.5">
+    <div ref={ref} className="relative border-t border-edge pt-3">
+      {/* Trigger: the active account, opening a dropdown of all accounts. */}
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        className="flex w-full items-center gap-2.5 rounded px-1 py-1 text-left transition-colors hover:bg-panel"
+      >
         <Avatar account={active} size={36} active />
-        <p className="min-w-0 flex-1 truncate text-[13px] text-ink">{active.username}</p>
-        <RemoveButton onClick={() => onRemove(active.uuid)} label="Aktív fiók kijelentkeztetése" />
-      </div>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-[13px] text-ink">{active.username}</span>
+          <span className="block text-[10px] text-ink-faint">
+            {accounts.length > 1 ? `${accounts.length} accounts` : 'Signed in'}
+          </span>
+        </span>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          aria-hidden="true"
+          className={`shrink-0 text-ink-faint transition-transform ${open ? 'rotate-180' : ''}`}
+        >
+          <path d="M1 3.5 L5 7 L9 3.5" stroke="currentColor" strokeWidth="1.3" fill="none" />
+        </svg>
+      </button>
 
-      {others.length > 0 ? (
-        <div className="space-y-0.5">
-          {others.map((entry) => (
-            <div key={entry.uuid} className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={() => onSelect(entry.uuid)}
-                className="flex min-w-0 flex-1 items-center gap-2 rounded px-1.5 py-1 text-left transition-colors hover:bg-panel"
-              >
-                <Avatar account={entry} size={22} />
-                <span className="min-w-0 flex-1 truncate text-[12px] text-ink-dim">
-                  {entry.username}
-                </span>
-              </button>
-              <RemoveButton onClick={() => onRemove(entry.uuid)} label={`${entry.username} eltávolítása`} />
-            </div>
-          ))}
+      {open ? (
+        <div
+          role="menu"
+          className="absolute bottom-full left-0 right-0 mb-2 rounded-lg border border-edge bg-panel-high p-1.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.8)]"
+        >
+          {accounts.map((entry) => {
+            const isActive = entry.uuid === active.uuid;
+
+            return (
+              <div key={entry.uuid} className="flex items-center gap-1">
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={() => {
+                    if (!isActive) onSelect(entry.uuid);
+                    setOpen(false);
+                  }}
+                  className="flex min-w-0 flex-1 items-center gap-2 rounded px-1.5 py-1 text-left transition-colors hover:bg-panel"
+                >
+                  <Avatar account={entry} size={22} active={isActive} />
+                  <span className="min-w-0 flex-1 truncate text-[12px] text-ink-dim">
+                    {entry.username}
+                  </span>
+                  {isActive ? (
+                    <svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true" className="shrink-0 text-rose">
+                      <path d="M2 6.5 L4.5 9 L10 3" stroke="currentColor" strokeWidth="1.6" fill="none" />
+                    </svg>
+                  ) : null}
+                </button>
+                <RemoveButton onClick={() => onRemove(entry.uuid)} label={`Remove ${entry.username}`} />
+              </div>
+            );
+          })}
+
+          <div className="my-1 h-px bg-edge" />
+
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => {
+              setOpen(false);
+              onLogin();
+            }}
+            className="w-full rounded px-1.5 py-1.5 text-left text-[11px] font-semibold text-rose-soft transition-colors hover:bg-panel disabled:opacity-50"
+          >
+            {busy ? 'Signing in…' : '+ Add account'}
+          </button>
         </div>
       ) : null}
 
-      <button
-        type="button"
-        disabled={busy}
-        onClick={onLogin}
-        className="w-full rounded border border-edge py-1.5 text-[11px] font-semibold text-ink-dim transition-colors hover:border-rose/60 hover:text-rose-soft disabled:opacity-50"
-      >
-        {busy ? 'Bejelentkezés…' : '+ Fiók hozzáadása'}
-      </button>
-      {error ? <p className="text-[11px] leading-snug text-danger">{error}</p> : null}
+      {error ? <p className="mt-2 text-[11px] leading-snug text-danger">{error}</p> : null}
     </div>
   );
 }

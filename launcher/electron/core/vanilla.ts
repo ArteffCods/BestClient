@@ -223,9 +223,9 @@ export async function installClientJar(
 
   const dest = path.join(dirs().versions, version.id, `${version.id}.jar`);
 
-  onProgress?.({ done: 0, total: 1, bytes: 0, label: 'Minecraft kliens letöltése' });
+  onProgress?.({ done: 0, total: 1, bytes: 0, label: 'Downloading Minecraft client' });
   await downloadFile({ url: client.url, dest, sha1: client.sha1, size: client.size, verify });
-  onProgress?.({ done: 1, total: 1, bytes: client.size, label: 'Minecraft kliens kész' });
+  onProgress?.({ done: 1, total: 1, bytes: client.size, label: 'Minecraft client ready' });
 
   return dest;
 }
@@ -259,7 +259,7 @@ export async function installAssets(
     };
   });
 
-  await downloadAll(tasks, 'Játék assetek', onProgress, 20);
+  await downloadAll(tasks, 'Game assets', onProgress, 20);
 }
 
 /** Unpacks every native jar into `natives/<versionId>` so the JVM can load the DLLs. */

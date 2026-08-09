@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { LOCKED_SERVER, SUGGESTED_SERVER } from './brand';
+import { LOCKED_SERVER, REMOVED_SERVERS } from './brand';
 import { log } from './logger';
 import { readNbt, TAG, writeNbt, type NbtCompound, type NbtRoot, type NbtTag } from './nbt';
 import { dirs, exists } from './paths';
@@ -9,8 +9,8 @@ import { dirs, exists } from './paths';
 export interface ServersResult {
   /** True when the pinned entry was missing or misplaced and had to be written back. */
   restored: boolean;
-  /** True when the removable bestpvp.hu entry was seeded on this run. */
-  seeded: boolean;
+  /** True when a delisted address (e.g. bestpvp.hu) was stripped on this run. */
+  removed: boolean;
   total: number;
 }
 
@@ -21,7 +21,7 @@ export interface ServersResult {
  * next start. Blocking the delete button while the game is running would need a
  * client mod - see README.
  */
-export async function ensureLockedServer(seedSuggested: boolean): Promise<ServersResult> {
+export async function ensureLockedServer(): Promise<ServersResult> {
   const file = path.join(dirs().instance, 'servers.dat');
   await fs.promises.mkdir(path.dirname(file), { recursive: true });
 
@@ -53,11 +53,21 @@ export async function ensureLockedServer(seedSuggested: boolean): Promise<Server
     }
   }
 
-  let seeded = false;
+  // Strip delisted servers (bestpvp.hu) that older builds may have seeded, so the entry
+  // does not linger in the player's list.
+  let removed = false;
 
-  if (seedSuggested && indexOfAddress(list, SUGGESTED_SERVER.address) === -1) {
-    list.splice(Math.min(1, list.length), 0, serverEntry(SUGGESTED_SERVER.name, SUGGESTED_SERVER.address));
-    seeded = true;
+  for (let i = list.length - 1; i >= 0; i--) {
+    const entry = list[i];
+    if (entry?.type !== 'compound') continue;
+
+    const ip = entry.value.ip;
+    const host = ip?.type === 'string' ? normalize(ip.value) : '';
+
+    if (REMOVED_SERVERS.some((address) => normalize(address) === host)) {
+      list.splice(i, 1);
+      removed = true;
+    }
   }
 
   root.value.servers = { type: 'list', elementType: TAG.Compound, value: list };
@@ -66,8 +76,11 @@ export async function ensureLockedServer(seedSuggested: boolean): Promise<Server
   if (restored) {
     log.info(`Restored the pinned ${LOCKED_SERVER.address} entry in servers.dat.`);
   }
+  if (removed) {
+    log.info('Removed a delisted server entry from servers.dat.');
+  }
 
-  return { restored, seeded, total: list.length };
+  return { restored, removed, total: list.length };
 }
 
 /** {@returns the server list as the launcher UI shows it} */

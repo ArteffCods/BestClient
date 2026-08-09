@@ -1,186 +1,186 @@
-﻿{
-    "minecraft":  "1.21.11",
-    "loader":  "fabric",
-    "loaderVersion":  "0.19.3",
-    "mods":  [
-                 {
-                     "slug":  "fabric-api",
-                     "name":  "Fabric API",
-                     "category":  "core",
-                     "locked":  true,
-                     "defaultEnabled":  true,
-                     "note":  "Minden Fabric mod alapja.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/P7dR8mSH/icon.png"
-                 },
-                 {
-                     "slug":  "sodium",
-                     "name":  "Sodium",
-                     "category":  "core",
-                     "locked":  true,
-                     "defaultEnabled":  true,
-                     "note":  "Teljes renderer-csere. A legnagyobb FPS-nyeresĂ©g forrĂˇsa.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/AANobbMI/295862f4724dc3f78df3447ad6072b2dcd3ef0c9_96.webp"
-                 },
-                 {
-                     "slug":  "lithium",
-                     "name":  "Lithium",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "JĂˇtĂ©klogika-optimalizĂˇciĂł, viselkedĂ©svĂˇltozĂˇs nĂ©lkĂĽl.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/gvQqBUqZ/bcc8686c13af0143adf4285d741256af824f70b7_96.webp"
-                 },
-                 {
-                     "slug":  "immediatelyfast",
-                     "name":  "ImmediatelyFast",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "GyorsĂ­tja a HUD Ă©s a GUI kirajzolĂˇsĂˇt â€“ sok itemnĂ©l Ă©s scoreboardnĂˇl szĂˇmĂ­t.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/5ZwdcRci/e57b6b451425692ac17ad322d5e14bea686a383a_96.webp"
-                 },
-                 {
-                     "slug":  "entityculling",
-                     "name":  "Entity Culling",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "Nem rajzolja ki a nem lĂˇthatĂł entitĂˇsokat. ZsĂşfolt arĂ©nĂˇban nagy nyeresĂ©g.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/NNAgCjsB/7873452d6cede4daed12da3d7d8c193ab88b4fd6_96.webp"
-                 },
-                 {
-                     "slug":  "moreculling",
-                     "name":  "More Culling",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "Blokkoldalak cullingja.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/51shyZVL/c51b07193b56e952269ef50101d12aecba2b4747_96.webp"
-                 },
-                 {
-                     "slug":  "ferrite-core",
-                     "name":  "FerriteCore",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "JelentĹ‘sen kisebb memĂłriahasznĂˇlat â€“ kevesebb Ă©s rĂ¶videbb GC-szĂĽnet.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/uXXizFIs/222a126f26f8f9ae1eb339f3b767677f18bff31f_96.webp"
-                 },
-                 {
-                     "slug":  "threadtweak",
-                     "name":  "ThreadTweak",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "HĂˇttĂ©rszĂˇlak prioritĂˇsĂˇnak hangolĂˇsa, hogy a renderszĂˇl kapja a CPU-t.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/vSEH1ERy/a23fc8c2cbeadbea6df1957d3712eac571a56fcb_96.webp"
-                 },
-                 {
-                     "slug":  "nvidium",
-                     "name":  "Nvidium",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  false,
-                     "note":  "Csak NVIDIA kĂˇrtyĂˇn (Turing vagy Ăşjabb) Ă©s Sodiummal mĹ±kĂ¶dik, Ă©s mĂ©g bĂ©ta. Ha megy, nagy FPS-nyeresĂ©g â€“ ha fekete kĂ©pet ad, kapcsold ki.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/SfMw2IZN/2db76d464a0f67cdb9e30fd99040eb096ac62016_96.webp"
-                 },
-                 {
-                     "slug":  "sodium-extra",
-                     "name":  "Sodium Extra",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "Extra grafikai kapcsolĂłk a Sodiumhoz: kĂ¶d, partikulĂˇk, animĂˇciĂłk.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/PtjYWJkn/0df4fb22a11e1dcb5e83cb0aadd275b571aca7a9_96.webp"
-                 },
-                 {
-                     "slug":  "scalablelux",
-                     "name":  "ScalableLux",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "TĂ¶bbszĂˇlĂş fĂ©nyszĂˇmĂ­tĂˇs â€“ kevesebb akadĂˇs.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/Ps1zyz6x/27133942a1a58af1bb11b087957ea4cc14414dd3_96.webp"
-                 },
-                 {
-                     "slug":  "cull-leaves",
-                     "name":  "Cull Leaves",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "LevĂ©lblokkok cullingja.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/GNxdLCoP/icon.png"
-                 },
-                 {
-                     "slug":  "particle-core",
-                     "name":  "Particle Core",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "OptimalizĂˇlt partikularendszer.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/RSeLon5O/147110a6a4457b2f287f68fc626771f0f8ef2cde_96.webp"
-                 },
-                 {
-                     "slug":  "dynamic-fps",
-                     "name":  "Dynamic FPS",
-                     "category":  "performance",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "Visszafogja az FPS-t, amĂ­g a jĂˇtĂ©k hĂˇttĂ©rben van.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/LQ3K71Q1/5056368d0d87c1a9f3efead0cb48ab39a4ea87bf_96.webp"
-                 },
-                 {
-                     "slug":  "clear-waterlavapowdersnow",
-                     "name":  "Clear Water / Lava / Powder Snow",
-                     "category":  "pvp",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "ĂtlĂˇtszĂł folyadĂ©kok â€“ vĂ­zi Ă©s lĂˇvĂˇs harcnĂˇl dĂ¶ntĹ‘ lehet.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/UFRJve4V/facde2c2a2fdf6e518e83fa04ef09779e7b2bdfa_96.webp"
-                 },
-                 {
-                     "slug":  "fps-overlay",
-                     "name":  "FPS Overlay",
-                     "category":  "pvp",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "KonfigurĂˇlhatĂł FPS- Ă©s ping-HUD.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/j0IQ4hjv/9386d1ecafcf5cd3cfa0e1da9eafebb888c0db62.png"
-                 },
-                 {
-                     "slug":  "cloth-config",
-                     "name":  "Cloth Config API",
-                     "category":  "library",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "BeĂˇllĂ­tĂˇs-kĂ©pernyĹ‘k tĂ¶bb modhoz.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/9s6osm5g/ed8a2316cbb6f4fc5f510e8e13a59a85cbbbff4d_96.webp"
-                 },
-                 {
-                     "slug":  "modmenu",
-                     "name":  "Mod Menu",
-                     "category":  "library",
-                     "locked":  false,
-                     "defaultEnabled":  true,
-                     "note":  "Modlista Ă©s beĂˇllĂ­tĂˇsok a jĂˇtĂ©kon belĂĽl.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/mOgUt4GM/5a20ed1450a0e1e79a1fe04e61bb4e5878bf1d20.png"
-                 },
-                 {
-                     "slug":  "betterhitreg",
-                     "name":  "Better Hitreg",
-                     "category":  "risky",
-                     "locked":  false,
-                     "defaultEnabled":  false,
-                     "note":  "FIGYELEM: a talĂˇlatokat a szerver elĹ‘tt regisztrĂˇlja. Sok PvP szerver tiltja â€“ csak sajĂˇt felelĹ‘ssĂ©gre.",
-                     "iconUrl":  "https://cdn.modrinth.com/data/MIKwzoiY/bd1ddd73c5c2d5174b8d69c3c7988169124202d6.png"
-                 },
-                 {
-                     "slug":  "knockbacksync",
-                     "name":  "KnockbackSync",
-                     "category":  "risky",
-                     "locked":  false,
-                     "defaultEnabled":  false,
-                     "note":  "FIGYELEM: knockback-kompenzĂˇciĂł. Csak akkor kapcsold be, ha a szerver kifejezetten engedi."
-                 }
-             ]
+{
+  "minecraft": "1.21.11",
+  "loader": "fabric",
+  "loaderVersion": "0.19.3",
+  "mods": [
+    {
+      "slug": "fabric-api",
+      "name": "Fabric API",
+      "category": "core",
+      "locked": true,
+      "defaultEnabled": true,
+      "note": "The base every Fabric mod builds on.",
+      "iconUrl": "https://cdn.modrinth.com/data/P7dR8mSH/icon.png"
+    },
+    {
+      "slug": "sodium",
+      "name": "Sodium",
+      "category": "core",
+      "locked": true,
+      "defaultEnabled": true,
+      "note": "Full renderer replacement. The single biggest FPS gain.",
+      "iconUrl": "https://cdn.modrinth.com/data/AANobbMI/295862f4724dc3f78df3447ad6072b2dcd3ef0c9_96.webp"
+    },
+    {
+      "slug": "lithium",
+      "name": "Lithium",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Game-logic optimizations with no behavior change.",
+      "iconUrl": "https://cdn.modrinth.com/data/gvQqBUqZ/bcc8686c13af0143adf4285d741256af824f70b7_96.webp"
+    },
+    {
+      "slug": "immediatelyfast",
+      "name": "ImmediatelyFast",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Speeds up HUD and GUI rendering — matters with many items and scoreboards.",
+      "iconUrl": "https://cdn.modrinth.com/data/5ZwdcRci/e57b6b451425692ac17ad322d5e14bea686a383a_96.webp"
+    },
+    {
+      "slug": "entityculling",
+      "name": "Entity Culling",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Skips rendering entities you can't see. Big win in crowded arenas.",
+      "iconUrl": "https://cdn.modrinth.com/data/NNAgCjsB/7873452d6cede4daed12da3d7d8c193ab88b4fd6_96.webp"
+    },
+    {
+      "slug": "moreculling",
+      "name": "More Culling",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Culls hidden block faces.",
+      "iconUrl": "https://cdn.modrinth.com/data/51shyZVL/c51b07193b56e952269ef50101d12aecba2b4747_96.webp"
+    },
+    {
+      "slug": "ferrite-core",
+      "name": "FerriteCore",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Much lower memory use — fewer and shorter GC pauses.",
+      "iconUrl": "https://cdn.modrinth.com/data/uXXizFIs/222a126f26f8f9ae1eb339f3b767677f18bff31f_96.webp"
+    },
+    {
+      "slug": "threadtweak",
+      "name": "ThreadTweak",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Tunes background thread priority so the render thread gets the CPU.",
+      "iconUrl": "https://cdn.modrinth.com/data/vSEH1ERy/a23fc8c2cbeadbea6df1957d3712eac571a56fcb_96.webp"
+    },
+    {
+      "slug": "nvidium",
+      "name": "Nvidium",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "NVIDIA only (Turing or newer) with Sodium, and still beta. Big FPS gain when it works — turn it off if you get a black screen.",
+      "iconUrl": "https://cdn.modrinth.com/data/SfMw2IZN/2db76d464a0f67cdb9e30fd99040eb096ac62016_96.webp"
+    },
+    {
+      "slug": "sodium-extra",
+      "name": "Sodium Extra",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Extra graphics toggles for Sodium: fog, particles, animations.",
+      "iconUrl": "https://cdn.modrinth.com/data/PtjYWJkn/0df4fb22a11e1dcb5e83cb0aadd275b571aca7a9_96.webp"
+    },
+    {
+      "slug": "scalablelux",
+      "name": "ScalableLux",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Multithreaded light calculation — fewer stalls.",
+      "iconUrl": "https://cdn.modrinth.com/data/Ps1zyz6x/27133942a1a58af1bb11b087957ea4cc14414dd3_96.webp"
+    },
+    {
+      "slug": "cull-leaves",
+      "name": "Cull Leaves",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Culls leaf blocks.",
+      "iconUrl": "https://cdn.modrinth.com/data/GNxdLCoP/icon.png"
+    },
+    {
+      "slug": "particle-core",
+      "name": "Particle Core",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Optimized particle system.",
+      "iconUrl": "https://cdn.modrinth.com/data/RSeLon5O/147110a6a4457b2f287f68fc626771f0f8ef2cde_96.webp"
+    },
+    {
+      "slug": "dynamic-fps",
+      "name": "Dynamic FPS",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Throttles FPS while the game is in the background.",
+      "iconUrl": "https://cdn.modrinth.com/data/LQ3K71Q1/5056368d0d87c1a9f3efead0cb48ab39a4ea87bf_96.webp"
+    },
+    {
+      "slug": "clear-waterlavapowdersnow",
+      "name": "Clear Water / Lava / Powder Snow",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Clear liquids — can decide water and lava fights.",
+      "iconUrl": "https://cdn.modrinth.com/data/UFRJve4V/facde2c2a2fdf6e518e83fa04ef09779e7b2bdfa_96.webp"
+    },
+    {
+      "slug": "fps-overlay",
+      "name": "FPS Overlay",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Configurable FPS and ping HUD.",
+      "iconUrl": "https://cdn.modrinth.com/data/j0IQ4hjv/9386d1ecafcf5cd3cfa0e1da9eafebb888c0db62.png"
+    },
+    {
+      "slug": "cloth-config",
+      "name": "Cloth Config API",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Config screens for several mods.",
+      "iconUrl": "https://cdn.modrinth.com/data/9s6osm5g/ed8a2316cbb6f4fc5f510e8e13a59a85cbbbff4d_96.webp"
+    },
+    {
+      "slug": "modmenu",
+      "name": "Mod Menu",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Mod list and settings inside the game.",
+      "iconUrl": "https://cdn.modrinth.com/data/mOgUt4GM/5a20ed1450a0e1e79a1fe04e61bb4e5878bf1d20.png"
+    },
+    {
+      "slug": "betterhitreg",
+      "name": "Better Hitreg",
+      "category": "risky",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "WARNING: registers hits before the server does. Many PvP servers ban it — use at your own risk.",
+      "iconUrl": "https://cdn.modrinth.com/data/MIKwzoiY/bd1ddd73c5c2d5174b8d69c3c7988169124202d6.png"
+    },
+    {
+      "slug": "knockbacksync",
+      "name": "KnockbackSync",
+      "category": "risky",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "WARNING: knockback compensation. Only enable it if the server explicitly allows it."
+    }
+  ]
 }
