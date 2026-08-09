@@ -8,22 +8,35 @@ interface Props {
 
 export function TitleBar({ version, minecraft, fabric }: Props) {
   return (
-    <header className="drag-region flex h-10 shrink-0 items-center justify-between border-b border-edge bg-void pl-4 pr-0">
-      <div className="flex items-center gap-4">
+    <header className="drag-region flex h-10 shrink-0 items-center justify-between border-b border-edge bg-void pl-3 pr-0">
+      <div className="flex items-center gap-3">
+        {/* Served from public/logo.png through the app:// protocol. Decorative next to
+            the wordmark, so it stays out of the accessibility tree. */}
+        <img
+          src="/logo.png"
+          alt=""
+          aria-hidden="true"
+          width={22}
+          height={22}
+          draggable={false}
+          className="rounded-[5px]"
+        />
+
         <span className="display-caps text-[13px] text-ink">
           Best<span className="text-rose">Client</span>
         </span>
+
         <span className="font-mono text-[10px] tracking-wider text-ink-faint">
           v{version} · MC {minecraft} · FABRIC {fabric}
         </span>
       </div>
 
-      <div className="no-drag flex h-full">
+      <div className="flex h-full">
         <button
           type="button"
           aria-label="Kicsinyítés"
           onClick={() => void window.bestclient?.minimize()}
-          className="grid h-full w-11 place-items-center text-ink-dim transition-colors hover:bg-panel-high hover:text-ink"
+          className="no-drag grid h-full w-11 place-items-center text-ink-dim transition-colors hover:bg-panel-high hover:text-ink"
         >
           <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
             <rect x="0" y="4.5" width="10" height="1" fill="currentColor" />
@@ -33,7 +46,7 @@ export function TitleBar({ version, minecraft, fabric }: Props) {
           type="button"
           aria-label="Bezárás"
           onClick={() => void window.bestclient?.close()}
-          className="grid h-full w-11 place-items-center text-ink-dim transition-colors hover:bg-rose-deep hover:text-white"
+          className="no-drag grid h-full w-11 place-items-center text-ink-dim transition-colors hover:bg-rose-deep hover:text-white"
         >
           <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
             <path d="M0 0 L10 10 M10 0 L0 10" stroke="currentColor" strokeWidth="1.2" />

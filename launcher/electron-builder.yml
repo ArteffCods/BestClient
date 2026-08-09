@@ -4,7 +4,6 @@ copyright: Copyright (c) 2026 BestClient
 
 directories:
   output: release
-  buildResources: build
 
 files:
   - dist-electron/**/*
@@ -19,8 +18,8 @@ win:
   target:
     - target: nsis
       arch: [x64]
-  # A logo hozzaadasa utan: build/icon.ico (256x256)
-  # icon: build/icon.ico
+  # Egyetlen forras: ugyanaz a fajl adja az exe ikonjat es a futo ablak ikonjat.
+  icon: resources/icon.ico
 
 nsis:
   oneClick: false

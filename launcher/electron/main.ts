@@ -4,6 +4,7 @@ import { pathToFileURL } from 'node:url';
 
 import { BRAND } from './core/brand';
 import { log } from './core/logger';
+import { resourceFile } from './core/paths';
 import { registerIpc } from './ipc';
 
 const isDev = process.env.BESTCLIENT_DEV === '1';
@@ -87,6 +88,9 @@ function createWindow(): void {
     frame: false,
     backgroundColor: '#0d0910',
     title: BRAND.name,
+    // Taskbar and Alt+Tab icon while running unpackaged. The packaged build takes its
+    // icon from the executable, which electron-builder stamps from the same file.
+    icon: resourceFile('icon.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

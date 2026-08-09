@@ -152,6 +152,20 @@ A **Beállítások → Fájlok ellenőrzése és javítása** gomb az, ami minde
 | Display | Bahnschrift (kondenzált, DIN-alapú — Windows sajátja) |
 | Számok | Cascadia Mono |
 
+### Logó és ikonok
+
+Forrás: `launcher/resources/logo-source.png` (1920×1920, átlátszó háttér). Ebből
+generálódik minden más, a `scripts/make-icons.ps1` segítségével:
+
+| Fájl | Mire |
+|---|---|
+| `launcher/resources/icon.ico` | az exe ikonja és a futó ablak / tálca ikonja (16–256 px, 7 felbontás) |
+| `launcher/resources/icon.png` | 512 px tartalék az electron-buildernek |
+| `launcher/public/logo.png` | 256 px, ez látszik a címsor bal oldalán |
+
+Ha cserélni akarod a logót: írd felül a `logo-source.png`-t, majd futtasd a
+`scripts/make-icons.ps1`-et.
+
 A felület szándékosan **telemetria-panel** logikát követ, nem általános sötét dashboardot:
 a közönség FPS- és ping-overlayeket olvas, ezért minden szám monospace, a szekciócímek
 kondenzált nagybetűk, és kártyaárnyék helyett hajszálvonalak tagolnak.
@@ -166,7 +180,6 @@ A színek egy helyen élnek: `launcher/electron/core/brand.ts` és `launcher/src
 ## Ismert korlátok
 
 - **A rögzített szerver launcher-szintű.** A `bestpvp.eu` bejegyzést minden indítás előtt visszaírjuk, de futó játék közben a játékos ki tudja törölni — a következő indításig. A valódi, játékon belüli zároláshoz Fabric mixin kell (`ServerList#remove` és a `MultiplayerScreen` Delete/Edit gombjai).
-- **Nincs logó.** Az ikon helye elő van készítve: `launcher/build/icon.ico`, az `electron-builder.yml`-ben a sor kikommentelve várja.
 - **Csak Windows x64.** A Java-keresés és a natives-kezelés jelenleg Windows-specifikus.
 - **Kockázatos modok.** A `betterhitreg` és a `knockbacksync` alapból **ki van kapcsolva** — sok PvP szerver tiltja őket. Bekapcsolásuk a játékos felelőssége.
 
