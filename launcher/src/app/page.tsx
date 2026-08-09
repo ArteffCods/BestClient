@@ -45,7 +45,6 @@ export default function Page() {
   const [playError, setPlayError] = useState<string | null>(null);
   const [unavailable, setUnavailable] = useState<string[]>([]);
   const [dependencies, setDependencies] = useState<string[]>([]);
-  const [quickConnect, setQuickConnect] = useState(true);
 
   const [logs, setLogs] = useState<string[]>([]);
   const [showLogs, setShowLogs] = useState(false);
@@ -62,21 +61,24 @@ export default function Page() {
       return;
     }
 
+    // Everything here is local (JSON + servers.dat), so the first paint is instant.
     void (async () => {
-      const [appInfo, currentSettings, currentPack, currentAccount, serverList] = await Promise.all([
+      const [appInfo, currentSettings, currentPack, serverList] = await Promise.all([
         api.appInfo(),
         api.getSettings(),
         api.getPack(),
-        api.currentAccount(),
         api.getServers(),
       ]);
 
       setInfo(appInfo);
       setSettings(currentSettings);
       setPack(currentPack);
-      setAccount(currentAccount);
       setServers(serverList);
     })();
+
+    // The account is fetched on its own: a stale token triggers a Microsoft refresh
+    // (several round trips), and the UI must not wait on the network to render.
+    void api.currentAccount().then(setAccount);
 
     const unsubscribers = [
       api.onDeviceCode(setDeviceCode),
@@ -131,9 +133,8 @@ export default function Page() {
     setLogs([]);
 
     try {
-      const result = await window.bestclient.play(
-        quickConnect && info ? info.lockedServer.address : null,
-      );
+      // Always drop the player straight onto the fixed server.
+      const result = await window.bestclient.play(info?.lockedServer.address ?? 'bestpvp.eu');
 
       setUnavailable(result.unavailableMods);
       setDependencies(result.dependencies);
@@ -145,7 +146,7 @@ export default function Page() {
     } finally {
       setProgress(null);
     }
-  }, [info, quickConnect]);
+  }, [info]);
 
   const handleRepair = useCallback(async () => {
     setBusy(true);
@@ -265,8 +266,6 @@ export default function Page() {
               progress={progress}
               error={playError}
               unavailable={unavailable}
-              quickConnect={quickConnect}
-              onQuickConnect={setQuickConnect}
               onPlay={() => void handlePlay()}
               activeModCount={activeModCount}
               memoryMb={settings?.memoryMb ?? 4096}
@@ -343,8 +342,6 @@ function PlayStage({
   progress,
   error,
   unavailable,
-  quickConnect,
-  onQuickConnect,
   onPlay,
   activeModCount,
   memoryMb,
@@ -354,8 +351,6 @@ function PlayStage({
   progress: InstallProgressEvent | null;
   error: string | null;
   unavailable: string[];
-  quickConnect: boolean;
-  onQuickConnect: (value: boolean) => void;
   onPlay: () => void;
   activeModCount: number;
   memoryMb: number;
@@ -373,18 +368,14 @@ function PlayStage({
           : 'Kész';
 
   return (
-    // The play tab is a stage, not a document: centre it so the launch control sits at
-    // the optical middle instead of the content hanging off the top edge.
-    <div className="mx-auto flex min-h-full max-w-2xl flex-col justify-center px-8 py-9">
-      <div className="rise">
-        <p className="eyebrow">Rögzített célpont</p>
-        <h1 className="display-caps mt-2.5 text-[46px] leading-[0.9] text-ink">
-          {name}
-          <span className="text-rose">.{tld}</span>
-        </h1>
-      </div>
+    // Title and launch control anchored top-left; nothing floats in the middle.
+    <div className="flex flex-col px-8 py-8">
+      <h1 className="rise display-caps text-[44px] leading-[0.9] text-ink">
+        {name}
+        <span className="text-rose">.{tld}</span>
+      </h1>
 
-      <div className="rise mt-7" style={{ animationDelay: '70ms' }}>
+      <div className="rise mt-6 max-w-xl" style={{ animationDelay: '60ms' }}>
         <LaunchButton
           state={launchState}
           percent={progress?.percent ?? 0}
@@ -392,43 +383,27 @@ function PlayStage({
           target={address}
           onClick={onPlay}
         />
-
-        <div className="mt-2.5 flex min-h-[16px] items-center justify-between gap-4">
-          <label className="flex cursor-pointer items-center gap-2 text-[12px] text-ink-dim transition-colors hover:text-ink">
-            <input
-              type="checkbox"
-              checked={quickConnect}
-              onChange={(event) => onQuickConnect(event.target.checked)}
-              className="h-3.5 w-3.5 accent-rose"
-            />
-            Csatlakozás egyből indítás után
-          </label>
-
-          {progress ? (
-            <span className="truncate font-mono text-[11px] text-ink-faint">{progress.detail}</span>
-          ) : null}
-        </div>
       </div>
 
-      <dl
-        className="rise mt-8 grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-edge bg-edge"
-        style={{ animationDelay: '140ms' }}
+      <div
+        className="rise mt-7 flex max-w-xl flex-wrap items-stretch"
+        style={{ animationDelay: '120ms' }}
       >
-        <Readout label="Modok" value={String(activeModCount)} unit="aktív" />
-        <Readout label="Memória" value={(memoryMb / 1024).toFixed(1)} unit="GB" />
-        <Readout label="Java" value={String(info?.target.javaMajor ?? 21)} unit="LTS" />
-        <Readout label="Állapot" value={statusWord} accent={launchState === 'ready'} />
-      </dl>
+        <Readout label="Modok" value={String(activeModCount)} />
+        <Readout label="Memória" value={`${(memoryMb / 1024).toFixed(1)} GB`} />
+        <Readout label="Java" value={String(info?.target.javaMajor ?? 21)} />
+        <Readout label="Állapot" value={statusWord} accent={launchState === 'ready'} last />
+      </div>
 
       {unavailable.length > 0 ? (
-        <p className="mt-5 rounded-lg border border-warn/40 bg-warn/5 px-4 py-3 text-[12px] leading-relaxed text-warn">
+        <p className="mt-6 max-w-xl rounded-lg border border-warn/40 bg-warn/5 px-4 py-3 text-[12px] leading-relaxed text-warn">
           Ezekhez nincs {info?.target.minecraft} build, ezért kimaradtak:{' '}
           <span className="font-mono">{unavailable.join(', ')}</span>
         </p>
       ) : null}
 
       {error ? (
-        <p className="mt-5 rounded-lg border border-danger/40 bg-danger/5 px-4 py-3 text-[12px] leading-relaxed text-danger">
+        <p className="mt-6 max-w-xl rounded-lg border border-danger/40 bg-danger/5 px-4 py-3 text-[12px] leading-relaxed text-danger">
           {error}
         </p>
       ) : null}
@@ -436,28 +411,24 @@ function PlayStage({
   );
 }
 
+/** One reading in the stat strip: hairline-separated, no boxes. */
 function Readout({
   label,
   value,
-  unit,
   accent = false,
+  last = false,
 }: {
   label: string;
   value: string;
-  unit?: string;
   accent?: boolean;
+  last?: boolean;
 }) {
   return (
-    <div className="bg-panel px-4 py-3">
-      <dt className="eyebrow">{label}</dt>
-      <dd className="mt-1.5 flex items-baseline gap-1">
-        <span
-          className={`font-mono text-[17px] tabular-nums ${accent ? 'text-rose-soft' : 'text-ink'}`}
-        >
-          {value}
-        </span>
-        {unit ? <span className="font-mono text-[10px] text-ink-faint">{unit}</span> : null}
-      </dd>
+    <div className={`px-5 first:pl-0 ${last ? '' : 'border-r border-edge'}`}>
+      <p className="eyebrow">{label}</p>
+      <p className={`mt-1 font-mono text-[15px] tabular-nums ${accent ? 'text-rose-soft' : 'text-ink'}`}>
+        {value}
+      </p>
     </div>
   );
 }

@@ -1,6 +1,34 @@
 'use client';
 
+import { useState } from 'react';
+
 import type { DeviceCodeEvent, PublicAccount } from '@/types/bestclient';
+
+/** 2D front of the player's head, rendered blocky to keep the Minecraft look. */
+function Avatar({ account }: { account: PublicAccount }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div className="brand-gradient grid h-9 w-9 shrink-0 place-items-center rounded font-display text-sm font-bold text-void">
+        {account.username.slice(0, 1).toUpperCase()}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={`https://mc-heads.net/avatar/${account.uuid}/64`}
+      alt=""
+      aria-hidden="true"
+      width={36}
+      height={36}
+      draggable={false}
+      onError={() => setFailed(true)}
+      className="h-9 w-9 shrink-0 rounded ring-1 ring-edge [image-rendering:pixelated]"
+    />
+  );
+}
 
 interface Props {
   account: PublicAccount | null;
@@ -16,13 +44,8 @@ export function LoginCard({ account, deviceCode, busy, error, onLogin, onCancel,
   if (account) {
     return (
       <div className="border-t border-edge pt-3">
-        <p className="eyebrow mb-2">Fiók</p>
         <div className="flex items-center gap-2.5">
-          {/* No remote skin service: drawing a 32px avatar is not worth handing the
-              player's UUID to a third party. */}
-          <div className="brand-gradient grid h-8 w-8 shrink-0 place-items-center rounded font-display text-sm font-bold text-void">
-            {account.username.slice(0, 1).toUpperCase()}
-          </div>
+          <Avatar account={account} />
           <p className="min-w-0 flex-1 truncate text-[13px] text-ink">{account.username}</p>
         </div>
         <button
@@ -85,7 +108,6 @@ export function LoginCard({ account, deviceCode, busy, error, onLogin, onCancel,
 
   return (
     <div className="border-t border-edge pt-3">
-      <p className="eyebrow mb-2">Fiók</p>
       <button
         type="button"
         disabled={busy}
