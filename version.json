@@ -1,7 +1,7 @@
 {
-  "version": "0.2.7",
-  "notes": "BestClient mod in game, store, news and changelog feed, better GPU detection.",
-  "tag": "v0.2.7",
-  "asset": "BestClient-Setup-0.2.7.exe",
-  "sha256": "74d39ef54dd24b9d7251363a8204e4b9e49ad380c41a7d6200d9d0b877ec3d99"
+  "version": "0.2.8",
+  "notes": "Fixed 16:9 window, Minecraft-font MOTDs, bundled in-game mod, faster updates.",
+  "tag": "v0.2.8",
+  "asset": "BestClient-Setup-0.2.8.exe",
+  "sha256": "0405da8b867e8639d7e84c432b4db22993684f5034a7b11768b08860ef11f2e4"
 }

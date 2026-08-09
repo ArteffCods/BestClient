@@ -50,7 +50,7 @@ const entries = jars.map((name) => {
   return {
     id: 'bestclient',
     name: 'BestClient',
-    note: 'Ships with the client · Right Shift opens the menu',
+    note: 'Ships with the client - Right Shift opens the menu',
     fileName: name,
     sha1: sha1(dest),
   };

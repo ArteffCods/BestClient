@@ -1,5 +1,20 @@
 [
   {
+    "version": "0.2.8",
+    "date": "2026-08-09",
+    "title": "Fixed 16:9 window, Minecraft-font MOTDs, bundled in-game mod",
+    "description": "The launcher is a fixed 1366x768 canvas now, partner-server MOTDs are drawn with Minecraft's own pixel font, the in-game BestClient mod ships inside the installer, and Settings gained dedicated, iconed Cache and Logs sections.",
+    "changes": [
+      "The window is a fixed 1366x768 16:9 canvas - slightly bigger than before, not resizable and not maximizable, so every screen is built exactly for that size",
+      "Partner-server MOTDs render in Minecraft's own pixel font, bundled with the client: skulls, swords, hearts and stars look like in-game text instead of colourful Windows emojis",
+      "News: the grid is a static three columns and every banner lives in a fixed 16:9 box; hovering grows the picture inside its box without moving anything around it",
+      "Settings: Clear cache and Clear logs moved out of Maintenance into their own sections, each with its own icon",
+      "Update checks run twice as often (every 15 minutes) and the news/changelog feeds refresh every minute instead of every five",
+      "The BestClient mod is now bundled in the installer (SHA-1-stamped against tampering): Right Shift opens the in-game menu in Minecraft, starting with Fullbright",
+      "Closing the launcher while the game is running no longer disturbs it - the game keeps running on its own"
+    ]
+  },
+  {
     "version": "0.2.7",
     "date": "2026-08-09",
     "title": "BestClient mod, store, news and changelog feed, GPU detection fix",

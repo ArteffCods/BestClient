@@ -124,7 +124,11 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
             </div>
           </Section>
 
-          <Section title="Maintenance" delay={200}>
+          <Section title="Maintenance" delay={180}>
+            <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
+              Verifying re-hashes every installed file and replaces whatever is corrupt; the
+              rest are shortcuts around the game folder.
+            </p>
             <div className="flex flex-wrap gap-2">
               <Action
                 disabled={busy}
@@ -134,40 +138,6 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
                 }}
               >
                 {busy ? 'Verifying…' : 'Verify and repair files'}
-              </Action>
-              <Action
-                onClick={async () => {
-                  setNote(null);
-                  try {
-                    const removed = await window.bestclient.clearCache();
-                    setNote(
-                      removed > 0
-                        ? `Cleared ${removed} cache entr${removed === 1 ? 'y' : 'ies'}. Re-downloads next launch.`
-                        : 'The cache was already clean.',
-                    );
-                  } catch (error) {
-                    setNote(error instanceof Error ? error.message : String(error));
-                  }
-                }}
-              >
-                Clear cache
-              </Action>
-              <Action
-                onClick={async () => {
-                  setNote(null);
-                  try {
-                    const removed = await window.bestclient.clearLogs();
-                    setNote(
-                      removed > 0
-                        ? `Deleted ${removed} log file${removed === 1 ? '' : 's'}.`
-                        : 'No log files to delete.',
-                    );
-                  } catch (error) {
-                    setNote(error instanceof Error ? error.message : String(error));
-                  }
-                }}
-              >
-                Clear logs
               </Action>
               <Action
                 onClick={async () => {
@@ -185,10 +155,83 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
             <p className="mt-3 text-[11.5px] leading-relaxed text-ink-faint">
               On a normal launch the launcher checks existing files by size. After the download-time
               SHA-1 check that is enough, and it avoids reading hundreds of megabytes on every start.
-              This button re-hashes every file and replaces whatever is corrupt. Clearing the cache
-              drops the hash lists, the news and changelog copies, downloaded installers and the
-              extracted natives - everything is fetched again on the next launch.
+              This button re-hashes every file and replaces whatever is corrupt.
             </p>
+
+            {note ? <p className="mt-2 text-[11.5px] text-rose-soft">{note}</p> : null}
+          </Section>
+
+          <Section title="Cache" delay={200}>
+            <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
+              Hash lists, downloaded installers, news and changelog copies and the extracted
+              natives - everything the launcher regenerates on its own is dropped here. Nothing
+              about the game or your settings is touched.
+            </p>
+            <Action
+              icon={
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path
+                    d="M12.5 7a5.5 5.5 0 1 1-1.7-4M12.5 1.5v4h-4"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              }
+              onClick={async () => {
+                setNote(null);
+                try {
+                  const removed = await window.bestclient.clearCache();
+                  setNote(
+                    removed > 0
+                      ? `Cleared ${removed} cache entr${removed === 1 ? 'y' : 'ies'}. Re-downloads next launch.`
+                      : 'The cache was already clean.',
+                  );
+                } catch (error) {
+                  setNote(error instanceof Error ? error.message : String(error));
+                }
+              }}
+            >
+              Clear cache
+            </Action>
+
+            {note ? <p className="mt-2 text-[11.5px] text-rose-soft">{note}</p> : null}
+          </Section>
+
+          <Section title="Logs" delay={220}>
+            <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
+              The launcher writes its own log file on every start. Old game logs collect in the
+              same folder - deleting them frees space without affecting anything else.
+            </p>
+            <Action
+              icon={
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path
+                    d="M4 1.5h4.5L11.5 4.5 V12.5 H4 Z M8.5 1.5 V4.5 H11.5 M6 7.5 H10 M6 9.5 H10"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              }
+              onClick={async () => {
+                setNote(null);
+                try {
+                  const removed = await window.bestclient.clearLogs();
+                  setNote(
+                    removed > 0
+                      ? `Deleted ${removed} log file${removed === 1 ? '' : 's'}.`
+                      : 'No log files to delete.',
+                  );
+                } catch (error) {
+                  setNote(error instanceof Error ? error.message : String(error));
+                }
+              }}
+            >
+              Clear logs
+            </Action>
 
             {note ? <p className="mt-2 text-[11.5px] text-rose-soft">{note}</p> : null}
           </Section>
@@ -253,18 +296,21 @@ function Action({
   children,
   onClick,
   disabled = false,
+  icon,
 }: {
   children: React.ReactNode;
   onClick: () => void;
   disabled?: boolean;
+  icon?: React.ReactNode;
 }) {
   return (
     <button
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className="cursor-pointer rounded-lg bg-surface-high px-3 py-2 text-[11.5px] font-semibold text-white transition-colors hover:bg-surface-top hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+      className="flex cursor-pointer items-center gap-2 rounded-lg bg-surface-high px-3 py-2 text-[11.5px] font-semibold text-white transition-colors hover:bg-surface-top hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
     >
+      {icon}
       {children}
     </button>
   );

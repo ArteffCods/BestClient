@@ -144,7 +144,7 @@ export function parseFeed(text: string): unknown[] {
 }
 
 /** How long a fetched feed is reused before the network is touched again. */
-const MEMORY_TTL_MS = 5 * 60_000;
+const MEMORY_TTL_MS = 60_000;
 
 interface Memo {
   at: number;

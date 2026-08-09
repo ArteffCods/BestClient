@@ -186,11 +186,23 @@
 }
 
 /*
- * Server MOTDs are painted with the game's monochrome alphabet, so anything still in the
- * Windows colour-emoji font is demoted to its flat text glyph. The swapped symbols stay
- * text by nature; this catches the ones the map does not know.
+ * Server MOTDs are painted with Minecraft's own monochrome alphabet, bundled locally,
+ * so every symbol servers put on their banners - skulls, crossed swords, hearts, stars -
+ * comes out blocky like in the game instead of a colourful Windows emoji. The swap map
+ * in page.tsx already rewrites the coloured emojis to the closest game glyph; this font
+ * draws those glyphs (and the rest of the MOTD) in the actual pixel style. Anything the
+ * game alphabet does not carry falls back to the plain text glyph of the system font.
  */
+@font-face {
+  font-family: 'Minecraft';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/minecraft-regular.otf') format('opentype');
+}
+
 .mc-emoji {
+  font-family: 'Minecraft', 'Segoe UI Symbol', 'Segoe UI', system-ui, sans-serif;
   font-variant-emoji: text;
 }
 

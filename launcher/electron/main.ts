@@ -123,12 +123,13 @@ function registerAppProtocol(): void {
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 760,
-    // Low enough that the responsive breakpoints are actually reachable: below 1040px
-    // the changelog rail folds away and the layout keeps working.
-    minWidth: 820,
-    minHeight: 560,
+    // One fixed 16:9 canvas. The launcher no longer resizes: every screen is built
+    // against exactly this size, so nothing folds, reflows or re-measures.
+    width: 1366,
+    height: 768,
+    resizable: false,
+    maximizable: false,
+    fullscreenable: false,
     show: false,
     frame: false,
     backgroundColor: '#0d0910',

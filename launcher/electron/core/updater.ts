@@ -31,7 +31,7 @@ const VERSION_URL =
 const REPO = 'ArteffCods/BestClient';
 
 /** Re-check on this interval while the launcher is open. */
-export const CHECK_INTERVAL_MS = 30 * 60_000;
+export const CHECK_INTERVAL_MS = 15 * 60_000;
 
 interface Manifest {
   version: string;

@@ -691,10 +691,10 @@ function minecraftish(text: string): string {
 }
 
 /**
- * News feed from the project's GitHub repo, at the foot of the Play screen: the banner
- * fills the card's whole width with the text always underneath, left-aligned. Two cards
- * per row on a normal window, three on a very wide one, one on a narrow one - the rest
- * continues below on scroll.
+ * News feed from the project's GitHub repo, at the foot of the Play screen. The window
+ * is one fixed size, so the grid is hard-coded to three columns and the banners are
+ * locked to a fixed 16:9 box: nothing re-measures when the window cannot resize. The
+ * only motion on hover is the picture growing inside its box - the layout stays put.
  */
 function NewsStrip({ news }: { news: NewsItem[] }) {
   if (news.length === 0) return null;
@@ -708,7 +708,7 @@ function NewsStrip({ news }: { news: NewsItem[] }) {
       aria-label="News"
     >
       <h2 className="display-caps text-[18px] leading-none text-white">News</h2>
-      <div className="mt-4 grid grid-cols-1 gap-8 sm:grid-cols-2 min-[1560px]:grid-cols-3">
+      <div className="mt-4 grid grid-cols-3 gap-8">
         {news.map((item, index) => (
           <NewsCard key={`${item.title}-${index}`} item={item} />
         ))}
@@ -722,9 +722,9 @@ function NewsCard({ item }: { item: NewsItem }) {
 
   const inner = (
     <>
-      {/* Banner at its natural size across the full width of the card - nothing is
-          cropped or padded, and the picture keeps its own proportions. The growth on
-          hover is the whole card's answer, since text and banner share one block. */}
+      {/* Banner in a fixed 16:9 box: cover-cropped, so every picture lines up and no
+          letterboxing shows. The hover grows the picture slightly inside that box; the
+          `group` tag lets the whole card's hover drive it. */}
       {item.image ? (
         <span className="block overflow-hidden rounded-lg">
           <img
@@ -732,7 +732,7 @@ function NewsCard({ item }: { item: NewsItem }) {
             alt=""
             aria-hidden="true"
             loading="lazy"
-            className="h-auto w-full rounded-lg object-contain transition-transform duration-300 ease-out hover:scale-[1.03]"
+            className="aspect-video h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.06]"
             draggable={false}
           />
         </span>
