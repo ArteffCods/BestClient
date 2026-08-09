@@ -1,5 +1,18 @@
 [
   {
+    "version": "0.2.5",
+    "date": "2026-08-09",
+    "title": "Injection protection, borderless Launch button, chip RAM readout",
+    "description": "The launcher checks the mods folder for known hacked clients and injectors before every launch, the Launch Game button lost its border, and the RAM readout shows a memory chip instead of \"max\".",
+    "changes": [
+      "Before every launch the mods folder is checked against known hacked clients and injectors such as Doomsday, LiquidBounce and Aristois - by file name, and by scanning the bytes of Modrinth-approved jars, so a renamed injector cannot sneak in; anything flagged blocks the launch with its own warning",
+      "Launch Game has no border - just the clean rounded brand-coloured button",
+      "The RAM readout shows a memory-chip icon instead of \"MAX\"",
+      "Store sort menu items have a small gap between them",
+      "News banners zoom less on hover; \"Double-click to join\" is properly capitalised"
+    ]
+  },
+  {
     "version": "0.2.4",
     "date": "2026-08-09",
     "title": "Richer store cards, custom sort dropdown, opaque panels",

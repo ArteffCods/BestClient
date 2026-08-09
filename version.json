@@ -1,7 +1,7 @@
 {
-  "version": "0.2.4",
-  "notes": "Store cards show author, tags and follower counts, custom sort dropdown, opaque panels.",
-  "tag": "v0.2.4",
-  "asset": "BestClient-Setup-0.2.4.exe",
-  "sha256": "59031b77af67fed774866a5c3a4ef52227982b1be2b5c4601036eed5f2687412"
+  "version": "0.2.5",
+  "notes": "Injected-client protection, borderless Launch Game, memory-chip RAM readout.",
+  "tag": "v0.2.5",
+  "asset": "BestClient-Setup-0.2.5.exe",
+  "sha256": "65d197e75eb65bdba5e32de45dd2c709523478939ada6de91e75020ea0c27184"
 }
