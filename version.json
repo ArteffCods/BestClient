@@ -1,1 +1,7 @@
-0.1.0
+{
+  "version": "0.2.0",
+  "notes": "Partner servers, changelog rail and the in-game BestClient mod.",
+  "tag": "v0.2.0",
+  "asset": "BestClient-Setup-0.2.0.exe",
+  "sha256": ""
+}
