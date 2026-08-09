@@ -108,20 +108,15 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
               </SegmentButton>
             </div>
 
-            <div className="pt-3">
-              <label className="eyebrow mb-2 block" htmlFor="jvm-args">
-                Extra JVM arguments
-              </label>
-              <textarea
-                id="jvm-args"
-                rows={3}
-                value={settings.extraJvmArgs}
-                placeholder="-XX:+UseStringDeduplication"
-                onChange={(event) => onPatch({ extraJvmArgs: event.target.value })}
-                spellCheck={false}
-                className="w-full resize-none break-words rounded-lg bg-surface-high px-3 py-2 font-mono text-[11px] leading-relaxed text-ink outline-none transition-colors placeholder:text-ink-faint hover:bg-surface-top"
-              />
-            </div>
+          </Section>
+
+          <Section title="Startup flags" delay={160}>
+            <StartupFlags
+              value={settings.jvmFlags}
+              defaults={info.defaultJvmFlags}
+              memoryMb={settings.memoryMb}
+              onChange={(next) => onPatch({ jvmFlags: next })}
+            />
           </Section>
 
           <Section title="Maintenance" delay={180}>
@@ -263,6 +258,85 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * The whole JVM command line, shown and editable.
+ *
+ * Heap size is not in the box: the Memory slider above owns it, and two controls writing
+ * the same flag would fight. It is printed as the first, greyed line so the list still
+ * reads as the complete set the game starts with.
+ *
+ * The text is only written to disk when the field loses focus - a settings write per
+ * keystroke would be a file write per keystroke.
+ */
+function StartupFlags({
+  value,
+  defaults,
+  memoryMb,
+  onChange,
+}: {
+  value: string;
+  defaults: string[];
+  memoryMb: number;
+  onChange: (next: string) => void;
+}) {
+  const defaultText = defaults.join('\n');
+  const [text, setText] = useState(value.trim() ? value : defaultText);
+  const custom = value.trim().length > 0;
+
+  const commit = () => {
+    const next = text.trim();
+    // Typing the defaults back by hand means the defaults, not a custom set frozen at
+    // today's values - so it is stored as "unset" and keeps tracking future versions.
+    onChange(next === defaultText.trim() ? '' : next);
+  };
+
+  const restore = () => {
+    setText(defaultText);
+    onChange('');
+  };
+
+  return (
+    <>
+      <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
+        Everything the JVM is started with. Editing this replaces the launcher&apos;s tuned
+        set entirely, so a bad flag here is a game that will not start - restore the
+        defaults and it launches again.
+      </p>
+
+      <p className="mb-2 rounded-lg bg-surface-high px-3 py-2 font-mono text-[11px] text-ink-faint">
+        -Xms{memoryMb}M -Xmx{memoryMb}M
+        <span className="ml-2 font-body text-[10.5px]">from the Memory slider</span>
+      </p>
+
+      <textarea
+        id="jvm-flags"
+        rows={10}
+        value={text}
+        onChange={(event) => setText(event.target.value)}
+        onBlur={commit}
+        spellCheck={false}
+        aria-label="Startup flags"
+        className="w-full resize-y whitespace-pre rounded-lg bg-surface-high px-3 py-2 font-mono text-[11px] leading-relaxed text-ink outline-none transition-colors hover:bg-surface-top"
+      />
+
+      <div className="mt-2 flex items-center justify-between gap-3">
+        <p className="text-[11px] text-ink-faint">
+          {custom ? 'Edited - the launcher defaults are not in use.' : 'Launcher defaults.'}
+        </p>
+        {custom ? (
+          <button
+            type="button"
+            onClick={restore}
+            className="shrink-0 cursor-pointer font-mono text-[10.5px] text-ink-faint underline underline-offset-2 transition-colors hover:text-rose-soft"
+          >
+            restore defaults
+          </button>
+        ) : null}
+      </div>
+    </>
   );
 }
 

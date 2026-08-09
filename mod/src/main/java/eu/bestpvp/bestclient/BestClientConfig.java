@@ -27,7 +27,23 @@ public final class BestClientConfig {
     /** Vanilla tilts the camera when you take a hit; turning it off steadies aim. */
     public static boolean hurtCamera = true;
 
+    /** Frames per second, measured by the overlay itself. */
+    public static boolean showFps = false;
+
+    /** Block position, rounded, in the overlay. */
+    public static boolean showCoordinates = false;
+
+    /** Round-trip time to the server, as the tab list reports it. */
+    public static boolean showPing = false;
+
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    /**
+     * Dragging the brightness slider changes the value on every mouse move. Writing the
+     * file on each of those would mean dozens of disk writes a second, so a change only
+     * marks the config dirty and the screen flushes it once, on close.
+     */
+    private static boolean dirty = false;
 
     private BestClientConfig() {
     }
@@ -37,6 +53,9 @@ public final class BestClientConfig {
         boolean fullbright = false;
         double fullbrightStrength = 15.0D;
         boolean hurtCamera = true;
+        boolean showFps = false;
+        boolean showCoordinates = false;
+        boolean showPing = false;
     }
 
     private static Path file() {
@@ -57,17 +76,37 @@ public final class BestClientConfig {
                 fullbright = data.fullbright;
                 fullbrightStrength = clampStrength(data.fullbrightStrength);
                 hurtCamera = data.hurtCamera;
+                showFps = data.showFps;
+                showCoordinates = data.showCoordinates;
+                showPing = data.showPing;
             }
         } catch (IOException | RuntimeException error) {
             BestClientMod.LOGGER.warn("Could not read bestclient.json, using defaults.", error);
         }
     }
 
+    /** Records that something changed without touching the disk yet. */
+    public static void markDirty() {
+        dirty = true;
+    }
+
+    /** Writes the file if anything changed since the last write. */
+    public static void flush() {
+        if (dirty) {
+            save();
+        }
+    }
+
     public static void save() {
+        dirty = false;
+
         Data data = new Data();
         data.fullbright = fullbright;
         data.fullbrightStrength = fullbrightStrength;
         data.hurtCamera = hurtCamera;
+        data.showFps = showFps;
+        data.showCoordinates = showCoordinates;
+        data.showPing = showPing;
 
         try {
             Files.createDirectories(file().getParent());

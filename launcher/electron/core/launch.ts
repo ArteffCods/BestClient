@@ -1,10 +1,11 @@
-import { app } from 'electron';
+﻿import { app } from 'electron';
 import { spawn, type ChildProcess } from 'node:child_process';
 import os from 'node:os';
 import path from 'node:path';
 
 import { BRAND } from './brand';
 import type { InstallResult } from './install';
+import { resolveJvmFlags } from './jvmFlags';
 import { log } from './logger';
 import { dirs, exists } from './paths';
 import type { MinecraftAccount } from './store';
@@ -12,7 +13,11 @@ import { isAllowed, type LaunchArgument } from './vanilla';
 
 export interface LaunchOptions {
   memoryMb: number;
-  extraJvmArgs: string;
+  /**
+   * The JVM flag block as edited in Settings. Empty means the launcher's own defaults,
+   * which is the normal case - see `jvmFlags.ts`.
+   */
+  jvmFlags: string;
   /** When set, the game connects to this address straight from the main menu. */
   quickConnect?: string | null;
 }
@@ -21,66 +26,6 @@ export interface LaunchHandle {
   process: ChildProcess;
   command: string[];
 }
-
-/**
- * Client-side GC tuning. The goal is a flat frame time, not raw throughput - in PvP a
- * single 200 ms pause is a missed hit, while a slightly lower average FPS is invisible.
- *
- * - `MaxGCPauseMillis=50`      target short enough to hide inside a frame budget.
- * - `G1NewSizePercent=20`      Minecraft allocates hard and dies young; a big eden keeps
- *                              collections in the cheap young generation.
- * - `MaxTenuringThreshold=1`   stops short-lived render garbage from being promoted into
- *                              the old generation, where cleaning it is far more costly.
- * - `IHOP=15`                  starts the concurrent cycle early so a mixed collection is
- *                              never forced at a bad moment.
- * - `ParallelRefProcEnabled`   reference processing is a common long-pause contributor.
- * - `PerfDisableSharedMem`     stops the JVM writing perf counters to a memory-mapped file
- *                              in /tmp, which can stall on a busy disk.
- * - `DisableExplicitGC`        neutralises System.gc() calls from mods.
- *
- * Deliberately absent: `AlwaysPreTouch` (commits the whole heap at startup - the exact
- * opposite of a fast launch) and `UseNUMA` (not supported on Windows). With
- * `Xms == Xmx` the JVM still reserves the full heap up front, only the page-touching
- * step is skipped, so frame-time stability stays while booting gets no slower.
- * `IgnoreUnrecognizedVMOptions` keeps the same flag set launchable on every JVM build.
- */
-const PERFORMANCE_FLAGS = [
-  '-XX:+UnlockExperimentalVMOptions',
-  '-XX:+UseG1GC',
-  '-XX:MaxGCPauseMillis=50',
-  '-XX:G1NewSizePercent=20',
-  '-XX:G1MaxNewSizePercent=40',
-  '-XX:G1ReservePercent=20',
-  '-XX:G1HeapRegionSize=32M',
-  '-XX:G1HeapWastePercent=5',
-  '-XX:G1MixedGCCountTarget=4',
-  '-XX:G1MixedGCLiveThresholdPercent=90',
-  '-XX:G1RSetUpdatingPauseTimePercent=5',
-  '-XX:InitiatingHeapOccupancyPercent=15',
-  '-XX:SurvivorRatio=32',
-  '-XX:MaxTenuringThreshold=1',
-  '-XX:+ParallelRefProcEnabled',
-  '-XX:+PerfDisableSharedMem',
-  '-XX:+DisableExplicitGC',
-  // Peak-throughput / faster-warmup flags.
-  // - AlwaysActAsServerClassMachine   forces the C2 (server) JIT even on machines the JVM
-  //                                   would otherwise treat as "client", for higher peak FPS.
-  // - ReservedCodeCacheSize=400M      a heavily modded client JITs a lot of code; a bigger
-  //                                   cache stops it flushing and re-compiling mid-session.
-  // - DontCompileHugeMethods off      lets the JIT compile the large methods mixins produce.
-  // - UseFMA                           use fused-multiply-add where the CPU supports it.
-  // - TieredCompilation + Nmethod...  keep full tiered JIT but sweep dead code aggressively.
-  '-XX:+AlwaysActAsServerClassMachine',
-  '-XX:ReservedCodeCacheSize=400M',
-  '-XX:-DontCompileHugeMethods',
-  '-XX:+UseFMA',
-  '-XX:+TieredCompilation',
-  // Cheaper timestamp source and class-data sharing both trim JVM startup time.
-  '-XX:+UseFastUnorderedTimeStamps',
-  '-Xshare:auto',
-  '-XX:+IgnoreUnrecognizedVMOptions',
-  '-Dfile.encoding=UTF-8',
-];
 
 export function buildCommand(
   install: InstallResult,
@@ -138,12 +83,11 @@ export function buildCommand(
     // grows the heap mid-fight - without AlwaysPreTouch, so startup needs no page-touching.
     `-Xms${memory}M`,
     `-Xmx${memory}M`,
-    ...PERFORMANCE_FLAGS,
-    // Let the JIT and GC use every logical core on the machine.
-    `-XX:ActiveProcessorCount=${Math.max(1, os.cpus().length)}`,
+    // Everything else is one editable block: the launcher's tuned defaults unless the
+    // player replaced them in Settings.
+    ...resolveJvmFlags(options.jvmFlags),
     `-Dminecraft.launcher.brand=${BRAND.name.toLowerCase()}`,
     `-Dminecraft.launcher.version=${app.getVersion()}`,
-    ...splitExtraArgs(options.extraJvmArgs),
     ...jvmArgs,
     install.mainClass,
     ...gameArgs,
@@ -243,9 +187,3 @@ function substitute(value: string, placeholders: Record<string, string>): string
   return value.replace(/\$\{([^}]+)\}/g, (match, key: string) => placeholders[key] ?? match);
 }
 
-function splitExtraArgs(raw: string): string[] {
-  return raw
-    .split(/\s+/)
-    .map((part) => part.trim())
-    .filter(Boolean);
-}

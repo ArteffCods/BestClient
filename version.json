@@ -1,7 +1,7 @@
 {
-  "version": "0.3.1",
-  "notes": "Single deletion notice, news pictures grow on hover.",
-  "tag": "v0.3.1",
-  "asset": "BestClient-Setup-0.3.1.exe",
-  "sha256": "a062cf3700959658bf4e62cc5dd2e48bf23fb231fc04020ecfa253a4ea1e37b8"
+  "version": "0.3.2",
+  "notes": "Editable startup flags in Settings, calmer news hover.",
+  "tag": "v0.3.2",
+  "asset": "BestClient-Setup-0.3.2.exe",
+  "sha256": "0b41f103f022fcdae9990bc025e45628764cb15d7f6d40ca31bbbe43837d192f"
 }

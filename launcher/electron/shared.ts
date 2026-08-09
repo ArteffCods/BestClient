@@ -6,6 +6,12 @@ export interface AppInfo {
   target: { minecraft: string; fabricLoader: string; javaMajor: number };
   /** The GPU model string reported by Chromium, e.g. "AMD Radeon RX 6600 XT". */
   gpuModel: string;
+  /**
+   * The JVM flags this machine would launch with out of the box, resolved here because
+   * one of them depends on the core count. Settings shows these when the player has not
+   * edited the block, and restores them from here.
+   */
+  defaultJvmFlags: string[];
 }
 
 export interface PublicAccount {
@@ -25,7 +31,8 @@ export interface PublicSettings {
   launchBehaviour: 'stay' | 'minimise' | 'hide';
   /** NVIDIA optimization (Nvidium). Resolved from the GPU once, then player-set. */
   nvidiaOptimize: boolean;
-  extraJvmArgs: string;
+  /** The whole JVM flag block; empty means the launcher's defaults are in use. */
+  jvmFlags: string;
   account: PublicAccount | null;
 }
 

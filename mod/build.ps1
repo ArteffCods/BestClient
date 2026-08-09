@@ -62,6 +62,12 @@ if (-not (Test-Path $gradleBat)) {
 }
 
 Set-Location $here
+
+# The client JVM has to prefer IPv4 as well, not just the daemon: both ends of Gradle's
+# internal socket pair need to agree, or a machine with a VPN/TAP adapter installed fails
+# with "Unable to establish loopback connection" before the build even starts.
+$env:GRADLE_OPTS = '-Djava.net.preferIPv4Stack=true'
+
 & $gradleBat build --no-daemon
 
 if ($LASTEXITCODE -ne 0) {

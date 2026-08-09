@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 
+import { defaultJvmFlags } from './jvmFlags';
 import { log } from './logger';
 import { dirs, parseJson } from './paths';
 
@@ -43,7 +44,12 @@ export interface Settings {
    * anything else off) and writes the answer.
    */
   nvidiaOptimize: boolean | null;
-  extraJvmArgs: string;
+  /**
+   * The whole JVM flag block, as shown and edited in Settings. Empty means the launcher's
+   * own tuned defaults, which is what almost every install runs - see `jvmFlags.ts`.
+   * Heap size is not in here; the memory slider owns `-Xms`/`-Xmx`.
+   */
+  jvmFlags: string;
   /** Every signed-in account, in the order they were added. Tokens live here. */
   accounts: MinecraftAccount[];
   /** UUID of the account launches and the profile use; null when none is signed in. */
@@ -59,7 +65,7 @@ const DEFAULTS: Settings = {
   appliedPvpDefaults: false,
   launchBehaviour: 'stay',
   nvidiaOptimize: null,
-  extraJvmArgs: '',
+  jvmFlags: '',
   accounts: [],
   activeUuid: null,
 };
@@ -69,6 +75,8 @@ interface LegacySettings extends Partial<Settings> {
   account?: MinecraftAccount | null;
   /** The pre-tri-state shape: hide instead of minimise when true. */
   closeOnLaunch?: boolean;
+  /** Flags used to be appended to the defaults instead of replacing them. */
+  extraJvmArgs?: string;
 }
 
 let cache: Settings | null = null;
@@ -113,6 +121,12 @@ function migrate(settings: Settings, legacy: LegacySettings): Settings {
   // onto the single behaviour.
   if (typeof legacy.closeOnLaunch === 'boolean' || settings.launchBehaviour !== 'stay') {
     settings.launchBehaviour = 'stay';
+  }
+
+  // Settings used to hold only the extra flags a player appended. The box now holds the
+  // whole set, so an old value is folded onto the defaults rather than dropped.
+  if (!settings.jvmFlags && legacy.extraJvmArgs?.trim()) {
+    settings.jvmFlags = [...defaultJvmFlags(), legacy.extraJvmArgs.trim()].join(' ');
   }
 
   // Guard against an activeUuid that points at an account that is no longer present.

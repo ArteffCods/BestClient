@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.3.2",
+    "date": "2026-08-10",
+    "title": "Editable startup flags, calmer news hover",
+    "description": "Settings now shows the complete JVM command line the game starts with and lets you edit all of it, and news pictures answer the cursor with a much smaller lift.",
+    "changes": [
+      "Settings: a new Startup flags section listing every JVM flag the launcher uses, fully editable, with the heap line shown above it and a one-click restore to the defaults",
+      "Your edits are written when you leave the field instead of on every keystroke",
+      "News: the picture lifts far less on hover"
+    ]
+  },
+  {
     "version": "0.3.1",
     "date": "2026-08-09",
     "title": "Single deletion notice, news pictures grow on hover",

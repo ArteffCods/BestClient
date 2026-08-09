@@ -718,10 +718,10 @@ function NewsCard({ item }: { item: NewsItem }) {
   const inner = (
     <>
       {/* Banner in a fixed 16:9 box: cover-cropped, so every picture lines up and no
-          letterboxing shows. On hover the whole picture grows larger - anchored to its
-          bottom edge, it swells up into the gap above the title. */}
+          letterboxing shows. On hover the picture lifts a little - anchored to its bottom
+          edge, so the movement reads as the card answering, not as the image jumping. */}
       {item.image ? (
-        <span className="block origin-bottom overflow-hidden rounded-lg transition-transform duration-300 ease-out group-hover:scale-[1.05]">
+        <span className="block origin-bottom overflow-hidden rounded-lg transition-transform duration-300 ease-out group-hover:scale-[1.02]">
           <img
             src={item.image}
             alt=""

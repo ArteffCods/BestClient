@@ -20,6 +20,7 @@ import {
   searchModsPage,
   verifyModsAreFromModrinth,
 } from './core/market';
+import { defaultJvmFlags } from './core/jvmFlags';
 import { loadPack, applyNvidiaOptimization, readManagedManifest, reconcileSelection, updateManagedToNewest } from './core/modpack';
 import { getNews } from './core/news';
 import { getPartnerServers } from './core/serverPing';
@@ -85,6 +86,7 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
         javaMajor: TARGET.javaMajor,
       },
       gpuModel: await gpuModel(),
+      defaultJvmFlags: defaultJvmFlags(),
     };
   });
 
@@ -148,8 +150,10 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
       nvidiaChange = patch.nvidiaOptimize;
     }
 
-    if (typeof patch.extraJvmArgs === 'string') {
-      allowed.extraJvmArgs = patch.extraJvmArgs.slice(0, 512);
+    if (typeof patch.jvmFlags === 'string') {
+      // Long enough for the full default set plus a player's own additions, short enough
+      // that the field can never be used to stuff the settings file.
+      allowed.jvmFlags = patch.jvmFlags.slice(0, 4096);
     }
 
     writeSettings(allowed);
@@ -418,7 +422,7 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
       account,
       {
         memoryMb: settings.memoryMb,
-        extraJvmArgs: settings.extraJvmArgs,
+        jvmFlags: settings.jvmFlags,
         quickConnect,
       },
       (line) => send(CHANNELS.onGameLog, line),

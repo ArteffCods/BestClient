@@ -1,7 +1,7 @@
 package eu.bestpvp.bestclient.mixin;
 
 import eu.bestpvp.bestclient.BestClientConfig;
-import net.minecraft.client.MinecraftClient;
+import eu.bestpvp.bestclient.Fullbright;
 import net.minecraft.client.option.SimpleOption;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,9 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * effect pipeline every tick, and rewriting block light forces a full chunk relight and
  * fights Sodium for the lightmap. This instead answers the gamma option with a high value
  * when the game asks for it, which happens once per lightmap update. Nothing is
- * recalculated, no chunk is rebuilt, and the cost is one reference comparison.
+ * recalculated, no chunk is rebuilt.
  *
- * Only the gamma option is affected - every other SimpleOption falls straight through.
+ * This runs for every option the game reads, so the order of the tests matters: switched
+ * off, the whole injection is one static boolean load. Switched on, it is a comparison
+ * against a reference resolved once and cached in {@link Fullbright} - never a lookup
+ * through MinecraftClient on the hot path.
  */
 @Mixin(SimpleOption.class)
 public class SimpleOptionMixin {
@@ -28,14 +31,7 @@ public class SimpleOptionMixin {
             return;
         }
 
-        MinecraftClient client = MinecraftClient.getInstance();
-
-        // Mixins can run before the client exists (option construction during startup).
-        if (client == null || client.options == null) {
-            return;
-        }
-
-        if ((Object) this == client.options.getGamma()) {
+        if (this == Fullbright.gammaOption()) {
             info.setReturnValue(BestClientConfig.clampStrength(BestClientConfig.fullbrightStrength));
         }
     }
