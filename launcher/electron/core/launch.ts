@@ -33,12 +33,16 @@ export interface LaunchHandle {
  *                              the old generation, where cleaning it is far more costly.
  * - `IHOP=15`                  starts the concurrent cycle early so a mixed collection is
  *                              never forced at a bad moment.
- * - `AlwaysPreTouch`           pays for every heap page up front instead of taking page
- *                              faults mid-fight.
  * - `ParallelRefProcEnabled`   reference processing is a common long-pause contributor.
  * - `PerfDisableSharedMem`     stops the JVM writing perf counters to a memory-mapped file
  *                              in /tmp, which can stall on a busy disk.
  * - `DisableExplicitGC`        neutralises System.gc() calls from mods.
+ *
+ * Deliberately absent: `AlwaysPreTouch` (commits the whole heap at startup - the exact
+ * opposite of a fast launch) and `UseNUMA` (not supported on Windows). With
+ * `Xms == Xmx` the JVM still reserves the full heap up front, only the page-touching
+ * step is skipped, so frame-time stability stays while booting gets no slower.
+ * `IgnoreUnrecognizedVMOptions` keeps the same flag set launchable on every JVM build.
  */
 const PERFORMANCE_FLAGS = [
   '-XX:+UnlockExperimentalVMOptions',
@@ -56,7 +60,6 @@ const PERFORMANCE_FLAGS = [
   '-XX:SurvivorRatio=32',
   '-XX:MaxTenuringThreshold=1',
   '-XX:+ParallelRefProcEnabled',
-  '-XX:+AlwaysPreTouch',
   '-XX:+PerfDisableSharedMem',
   '-XX:+DisableExplicitGC',
   // Peak-throughput / faster-warmup flags.
@@ -65,15 +68,17 @@ const PERFORMANCE_FLAGS = [
   // - ReservedCodeCacheSize=400M      a heavily modded client JITs a lot of code; a bigger
   //                                   cache stops it flushing and re-compiling mid-session.
   // - DontCompileHugeMethods off      lets the JIT compile the large methods mixins produce.
-  // - UseFMA / UseNUMA                use fused-multiply-add and NUMA-aware allocation where
-  //                                   the CPU supports them.
+  // - UseFMA                           use fused-multiply-add where the CPU supports it.
   // - TieredCompilation + Nmethod...  keep full tiered JIT but sweep dead code aggressively.
   '-XX:+AlwaysActAsServerClassMachine',
   '-XX:ReservedCodeCacheSize=400M',
   '-XX:-DontCompileHugeMethods',
   '-XX:+UseFMA',
-  '-XX:+UseNUMA',
   '-XX:+TieredCompilation',
+  // Cheaper timestamp source and class-data sharing both trim JVM startup time.
+  '-XX:+UseFastUnorderedTimeStamps',
+  '-Xshare:auto',
+  '-XX:+IgnoreUnrecognizedVMOptions',
   '-Dfile.encoding=UTF-8',
 ];
 
@@ -129,8 +134,8 @@ export function buildCommand(
   const memory = Math.max(1024, Math.round(options.memoryMb));
 
   const command = [
-    // Xms == Xmx on purpose: combined with AlwaysPreTouch the whole heap is committed
-    // and touched once at startup, so the JVM never grows the heap mid-fight.
+    // Xms == Xmx on purpose: the whole heap is reserved up front, so the JVM never
+    // grows the heap mid-fight - without AlwaysPreTouch, so startup needs no page-touching.
     `-Xms${memory}M`,
     `-Xmx${memory}M`,
     ...PERFORMANCE_FLAGS,
@@ -142,6 +147,10 @@ export function buildCommand(
     ...jvmArgs,
     install.mainClass,
     ...gameArgs,
+    // The client always opens in fullscreen. Windowed installs are the disconnector's
+    // fantasy: a windowed game loses the cursor lock the moment the mouse crosses the
+    // edge, exactly when a fight starts.
+    '--fullscreen',
   ];
 
   if (options.quickConnect) {

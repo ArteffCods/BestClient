@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "bestclient",
+  "version": "${version}",
+  "name": "BestClient",
+  "description": "The in-game half of BestClient: Right Shift opens the client menu, with an optimized fullbright and camera controls.",
+  "authors": ["geri.kalcso07"],
+  "contact": {
+    "homepage": "https://bestpvp.eu"
+  },
+  "license": "All rights reserved",
+  "icon": "assets/bestclient/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["eu.bestpvp.bestclient.BestClientMod"]
+  },
+  "mixins": ["bestclient.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "minecraft": "~1.21.11",
+    "java": ">=21"
+  }
+}

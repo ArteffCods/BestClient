@@ -22,6 +22,8 @@ win:
   target:
     - target: nsis
       arch: [x64]
+  # Nev szokoz nelkul: ez a fajlnev kerul a GitHub release-be es a version.json-ba.
+  artifactName: BestClient-Setup-${version}.exe
   # Egyetlen forras: ugyanaz a fajl adja az exe ikonjat es a futo ablak ikonjat.
   icon: resources/icon.ico
 

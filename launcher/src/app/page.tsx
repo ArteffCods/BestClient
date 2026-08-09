@@ -1,28 +1,34 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
+import { ChangelogRail } from '@/components/ChangelogRail';
 import { LaunchButton, type LaunchState } from '@/components/LaunchButton';
 import { LoginCard } from '@/components/LoginCard';
 import { ModsView } from '@/components/ModsView';
 import { SettingsView } from '@/components/SettingsView';
+import { StoreView } from '@/components/StoreView';
 import { TitleBar } from '@/components/TitleBar';
 import type {
   AccountList,
   AppInfo,
+  ChangelogEntry,
   DeviceCodeEvent,
   InstallProgressEvent,
-  PackView,
+  NewsItem,
+  PartnerServer,
   PublicAccount,
   PublicSettings,
+  UpdateState,
 } from '@/types/bestclient';
 
-type Tab = 'play' | 'mods' | 'settings';
+type Tab = 'play' | 'mods' | 'store' | 'settings';
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'play', label: 'Play' },
-  { id: 'mods', label: 'Mods' },
-  { id: 'settings', label: 'Settings' },
+const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
+  { id: 'play', label: 'Play', icon: <IconPlay /> },
+  { id: 'mods', label: 'Mods', icon: <IconMods /> },
+  { id: 'store', label: 'Modrinth', icon: <IconStore /> },
+  { id: 'settings', label: 'Settings', icon: <IconSettings /> },
 ];
 
 const MAX_LOG_LINES = 400;
@@ -30,9 +36,11 @@ const MAX_LOG_LINES = 400;
 export default function Page() {
   const [info, setInfo] = useState<AppInfo | null>(null);
   const [settings, setSettings] = useState<PublicSettings | null>(null);
-  const [pack, setPack] = useState<PackView | null>(null);
   const [accounts, setAccounts] = useState<PublicAccount[]>([]);
   const [activeUuid, setActiveUuid] = useState<string | null>(null);
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [partners, setPartners] = useState<PartnerServer[]>([]);
+  const [changelog, setChangelog] = useState<ChangelogEntry[]>([]);
 
   const [tab, setTab] = useState<Tab>('play');
   const [deviceCode, setDeviceCode] = useState<DeviceCodeEvent | null>(null);
@@ -44,11 +52,16 @@ export default function Page() {
   const [busy, setBusy] = useState(false);
   const [playError, setPlayError] = useState<string | null>(null);
   const [unavailable, setUnavailable] = useState<string[]>([]);
-  const [dependencies, setDependencies] = useState<string[]>([]);
 
   const [logs, setLogs] = useState<string[]>([]);
   const [showLogs, setShowLogs] = useState(false);
   const [bridgeMissing, setBridgeMissing] = useState(false);
+  const [update, setUpdate] = useState<UpdateState>({
+    status: 'idle',
+    version: '',
+    notes: '',
+    percent: 0,
+  });
   const logEndRef = useRef<HTMLDivElement>(null);
 
   const applyAccountList = useCallback((list: AccountList) => {
@@ -68,20 +81,23 @@ export default function Page() {
 
     // Everything here is local (JSON + servers.dat), so the first paint is instant.
     void (async () => {
-      const [appInfo, currentSettings, currentPack] = await Promise.all([
-        api.appInfo(),
-        api.getSettings(),
-        api.getPack(),
-      ]);
-
+      const [appInfo, currentSettings] = await Promise.all([api.appInfo(), api.getSettings()]);
       setInfo(appInfo);
       setSettings(currentSettings);
-      setPack(currentPack);
     })();
 
     // Normalize servers.dat on startup (pins bestpvp.eu, strips delisted entries). The
     // list itself is no longer shown in the UI, so only the side effect matters here.
     void api.getServers();
+
+    // The three feeds are fetched from GitHub / the network and cached; a slow connection
+    // never blocks the first paint.
+    void api.getNews().then(setNews);
+    void api.getPartners().then(setPartners);
+    void api.getChangelog().then(setChangelog);
+
+    // A download may already have finished before this window rendered.
+    void api.updateState().then(setUpdate);
 
     // Accounts load on their own: a stale token triggers a Microsoft refresh (several
     // round trips), and the UI must not wait on the network to render. The stored list
@@ -91,6 +107,7 @@ export default function Page() {
     void api.currentAccount().then(() => api.listAccounts().then(applyAccountList));
 
     const unsubscribers = [
+      api.onUpdateState(setUpdate),
       api.onDeviceCode(setDeviceCode),
       api.onInstallProgress(setProgress),
       api.onGameLog((line) => {
@@ -152,18 +169,21 @@ export default function Page() {
     [applyAccountList],
   );
 
-  const handlePlay = useCallback(async () => {
+  const handlePlay = useCallback(async (quickConnect: string | null = null) => {
     setBusy(true);
     setPlayError(null);
     setProgress(null);
     setLogs([]);
+    // The console rises from the bottom edge as soon as a launch starts, so the install
+    // and the game's own output are visible without going looking for them.
+    setShowLogs(true);
 
     try {
-      // Always drop the player straight onto the fixed server.
-      const result = await window.bestclient.play(info?.lockedServer.address ?? 'bestpvp.eu');
+      // Normally the game opens on the main menu; double-clicking a partner card passes
+      // that server's address and the game connects straight to it.
+      const result = await window.bestclient.play(quickConnect);
 
       setUnavailable(result.unavailableMods);
-      setDependencies(result.dependencies);
       setRunning(true);
     } catch (error) {
       setPlayError(error instanceof Error ? cleanError(error.message) : String(error));
@@ -171,7 +191,11 @@ export default function Page() {
     } finally {
       setProgress(null);
     }
-  }, [info]);
+  }, []);
+
+  const handleStop = useCallback(async () => {
+    await window.bestclient.stop();
+  }, []);
 
   const handleRepair = useCallback(async () => {
     setBusy(true);
@@ -181,7 +205,6 @@ export default function Page() {
     try {
       const result = await window.bestclient.repair();
       setUnavailable(result.unavailableMods);
-      setDependencies(result.dependencies);
     } catch (error) {
       setPlayError(error instanceof Error ? cleanError(error.message) : String(error));
     } finally {
@@ -190,23 +213,17 @@ export default function Page() {
     }
   }, []);
 
-  const toggleMod = useCallback(
-    (slug: string, next: boolean) => {
-      if (!settings) return;
+  const pinVersion = useCallback(
+    (slug: string, versionNumber: string | null) => {
+      const pins = { ...(settings?.pinnedVersions ?? {}) };
 
-      const enabledMods = next
-        ? [...new Set([...settings.enabledMods, slug])]
-        : settings.enabledMods.filter((value) => value !== slug);
+      if (versionNumber) pins[slug] = versionNumber;
+      else delete pins[slug];
 
-      void patchSettings({ enabledMods });
+      void patchSettings({ pinnedVersions: pins });
     },
     [patchSettings, settings],
   );
-
-  const activeModCount = useMemo(() => {
-    if (!pack || !settings) return 0;
-    return pack.mods.filter((mod) => mod.locked || settings.enabledMods.includes(mod.slug)).length;
-  }, [pack, settings]);
 
   const activeAccount = useMemo(
     () => accounts.find((entry) => entry.uuid === activeUuid) ?? null,
@@ -224,13 +241,13 @@ export default function Page() {
   if (bridgeMissing) {
     return (
       <div className="flex h-full flex-col">
-        <TitleBar version="0.1.0" minecraft="1.21.11" fabric="0.19.3" />
+        <TitleBar version="0.1.0" update={update} onInstallUpdate={() => {}} />
         <div className="flex flex-1 flex-col items-center justify-center gap-3 p-8 text-center">
           <h1 className="display-caps text-2xl text-ink">
             Best<span className="text-rose">Client</span>
           </h1>
           <p className="max-w-md text-sm leading-relaxed text-ink-dim">
-            The preload bridge did not load, so the launcher can't reach system functions.
+            The preload bridge did not load, so the launcher can&apos;t reach system functions.
             Restart the app. If the error persists, run{' '}
             <code className="rounded bg-panel px-1 py-0.5 font-mono text-rose-soft">
               npm run build:main
@@ -246,20 +263,24 @@ export default function Page() {
     <div className="flex h-full flex-col">
       <TitleBar
         version={info?.version ?? '0.1.0'}
-        minecraft={info?.target.minecraft ?? '1.21.11'}
-        fabric={info?.target.fabricLoader ?? '0.19.3'}
+        update={update}
+        onInstallUpdate={() => void window.bestclient.installUpdate()}
       />
 
       <div className="flex min-h-0 flex-1">
-        <nav className="flex w-[168px] shrink-0 flex-col border-r border-edge bg-void/40 px-3 py-4 backdrop-blur-sm">
+        <nav className="relative z-30 flex w-[68px] shrink-0 flex-col items-center gap-1 border-r border-edge bg-void/25 px-2 py-4 backdrop-blur-xl">
           {TABS.map((entry) => (
             <button
               key={entry.id}
               type="button"
               onClick={() => setTab(entry.id)}
               aria-current={tab === entry.id ? 'page' : undefined}
-              className={`relative rounded px-3 py-2.5 text-left transition-colors ${
-                tab === entry.id ? 'bg-panel text-ink' : 'text-ink-faint hover:bg-panel/60 hover:text-ink-dim'
+              aria-label={entry.label}
+              title={entry.label}
+              className={`relative grid h-12 w-12 cursor-pointer place-items-center rounded-lg transition-colors ${
+                tab === entry.id
+                  ? 'bg-panel text-rose-soft'
+                  : 'text-ink-faint hover:bg-panel/60 hover:text-ink-dim'
               }`}
             >
               {tab === entry.id ? (
@@ -268,11 +289,11 @@ export default function Page() {
                   className="brand-gradient absolute inset-y-2 left-0 w-0.5 rounded-full"
                 />
               ) : null}
-              <span className="display-caps text-[13px]">{entry.label}</span>
+              {entry.icon}
             </button>
           ))}
 
-          <div className="mt-auto">
+          <div className="mt-auto w-full">
             <LoginCard
               accounts={accounts}
               activeUuid={activeUuid}
@@ -295,36 +316,44 @@ export default function Page() {
               progress={progress}
               error={playError}
               unavailable={unavailable}
-              onPlay={() => void handlePlay()}
-              activeModCount={activeModCount}
+              onPlay={(quickConnect) => void handlePlay(quickConnect)}
+              onStop={() => void handleStop()}
               memoryMb={settings?.memoryMb ?? 4096}
+              news={news}
+              partners={partners}
             />
           ) : null}
 
           {tab === 'mods' ? (
-            <div className="px-8 py-7">
+            <div className="px-5 py-6 sm:px-8 sm:py-7">
               <ModsView
-                pack={pack}
-                enabled={settings?.enabledMods ?? []}
                 unavailable={unavailable}
-                dependencies={dependencies}
-                onToggle={toggleMod}
+                pins={settings?.pinnedVersions ?? {}}
+                onPin={pinVersion}
               />
             </div>
           ) : null}
 
+          {tab === 'store' ? (
+            <div className="px-5 py-6 sm:px-8 sm:py-7">
+              <StoreView />
+            </div>
+          ) : null}
+
           {tab === 'settings' ? (
-            <div className="px-8 py-7">
+            <div className="px-5 py-6 sm:px-8 sm:py-7">
               <SettingsView
                 info={info}
                 settings={settings}
                 busy={busy}
-                onPatch={(patch) => void patchSettings(patch)}
+                onPatch={(patch) => patchSettings(patch)}
                 onRepair={() => void handleRepair()}
               />
             </div>
           ) : null}
         </main>
+
+        <ChangelogRail entries={changelog} />
       </div>
 
       <footer className="shrink-0 border-t border-edge bg-void/40 backdrop-blur-sm">
@@ -332,7 +361,7 @@ export default function Page() {
           type="button"
           onClick={() => setShowLogs((value) => !value)}
           aria-expanded={showLogs}
-          className="flex w-full items-center justify-between px-4 py-1.5 transition-colors hover:bg-panel"
+          className="flex w-full cursor-pointer items-center justify-between px-4 py-1.5 transition-colors hover:bg-panel"
         >
           <span className="eyebrow">Log · {logs.length} lines</span>
           <span aria-hidden="true" className="text-[10px] text-ink-faint">
@@ -341,7 +370,7 @@ export default function Page() {
         </button>
 
         {showLogs ? (
-          <div className="h-44 overflow-y-auto border-t border-edge bg-[#050308] px-4 py-2">
+          <div className="slide-up h-44 overflow-y-auto border-t border-edge bg-[#050308] px-4 py-2">
             {logs.length === 0 ? (
               <p className="font-mono text-[11px] text-ink-faint">
                 The game output appears here after launch.
@@ -371,57 +400,94 @@ function PlayStage({
   error,
   unavailable,
   onPlay,
-  activeModCount,
+  onStop,
   memoryMb,
+  news,
+  partners,
 }: {
   info: AppInfo | null;
   launchState: LaunchState;
   progress: InstallProgressEvent | null;
   error: string | null;
   unavailable: string[];
-  onPlay: () => void;
-  activeModCount: number;
+  onPlay: (quickConnect: string | null) => void;
+  onStop: () => void;
   memoryMb: number;
+  news: NewsItem[];
+  partners: PartnerServer[];
 }) {
-  const address = info?.lockedServer.address ?? 'bestpvp.eu';
-  const [name, tld] = address.split(/\.(?=[^.]+$)/);
-
-  const statusWord =
-    launchState === 'running'
-      ? 'Fut'
-      : launchState === 'working'
-        ? 'Installing'
-        : launchState === 'locked'
-          ? 'Locked'
-          : 'Ready';
+  const minecraft = info?.target.minecraft ?? '1.21.11';
 
   return (
-    // Title and launch control anchored top-left; nothing floats in the middle.
-    <div className="flex flex-col px-8 py-8">
-      <h1 className="rise display-caps text-[44px] leading-[0.9] text-ink">
-        {name}
-        <span className="text-rose">.{tld}</span>
-      </h1>
+    // Launch control anchored top-left; nothing floats in the middle.
+    <div className="flex min-h-full flex-col px-5 py-6 sm:px-8 sm:py-8">
+      <div className="rise flex w-full max-w-sm flex-col gap-2">
+        {/* What you are about to launch, stated above the button: the renderer and the
+            game version, nothing else. No labels - the values say what they are. */}
+        <p className="flex items-baseline gap-2.5">
+          <span className="display-caps text-[15px] leading-none text-rose-soft">OpenGL</span>
+          <span aria-hidden="true" className="h-3 w-px bg-edge-bright" />
+          <span className="display-caps text-[15px] leading-none text-ink">{minecraft}</span>
+          {info?.gpuModel ? (
+            <span className="truncate font-mono text-[10px] text-ink-faint">
+              {gpuLabel(info.gpuModel)}
+            </span>
+          ) : null}
+        </p>
 
-      <div className="rise mt-6 max-w-xl" style={{ animationDelay: '60ms' }}>
         <LaunchButton
           state={launchState}
           percent={progress?.percent ?? 0}
           step={progress?.label ?? ''}
-          target={address}
-          onClick={onPlay}
+          target={`v${minecraft}`}
+          onClick={() => onPlay(null)}
         />
+
+        {/* Close-game button: directly under Launch, left-aligned, a little smaller, and
+            only while the game is running. */}
+        {launchState === 'running' ? (
+          <button
+            type="button"
+            onClick={onStop}
+            aria-label="Close the game"
+            className="flex h-[40px] w-[72%] cursor-pointer items-center justify-center rounded-lg border border-danger/60 bg-danger/15 text-danger transition-colors hover:border-danger hover:bg-danger/25"
+          >
+            <span className="display-caps text-[14px] leading-none">Close game</span>
+          </button>
+        ) : null}
       </div>
 
       <div
         className="rise mt-7 flex max-w-xl flex-wrap items-stretch"
         style={{ animationDelay: '120ms' }}
       >
-        <Readout label="Mods" value={String(activeModCount)} />
-        <Readout label="Memory" value={`${(memoryMb / 1024).toFixed(1)} GB`} unit="max" />
-        <Readout label="CPU" value={String(info?.cpuCount ?? '-')} unit="cores" />
-        <Readout label="Status" value={statusWord} accent={launchState === 'ready'} last />
+        <Readout
+          label="Memory"
+          value={`${(memoryMb / 1024).toFixed(1)} GB`}
+          unit={
+            // A memory chip instead of "max": the chip says what the value is, the
+            // number says all there is to say about how much.
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" className="h-[13px] w-[13px]">
+              <rect x="3.5" y="6" width="17" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" />
+              <path
+                d="M8 6 V3 M12 6 V3 M16 6 V3 M8 21 V18 M12 21 V18 M16 21 V18"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+              <path
+                d="M8 10 h3 M8 14 h3 M13.5 10 h3 M13.5 14 h3"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+          }
+          last
+        />
       </div>
+
+      <PartnerMarquee partners={partners} onJoin={(address) => onPlay(address)} />
 
       {unavailable.length > 0 ? (
         <p className="mt-6 max-w-xl rounded-lg border border-warn/40 bg-warn/5 px-4 py-3 text-[12px] leading-relaxed text-warn">
@@ -435,11 +501,281 @@ function PlayStage({
           {error}
         </p>
       ) : null}
+
+      <NewsStrip news={news} />
     </div>
   );
 }
 
-/** One reading in the stat strip: hairline-separated, no boxes. */
+/**
+ * Partner servers, pinged live for favicon, player count and MOTD.
+ *
+ * The row only starts moving when the cards are wider than the space they have; a list
+ * that already fits stays still, because scrolling something that is fully visible is
+ * motion for its own sake. When it does scroll it runs left to right and pauses on hover.
+ */
+function PartnerMarquee({
+  partners,
+  onJoin,
+}: {
+  partners: PartnerServer[];
+  onJoin: (address: string) => void;
+}) {
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
+  const [overflow, setOverflow] = useState(false);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    const copy = copyRef.current;
+    if (!viewport || !copy) return;
+
+    // Measured on the first copy only, so the result never depends on whether the second
+    // copy is currently rendered - that would flip the state back and forth forever.
+    const measure = () => setOverflow(copy.scrollWidth > viewport.clientWidth + 1);
+
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(viewport);
+    observer.observe(copy);
+
+    return () => observer.disconnect();
+  }, [partners]);
+
+  if (partners.length === 0) return null;
+
+  const cards = partners.map((server, index) => (
+    <div key={`${server.address}-${index}`} className="pr-3">
+      <PartnerCard server={server} onJoin={onJoin} />
+    </div>
+  ));
+
+  return (
+    <section className="rise mt-7" style={{ animationDelay: '150ms' }} aria-label="Partner servers">
+      <p className="display-caps text-[10px] font-semibold tracking-[0.12em] text-rose-soft">
+        Partner servers <span className="font-mono normal-case tracking-normal text-ink-faint">· Double-click to join</span>
+      </p>
+      <div ref={viewportRef} className="mt-3 overflow-hidden">
+        <div
+          className={`flex w-max ${overflow ? 'marquee-right hover:[animation-play-state:paused]' : ''}`}
+          style={overflow ? { animationDuration: `${Math.max(24, partners.length * 14)}s` } : undefined}
+        >
+          <div ref={copyRef} className="flex">
+            {cards}
+          </div>
+          {/* Second copy only exists to make the loop seamless. */}
+          {overflow ? (
+            <div className="flex" aria-hidden="true">
+              {cards}
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PartnerCard({
+  server,
+  onJoin,
+}: {
+  server: PartnerServer;
+  onJoin: (address: string) => void;
+}) {
+  return (
+    // Double-click launches the game straight onto this server. A single click does
+    // nothing on purpose: the card scrolls past, and starting Minecraft is not something
+    // a stray click should be able to do.
+    <div
+      role="button"
+      tabIndex={0}
+      title={`Double-click to launch and join ${server.address}`}
+      onDoubleClick={() => onJoin(server.address)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') onJoin(server.address);
+      }}
+      className="flex w-[300px] shrink-0 cursor-pointer items-center gap-3 rounded-xl border border-edge bg-surface p-3 transition-colors hover:bg-surface-high"
+    >
+      <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-lg border border-edge-bright bg-void">
+        {server.favicon ? (
+          <img
+            src={server.favicon}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover [image-rendering:pixelated]"
+            draggable={false}
+          />
+        ) : (
+          <span className="brand-gradient grid h-full w-full place-items-center font-display text-[15px] font-bold text-void">
+            {server.name.slice(0, 1).toUpperCase()}
+          </span>
+        )}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="flex items-center justify-between gap-2">
+          <span className="truncate text-[13px] font-semibold text-ink">{server.name}</span>
+          <span className="flex shrink-0 items-center gap-1 font-mono text-[10px] tabular-nums text-ink-faint">
+            <span
+              aria-hidden="true"
+              className={`h-1.5 w-1.5 rounded-full ${server.online ? 'bg-[#63d492]' : 'bg-ink-faint'}`}
+            />
+            {server.online ? `${server.players}/${server.maxPlayers}` : 'offline'}
+          </span>
+        </span>
+        <span className="mc-emoji mt-0.5 block truncate text-[11px] leading-relaxed text-ink-dim">
+          {server.online ? minecraftish(server.motd) || server.address : server.address}
+        </span>
+      </span>
+    </div>
+  );
+}
+
+/**
+ * Rewrites the emojis servers put in their MOTDs to the monochrome, pixel-font glyphs
+ * Minecraft actually draws. A colorful Windows emoji would render in Segoe UI Emoji -
+ * a flat, candy-coloured glyph from outside the game - so each one is swapped for the
+ * closest symbol in the game's own alphabet before it is painted.
+ */
+function minecraftish(text: string): string {
+  const swaps: [string, string][] = [
+    // Swords, shields and picks are already pixel-font symbols; only the variation
+    // selector (the invisible tag Windows adds for colour) needs to go.
+    ['\u{1F5E1}\uFE0F', '🗡'],
+    ['\u{1F6E1}\uFE0F', '🛡'],
+    ['\u{2694}\uFE0F', '⚔'],
+    ['\u{26CF}\uFE0F', '⛏'],
+    ['\u{2620}\uFE0F', '☠'],
+    ['\u{2764}\uFE0F', '♥'],
+    // Everything from here on is a real swap.
+    ['💀', '☠'],
+    ['❤', '♥'],
+    ['💗', '♥'],
+    ['💘', '♥'],
+    ['💕', '♥'],
+    ['💓', '♥'],
+    ['💖', '♥'],
+    ['💝', '♥'],
+    ['⭐', '★'],
+    ['🌟', '★'],
+    ['✨', '★'],
+    ['🎇', '★'],
+    ['🎆', '★'],
+    ['💫', '★'],
+    ['💎', '◆'],
+    ['🔷', '◆'],
+    ['🔹', '◆'],
+    ['💠', '◆'],
+    ['👑', '♚'],
+    ['🏆', '♛'],
+    ['🥇', '♛'],
+    ['🥈', '♛'],
+    ['🥉', '♛'],
+    ['🎖', '♛'],
+    ['🔥', '✹'],
+    ['🌋', '✹'],
+    ['🌞', '☀'],
+    ['💧', '☁'],
+    ['🌊', '☁'],
+    ['🌙', '☽'],
+    ['🌈', '❈'],
+    ['🌨', '❄'],
+    ['🌬', '☁'],
+  ];
+
+  let out = text;
+  for (const [emoji, symbol] of swaps) {
+    out = out.split(emoji).join(symbol);
+  }
+  return out;
+}
+
+/**
+ * News feed from the project's GitHub repo, at the foot of the Play screen: the banner
+ * fills the card's whole width with the text always underneath, left-aligned. Two cards
+ * per row on a normal window, three on a very wide one, one on a narrow one - the rest
+ * continues below on scroll.
+ */
+function NewsStrip({ news }: { news: NewsItem[] }) {
+  if (news.length === 0) return null;
+
+  return (
+    // `flex-1` hands the feed whatever height is left under the launch controls, so the
+    // grid fills the page instead of trailing off.
+    <section
+      className="rise mt-20 flex min-h-0 flex-1 flex-col"
+      style={{ animationDelay: '180ms' }}
+      aria-label="News"
+    >
+      <h2 className="display-caps text-[18px] leading-none text-white">News</h2>
+      <div className="mt-4 grid grid-cols-1 gap-8 sm:grid-cols-2 min-[1560px]:grid-cols-3">
+        {news.map((item, index) => (
+          <NewsCard key={`${item.title}-${index}`} item={item} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function NewsCard({ item }: { item: NewsItem }) {
+  const clickable = Boolean(item.url);
+
+  const inner = (
+    <>
+      {/* Banner at its natural size across the full width of the card - nothing is
+          cropped or padded, and the picture keeps its own proportions. The growth on
+          hover is the whole card's answer, since text and banner share one block. */}
+      {item.image ? (
+        <span className="block overflow-hidden rounded-lg">
+          <img
+            src={item.image}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            className="h-auto w-full rounded-lg object-contain transition-transform duration-300 ease-out hover:scale-[1.03]"
+            draggable={false}
+          />
+        </span>
+      ) : null}
+      <span className="block pt-3 text-left">
+        {/* Title under the image, white; date under the title. */}
+        <span className="block text-[17px] font-bold leading-tight text-white">{item.title}</span>
+        {item.date ? (
+          <span className="mt-1.5 block font-mono text-[11.5px] tracking-wide text-ink-faint">
+            {item.date}
+          </span>
+        ) : null}
+        {item.html ? (
+          <span
+            className="feed-html mt-2 block text-[14px] leading-relaxed text-ink-dim"
+            // Sanitized in the main process against a tag/attribute allow-list.
+            dangerouslySetInnerHTML={{ __html: item.html }}
+          />
+        ) : null}
+      </span>
+    </>
+  );
+
+  // No frame: just the rounded banner and the text below it. The `group` tag lets the
+  // banner's image answer to the hover on the whole card.
+  const shared = 'group flex flex-col text-left transition-opacity';
+
+  if (clickable) {
+    return (
+      <button
+        type="button"
+        onClick={() => void window.bestclient.openExternal(item.url!)}
+        className={`${shared} cursor-pointer hover:opacity-90`}
+      >
+        {inner}
+      </button>
+    );
+  }
+
+  return <div className={shared}>{inner}</div>;
+}
+
+/** One reading in the stat strip: hairline-separated, no boxes, no gray. */
 function Readout({
   label,
   value,
@@ -449,18 +785,24 @@ function Readout({
 }: {
   label: string;
   value: string;
-  unit?: string;
+  unit?: ReactNode;
   accent?: boolean;
   last?: boolean;
 }) {
   return (
     <div className={`px-5 first:pl-0 ${last ? '' : 'border-r border-edge'}`}>
-      <p className="eyebrow">{label}</p>
-      <p className="mt-1 flex items-baseline gap-1">
-        <span className={`font-mono text-[15px] tabular-nums ${accent ? 'text-rose-soft' : 'text-ink'}`}>
+      <p className="display-caps text-[10px] font-semibold tracking-[0.12em] text-rose-soft">
+        {label}
+      </p>
+      <p className="mt-1.5 flex items-baseline gap-1.5">
+        <span
+          className={`display-caps text-[22px] leading-none ${accent ? 'text-rose-soft' : 'text-ink'}`}
+        >
           {value}
         </span>
-        {unit ? <span className="font-mono text-[10px] text-ink-faint">{unit}</span> : null}
+        {unit ? (
+          <span className="display-caps text-[10px] leading-none text-rose-soft">{unit}</span>
+        ) : null}
       </p>
     </div>
   );
@@ -480,4 +822,52 @@ function logLineColor(line: string): string {
 /** Electron prefixes IPC rejections with "Error invoking remote method '...':". */
 function cleanError(message: string): string {
   return message.replace(/^Error invoking remote method '[^']+':\s*/, '').replace(/^Error:\s*/, '');
+}
+
+/** GPU strings from Chromium trail a vendor suffix after the first parenthesis. */
+function gpuLabel(model: string): string {
+  const bare = model.split('(')[0]?.trim() ?? '';
+  return bare.length > 24 ? `${bare.slice(0, 24)}…` : bare;
+}
+
+function IconPlay() {
+  return (
+    <svg width="19" height="19" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor">
+      <path d="M2.5 1.3 L10.5 6 L2.5 10.7 Z" />
+    </svg>
+  );
+}
+
+function IconMods() {
+  return (
+    <svg width="19" height="19" viewBox="0 0 16 16" aria-hidden="true" fill="none">
+      <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="9.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="1.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="9.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function IconStore() {
+  return (
+    <svg width="19" height="19" viewBox="0 0 16 16" aria-hidden="true" fill="none">
+      <path
+        d="M8 1.5 V10 M3.5 5.5 L8 10.5 L12.5 5.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="square"
+      />
+      <path d="M2 13.5 H14" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function IconSettings() {
+  // A real cog with teeth, not straight rays - reads as "settings", not a sun.
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+      <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.49.49 0 0 0 .12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.01-1.58zM12 15.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z" />
+    </svg>
+  );
 }

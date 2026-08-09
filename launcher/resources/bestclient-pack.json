@@ -7,18 +7,18 @@
       "slug": "fabric-api",
       "name": "Fabric API",
       "category": "core",
-      "locked": true,
+      "locked": false,
       "defaultEnabled": true,
-      "note": "The base every Fabric mod builds on.",
+      "note": "The base every Fabric mod builds on. Turn it off only if you know what you are doing.",
       "iconUrl": "https://cdn.modrinth.com/data/P7dR8mSH/icon.png"
     },
     {
       "slug": "sodium",
       "name": "Sodium",
       "category": "core",
-      "locked": true,
+      "locked": false,
       "defaultEnabled": true,
-      "note": "Full renderer replacement. The biggest FPS gain.",
+      "note": "Full renderer replacement. The biggest FPS gain. Disable only if a shader or mod conflicts.",
       "iconUrl": "https://cdn.modrinth.com/data/AANobbMI/295862f4724dc3f78df3447ad6072b2dcd3ef0c9_96.webp",
       "pinnedVersion": "mc1.21.11-0.8.12-fabric"
     },
@@ -256,15 +256,6 @@
       "iconUrl": "https://cdn.modrinth.com/data/ETlrkaYF/6c1711b4b788b5f25cc1e99ed8805aea94d9e167_96.webp"
     },
     {
-      "slug": "glfw-input",
-      "name": "glfw-input",
-      "category": "pvp",
-      "locked": false,
-      "defaultEnabled": true,
-      "note": "Lower input latency via GLFW.",
-      "iconUrl": "https://cdn.modrinth.com/data/TmfIOejE/6cdecb21652b031ef882479e3100025e4e0ee94b.png"
-    },
-    {
       "slug": "hutiertagger",
       "name": "HutierTagger",
       "category": "pvp",
@@ -343,15 +334,6 @@
       "defaultEnabled": true,
       "note": "Join servers on many older versions.",
       "iconUrl": "https://cdn.modrinth.com/data/rIC2XJV4/34c6c433ac1cbfc1401dbe749214641fce8f1ebf_96.webp"
-    },
-    {
-      "slug": "worlddownloader",
-      "name": "World Downloader²",
-      "category": "pvp",
-      "locked": false,
-      "defaultEnabled": true,
-      "note": "Download the world you are on.",
-      "iconUrl": "https://cdn.modrinth.com/data/5MIEfkMt/d4b88deaaa42f4639f9aef0084891649766ad20c.jpeg"
     },
     {
       "slug": "cloth-config",
@@ -478,6 +460,15 @@
       "defaultEnabled": true,
       "note": "Config UI library used by other mods.",
       "iconUrl": "https://cdn.modrinth.com/data/1eAoo2KR/08c0cd32515e260f4bb20bbc0696510041523f9a_96.webp"
+    },
+    {
+      "slug": "nvidium",
+      "name": "Nvidium",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "NVIDIA-only renderer. Managed by the NVIDIA optimization switch in Settings.",
+      "iconUrl": "https://cdn.modrinth.com/data/mIIxhiSm/44cec12425568233b0b3735e87897050d56c73ff_96.webp"
     },
     {
       "slug": "betterhitreg",

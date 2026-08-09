@@ -1,6 +1,6 @@
 {
   "name": "bestclient",
-  "version": "0.1.0",
+  "version": "0.2.6",
   "private": true,
   "description": "BestClient - PvP-optimalizalt Minecraft launcher es kliens (Minecraft 1.21.11, Fabric)",
   "workspaces": [

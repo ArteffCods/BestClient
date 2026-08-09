@@ -6,7 +6,28 @@ import { downloadFile, fetchJson, mapLimit, type ProgressFn, type VerifyMode } f
 import { dirs, exists, parseJson, resourceFile } from './paths';
 
 const MODRINTH = 'https://api.modrinth.com/v2';
-const MANAGED_MANIFEST = '.bestclient-managed.json';
+/** Maps Modrinth project id -> the jar the launcher installed for it. */
+export const MANAGED_MANIFEST = '.bestclient-managed.json';
+
+/**
+ * The mod behind the Settings' "NVIDIA optimization" switch. It only joins the pack
+ * while the switch is on - the installer adds it to the enabled set, and when it is off
+ * it drops out again. It is hidden from the Mods list because the switch is the only
+ * way to control it. (Reflex had no 1.21.11 build, so Nvidium is the whole switch.)
+ */
+export const NVIDIA_MODS = ['nvidium'] as const;
+
+/** What the launcher remembers about each jar it installed itself. */
+export interface ManagedEntry {
+  fileName: string;
+  slug: string;
+  version: string;
+}
+
+/** The jars the launcher manages, so anything else in the folder is a player's own file. */
+export async function readManagedManifest(): Promise<Record<string, ManagedEntry>> {
+  return readManifest(path.join(dirs().mods, MANAGED_MANIFEST));
+}
 
 export type ModCategory = 'core' | 'performance' | 'pvp' | 'library' | 'risky';
 
@@ -139,6 +160,13 @@ function primaryFile(version: ModrinthVersion): ModrinthFile | undefined {
   return version.files.find((candidate) => candidate.primary) ?? version.files[0];
 }
 
+/** Modrinth does not promise an order, so "newest" is imposed rather than assumed. */
+function newestFirst(versions: ModrinthVersion[]): ModrinthVersion[] {
+  return [...versions].sort(
+    (a, b) => Date.parse(b.date_published ?? '') - Date.parse(a.date_published ?? ''),
+  );
+}
+
 /**
  * Asks Modrinth for the newest Fabric build of each enabled mod.
  *
@@ -146,20 +174,26 @@ function primaryFile(version: ModrinthVersion): ModrinthFile | undefined {
  * after another added several seconds to every launch. Six lanes keeps the launcher well
  * inside Modrinth's 300 requests/minute budget.
  */
-export async function resolveMods(pack: Pack, enabled: readonly string[]): Promise<ResolveResult> {
+export async function resolveMods(
+  pack: Pack,
+  enabled: readonly string[],
+  /** Player-chosen version numbers, keyed by slug. Overrides the pack's own pin. */
+  pins: Readonly<Record<string, string>> = {},
+): Promise<ResolveResult> {
   const wanted = pack.mods.filter((mod) => mod.locked || enabled.includes(mod.slug));
 
   const settled = await mapLimit(wanted, 6, async (mod) => {
     try {
-      const versions = await fetchJson<ModrinthVersion[]>(versionQuery(mod.slug, pack));
+      const versions = newestFirst(await fetchJson<ModrinthVersion[]>(versionQuery(mod.slug, pack)));
+      const pin = pins[mod.slug] ?? mod.pinnedVersion;
 
       // Honour an exact pin when set; otherwise take the newest build for the version.
-      const version = mod.pinnedVersion
-        ? versions.find((candidate) => candidate.version_number === mod.pinnedVersion) ?? versions[0]
+      const version = pin
+        ? versions.find((candidate) => candidate.version_number === pin) ?? versions[0]
         : versions[0];
 
-      if (mod.pinnedVersion && version?.version_number !== mod.pinnedVersion) {
-        log.warn(`Pinned version ${mod.pinnedVersion} of ${mod.slug} not found; used the newest instead.`);
+      if (pin && version?.version_number !== pin) {
+        log.warn(`Pinned version ${pin} of ${mod.slug} not found; used the newest instead.`);
       }
 
       const file = version ? primaryFile(version) : undefined;
@@ -301,7 +335,7 @@ export async function syncMods(
 
   const manifestPath = path.join(modsDir, MANAGED_MANIFEST);
   const previous = await readManifest(manifestPath);
-  const next: Record<string, string> = {};
+  const next: Record<string, ManagedEntry> = {};
 
   let done = 0;
   let bytes = 0;
@@ -321,32 +355,139 @@ export async function syncMods(
     );
 
     // Keyed by project id rather than slug: dependency entries get their slug from a
-    // separate lookup and two projects could in principle collide on it.
-    next[mod.projectId] = mod.fileName;
+    // separate lookup and two projects could in principle collide on it. The slug and
+    // version ride along so the Mods screen can name the build without a Modrinth call.
+    next[mod.projectId] = { fileName: mod.fileName, slug: mod.slug, version: mod.versionNumber };
     done++;
     onProgress?.({ done, total: mods.length, bytes, label: `Mod: ${mod.name}` });
   });
 
-  const keep = new Set(Object.values(next));
+  const keep = new Set(Object.values(next).map((entry) => entry.fileName));
 
-  for (const [id, fileName] of Object.entries(previous)) {
-    if (keep.has(fileName)) continue;
+  for (const [id, entry] of Object.entries(previous)) {
+    if (keep.has(entry.fileName)) continue;
 
-    const stale = path.join(modsDir, fileName);
+    const stale = path.join(modsDir, entry.fileName);
 
     if (await exists(stale)) {
       await fs.promises.rm(stale, { force: true });
-      log.info(`Removed stale managed mod ${id} (${fileName}).`);
+      log.info(`Removed stale managed mod ${id} (${entry.fileName}).`);
     }
   }
 
   await fs.promises.writeFile(manifestPath, JSON.stringify(next, null, 2), 'utf8');
 }
 
-async function readManifest(file: string): Promise<Record<string, string>> {
-  try {
-    return parseJson<Record<string, string>>(await fs.promises.readFile(file, 'utf8'));
-  } catch {
-    return {};
+/**
+ * Swaps a managed pack mod to the newest build right now, without waiting for a launch.
+ *
+ * The pack's jars are normally managed as a set on the next install, but the Mods list's
+ * "Update" button promises an immediate result. The new jar lands on disk (verified by
+ * SHA-1) and the managed manifest is re-pointed at it, so the next resolve agrees
+ * instead of cleaning it up as stale.
+ */
+export async function updateManagedToNewest(slug: string, pack: Pack): Promise<void> {
+  const versions = newestFirst(await fetchJson<ModrinthVersion[]>(versionQuery(slug, pack)));
+  const version = versions[0];
+
+  if (!version) {
+    throw new Error(`No ${pack.minecraft} build exists for ${slug}.`);
   }
+
+  const file = primaryFile(version);
+
+  if (!file) {
+    throw new Error(`Modrinth has no downloadable file for ${slug}.`);
+  }
+
+  const dest = path.join(dirs().mods, file.filename);
+  await downloadFile({ url: file.url, dest, sha1: file.hashes.sha1, size: file.size });
+
+  const manifest = await readManagedManifest();
+  const previous = Object.entries(manifest).find(([, entry]) => entry.slug === slug);
+
+  // Switching build: drop the old jar so two versions never sit side by side, and clear
+  // a stale "disabled" copy of it too.
+  if (previous && previous[1].fileName !== file.filename) {
+    await fs.promises.rm(path.join(dirs().mods, previous[1].fileName), { force: true });
+    await fs.promises.rm(path.join(dirs().mods, `${previous[1].fileName}.disabled`), { force: true });
+  }
+
+  manifest[version.project_id] = {
+    fileName: file.filename,
+    slug,
+    version: version.version_number,
+  };
+
+  await fs.promises.writeFile(
+    path.join(dirs().mods, MANAGED_MANIFEST),
+    JSON.stringify(manifest, null, 2),
+    'utf8',
+  );
+}
+
+/**
+ * Applies the NVIDIA-optimization switch to the mods folder right now, instead of
+ * waiting for the next install.
+ *
+ * Turning it on downloads the newest Nvidium build for the target Minecraft version and
+ * records it in the managed manifest, so the next launch agrees with the jar on disk
+ * instead of treating it as stale. Turning it off deletes the jar and its manifest entry.
+ */
+export async function applyNvidiaOptimization(on: boolean): Promise<void> {
+  if (on) {
+    await updateManagedToNewest('nvidium', await loadPack());
+    log.info('NVIDIA optimization: Nvidium installed.');
+    return;
+  }
+
+  const manifest = await readManagedManifest();
+  const entry = Object.entries(manifest).find(([, candidate]) => candidate.slug === 'nvidium');
+
+  if (!entry) return;
+
+  await fs.promises.rm(path.join(dirs().mods, entry[1].fileName), { force: true });
+  await fs.promises.rm(path.join(dirs().mods, `${entry[1].fileName}.disabled`), { force: true });
+
+  delete manifest[entry[0]];
+  await fs.promises.writeFile(
+    path.join(dirs().mods, MANAGED_MANIFEST),
+    JSON.stringify(manifest, null, 2),
+    'utf8',
+  );
+  log.info('NVIDIA optimization: Nvidium removed.');
+}
+
+/**
+ * Reads the managed manifest, accepting both shapes it has had: the original
+ * `projectId -> "file.jar"` string map and the current record that also carries the slug
+ * and the installed version number. An old install upgrades in place on the next sync.
+ */
+async function readManifest(file: string): Promise<Record<string, ManagedEntry>> {
+  const result: Record<string, ManagedEntry> = {};
+
+  try {
+    const raw = parseJson<Record<string, unknown>>(await fs.promises.readFile(file, 'utf8'));
+
+    for (const [id, value] of Object.entries(raw)) {
+      if (typeof value === 'string') {
+        result[id] = { fileName: value, slug: '', version: '' };
+        continue;
+      }
+
+      const entry = value as Partial<ManagedEntry> | null;
+
+      if (entry && typeof entry.fileName === 'string') {
+        result[id] = {
+          fileName: entry.fileName,
+          slug: typeof entry.slug === 'string' ? entry.slug : '',
+          version: typeof entry.version === 'string' ? entry.version : '',
+        };
+      }
+    }
+  } catch {
+    // No manifest yet, or an unreadable one - treat every jar as the player's own.
+  }
+
+  return result;
 }

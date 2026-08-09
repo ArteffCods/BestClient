@@ -1,5 +1,35 @@
 @import 'tailwindcss';
 
+/* Montserrat, bundled locally so the launcher renders identically offline. */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/montserrat-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/montserrat-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/montserrat-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/montserrat-700.woff2') format('woff2');
+}
+
 /*
  * BestClient — telemetry panel, not a dashboard.
  *
@@ -14,12 +44,22 @@
   --color-rose: #ff75c3;
   --color-rose-deep: #d94a9c;
 
-  /* Ground: near-black with a violet undertone so the pinks sit warm on it */
+  /* Ground: near-black with a violet undertone so the pinks sit warm on it. The panels
+     are deliberately translucent - the wallpaper reads through them, which is what stops
+     the interface looking like a flat sheet of dark grey. */
   --color-void: #08060b;
-  --color-panel: #100b16;
-  --color-panel-high: #171020;
+  --color-panel: rgba(16, 11, 22, 0.72);
+  --color-panel-high: rgba(23, 16, 32, 0.86);
   --color-edge: #241a2e;
   --color-edge-bright: #382a45;
+
+  /* Opaque greys for controls. Panels on the Play screen stay translucent so the wallpaper
+     reads through them, but a control the player has to aim at - a field, a card, a button
+     - is drawn on solid ground: nothing shows through, so nothing competes with it. These
+     replace the hairline frames on the Mods, Modrinth and Settings screens. */
+  --color-surface: #17121e;
+  --color-surface-high: #211a2a;
+  --color-surface-top: #2c2338;
 
   /* Text */
   --color-ink: #f6eef4;
@@ -34,8 +74,8 @@
    * Bahnschrift is the DIN-derived condensed face that ships with Windows; it reads as
    * instrumentation rather than as a UI font. Cascadia Mono carries every number.
    */
-  --font-display: 'Bahnschrift', 'DIN Alternate', 'Segoe UI Variable Display', system-ui, sans-serif;
-  --font-body: 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Montserrat', 'Segoe UI Variable Display', system-ui, sans-serif;
+  --font-body: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'Cascadia Mono', 'Consolas', ui-monospace, monospace;
 }
 
@@ -50,7 +90,7 @@
        the scene stays a dim atmosphere, never a distraction from the numbers. */
     background-color: var(--color-void);
     background-image:
-      radial-gradient(130% 120% at 50% 0%, rgba(8, 6, 11, 0.9) 0%, rgba(8, 6, 11, 0.95) 55%, rgba(8, 6, 11, 0.99) 100%),
+      radial-gradient(130% 120% at 50% 0%, rgba(8, 6, 11, 0.88) 0%, rgba(8, 6, 11, 0.93) 55%, rgba(8, 6, 11, 0.97) 100%),
       url('/background.jpg');
     background-size: cover;
     background-position: center;
@@ -66,6 +106,20 @@
   input,
   textarea {
     user-select: text;
+  }
+
+  /* The clear ("x") control inside a search box is drawn dark grey by Chromium, which is
+     invisible on this ground. Replace it with a white glyph. */
+  input[type='search']::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 12px;
+    width: 12px;
+    cursor: pointer;
+    background-color: #ffffff;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 1 L11 11 M11 1 L1 11' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
   }
 
   /* Visible keyboard focus everywhere, without a focus ring on mouse clicks. */
@@ -131,6 +185,62 @@
   color: transparent;
 }
 
+/*
+ * Server MOTDs are painted with the game's monochrome alphabet, so anything still in the
+ * Windows colour-emoji font is demoted to its flat text glyph. The swapped symbols stay
+ * text by nature; this catches the ones the map does not know.
+ */
+.mc-emoji {
+  font-variant-emoji: text;
+}
+
+/*
+ * Memory slider: a thicker, brand-pink knob on a solid grey track. The native
+ * accent-coloured thumb sits at the browser's fixed size, so it is drawn by hand.
+ * Plain rose, no dark ring and no drop shadow around the knob.
+ */
+.range-ram {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 20px;
+  background: transparent;
+  cursor: pointer;
+  outline-offset: 2px;
+}
+
+.range-ram::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-surface-top);
+}
+
+.range-ram::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border-radius: 999px;
+  background: var(--color-rose-soft);
+}
+
+.range-ram::-webkit-slider-thumb:hover {
+  background: var(--color-rose);
+}
+
+.range-ram::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-surface-top);
+}
+
+.range-ram::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--color-rose-soft);
+}
+
 /* Load sequence: three steps, 8px rise. Runs once, never on interaction. */
 @utility rise {
   animation: rise 0.42s cubic-bezier(0.2, 0.7, 0.3, 1) both;
@@ -145,6 +255,86 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* Partner-server marquee: a slow, seamless left-to-right scroll. The track holds two
+   copies of the list, so shifting by half its width loops without a visible jump. The
+   class is only applied when the row is actually wider than its container - a list that
+   fits stays still. */
+.marquee-right {
+  animation-name: marquee-right;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* The game console rises from the bottom edge when a launch starts. */
+.slide-up {
+  animation: slide-up 0.32s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * Embedded feed HTML (news bodies, changelog entries). The snippets are sanitized down to
+ * a handful of tags in the main process; these rules give those tags the launcher's voice
+ * so a post never arrives with browser-default margins and blue links.
+ */
+.feed-html :is(p, ul, ol) {
+  margin: 0 0 0.5em;
+}
+
+.feed-html :is(ul, ol) {
+  padding-left: 1.1em;
+}
+
+.feed-html ul {
+  list-style: disc;
+}
+
+.feed-html ol {
+  list-style: decimal;
+}
+
+.feed-html a {
+  color: var(--color-rose-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.feed-html code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: var(--color-rose-soft);
+}
+
+.feed-html img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.feed-html hr {
+  border: 0;
+  border-top: 1px solid var(--color-edge);
+  margin: 0.75em 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

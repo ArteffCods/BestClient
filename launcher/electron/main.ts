@@ -65,6 +65,29 @@ async function bootstrap(): Promise<void> {
   });
 }
 
+/**
+ * Content Security Policy for the packaged renderer.
+ *
+ * The Play screen embeds artwork and HTML snippets that come from a remote feed, so the
+ * window is locked down at the browser level as well as at the sanitizer: no remote
+ * scripts, no frames, no plugins, no form posts, and no base-tag rewriting. Images may
+ * come from https (mod icons, news art) and data: (server favicons); `unsafe-inline` is
+ * unavoidable for a static Next export and for React's inline styles.
+ */
+const CONTENT_SECURITY_POLICY = [
+  "default-src 'none'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: https:",
+  "font-src 'self'",
+  "connect-src 'self'",
+  "media-src 'none'",
+  "object-src 'none'",
+  "frame-src 'none'",
+  "base-uri 'none'",
+  "form-action 'none'",
+].join('; ');
+
 function registerAppProtocol(): void {
   protocol.handle('app', async (request) => {
     const url = new URL(request.url);
@@ -85,16 +108,27 @@ function registerAppProtocol(): void {
       return new Response('Forbidden', { status: 403 });
     }
 
-    return electronNet.fetch(pathToFileURL(resolved).toString());
+    const response = await electronNet.fetch(pathToFileURL(resolved).toString());
+    const headers = new Headers(response.headers);
+    headers.set('Content-Security-Policy', CONTENT_SECURITY_POLICY);
+    headers.set('X-Content-Type-Options', 'nosniff');
+
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    });
   });
 }
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
-    width: 1120,
-    height: 720,
-    minWidth: 940,
-    minHeight: 620,
+    width: 1200,
+    height: 760,
+    // Low enough that the responsive breakpoints are actually reachable: below 1040px
+    // the changelog rail folds away and the layout keeps working.
+    minWidth: 820,
+    minHeight: 560,
     show: false,
     frame: false,
     backgroundColor: '#0d0910',

@@ -20,6 +20,7 @@ yarn-error.log*
 mod/build/
 mod/run/
 mod/.gradle/
+mod/.gradle-dist/
 *.class
 *.log
 hs_err_pid*
@@ -46,3 +47,11 @@ launcher/electron-dist/
 
 # Per-installation Azure client ID - see README
 launcher/resources/auth.json
+
+# Update token for a private release repo. Never commit this: anyone with the file can
+# read the repository it is scoped to. Keep it fine-grained, read-only and single-repo.
+launcher/resources/update-token.json
+update-token.json
+
+# The bundled mod jar is produced by `mod/gradlew build`, not tracked.
+launcher/resources/mods/*.jar

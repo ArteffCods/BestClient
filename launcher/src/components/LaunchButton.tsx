@@ -26,25 +26,35 @@ export function LaunchButton({ state, percent, step, target, onClick }: Props) {
         ? 'Running'
         : state === 'working'
           ? step || 'Preparing'
-          : 'Play';
+          : 'LAUNCH GAME';
 
   return (
     <button
       type="button"
       disabled={disabled}
       onClick={onClick}
-      aria-label={state === 'ready' ? `Play - ${target}` : caption}
+      aria-label={state === 'ready' ? `Launch Minecraft ${target}` : caption}
       aria-busy={state === 'working'}
-      className={`no-drag group relative h-[52px] w-full overflow-hidden rounded-lg border text-left transition-all duration-200 ${
+      className={`no-drag group relative h-[52px] w-full overflow-hidden rounded-lg text-left transition-all duration-200 ${
         state === 'ready'
-          ? 'cursor-pointer border-rose/30 bg-panel-high shadow-[0_4px_16px_-6px_rgba(255,117,195,0.45)] hover:border-rose/60 hover:shadow-[0_6px_22px_-6px_rgba(255,117,195,0.65)]'
+          ? 'cursor-pointer bg-rose-deep shadow-[0_2px_8px_-3px_rgba(0,0,0,0.7)]'
           : state === 'running'
-            ? 'border-rose/40 bg-panel'
+            ? 'bg-panel'
             : state === 'working'
-              ? 'cursor-progress border-edge bg-panel'
-              : 'cursor-not-allowed border-edge bg-panel'
+              ? 'cursor-progress bg-panel'
+              : 'cursor-not-allowed bg-panel'
       }`}
     >
+      {/* The brand fill is painted by an inner layer that overhangs the box by a pixel on
+          every side and is clipped back by the rounded overflow, so no border hairline can
+          show. Muted at rest, full colour on hover. */}
+      {state === 'ready' ? (
+        <span
+          aria-hidden="true"
+          className="brand-gradient absolute -inset-px saturate-[.6] brightness-90 transition-[filter] duration-200 group-hover:saturate-100 group-hover:brightness-100"
+        />
+      ) : null}
+
       {/* Progress fill: a soft translucent rose that grows while installing. */}
       {state === 'working' ? (
         <span
@@ -55,29 +65,20 @@ export function LaunchButton({ state, percent, step, target, onClick }: Props) {
       ) : null}
 
       <span className="relative flex h-full items-center justify-between px-5">
-        <span className="flex items-baseline gap-2.5">
-          <span
-            className={`display-caps text-[20px] leading-none ${
-              state === 'ready'
-                ? 'text-rose-soft'
-                : state === 'running'
-                  ? 'text-rose'
-                  : 'text-ink-dim'
-            }`}
-          >
-            {caption}
-          </span>
-          {state === 'ready' ? (
-            <span className="font-mono text-[11px] tracking-wide text-ink-faint">{target}</span>
-          ) : null}
+        <span
+          className={`display-caps text-[20px] leading-none ${
+            state === 'ready'
+              ? 'text-void'
+              : state === 'running'
+                ? 'text-rose'
+                : 'text-ink-dim'
+          }`}
+        >
+          {caption}
         </span>
 
         {state === 'working' ? (
           <span className="font-mono text-[16px] tabular-nums text-ink">{percent}%</span>
-        ) : state === 'ready' ? (
-          <span aria-hidden="true" className="display-caps text-[18px] leading-none text-rose-soft/70">
-            &#9656;
-          </span>
         ) : null}
       </span>
     </button>

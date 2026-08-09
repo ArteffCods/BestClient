@@ -1,10 +1,12 @@
 import path from 'node:path';
 
 import { TARGET } from './brand';
+import { ensureBundledMods } from './bundled';
+import { resolveNvidiaOptimize } from './gpu';
 import { resolveFabric } from './fabric';
 import { ensureJava } from './java';
 import { log } from './logger';
-import { loadPack, reconcileSelection, resolveMods, syncMods } from './modpack';
+import { loadPack, NVIDIA_MODS, reconcileSelection, resolveMods, syncMods } from './modpack';
 import type { ProgressReport } from './net';
 import { applyPvpDefaults } from './options';
 import { dirs, ensureDirs } from './paths';
@@ -84,6 +86,15 @@ export async function installClient(
     ...writeSettings(reconcileSelection(pack, stored.enabledMods, stored.knownMods)),
   };
 
+  // NVIDIA optimization joins (or leaves) the pack as one switch, decided from the GPU
+  // on the player's first run. When it is on, Nvidium is force-enabled here regardless
+  // of what the Mods list says - it is not listed there at all.
+  const enabled = new Set(settings.enabledMods);
+
+  if (await resolveNvidiaOptimize()) {
+    for (const slug of NVIDIA_MODS) enabled.add(slug);
+  }
+
   const emit = (step: number, detail: string, fraction = 0) => {
     const label = STEPS[step - 1] ?? '';
     const percent = Math.min(100, Math.round(((step - 1 + fraction) / STEPS.length) * 100));
@@ -121,8 +132,12 @@ export async function installClient(
 
   // 6 - mods
   emit(6, 'Resolving mods from Modrinth');
-  const resolved = await resolveMods(pack, settings.enabledMods);
+  const resolved = await resolveMods(pack, [...enabled], settings.pinnedVersions);
   await syncMods(resolved.mods, relay(6), verify);
+
+  // BestClient's own mods go in last and are re-checked against their stamped hash every
+  // launch, so they cannot be removed or swapped out from under the player.
+  const bundled = await ensureBundledMods();
 
   // 7 - client configuration
   emit(7, 'Server list and settings');
@@ -133,8 +148,9 @@ export async function installClient(
 
   emit(7, 'Done', 1);
   log.info(
-    `Install complete: ${resolved.mods.length} mod (${resolved.dependencies.length} dependency), ` +
-      `servers.dat restored=${servers.restored}, options.txt keys=${gameOptions.applied.length}`,
+    `Install complete: ${resolved.mods.length} mod (${resolved.dependencies.length} dependency, ` +
+      `${bundled.length} bundled), servers.dat restored=${servers.restored}, ` +
+      `options.txt keys=${gameOptions.applied.length}`,
   );
 
   const clientJar = path.join(dirs().versions, vanilla.id, `${vanilla.id}.jar`);

@@ -1,17 +1,29 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer, webUtils } from 'electron';
 
 import {
   CHANNELS,
   type AccountList,
   type AppInfo,
+  type ChangelogEntry,
   type DeviceCodeEvent,
   type AuthConfigStatus,
   type InstallProgressEvent,
   type InstallSummary,
+  type InventoryMod,
+  type ModImportResult,
+  type ModVerifyResult,
+  type ModVersionOption,
+  type NewsItem,
+  type PartnerServer,
+  type StoreSearchResult,
+  type StoreSortIndex,
   type PackView,
   type PublicAccount,
   type PublicSettings,
   type ServerListEntry,
+  type StoreInstallResult,
+  type StoreInstalled,
+  type UpdateState,
 } from './shared';
 
 type Unsubscribe = () => void;
@@ -52,11 +64,54 @@ const api = {
   play: (quickConnect?: string | null): Promise<InstallSummary> =>
     ipcRenderer.invoke(CHANNELS.play, quickConnect ?? null),
 
+  stop: (): Promise<void> => ipcRenderer.invoke(CHANNELS.stop),
+
   repair: (): Promise<InstallSummary> => ipcRenderer.invoke(CHANNELS.repair),
+
+  // Modrinth store + drag-and-drop import. File objects are resolved to real paths here
+  // (webUtils) because `File` cannot cross the IPC boundary.
+  importModFiles: (files: File[]): Promise<ModImportResult> =>
+    ipcRenderer.invoke(
+      CHANNELS.modsImport,
+      files.map((file) => webUtils.getPathForFile(file)),
+    ),
+  browseModFiles: (): Promise<ModImportResult> => ipcRenderer.invoke(CHANNELS.modsBrowse),
+  verifyMods: (): Promise<ModVerifyResult> => ipcRenderer.invoke(CHANNELS.modsVerify),
+
+  // The Mods screen works off one list covering pack, store and hand-added jars.
+  modInventory: (): Promise<InventoryMod[]> => ipcRenderer.invoke(CHANNELS.modsInventory),
+  setModEnabled: (id: string, next: boolean): Promise<InventoryMod[]> =>
+    ipcRenderer.invoke(CHANNELS.modsSetEnabled, id, next),
+  deleteMod: (id: string): Promise<InventoryMod[]> => ipcRenderer.invoke(CHANNELS.modsDelete, id),
+  checkModUpdates: (): Promise<Record<string, string>> => ipcRenderer.invoke(CHANNELS.modsUpdates),
+  updateMod: (slug: string): Promise<InventoryMod[]> => ipcRenderer.invoke(CHANNELS.modsUpdate, slug),
+
+  getNews: (): Promise<NewsItem[]> => ipcRenderer.invoke(CHANNELS.newsGet),
+  getPartners: (): Promise<PartnerServer[]> => ipcRenderer.invoke(CHANNELS.partnersGet),
+  getChangelog: (): Promise<ChangelogEntry[]> => ipcRenderer.invoke(CHANNELS.changelogGet),
+  searchMods: (query: string, page = 0, index: StoreSortIndex = 'relevance'): Promise<StoreSearchResult> =>
+    ipcRenderer.invoke(CHANNELS.storeSearch, query, page, index),
+  modVersions: (slug: string): Promise<ModVersionOption[]> =>
+    ipcRenderer.invoke(CHANNELS.storeVersions, slug),
+  installMod: (slug: string, versionId?: string): Promise<StoreInstallResult> =>
+    ipcRenderer.invoke(CHANNELS.storeInstall, slug, versionId),
+  removeMod: (slug: string): Promise<StoreInstalled> => ipcRenderer.invoke(CHANNELS.storeRemove, slug),
+  installedMods: (): Promise<StoreInstalled> => ipcRenderer.invoke(CHANNELS.storeInstalled),
 
   resetPvpOptions: (): Promise<{ applied: string[] }> => ipcRenderer.invoke(CHANNELS.optionsReset),
   openInstanceFolder: (): Promise<void> => ipcRenderer.invoke(CHANNELS.openInstanceFolder),
   openExternal: (url: string): Promise<void> => ipcRenderer.invoke(CHANNELS.openExternal, url),
+
+  // Updates: check + install are explicit, the state arrives on its own channel.
+  updateState: (): Promise<UpdateState> => ipcRenderer.invoke(CHANNELS.updateState),
+  checkForUpdate: (): Promise<void> => ipcRenderer.invoke(CHANNELS.updateCheck),
+  installUpdate: (): Promise<void> => ipcRenderer.invoke(CHANNELS.updateInstall),
+  onUpdateState: (handler: (payload: UpdateState) => void): Unsubscribe =>
+    on(CHANNELS.onUpdateState, handler),
+
+  // Maintenance: clear regenerable caches and old game logs, returning what was removed.
+  clearCache: (): Promise<number> => ipcRenderer.invoke(CHANNELS.maintenanceClearCache),
+  clearLogs: (): Promise<number> => ipcRenderer.invoke(CHANNELS.maintenanceClearLogs),
 
   onDeviceCode: (handler: (payload: DeviceCodeEvent) => void): Unsubscribe =>
     on(CHANNELS.onDeviceCode, handler),

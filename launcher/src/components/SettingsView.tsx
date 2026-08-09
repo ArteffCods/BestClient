@@ -3,17 +3,19 @@
 import { useState } from 'react';
 
 import type { AppInfo, PublicSettings } from '@/types/bestclient';
+import { Switch } from './ModsView';
 
 interface Props {
   info: AppInfo | null;
   settings: PublicSettings | null;
   busy: boolean;
-  onPatch: (patch: Partial<PublicSettings>) => void;
+  onPatch: (patch: Partial<PublicSettings>) => Promise<void>;
   onRepair: () => void;
 }
 
 export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props) {
   const [note, setNote] = useState<string | null>(null);
+  const [applyingNvidia, setApplyingNvidia] = useState(false);
 
   if (!settings || !info) {
     return <p className="text-sm text-ink-faint">Loading settings…</p>;
@@ -23,96 +25,183 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
     <div className="mx-auto max-w-2xl">
       <h2 className="rise display-caps text-[26px] leading-none text-ink">Settings</h2>
 
-      <div className="mt-7 space-y-4">
-        <Section title="Memory" delay={60}>
-          <p className="mb-4 text-[12px] leading-relaxed text-ink-faint">
-            Maximum handed to the JVM. 4–6 GB is plenty for PvP: extra heap brings no FPS, only
-            longer GC pauses, and it is the pause that costs you the hit.
-          </p>
-          <div className="flex items-center gap-5">
-            <input
-              type="range"
-              min={2048}
-              max={12288}
-              step={512}
-              value={settings.memoryMb}
-              onChange={(event) => onPatch({ memoryMb: Number(event.target.value) })}
-              aria-label="Memory"
-              className="h-1 flex-1 accent-rose"
-            />
-            <span className="w-16 text-right font-mono text-[15px] tabular-nums text-rose-soft">
-              {(settings.memoryMb / 1024).toFixed(1)} GB
-            </span>
-          </div>
-        </Section>
+      {/* The same soft panel as the store and the mod list, rounded and never touching the
+          edges of the page. */}
+      <div className="rise mt-7 rounded-2xl border border-edge bg-panel p-5 backdrop-blur-md sm:p-6">
+        <div className="space-y-4">
+          <Section title="Memory" delay={60}>
+            <p className="mb-4 text-[12px] leading-relaxed text-ink-faint">
+              Maximum handed to the JVM. 4–6 GB is plenty for PvP: extra heap brings no FPS, only
+              longer GC pauses, and it is the pause that costs you the hit.
+            </p>
+            <div className="flex items-center gap-5">
+              <input
+                type="range"
+                min={2048}
+                max={12288}
+                step={512}
+                value={settings.memoryMb}
+                onChange={(event) => onPatch({ memoryMb: Number(event.target.value) })}
+                aria-label="Memory"
+                className="range-ram flex-1"
+              />
+              <span className="w-16 text-right font-mono text-[15px] tabular-nums text-rose-soft">
+                {(settings.memoryMb / 1024).toFixed(1)} GB
+              </span>
+            </div>
+          </Section>
 
-        <Section title="Launch" delay={140}>
-          <label className="flex cursor-pointer items-center justify-between py-1.5">
-            <span className="text-[13px] text-ink">Hide launcher on launch</span>
-            <input
-              type="checkbox"
-              checked={settings.closeOnLaunch}
-              onChange={(event) => onPatch({ closeOnLaunch: event.target.checked })}
-              className="h-3.5 w-3.5 accent-rose"
-            />
-          </label>
+          <Section title="Performance" delay={100}>
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <p className="text-[13px] font-semibold text-ink">NVIDIA optimization</p>
+                <p className="mt-1 text-[12px] leading-relaxed text-ink-faint">
+                  Adds the Nvidium renderer to the modpack. On by default on NVIDIA cards,
+                  off on AMD and Intel. The mod is installed or removed as soon as you flip
+                  the switch. Your GPU:{' '}
+                  <span className="font-mono text-ink-dim">{info.gpuModel || 'unknown'}</span>
+                </p>
+              </div>
+              <Switch
+                checked={settings.nvidiaOptimize ?? false}
+                disabled={applyingNvidia}
+                onChange={async (next) => {
+                  setApplyingNvidia(true);
+                  try {
+                    await onPatch({ nvidiaOptimize: next });
+                  } finally {
+                    setApplyingNvidia(false);
+                  }
+                }}
+                label="NVIDIA optimization"
+              />
+              {applyingNvidia ? (
+                <span className="animate-pulse font-mono text-[10.5px] text-ink-faint">
+                  applying…
+                </span>
+              ) : null}
+            </div>
+          </Section>
 
-          <div className="pt-3">
-            <label className="eyebrow mb-2 block" htmlFor="jvm-args">
-              Extra JVM arguments
-            </label>
-            <input
-              id="jvm-args"
-              type="text"
-              value={settings.extraJvmArgs}
-              placeholder="-XX:+UseStringDeduplication"
-              onChange={(event) => onPatch({ extraJvmArgs: event.target.value })}
-              className="w-full rounded border border-edge bg-void px-3 py-2 font-mono text-[11px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-rose"
-            />
-          </div>
-        </Section>
+          <Section title="Launch" delay={140}>
+            <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
+              What the launcher does with itself once the game window opens.
+            </p>
+            <div className="grid grid-cols-3 gap-2">
+              <SegmentButton
+                active={settings.launchBehaviour === 'stay'}
+                onClick={() => onPatch({ launchBehaviour: 'stay' })}
+              >
+                Stay open
+              </SegmentButton>
+              <SegmentButton
+                active={settings.launchBehaviour === 'minimise'}
+                onClick={() => onPatch({ launchBehaviour: 'minimise' })}
+              >
+                Minimise launcher
+              </SegmentButton>
+              <SegmentButton
+                active={settings.launchBehaviour === 'hide'}
+                onClick={() => onPatch({ launchBehaviour: 'hide' })}
+              >
+                Hide launcher
+              </SegmentButton>
+            </div>
 
-        <Section title="Maintenance" delay={200}>
-          <div className="flex flex-wrap gap-2">
-            <Action
-              disabled={busy}
-              onClick={() => {
-                setNote(null);
-                onRepair();
-              }}
-            >
-              {busy ? 'Verifying…' : 'Verify and repair files'}
-            </Action>
-            <Action
-              onClick={async () => {
-                const result = await window.bestclient.resetPvpOptions();
-                setNote(`${result.applied.length} settings restored.`);
-              }}
-            >
-              Reset PvP defaults
-            </Action>
-            <Action onClick={() => void window.bestclient.openInstanceFolder()}>
-              Open game folder
-            </Action>
-          </div>
+            <div className="pt-3">
+              <label className="eyebrow mb-2 block" htmlFor="jvm-args">
+                Extra JVM arguments
+              </label>
+              <textarea
+                id="jvm-args"
+                rows={3}
+                value={settings.extraJvmArgs}
+                placeholder="-XX:+UseStringDeduplication"
+                onChange={(event) => onPatch({ extraJvmArgs: event.target.value })}
+                spellCheck={false}
+                className="w-full resize-none break-words rounded-lg bg-surface-high px-3 py-2 font-mono text-[11px] leading-relaxed text-ink outline-none transition-colors placeholder:text-ink-faint hover:bg-surface-top"
+              />
+            </div>
+          </Section>
 
-          <p className="mt-3 text-[11.5px] leading-relaxed text-ink-faint">
-            On a normal launch the launcher checks existing files by size. After the download-time
-            SHA-1 check that is enough, and it avoids reading hundreds of megabytes on every start.
-            This button re-hashes every file and replaces whatever is corrupt.
-          </p>
+          <Section title="Maintenance" delay={200}>
+            <div className="flex flex-wrap gap-2">
+              <Action
+                disabled={busy}
+                onClick={() => {
+                  setNote(null);
+                  onRepair();
+                }}
+              >
+                {busy ? 'Verifying…' : 'Verify and repair files'}
+              </Action>
+              <Action
+                onClick={async () => {
+                  setNote(null);
+                  try {
+                    const removed = await window.bestclient.clearCache();
+                    setNote(
+                      removed > 0
+                        ? `Cleared ${removed} cache entr${removed === 1 ? 'y' : 'ies'}. Re-downloads next launch.`
+                        : 'The cache was already clean.',
+                    );
+                  } catch (error) {
+                    setNote(error instanceof Error ? error.message : String(error));
+                  }
+                }}
+              >
+                Clear cache
+              </Action>
+              <Action
+                onClick={async () => {
+                  setNote(null);
+                  try {
+                    const removed = await window.bestclient.clearLogs();
+                    setNote(
+                      removed > 0
+                        ? `Deleted ${removed} log file${removed === 1 ? '' : 's'}.`
+                        : 'No log files to delete.',
+                    );
+                  } catch (error) {
+                    setNote(error instanceof Error ? error.message : String(error));
+                  }
+                }}
+              >
+                Clear logs
+              </Action>
+              <Action
+                onClick={async () => {
+                  const result = await window.bestclient.resetPvpOptions();
+                  setNote(`${result.applied.length} settings restored.`);
+                }}
+              >
+                Reset PvP defaults
+              </Action>
+              <Action onClick={() => void window.bestclient.openInstanceFolder()}>
+                Open game folder
+              </Action>
+            </div>
 
-          {note ? <p className="mt-2 text-[11.5px] text-rose-soft">{note}</p> : null}
-        </Section>
+            <p className="mt-3 text-[11.5px] leading-relaxed text-ink-faint">
+              On a normal launch the launcher checks existing files by size. After the download-time
+              SHA-1 check that is enough, and it avoids reading hundreds of megabytes on every start.
+              This button re-hashes every file and replaces whatever is corrupt. Clearing the cache
+              drops the hash lists, the news and changelog copies, downloaded installers and the
+              extracted natives - everything is fetched again on the next launch.
+            </p>
 
-        <Section title="Versions" delay={240}>
-          <dl className="grid grid-cols-2 gap-y-2 text-[12px]">
-            <Row term="Launcher" value={info.version} />
-            <Row term="Minecraft" value={info.target.minecraft} />
-            <Row term="Fabric Loader" value={info.target.fabricLoader} />
-            <Row term="Java" value={String(info.target.javaMajor)} />
-          </dl>
-        </Section>
+            {note ? <p className="mt-2 text-[11.5px] text-rose-soft">{note}</p> : null}
+          </Section>
+
+          <Section title="Versions" delay={240}>
+            <dl className="grid grid-cols-2 gap-y-2 text-[12px]">
+              <Row term="Launcher" value={info.version} />
+              <Row term="Minecraft" value={info.target.minecraft} />
+              <Row term="Fabric Loader" value={info.target.fabricLoader} />
+              <Row term="Java" value={String(info.target.javaMajor)} />
+            </dl>
+          </Section>
+        </div>
       </div>
     </div>
   );
@@ -128,10 +217,35 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rise rounded-lg border border-edge bg-panel p-5" style={{ animationDelay: `${delay}ms` }}>
+    <section className="rise rounded-lg bg-surface p-5" style={{ animationDelay: `${delay}ms` }}>
       <h3 className="eyebrow mb-3">{title}</h3>
       {children}
     </section>
+  );
+}
+
+function SegmentButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`cursor-pointer rounded-lg px-3 py-2 text-[12px] font-semibold transition-colors ${
+        active
+          ? 'bg-rose-deep text-white'
+          : 'bg-surface-high text-ink-dim hover:bg-surface-top hover:text-ink'
+      }`}
+    >
+      {children}
+    </button>
   );
 }
 
@@ -149,7 +263,7 @@ function Action({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className="rounded border border-edge px-3 py-2 text-[11.5px] text-ink-dim transition-colors hover:border-rose/60 hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
+      className="cursor-pointer rounded-lg bg-surface-high px-3 py-2 text-[11.5px] font-semibold text-white transition-colors hover:bg-surface-top hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
     >
       {children}
     </button>

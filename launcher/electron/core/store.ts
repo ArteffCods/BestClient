@@ -26,9 +26,23 @@ export interface Settings {
    * still respecting a mod the player deliberately switched off.
    */
   knownMods: string[];
+  /** Slugs the player deleted from the Mods list for good; hidden and never installed. */
+  removedMods: string[];
+  /**
+   * Pack slug -> Modrinth version_number the player chose by hand. Without an entry the
+   * newest build for the target Minecraft version is used, which is the normal case.
+   */
+  pinnedVersions: Record<string, string>;
   /** Set once the PvP options.txt baseline has been written. */
   appliedPvpDefaults: boolean;
-  closeOnLaunch: boolean;
+  /** What the launcher does when the game window opens: stay, minimise or hide. */
+  launchBehaviour: 'stay' | 'minimise' | 'hide';
+  /**
+   * Adds the Nvidium renderer to the modpack for NVIDIA cards. `null` means the player
+   * has never touched it, so the first launch resolves it from the GPU vendor (NVIDIA on,
+   * anything else off) and writes the answer.
+   */
+  nvidiaOptimize: boolean | null;
   extraJvmArgs: string;
   /** Every signed-in account, in the order they were added. Tokens live here. */
   accounts: MinecraftAccount[];
@@ -40,8 +54,11 @@ const DEFAULTS: Settings = {
   memoryMb: 4096,
   enabledMods: [],
   knownMods: [],
+  removedMods: [],
+  pinnedVersions: {},
   appliedPvpDefaults: false,
-  closeOnLaunch: false,
+  launchBehaviour: 'stay',
+  nvidiaOptimize: null,
   extraJvmArgs: '',
   accounts: [],
   activeUuid: null,
@@ -50,6 +67,8 @@ const DEFAULTS: Settings = {
 /** The pre-multi-account shape, kept only so old launcher.json files still migrate. */
 interface LegacySettings extends Partial<Settings> {
   account?: MinecraftAccount | null;
+  /** The pre-tri-state shape: hide instead of minimise when true. */
+  closeOnLaunch?: boolean;
 }
 
 let cache: Settings | null = null;
@@ -87,6 +106,11 @@ function migrate(settings: Settings, legacy: LegacySettings): Settings {
   if (legacy.account && settings.accounts.length === 0) {
     settings.accounts = [legacy.account];
     settings.activeUuid = legacy.account.uuid;
+  }
+
+  // The old two-way choice maps onto the new tri-state: false meant minimise, true hid.
+  if (typeof legacy.closeOnLaunch === 'boolean') {
+    settings.launchBehaviour = legacy.closeOnLaunch ? 'hide' : 'minimise';
   }
 
   // Guard against an activeUuid that points at an account that is no longer present.

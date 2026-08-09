@@ -18,7 +18,7 @@ PvP-re optimalizált Minecraft launcher és kliens a **BestPvP** hálózathoz.
 | **Függőségfeloldás** | A kötelező (`required`) függőségek tranzitívan feloldódnak. Enélkül a Fabric el sem indul: pl. a Particle Core `fabric-language-kotlin`-t és `fzzy_config`-ot igényel |
 | **Rögzített szerver** | `bestpvp.eu` a lista első helyén, minden indítás előtt visszaállítva |
 | **PvP beállítások** | `options.txt` alapérték: vsync ki, view bobbing ki, minimál partikulák, entity shadow ki, fast graphics, 0 screen/FOV effekt |
-| **GC-hangolás** | G1GC 50 ms pause target, `Xms == Xmx` + `AlwaysPreTouch`, `MaxTenuringThreshold=1`, `IHOP=15` — a cél a lapos frame time, nem a nyers throughput |
+| **GC-hangolás** | G1GC 50 ms pauza-cél, `Xms == Xmx` (előtöltés nélkül a gyors indításért), `MaxTenuringThreshold=1`, `IHOP=15` — a cél a lapos frame time, nem a nyers throughput |
 | **Folyamat-prioritás** | A játék *high* prioritást kap, és minden logikai magot használhat (`ActiveProcessorCount`); a launcher maga *above-normal* |
 | **Bejelentkezés** | Microsoft device-code OAuth → Xbox Live → XSTS → Minecraft; a token a `launcher.json`-ban marad, a rendererhez soha nem jut el |
 | **Több fiók** | Több Microsoft-fiók is bejelentkeztethető és eltárolható; a kliens megjegyzi őket, egy kattintással váltasz, és a profilkép a fiók 2D-s Minecraft-feje |
@@ -76,28 +76,24 @@ ezeket a `scripts/make-icons.ps1` állítja elő (`installer-sidebar.bmp`,
 
 ---
 
-## Microsoft bejelentkezés beállítása
+## Microsoft bejelentkezés
 
-A repóban **szándékosan nincs Azure client ID**. Minden launchernek sajátot kell regisztrálnia:
+A launcher **beépített publikus client ID-vel** működik (device-code flow), így a
+bejelentkezés azonnal elérhető a kliensen belül, Azure-regisztráció nélkül.
+
+Ha saját Azure appot szeretnél használni:
 
 1. [Azure Portal](https://portal.azure.com) → *App registrations* → *New registration*
 2. *Supported account types*: **Personal Microsoft accounts only**
 3. *Authentication* → *Advanced settings* → **Allow public client flows: Yes**
-4. Másold ki az *Application (client) ID*-t
+4. Másold ki az *Application (client) ID*-t, és add meg a **Beállítások → Microsoft auth**
+   panelen (vagy a `BESTCLIENT_MS_CLIENT_ID` környezeti változóban / `launcher/resources/auth.json` fájlban).
 
-Ezután add meg az egyiket:
+> A Minecraft API éles használatához a Mojang jóváhagyása is kell — egykori Azure-appoknál
+> a `login_with_xbox` hívás 403-at adhat; a beépített client ID ezt elkerüli.
 
-```bash
-set BESTCLIENT_MS_CLIENT_ID=a-te-client-idd
-```
-
-vagy hozz létre egy `launcher/resources/auth.json` fájlt:
-
-```json
-{ "clientId": "a-te-client-idd" }
-```
-
-> A Minecraft API éles használatához a Mojang jóváhagyása is kell — enélkül a `login_with_xbox` hívás 403-at adhat.
+> A device-code folyamat böngészőben fejeződik be: a kód a kliensben jelenik meg, a gomb a
+> linket nyitja meg. A kódot a Másolás gomb veszi át.
 
 ---
 
