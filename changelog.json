@@ -1,5 +1,44 @@
 [
   {
+    "version": "0.2.6",
+    "date": "2026-08-09",
+    "title": "NVIDIA optimization switch, instant mod updates, GPU-aware defaults",
+    "description": "A new Settings switch tailored to the detected GPU adds Nvidium and Reflex to the modpack on NVIDIA cards, and the Mods list can update any mod to its newest build in one click.",
+    "changes": [
+      "Settings: NVIDIA optimization switch - adds Nvidium and Reflex Anti-Lag to the modpack; on by default on NVIDIA GPUs, off on AMD and Intel, decided from your actual hardware on first run; turning it off removes the mods again",
+      "Mods list: an Update chip appears left of the version button when a newer build exists, and clicking it swaps in the newest version instantly",
+      "News banners grow only when the cursor is on the picture itself, and the faint hairline on the left edge is gone",
+      "The delete button just tints red on hover instead of going solid red",
+      "The RAM slider knob is plain rose - no black ring, no shadow"
+    ]
+  },
+  {
+    "version": "0.2.5",
+    "date": "2026-08-09",
+    "title": "Injection protection, borderless Launch button, chip RAM readout",
+    "description": "The launcher checks the mods folder for known hacked clients and injectors before every launch, the Launch Game button lost its border, and the RAM readout shows a memory chip instead of \"max\".",
+    "changes": [
+      "Before every launch the mods folder is checked against known hacked clients and injectors such as Doomsday, LiquidBounce and Aristois - by file name, and by scanning the bytes of Modrinth-approved jars, so a renamed injector cannot sneak in; anything flagged blocks the launch with its own warning",
+      "Launch Game has no border - just the clean rounded brand-coloured button",
+      "The RAM readout shows a memory-chip icon instead of \"MAX\"",
+      "Store sort menu items have a small gap between them",
+      "News banners zoom less on hover; \"Double-click to join\" is properly capitalised"
+    ]
+  },
+  {
+    "version": "0.2.4",
+    "date": "2026-08-09",
+    "title": "Richer store cards, custom sort dropdown, opaque panels",
+    "description": "Store cards now show the author, category tags and download/follower counts, the sort control is a custom rounded dropdown, and the popup panels are solid instead of translucent.",
+    "changes": [
+      "Store cards show the author, up to three category tags, and download and follower counts with a heart",
+      "The store's result order is a custom rounded dropdown that matches the rest of the UI",
+      "Mods list: the version button is right-aligned and always shows the full version string",
+      "News banners alternate left and right in the two-column layout, and growing on hover no longer shifts the text below",
+      "Partner-server cards and the account-switcher popup have solid, opaque backgrounds"
+    ]
+  },
+  {
     "version": "0.2.3",
     "date": "2026-08-09",
     "title": "Bigger news banners, Stay-open default, build dropdown",
