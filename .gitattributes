@@ -1,0 +1,10 @@
+* text=auto
+
+# Batch files are parsed by cmd.exe, which requires CRLF. A checkout with LF
+# endings breaks the parser in ways that look like random "not recognized as an
+# internal or external command" errors.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Shell scripts must keep LF even on Windows.
+*.sh text eol=lf

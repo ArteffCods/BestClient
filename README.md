@@ -24,6 +24,24 @@ PvP-re optimalizált Minecraft launcher és kliens a **BestPvP** hálózathoz.
 
 ---
 
+## Indítás
+
+Dupla kattintás a projekt gyökerében lévő **`start.bat`** fájlra. Ez elvégez mindent,
+ami hiányzik:
+
+1. ellenőrzi, hogy van-e Node.js,
+2. `npm install`, ha még nincsenek meg a függőségek,
+3. `npm run build`, ha nincs kész build,
+4. elindítja a launchert.
+
+Frissen klónozott repóból is elég ez az egy lépés. A parancssoros megfelelője:
+
+```bash
+npm start
+```
+
+---
+
 ## Fejlesztés
 
 ```bash
