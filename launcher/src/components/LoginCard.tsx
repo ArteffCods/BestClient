@@ -16,7 +16,13 @@ interface Props {
   onRemove: (uuid: string) => void;
 }
 
-/** 2D front of the player's head, rendered blocky to keep the Minecraft look. */
+/**
+ * 2D front of the player's head, rendered blocky to keep the Minecraft look.
+ *
+ * No frame around the head — the active account is marked by a soft, lighter backdrop
+ * behind it instead. The padding stays constant so switching active state only fades the
+ * background in and out, with no layout jump.
+ */
 function Avatar({
   account,
   size = 36,
@@ -27,20 +33,15 @@ function Avatar({
   active?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
-  const ring = active ? 'ring-2 ring-rose' : 'ring-1 ring-edge';
 
-  if (failed) {
-    return (
-      <div
-        style={{ width: size, height: size }}
-        className={`brand-gradient grid shrink-0 place-items-center rounded font-display text-sm font-bold text-void ${ring}`}
-      >
-        {account.username.slice(0, 1).toUpperCase()}
-      </div>
-    );
-  }
-
-  return (
+  const head = failed ? (
+    <span
+      style={{ width: size, height: size }}
+      className="brand-gradient grid place-items-center rounded-[6px] font-display text-sm font-bold text-void"
+    >
+      {account.username.slice(0, 1).toUpperCase()}
+    </span>
+  ) : (
     <img
       src={`https://mc-heads.net/avatar/${account.uuid}/64`}
       alt=""
@@ -50,8 +51,18 @@ function Avatar({
       style={{ width: size, height: size }}
       draggable={false}
       onError={() => setFailed(true)}
-      className={`shrink-0 rounded [image-rendering:pixelated] ${ring}`}
+      className="rounded-[6px] [image-rendering:pixelated]"
     />
+  );
+
+  return (
+    <span
+      className={`grid shrink-0 place-items-center rounded-[9px] p-[3px] transition-colors duration-300 ${
+        active ? 'bg-white/10' : 'bg-transparent'
+      }`}
+    >
+      {head}
+    </span>
   );
 }
 

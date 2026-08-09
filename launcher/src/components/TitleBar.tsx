@@ -8,7 +8,7 @@ interface Props {
 
 export function TitleBar({ version, minecraft, fabric }: Props) {
   return (
-    <header className="drag-region flex h-10 shrink-0 items-center justify-between border-b border-edge bg-void pl-3 pr-0">
+    <header className="drag-region flex h-10 shrink-0 items-center justify-between border-b border-edge bg-void/50 pl-3 pr-0 backdrop-blur-sm">
       <div className="flex items-center gap-1">
         {/* Served from public/logo.png through the app:// protocol. Decorative next to
             the wordmark, so it stays out of the accessibility tree.

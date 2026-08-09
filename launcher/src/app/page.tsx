@@ -224,7 +224,7 @@ export default function Page() {
 
   if (bridgeMissing) {
     return (
-      <div className="flex h-full flex-col bg-void">
+      <div className="flex h-full flex-col">
         <TitleBar version="0.1.0" minecraft="1.21.11" fabric="0.19.3" />
         <div className="flex flex-1 flex-col items-center justify-center gap-3 p-8 text-center">
           <h1 className="display-caps text-2xl text-ink">
@@ -235,8 +235,8 @@ export default function Page() {
             Restart the app — if the error persists, run{' '}
             <code className="rounded bg-panel px-1 py-0.5 font-mono text-rose-soft">
               npm run build:main
-            </code>{' '}
-            parancsot.
+            </code>
+            .
           </p>
         </div>
       </div>
@@ -244,7 +244,7 @@ export default function Page() {
   }
 
   return (
-    <div className="flex h-full flex-col bg-void">
+    <div className="flex h-full flex-col">
       <TitleBar
         version={info?.version ?? '0.1.0'}
         minecraft={info?.target.minecraft ?? '1.21.11'}
@@ -252,7 +252,7 @@ export default function Page() {
       />
 
       <div className="flex min-h-0 flex-1">
-        <nav className="flex w-[168px] shrink-0 flex-col border-r border-edge px-3 py-4">
+        <nav className="flex w-[168px] shrink-0 flex-col border-r border-edge bg-void/40 px-3 py-4 backdrop-blur-sm">
           {TABS.map((entry) => (
             <button
               key={entry.id}
@@ -329,7 +329,7 @@ export default function Page() {
         </main>
       </div>
 
-      <footer className="shrink-0 border-t border-edge">
+      <footer className="shrink-0 border-t border-edge bg-void/40 backdrop-blur-sm">
         <button
           type="button"
           onClick={() => setShowLogs((value) => !value)}
