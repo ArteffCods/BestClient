@@ -1,1 +1,33 @@
-
+[
+  {
+    "version": "0.2.0",
+    "date": "2026-08-09",
+    "title": "Partner servers, the changelog rail and in-game BestClient",
+    "description": "The Play screen now shows live partner-server status you can join with a double-click, the mod list finally covers everything that is actually installed, and the client ships with its own in-game mod.",
+    "changes": [
+      "Partner servers: live player count, MOTD and server icon, queried directly from the server",
+      "Double-click a partner server to launch straight onto it",
+      "Fixed the server lookup so a server published on an SRV record is reachable",
+      "New changelog rail down the right-hand side, on every screen",
+      "The mod list now shows pack mods, Modrinth installs and jars you added yourself, all in one place",
+      "Search your own mods, and switch any mod to a different Modrinth build",
+      "Modrinth store: sorting, twelve results per page, and a grid that never leaves a half-empty row",
+      "BestClient's own mod ships with the client and cannot be removed - Right Shift opens the in-game menu",
+      "The game console rises from the bottom the moment a launch starts",
+      "Automatic update check, with the install left to you",
+      "Hardened the launcher: strict content policy, allow-list sanitizer for remote content, and stricter file handling"
+    ]
+  },
+  {
+    "version": "0.1.0",
+    "date": "2026-07-20",
+    "title": "First build",
+    "description": "Microsoft sign-in, the Fabric 1.21.11 install pipeline, the Modrinth store and the PvP-tuned defaults.",
+    "changes": [
+      "Microsoft device-code sign-in with multiple accounts",
+      "Fabric 1.21.11 install pipeline with automatic dependency resolution",
+      "Modrinth store for extra mods",
+      "PvP-tuned JVM flags and options.txt baseline"
+    ]
+  }
+]
