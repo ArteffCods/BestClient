@@ -1,7 +1,7 @@
 [
   {
     "version": "0.2.0",
-    "date": "2026-08-09",
+    "date": "2026 08. 09.",
     "title": "Partner servers, the changelog rail and in-game BestClient",
     "description": "The Play screen now shows live partner-server status you can join with a double-click, the mod list finally covers everything that is actually installed, and the client ships with its own in-game mod.",
     "changes": [
@@ -20,7 +20,7 @@
   },
   {
     "version": "0.1.0",
-    "date": "2026-07-20",
+    "date": "2026 07. 20.",
     "title": "First build",
     "description": "Microsoft sign-in, the Fabric 1.21.11 install pipeline, the Modrinth store and the PvP-tuned defaults.",
     "changes": [
