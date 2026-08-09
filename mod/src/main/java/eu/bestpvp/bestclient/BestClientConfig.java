@@ -36,6 +36,27 @@ public final class BestClientConfig {
     /** Round-trip time to the server, as the tab list reports it. */
     public static boolean showPing = false;
 
+    /** Left-click rate, counted from the attack key over a one-second window. */
+    public static boolean showCps = false;
+
+    /** The facing you are looking at, as a compass point and an axis. */
+    public static boolean showDirection = false;
+
+    /** Horizontal blocks per second. */
+    public static boolean showSpeed = false;
+
+    /** The wall clock, in the system's own time. */
+    public static boolean showClock = false;
+
+    /** How long this session has been running. */
+    public static boolean showPlaytime = false;
+
+    /** Java heap in use against the maximum. */
+    public static boolean showMemory = false;
+
+    /** The WASD and mouse-button overlay. */
+    public static boolean showKeystrokes = false;
+
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     /**
@@ -56,6 +77,13 @@ public final class BestClientConfig {
         boolean showFps = false;
         boolean showCoordinates = false;
         boolean showPing = false;
+        boolean showCps = false;
+        boolean showDirection = false;
+        boolean showSpeed = false;
+        boolean showClock = false;
+        boolean showPlaytime = false;
+        boolean showMemory = false;
+        boolean showKeystrokes = false;
     }
 
     private static Path file() {
@@ -79,6 +107,13 @@ public final class BestClientConfig {
                 showFps = data.showFps;
                 showCoordinates = data.showCoordinates;
                 showPing = data.showPing;
+                showCps = data.showCps;
+                showDirection = data.showDirection;
+                showSpeed = data.showSpeed;
+                showClock = data.showClock;
+                showPlaytime = data.showPlaytime;
+                showMemory = data.showMemory;
+                showKeystrokes = data.showKeystrokes;
             }
         } catch (IOException | RuntimeException error) {
             BestClientMod.LOGGER.warn("Could not read bestclient.json, using defaults.", error);
@@ -107,6 +142,13 @@ public final class BestClientConfig {
         data.showFps = showFps;
         data.showCoordinates = showCoordinates;
         data.showPing = showPing;
+        data.showCps = showCps;
+        data.showDirection = showDirection;
+        data.showSpeed = showSpeed;
+        data.showClock = showClock;
+        data.showPlaytime = showPlaytime;
+        data.showMemory = showMemory;
+        data.showKeystrokes = showKeystrokes;
 
         try {
             Files.createDirectories(file().getParent());

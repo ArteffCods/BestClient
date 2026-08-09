@@ -101,6 +101,118 @@ public final class Icons {
             "...........",
             "...........");
 
+    /** CPS: a mouse. */
+    public static final Icon MOUSE = of(
+            "...........",
+            "....###....",
+            "...#.#.#...",
+            "...#.#.#...",
+            "...#####...",
+            "...#...#...",
+            "...#...#...",
+            "...#...#...",
+            "....###....",
+            "...........",
+            "...........");
+
+    /** Clock: a dial with two hands. */
+    public static final Icon CLOCK = of(
+            "...........",
+            "...#####...",
+            ".##.....##.",
+            "#....#....#",
+            "#....#....#",
+            "#....###..#",
+            "#.........#",
+            ".#.......#.",
+            ".##.....##.",
+            "...#####...",
+            "...........");
+
+    /** Direction: a navigation arrow. */
+    public static final Icon ARROW = of(
+            "...........",
+            ".....#.....",
+            "....###....",
+            "...#####...",
+            "..#######..",
+            ".....#.....",
+            ".....#.....",
+            ".....#.....",
+            "...........",
+            "...........",
+            "...........");
+
+    /** Speed: a gauge. */
+    public static final Icon GAUGE = of(
+            "...........",
+            "...........",
+            "...#####...",
+            ".##.....##.",
+            "#....#....#",
+            "#...#.....#",
+            "#.........#",
+            "###########",
+            "...........",
+            "...........",
+            "...........");
+
+    /** Playtime: an hourglass. */
+    public static final Icon HOURGLASS = of(
+            "...........",
+            ".#########.",
+            "..#######..",
+            "...#####...",
+            "....###....",
+            ".....#.....",
+            "....###....",
+            "...#####...",
+            "..#######..",
+            ".#########.",
+            "...........");
+
+    /** Memory: a chip. */
+    public static final Icon CHIP = of(
+            "...........",
+            "..#.#.#.#..",
+            ".#########.",
+            ".#.......#.",
+            ".#.#####.#.",
+            ".#.#...#.#.",
+            ".#.#####.#.",
+            ".#.......#.",
+            ".#########.",
+            "..#.#.#.#..",
+            "...........");
+
+    /** Keystrokes: a keyboard. */
+    public static final Icon KEYBOARD = of(
+            "...........",
+            "...........",
+            "...........",
+            "###########",
+            "#.#.#.#.#.#",
+            "#.........#",
+            "#..#####..#",
+            "###########",
+            "...........",
+            "...........",
+            "...........");
+
+    /** The search field's magnifier. */
+    public static final Icon SEARCH = of(
+            "...........",
+            "..#####....",
+            ".#.....#...",
+            ".#.....#...",
+            ".#.....#...",
+            "..#####....",
+            ".......#...",
+            "........#..",
+            ".........#.",
+            "...........",
+            "...........");
+
     private static Icon of(String... rows) {
         return new Icon(rows);
     }
@@ -111,7 +223,11 @@ public final class Icons {
         private final int[] runs;
 
         private Icon(String[] rows) {
-            int[] buffer = new int[rows.length * rows[0].length()];
+            // A row of alternating pixels is the worst case: ceil(width / 2) runs, each
+            // stored as three ints. Sizing by width alone would overflow on an icon like
+            // the keyboard.
+            int width = rows[0].length();
+            int[] buffer = new int[rows.length * ((width + 1) / 2) * 3];
             int count = 0;
 
             for (int y = 0; y < rows.length; y++) {

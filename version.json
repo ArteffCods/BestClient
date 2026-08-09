@@ -1,7 +1,7 @@
 {
-  "version": "0.3.2",
-  "notes": "Editable startup flags in Settings, calmer news hover.",
-  "tag": "v0.3.2",
-  "asset": "BestClient-Setup-0.3.2.exe",
-  "sha256": "0b41f103f022fcdae9990bc025e45628764cb15d7f6d40ca31bbbe43837d192f"
+  "version": "0.3.3",
+  "notes": "News pictures mark themselves on hover.",
+  "tag": "v0.3.3",
+  "asset": "BestClient-Setup-0.3.3.exe",
+  "sha256": "7a9aef8784b70623533032f0a2d35db19c444be55706d422e6e4d7768fc6d4db"
 }

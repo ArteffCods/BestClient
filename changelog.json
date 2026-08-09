@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.3.3",
+    "date": "2026-08-10",
+    "title": "News pictures mark themselves",
+    "description": "A news item you can open now says so: the cursor becomes a pointer and the picture picks up a dashed white outline while you are over it.",
+    "changes": [
+      "News: hovering an item that opens a link turns the cursor into a pointer and outlines the picture with a dashed white border",
+      "The outline takes no space when it appears, so the picture never shifts under the cursor"
+    ]
+  },
+  {
     "version": "0.3.2",
     "date": "2026-08-10",
     "title": "Editable startup flags, calmer news hover",
