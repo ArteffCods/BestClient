@@ -19,7 +19,7 @@ interface Props {
 /**
  * 2D front of the player's head, rendered blocky to keep the Minecraft look.
  *
- * No frame around the head — the active account is marked by a soft, lighter backdrop
+ * No frame around the head , the active account is marked by a soft, lighter backdrop
  * behind it instead. The padding stays constant so switching active state only fades the
  * background in and out, with no layout jump.
  */
@@ -236,9 +236,21 @@ export function LoginCard({
                     {entry.username}
                   </span>
                   {isActive ? (
-                    <svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true" className="shrink-0 text-rose">
-                      <path d="M2 6.5 L4.5 9 L10 3" stroke="currentColor" strokeWidth="1.6" fill="none" />
-                    </svg>
+                    <span
+                      aria-label="Active"
+                      className="brand-gradient grid h-4 w-4 shrink-0 place-items-center rounded-full text-void shadow-[0_0_10px_-3px_var(--color-rose)]"
+                    >
+                      <svg width="9" height="9" viewBox="0 0 12 12" aria-hidden="true">
+                        <path
+                          d="M2.5 6.5 L5 9 L9.5 3.5"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
                   ) : null}
                 </button>
                 <RemoveButton onClick={() => onRemove(entry.uuid)} label={`Remove ${entry.username}`} />

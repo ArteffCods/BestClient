@@ -50,7 +50,7 @@
        the scene stays a dim atmosphere, never a distraction from the numbers. */
     background-color: var(--color-void);
     background-image:
-      radial-gradient(130% 120% at 50% 0%, rgba(8, 6, 11, 0.74) 0%, rgba(8, 6, 11, 0.9) 55%, rgba(8, 6, 11, 0.96) 100%),
+      radial-gradient(130% 120% at 50% 0%, rgba(8, 6, 11, 0.9) 0%, rgba(8, 6, 11, 0.95) 55%, rgba(8, 6, 11, 0.99) 100%),
       url('/background.jpg');
     background-size: cover;
     background-position: center;

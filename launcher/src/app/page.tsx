@@ -15,7 +15,6 @@ import type {
   PackView,
   PublicAccount,
   PublicSettings,
-  ServerListEntry,
 } from '@/types/bestclient';
 
 type Tab = 'play' | 'mods' | 'settings';
@@ -32,7 +31,6 @@ export default function Page() {
   const [info, setInfo] = useState<AppInfo | null>(null);
   const [settings, setSettings] = useState<PublicSettings | null>(null);
   const [pack, setPack] = useState<PackView | null>(null);
-  const [servers, setServers] = useState<ServerListEntry[]>([]);
   const [accounts, setAccounts] = useState<PublicAccount[]>([]);
   const [activeUuid, setActiveUuid] = useState<string | null>(null);
 
@@ -70,18 +68,20 @@ export default function Page() {
 
     // Everything here is local (JSON + servers.dat), so the first paint is instant.
     void (async () => {
-      const [appInfo, currentSettings, currentPack, serverList] = await Promise.all([
+      const [appInfo, currentSettings, currentPack] = await Promise.all([
         api.appInfo(),
         api.getSettings(),
         api.getPack(),
-        api.getServers(),
       ]);
 
       setInfo(appInfo);
       setSettings(currentSettings);
       setPack(currentPack);
-      setServers(serverList);
     })();
+
+    // Normalize servers.dat on startup (pins bestpvp.eu, strips delisted entries). The
+    // list itself is no longer shown in the UI, so only the side effect matters here.
+    void api.getServers();
 
     // Accounts load on their own: a stale token triggers a Microsoft refresh (several
     // round trips), and the UI must not wait on the network to render. The stored list
@@ -165,7 +165,6 @@ export default function Page() {
       setUnavailable(result.unavailableMods);
       setDependencies(result.dependencies);
       setRunning(true);
-      setServers(await window.bestclient.getServers());
     } catch (error) {
       setPlayError(error instanceof Error ? cleanError(error.message) : String(error));
       setBusy(false);
@@ -232,7 +231,7 @@ export default function Page() {
           </h1>
           <p className="max-w-md text-sm leading-relaxed text-ink-dim">
             The preload bridge did not load, so the launcher can't reach system functions.
-            Restart the app — if the error persists, run{' '}
+            Restart the app. If the error persists, run{' '}
             <code className="rounded bg-panel px-1 py-0.5 font-mono text-rose-soft">
               npm run build:main
             </code>
@@ -319,7 +318,6 @@ export default function Page() {
               <SettingsView
                 info={info}
                 settings={settings}
-                servers={servers}
                 busy={busy}
                 onPatch={(patch) => void patchSettings(patch)}
                 onRepair={() => void handleRepair()}

@@ -17,7 +17,7 @@ interface Props {
  *
  * A launcher has exactly one action, so it gets exactly one control. Rather than putting
  * a separate bar underneath, the button fills with the brand gradient as the install
- * proceeds and fires when it reaches the end — the control shows its own readiness.
+ * proceeds and fires when it reaches the end , the control shows its own readiness.
  */
 export function LaunchButton({ state, percent, step, target, onClick }: Props) {
   const disabled = state !== 'ready';

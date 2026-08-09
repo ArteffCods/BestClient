@@ -1,27 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import type { AppInfo, AuthConfigStatus, PublicSettings, ServerListEntry } from '@/types/bestclient';
+import type { AppInfo, PublicSettings } from '@/types/bestclient';
 
 interface Props {
   info: AppInfo | null;
   settings: PublicSettings | null;
-  servers: ServerListEntry[];
   busy: boolean;
   onPatch: (patch: Partial<PublicSettings>) => void;
   onRepair: () => void;
 }
 
-export function SettingsView({ info, settings, servers, busy, onPatch, onRepair }: Props) {
+export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props) {
   const [note, setNote] = useState<string | null>(null);
-  const [authConfig, setAuthConfig] = useState<AuthConfigStatus | null>(null);
-  const [clientId, setClientId] = useState('');
-  const [authNote, setAuthNote] = useState<string | null>(null);
-
-  useEffect(() => {
-    void window.bestclient.getAuthConfig().then(setAuthConfig);
-  }, []);
 
   if (!settings || !info) {
     return <p className="text-sm text-ink-faint">Loading settings…</p>;
@@ -35,7 +27,7 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
         <Section title="Memory" delay={60}>
           <p className="mb-4 text-[12px] leading-relaxed text-ink-faint">
             Maximum handed to the JVM. 4–6 GB is plenty for PvP: extra heap brings no FPS, only
-            longer GC pauses — and it is the pause that costs you the hit.
+            longer GC pauses, and it is the pause that costs you the hit.
           </p>
           <div className="flex items-center gap-5">
             <input
@@ -52,38 +44,6 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
               {(settings.memoryMb / 1024).toFixed(1)} GB
             </span>
           </div>
-        </Section>
-
-        <Section title="Server list" delay={100}>
-          {servers.length === 0 ? (
-            <p className="text-[12px] text-ink-faint">
-              No server list yet — it appears after the first launch.
-            </p>
-          ) : (
-            <ul className="space-y-px overflow-hidden rounded border border-edge">
-              {servers.map((server) => (
-                <li
-                  key={server.address}
-                  className="flex items-center justify-between bg-panel-high px-3 py-2"
-                >
-                  <span className="min-w-0">
-                    <span className="block truncate text-[13px] text-ink">{server.name}</span>
-                    <span className="block font-mono text-[10px] text-ink-faint">{server.address}</span>
-                  </span>
-                  {server.locked ? (
-                    <span className="shrink-0 rounded border border-rose/50 px-1.5 py-px font-mono text-[9px] uppercase tracking-wider text-rose-soft">
-                      pinned
-                    </span>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-          )}
-          <p className="mt-3 text-[11.5px] leading-relaxed text-ink-faint">
-            The launcher writes the <span className="font-mono text-ink-dim">{info.lockedServer.address}</span>{' '}
-            entry back to the top of the list before every launch. It can be deleted in-game, but it
-            returns on the next start.
-          </p>
         </Section>
 
         <Section title="Launch" delay={140}>
@@ -112,70 +72,6 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
           </div>
         </Section>
 
-        <Section title="Microsoft auth" delay={160}>
-          <div className="space-y-3">
-            <p className="text-[11.5px] leading-relaxed text-ink-dim">
-              The launcher ships with a built-in public client ID — you don't need to set anything
-              to sign in. To use your own Azure app, enter its ID here.
-            </p>
-
-            <div>
-              <label className="eyebrow mb-2 block" htmlFor="azure-client-id">
-                Azure Application client ID (optional)
-              </label>
-              <input
-                id="azure-client-id"
-                type="text"
-                value={clientId}
-                placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-                onChange={(event) => setClientId(event.target.value)}
-                className="w-full rounded border border-edge bg-void px-3 py-2 font-mono text-[11px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-rose"
-              />
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              <Action
-                onClick={async () => {
-                  setAuthNote(null);
-                  try {
-                    setAuthConfig(await window.bestclient.setAuthClientId(clientId));
-                    setClientId('');
-                    setAuthNote('Your client ID is saved — the launcher will sign in with it from now on.');
-                  } catch (error) {
-                    setAuthNote(error instanceof Error ? error.message : String(error));
-                  }
-                }}
-              >
-                Save client ID
-              </Action>
-              <Action onClick={() => void window.bestclient.openExternal('https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade')}>
-                Azure apps
-              </Action>
-              <Action
-                onClick={async () => {
-                  setAuthConfig(await window.bestclient.setAuthClientId(''));
-                }}
-              >
-                Back to default
-              </Action>
-            </div>
-
-            <p className="text-[11.5px] leading-relaxed text-ink-faint">
-              Status:{' '}
-              <span className="text-rose-soft">
-                {authConfig?.source === 'env'
-                  ? 'environment variable'
-                  : authConfig?.source === 'file'
-                    ? 'custom'
-                    : 'default'}
-              </span>
-              {authConfig?.file ? <span className="block truncate font-mono">{authConfig.file}</span> : null}
-            </p>
-
-            {authNote ? <p className="text-[11.5px] text-rose-soft">{authNote}</p> : null}
-          </div>
-        </Section>
-
         <Section title="Maintenance" delay={200}>
           <div className="flex flex-wrap gap-2">
             <Action
@@ -201,7 +97,7 @@ export function SettingsView({ info, settings, servers, busy, onPatch, onRepair 
           </div>
 
           <p className="mt-3 text-[11.5px] leading-relaxed text-ink-faint">
-            On a normal launch the launcher checks existing files by size — after the download-time
+            On a normal launch the launcher checks existing files by size. After the download-time
             SHA-1 check that is enough, and it avoids reading hundreds of megabytes on every start.
             This button re-hashes every file and replaces whatever is corrupt.
           </p>

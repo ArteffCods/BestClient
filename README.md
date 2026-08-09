@@ -194,7 +194,7 @@ A színek egy helyen élnek: `launcher/electron/core/brand.ts` és `launcher/src
 
 - **A rögzített szerver launcher-szintű.** A `bestpvp.eu` bejegyzést minden indítás előtt visszaírjuk, de futó játék közben a játékos ki tudja törölni — a következő indításig. A valódi, játékon belüli zároláshoz Fabric mixin kell (`ServerList#remove` és a `MultiplayerScreen` Delete/Edit gombjai).
 - **Csak Windows x64.** A Java-keresés és a natives-kezelés jelenleg Windows-specifikus.
-- **Kockázatos modok.** A `betterhitreg` és a `knockbacksync` alapból **ki van kapcsolva** — sok PvP szerver tiltja őket. Bekapcsolásuk a játékos felelőssége.
+- **Kockázatos mod.** A `betterhitreg` a csomag része (kliensoldali találatregisztráció), de sok PvP szerver tiltja. A használata a játékos felelőssége.
 
 ---
 

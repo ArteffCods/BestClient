@@ -14,7 +14,7 @@ export function TitleBar({ version, minecraft, fabric }: Props) {
             the wordmark, so it stays out of the accessibility tree.
 
             The artwork carries its own dark tile and corner radius, so no rounding is
-            applied here — it would clip the corners twice. The hairline ring is what
+            applied here , it would clip the corners twice. The hairline ring is what
             separates the tile (#1a1a1a) from the title bar (#08060b). */}
         <img
           src="/logo.png"
