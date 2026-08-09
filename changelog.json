@@ -1,5 +1,18 @@
 [
   {
+    "version": "0.2.2",
+    "date": "2026-08-09",
+    "title": "White button text, restored button colours, clean news banners",
+    "description": "The buttons say their text in white over the familiar colours again, the build-picker popup works exactly as before, and the news banners are back to natural size without a dark backing box.",
+    "changes": [
+      "Button text is white; button backgrounds are the 0.2.0 look (brand-pink Download and Browse files, grey Search, pager, Update)",
+      "The build-picker popup and its buttons work as in 0.2.0",
+      "News banners: no black backing box, natural size, bigger gap between items",
+      "Partner-server MOTDs rewrite Windows colour emojis to Minecraft-font symbols",
+      "Store, mod list and Settings keep the soft rounded panel behind the content"
+    ]
+  },
+  {
     "version": "0.2.1",
     "date": "2026-08-09",
     "title": "Minecraft-style MOTDs, white buttons and softer panels",

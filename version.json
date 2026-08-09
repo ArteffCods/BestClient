@@ -1,7 +1,7 @@
 {
-  "version": "0.2.1",
-  "notes": "Minecraft-style MOTDs, white buttons, store/mod/settings panels, news polish.",
-  "tag": "v0.2.1",
-  "asset": "BestClient-Setup-0.2.1.exe",
-  "sha256": "fc66b1334f29a11df0c8bab7ee06426209896db894899003a8243a8c22380719"
+  "version": "0.2.2",
+  "notes": "White button text, restored button colours, fixed news banners, Minecraft MOTD emojis.",
+  "tag": "v0.2.2",
+  "asset": "BestClient-Setup-0.2.2.exe",
+  "sha256": "8ca99d825513dc7516c4394437f0bd8153fa67997affa44241a74818ed50df2d"
 }
