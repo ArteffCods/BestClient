@@ -1,7 +1,7 @@
 {
-  "version": "0.3.0",
-  "notes": "Glowing launch button, remembered launch behaviour, news images glow up on hover.",
-  "tag": "v0.3.0",
-  "asset": "BestClient-Setup-0.3.0.exe",
-  "sha256": "299252dd2800f1628ab33e291a3fb90d439a1ef660268a9e20e5b8903fb613e4"
+  "version": "0.3.1",
+  "notes": "Single deletion notice, news pictures grow on hover.",
+  "tag": "v0.3.1",
+  "asset": "BestClient-Setup-0.3.1.exe",
+  "sha256": "a062cf3700959658bf4e62cc5dd2e48bf23fb231fc04020ecfa253a4ea1e37b8"
 }

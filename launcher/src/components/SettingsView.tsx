@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props) {
-  const [note, setNote] = useState<string | null>(null);
+  const [note, setNote] = useState<{ source: 'maintenance' | 'cache' | 'logs'; text: string } | null>(null);
   const [applyingNvidia, setApplyingNvidia] = useState(false);
 
   if (!settings || !info) {
@@ -142,7 +142,7 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
               <Action
                 onClick={async () => {
                   const result = await window.bestclient.resetPvpOptions();
-                  setNote(`${result.applied.length} settings restored.`);
+                  setNote({ source: 'maintenance', text: `${result.applied.length} settings restored.` });
                 }}
               >
                 Reset PvP defaults
@@ -158,7 +158,9 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
               This button re-hashes every file and replaces whatever is corrupt.
             </p>
 
-            {note ? <p className="mt-2 text-[11.5px] text-rose-soft">{note}</p> : null}
+            {note?.source === 'maintenance' ? (
+              <p className="mt-2 text-[11.5px] text-rose-soft">{note.text}</p>
+            ) : null}
           </Section>
 
           <Section title="Cache" delay={200}>
@@ -183,20 +185,27 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
                 setNote(null);
                 try {
                   const removed = await window.bestclient.clearCache();
-                  setNote(
-                    removed > 0
-                      ? `Cleared ${removed} cache entr${removed === 1 ? 'y' : 'ies'}. Re-downloads next launch.`
-                      : 'The cache was already clean.',
-                  );
+                  setNote({
+                    source: 'cache',
+                    text:
+                      removed > 0
+                        ? `Cleared ${removed} cache entr${removed === 1 ? 'y' : 'ies'}. Re-downloads next launch.`
+                        : 'The cache was already clean.',
+                  });
                 } catch (error) {
-                  setNote(error instanceof Error ? error.message : String(error));
+                  setNote({
+                    source: 'cache',
+                    text: error instanceof Error ? error.message : String(error),
+                  });
                 }
               }}
             >
               Clear cache
             </Action>
 
-            {note ? <p className="mt-2 text-[11.5px] text-rose-soft">{note}</p> : null}
+            {note?.source === 'cache' ? (
+              <p className="mt-2 text-[11.5px] text-rose-soft">{note.text}</p>
+            ) : null}
           </Section>
 
           <Section title="Logs" delay={220}>
@@ -220,20 +229,27 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
                 setNote(null);
                 try {
                   const removed = await window.bestclient.clearLogs();
-                  setNote(
-                    removed > 0
-                      ? `Deleted ${removed} log file${removed === 1 ? '' : 's'}.`
-                      : 'No log files to delete.',
-                  );
+                  setNote({
+                    source: 'logs',
+                    text:
+                      removed > 0
+                        ? `Deleted ${removed} log file${removed === 1 ? '' : 's'}.`
+                        : 'No log files to delete.',
+                  });
                 } catch (error) {
-                  setNote(error instanceof Error ? error.message : String(error));
+                  setNote({
+                    source: 'logs',
+                    text: error instanceof Error ? error.message : String(error),
+                  });
                 }
               }}
             >
               Clear logs
             </Action>
 
-            {note ? <p className="mt-2 text-[11.5px] text-rose-soft">{note}</p> : null}
+            {note?.source === 'logs' ? (
+              <p className="mt-2 text-[11.5px] text-rose-soft">{note.text}</p>
+            ) : null}
           </Section>
 
           <Section title="Versions" delay={240}>

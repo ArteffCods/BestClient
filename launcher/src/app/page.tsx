@@ -718,16 +718,16 @@ function NewsCard({ item }: { item: NewsItem }) {
   const inner = (
     <>
       {/* Banner in a fixed 16:9 box: cover-cropped, so every picture lines up and no
-          letterboxing shows. On hover the picture grows a little inside the box - the
-          layout itself never moves. */}
+          letterboxing shows. On hover the whole picture grows larger - anchored to its
+          bottom edge, it swells up into the gap above the title. */}
       {item.image ? (
-        <span className="block overflow-hidden rounded-lg">
+        <span className="block origin-bottom overflow-hidden rounded-lg transition-transform duration-300 ease-out group-hover:scale-[1.05]">
           <img
             src={item.image}
             alt=""
             aria-hidden="true"
             loading="lazy"
-            className="aspect-video h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.05]"
+            className="aspect-video h-full w-full object-cover"
             draggable={false}
           />
         </span>

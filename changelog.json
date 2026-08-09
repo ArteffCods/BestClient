@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.3.1",
+    "date": "2026-08-09",
+    "title": "Single deletion notice, news pictures grow on hover",
+    "description": "Clearing the cache or the logs now confirms it exactly where you clicked instead of repeating the message in three sections, and news pictures truly become bigger when you hover instead of zooming into their crop.",
+    "changes": [
+      "The cache and log deletion toasts are scoped to their own section - one place, once",
+      "News: on hover the whole picture grows larger, anchored upward; the crop inside the frame no longer magnifies"
+    ]
+  },
+  {
     "version": "0.3.0",
     "date": "2026-08-09",
     "title": "Remembered launch behaviour, glowing launch button, softer news hover",
