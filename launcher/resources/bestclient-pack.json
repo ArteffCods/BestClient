@@ -1,0 +1,151 @@
+{
+  "minecraft": "1.21.11",
+  "loader": "fabric",
+  "loaderVersion": "0.19.3",
+  "mods": [
+    {
+      "slug": "fabric-api",
+      "name": "Fabric API",
+      "category": "core",
+      "locked": true,
+      "defaultEnabled": true,
+      "note": "Minden Fabric mod alapja."
+    },
+    {
+      "slug": "sodium",
+      "name": "Sodium",
+      "category": "core",
+      "locked": true,
+      "defaultEnabled": true,
+      "note": "Teljes renderer-csere. A legnagyobb FPS-nyereség forrása."
+    },
+    {
+      "slug": "lithium",
+      "name": "Lithium",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Játéklogika-optimalizáció, viselkedésváltozás nélkül."
+    },
+    {
+      "slug": "immediatelyfast",
+      "name": "ImmediatelyFast",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Gyorsítja a HUD és a GUI kirajzolását – sok itemnél és scoreboardnál számít."
+    },
+    {
+      "slug": "entityculling",
+      "name": "Entity Culling",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Nem rajzolja ki a nem látható entitásokat. Zsúfolt arénában nagy nyereség."
+    },
+    {
+      "slug": "moreculling",
+      "name": "More Culling",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Blokkoldalak cullingja."
+    },
+    {
+      "slug": "modernfix",
+      "name": "ModernFix",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Gyorsabb indítás és kisebb memóriahasználat."
+    },
+    {
+      "slug": "sodium-extra",
+      "name": "Sodium Extra",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Extra grafikai kapcsolók a Sodiumhoz: köd, partikulák, animációk."
+    },
+    {
+      "slug": "scalablelux",
+      "name": "ScalableLux",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Többszálú fényszámítás – kevesebb akadás."
+    },
+    {
+      "slug": "cull-leaves",
+      "name": "Cull Leaves",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Levélblokkok cullingja."
+    },
+    {
+      "slug": "particle-core",
+      "name": "Particle Core",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Optimalizált partikularendszer."
+    },
+    {
+      "slug": "dynamic-fps",
+      "name": "Dynamic FPS",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Visszafogja az FPS-t, amíg a játék háttérben van."
+    },
+    {
+      "slug": "clear-waterlavapowdersnow",
+      "name": "Clear Water / Lava / Powder Snow",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Átlátszó folyadékok – vízi és lávás harcnál döntő lehet."
+    },
+    {
+      "slug": "fps-overlay",
+      "name": "FPS Overlay",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Konfigurálható FPS- és ping-HUD."
+    },
+    {
+      "slug": "cloth-config",
+      "name": "Cloth Config API",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Beállítás-képernyők több modhoz."
+    },
+    {
+      "slug": "modmenu",
+      "name": "Mod Menu",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Modlista és beállítások a játékon belül."
+    },
+    {
+      "slug": "betterhitreg",
+      "name": "Better Hitreg",
+      "category": "risky",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "FIGYELEM: a találatokat a szerver előtt regisztrálja. Sok PvP szerver tiltja – csak saját felelősségre."
+    },
+    {
+      "slug": "knockbacksync",
+      "name": "KnockbackSync",
+      "category": "risky",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "FIGYELEM: knockback-kompenzáció. Csak akkor kapcsold be, ha a szerver kifejezetten engedi."
+    }
+  ]
+}

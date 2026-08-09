@@ -1,0 +1,31 @@
+appId: eu.bestpvp.bestclient
+productName: BestClient
+copyright: Copyright (c) 2026 BestClient
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist-electron/**/*
+  - out/**/*
+  - resources/**/*
+  - package.json
+  - '!**/*.map'
+
+asar: true
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  # A logo hozzaadasa utan: build/icon.ico (256x256)
+  # icon: build/icon.ico
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: BestClient

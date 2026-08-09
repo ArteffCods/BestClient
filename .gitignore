@@ -1,0 +1,48 @@
+# --- Node / Electron / Next.js ---
+node_modules/
+.next/
+out/
+dist/
+dist-electron/
+build/
+release/
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-error.log*
+.eslintcache
+
+# --- Gradle / Java ---
+.gradle/
+mod/build/
+mod/run/
+mod/.gradle/
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+# --- IDE ---
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.settings/
+.classpath
+.project
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- BestClient local runtime data ---
+.bestclient/
+launcher/electron-dist/
+
+# Per-installation Azure client ID - see README
+launcher/resources/auth.json
