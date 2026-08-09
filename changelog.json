@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.2.7",
+    "date": "2026-08-09",
+    "title": "BestClient mod, store, news and changelog feed, GPU detection fix",
+    "description": "The client ships with its own in-game mod (fullbright, no hurt camera, a Right Shift menu), the launcher grows a store, a market, news and changelog rails, and the NVIDIA default is now decided from every adapter instead of just the first one.",
+    "changes": [
+      "In-game mod: Fullbright toggle and brightness slider, hurt camera toggle and a client menu on Right Shift, settings saved in bestclient.json",
+      "Store and market views with the full catalog, so the client's own content has a home",
+      "News feed and changelog rail on the home screen, pulled straight from GitHub",
+      "Self-updater: version.json in the repo is the single source the launcher polls; downloads and verifies the installer by SHA-256",
+      "GPU detection: every adapter is checked now, so a hybrid laptop reports NVIDIA even when Chromium lists the integrated card first; an unknown GPU is never persisted as a wrong default",
+      "Maintenance actions in Settings to clear caches and logs",
+      "Server ping and inventory details on the game page, bundled mods stamped at install time",
+      "Release admin: version.json, changelog.json and news.json drive the whole flow"
+    ]
+  },
+  {
     "version": "0.2.6",
     "date": "2026-08-09",
     "title": "NVIDIA optimization switch, instant mod updates, GPU-aware defaults",

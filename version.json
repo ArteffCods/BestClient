@@ -1,7 +1,7 @@
 {
-    "version":  "0.2.6",
-    "notes":  "NVIDIA-optimization switch, instant mod updates, GPU-aware defaults.",
-    "tag":  "v0.2.6",
-    "asset":  "BestClient-Setup-0.2.6.exe",
-    "sha256":  "92240690777432de4d52e079f578309a803104c8fccb593f48af50369e42e065"
+  "version": "0.2.7",
+  "notes": "BestClient mod in game, store, news and changelog feed, better GPU detection.",
+  "tag": "v0.2.7",
+  "asset": "BestClient-Setup-0.2.7.exe",
+  "sha256": "74d39ef54dd24b9d7251363a8204e4b9e49ad380c41a7d6200d9d0b877ec3d99"
 }
