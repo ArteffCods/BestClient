@@ -6,6 +6,9 @@ const nextConfig = {
   trailingSlash: true,
   images: { unoptimized: true },
   reactStrictMode: true,
+  // Next 16 writes AGENTS.md / CLAUDE.md into the project on every dev run.
+  // This repo does not carry generated AI tooling files.
+  agentRules: false,
 };
 
 export default nextConfig;

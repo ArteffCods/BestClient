@@ -5,6 +5,7 @@
   "description": "BestClient launcher",
   "main": "dist-electron/main.js",
   "scripts": {
+    "start": "electron .",
     "dev": "concurrently -k -n next,electron -c magenta,cyan \"npm:dev:renderer\" \"npm:dev:main\"",
     "dev:renderer": "next dev -p 4571",
     "dev:main": "npm run build:main && wait-on tcp:127.0.0.1:4571 && cross-env BESTCLIENT_DEV=1 electron .",

@@ -7,6 +7,7 @@
     "launcher"
   ],
   "scripts": {
+    "start": "npm run start --workspace=launcher",
     "dev": "npm run dev --workspace=launcher",
     "build": "npm run build --workspace=launcher",
     "dist": "npm run dist --workspace=launcher",
