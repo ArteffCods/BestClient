@@ -235,23 +235,6 @@ export function LoginCard({
                   <span className="min-w-0 flex-1 truncate text-[12px] text-ink-dim">
                     {entry.username}
                   </span>
-                  {isActive ? (
-                    <span
-                      aria-label="Active"
-                      className="brand-gradient grid h-4 w-4 shrink-0 place-items-center rounded-full text-void shadow-[0_0_10px_-3px_var(--color-rose)]"
-                    >
-                      <svg width="9" height="9" viewBox="0 0 12 12" aria-hidden="true">
-                        <path
-                          d="M2.5 6.5 L5 9 L9.5 3.5"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
-                  ) : null}
                 </button>
                 <RemoveButton onClick={() => onRemove(entry.uuid)} label={`Remove ${entry.username}`} />
               </div>
