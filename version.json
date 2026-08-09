@@ -1,7 +1,7 @@
 {
-  "version": "0.2.9",
-  "notes": "BestClient mod always on, stay-open launcher, static news, grey RAM icon.",
-  "tag": "v0.2.9",
-  "asset": "BestClient-Setup-0.2.9.exe",
-  "sha256": "562376d40920e47c1c87034289ef116ee0e8d86cdabe3a3eabfdefc159fcdb79"
+  "version": "0.3.0",
+  "notes": "Glowing launch button, remembered launch behaviour, news images glow up on hover.",
+  "tag": "v0.3.0",
+  "asset": "BestClient-Setup-0.3.0.exe",
+  "sha256": "299252dd2800f1628ab33e291a3fb90d439a1ef660268a9e20e5b8903fb613e4"
 }

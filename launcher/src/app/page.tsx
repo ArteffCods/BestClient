@@ -718,7 +718,8 @@ function NewsCard({ item }: { item: NewsItem }) {
   const inner = (
     <>
       {/* Banner in a fixed 16:9 box: cover-cropped, so every picture lines up and no
-          letterboxing shows. It is fully static - hovering a card only marks it. */}
+          letterboxing shows. On hover the picture grows a little inside the box - the
+          layout itself never moves. */}
       {item.image ? (
         <span className="block overflow-hidden rounded-lg">
           <img
@@ -726,7 +727,7 @@ function NewsCard({ item }: { item: NewsItem }) {
             alt=""
             aria-hidden="true"
             loading="lazy"
-            className="aspect-video h-full w-full object-cover"
+            className="aspect-video h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.05]"
             draggable={false}
           />
         </span>
@@ -750,8 +751,8 @@ function NewsCard({ item }: { item: NewsItem }) {
     </>
   );
 
-  // No frame: just the rounded banner and the text below it. `group` stays for the
-  // hover-marking on clickable cards.
+  // No frame: just the rounded banner and the text below it. `group` lets the banner's
+  // image answer to the hover on the whole card.
   const shared = 'group flex flex-col text-left transition-opacity';
 
   if (clickable) {
@@ -759,7 +760,7 @@ function NewsCard({ item }: { item: NewsItem }) {
       <button
         type="button"
         onClick={() => void window.bestclient.openExternal(item.url!)}
-        className={`${shared} cursor-pointer hover:opacity-90`}
+        className={shared}
       >
         {inner}
       </button>

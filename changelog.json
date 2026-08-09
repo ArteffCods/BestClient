@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.3.0",
+    "date": "2026-08-09",
+    "title": "Remembered launch behaviour, glowing launch button, softer news hover",
+    "description": "The launch behaviour is a real remembered choice again (Stay open is still the default), the BestClient mod shows the same switch as every other mod - pinned on and unflippable -, news pictures light up by growing on hover instead of darkening, and the launch button glows and grows a touch under the cursor.",
+    "changes": [
+      "Launch behaviour: Stay open, Minimise launcher and Hide launcher are all back as a real choice, defaulting to Stay open; the launcher remembers what you picked even after a full close",
+      "BestClient mod: the same switch as every other mod, sitting in the on position - it just cannot be flipped, from the UI or from the main process",
+      "News: on hover the picture now grows a little inside its box; the card no longer darkens",
+      "Launch game button: a soft brand glow and a slight grow under the cursor"
+    ]
+  },
+  {
     "version": "0.2.9",
     "date": "2026-08-09",
     "title": "BestClient mod always on, stay-open launcher, static two-column news",

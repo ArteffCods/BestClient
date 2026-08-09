@@ -436,21 +436,12 @@ function ModRow({
           </button>
         ) : null}
 
-        {mod.locked ? (
-          // Locked mods (Fabric API, Sodium, the client's own) are always on and can
-          // neither be deleted nor switched: a fixed pill, which is not a control.
-          <span className="flex h-[30px] items-center gap-1.5 rounded-lg bg-[#2e9e5b]/15 px-2.5 font-mono text-[10.5px] font-bold text-[#63d492]">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#63d492]" />
-            On
-          </span>
-        ) : (
-          <Switch
-            checked={mod.enabled}
-            disabled={mod.locked}
-            onChange={(next) => onToggle(mod.id, next)}
-            label={`${mod.name} enabled`}
-          />
-        )}
+        <Switch
+          checked={mod.enabled || mod.locked}
+          disabled={mod.locked}
+          onChange={(next) => onToggle(mod.id, next)}
+          label={`${mod.name} enabled`}
+        />
       </div>
     </div>
   );

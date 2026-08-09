@@ -84,15 +84,28 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
 
           <Section title="Launch" delay={140}>
             <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
-              After the game window opens the launcher stays open — that is the only
-              behaviour, and it is remembered from launch to launch.
+              What the launcher does with itself once the game window opens. The choice is
+              remembered - even a full close of the launcher leaves it as you set it.
             </p>
-            <div className="flex items-center gap-2 rounded-lg bg-surface-high px-3 py-2">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-ink-dim">
-                <circle cx="8" cy="8" r="6.2" stroke="currentColor" strokeWidth="1.4" />
-                <path d="M8 4.5 V8 L10.5 10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-              </svg>
-              <span className="text-[12px] font-semibold text-white">Stay open</span>
+            <div className="grid grid-cols-3 gap-2">
+              <SegmentButton
+                active={settings.launchBehaviour === 'stay'}
+                onClick={() => onPatch({ launchBehaviour: 'stay' })}
+              >
+                Stay open
+              </SegmentButton>
+              <SegmentButton
+                active={settings.launchBehaviour === 'minimise'}
+                onClick={() => onPatch({ launchBehaviour: 'minimise' })}
+              >
+                Minimise launcher
+              </SegmentButton>
+              <SegmentButton
+                active={settings.launchBehaviour === 'hide'}
+                onClick={() => onPatch({ launchBehaviour: 'hide' })}
+              >
+                Hide launcher
+              </SegmentButton>
             </div>
 
             <div className="pt-3">
@@ -251,6 +264,31 @@ function Section({
       <h3 className="eyebrow mb-3">{title}</h3>
       {children}
     </section>
+  );
+}
+
+function SegmentButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`cursor-pointer rounded-lg px-3 py-2 text-[12px] font-semibold transition-colors ${
+        active
+          ? 'bg-rose-deep text-white'
+          : 'bg-surface-high text-ink-dim hover:bg-surface-top hover:text-ink'
+      }`}
+    >
+      {children}
+    </button>
   );
 }
 

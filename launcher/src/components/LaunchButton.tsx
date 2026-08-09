@@ -37,7 +37,7 @@ export function LaunchButton({ state, percent, step, target, onClick }: Props) {
       aria-busy={state === 'working'}
       className={`no-drag group relative h-[52px] w-full overflow-hidden rounded-lg text-left transition-all duration-200 ${
         state === 'ready'
-          ? 'cursor-pointer bg-rose-deep shadow-[0_2px_8px_-3px_rgba(0,0,0,0.7)]'
+          ? 'cursor-pointer bg-rose-deep shadow-[0_2px_8px_-3px_rgba(0,0,0,0.7)] hover:scale-[1.02] hover:shadow-[0_0_30px_-6px_rgba(255,128,200,0.65)]'
           : state === 'running'
             ? 'bg-panel'
             : state === 'working'
