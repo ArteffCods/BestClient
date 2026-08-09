@@ -19,7 +19,7 @@ PvP-re optimalizált Minecraft launcher és kliens a **BestPvP** hálózathoz.
 | **Rögzített szerver** | `bestpvp.eu` a lista első helyén, minden indítás előtt visszaállítva |
 | **PvP beállítások** | `options.txt` alapérték: vsync ki, view bobbing ki, minimál partikulák, entity shadow ki, fast graphics, 0 screen/FOV effekt |
 | **GC-hangolás** | G1GC 50 ms pause target, `Xms == Xmx` + `AlwaysPreTouch`, `MaxTenuringThreshold=1`, `IHOP=15` — a cél a lapos frame time, nem a nyers throughput |
-| **Folyamat-prioritás** | A játék *above-normal* prioritást kap (nem *high*: az OS input- és audioszálának éheztetése rontana, nem javítana) |
+| **Folyamat-prioritás** | A játék *high* prioritást kap, és minden logikai magot használhat (`ActiveProcessorCount`); a launcher maga *above-normal* |
 | **Bejelentkezés** | Microsoft device-code OAuth → Xbox Live → XSTS → Minecraft; a token a `launcher.json`-ban marad, a rendererhez soha nem jut el |
 | **Több fiók** | Több Microsoft-fiók is bejelentkeztethető és eltárolható; a kliens megjegyzi őket, egy kattintással váltasz, és a profilkép a fiók 2D-s Minecraft-feje |
 

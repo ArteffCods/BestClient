@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import type { ChildProcess } from 'node:child_process';
+import os from 'node:os';
 
 import { authConfigStatus, currentAccount, loginWithDeviceCode, logout, saveAuthClientId } from './core/auth';
 import { BRAND, LOCKED_SERVER, TARGET } from './core/brand';
@@ -51,6 +52,7 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
         javaMajor: TARGET.javaMajor,
       },
       lockedServer: { name: LOCKED_SERVER.name, address: LOCKED_SERVER.address },
+      cpuCount: os.cpus().length,
     };
   });
 

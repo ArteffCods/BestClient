@@ -3,6 +3,7 @@ export interface AppInfo {
   brand: { name: string; primary: string; secondary: string };
   target: { minecraft: string; fabricLoader: string; javaMajor: number };
   lockedServer: { name: string; address: string };
+  cpuCount: number;
 }
 
 export interface PublicAccount {

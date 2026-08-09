@@ -1,4 +1,5 @@
 import { app, BrowserWindow, net as electronNet, protocol, shell } from 'electron';
+import os from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -10,6 +11,18 @@ import { registerIpc } from './ipc';
 const isDev = process.env.BESTCLIENT_DEV === '1';
 const DEV_URL = 'http://127.0.0.1:4571';
 const APP_ORIGIN = 'app://bestclient';
+
+// Prefer the discrete GPU and skip first-run overhead so the window paints sooner.
+app.commandLine.appendSwitch('force-high-performance-gpu');
+app.commandLine.appendSwitch('disable-features', 'HardwareMediaKeyHandling');
+
+// Give the launcher itself above-normal priority so it opens snappily under load. The
+// game later takes high priority; the launcher stays a notch below it.
+try {
+  os.setPriority(process.pid, os.constants.priority.PRIORITY_ABOVE_NORMAL);
+} catch {
+  // Non-fatal: priority is a best-effort hint.
+}
 
 /** Root of the exported Next.js renderer. */
 const rendererRoot = path.join(app.getAppPath(), 'out');

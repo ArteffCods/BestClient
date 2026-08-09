@@ -59,6 +59,22 @@ const PERFORMANCE_FLAGS = [
   '-XX:+AlwaysPreTouch',
   '-XX:+PerfDisableSharedMem',
   '-XX:+DisableExplicitGC',
+  // Peak-throughput / faster-warmup flags.
+  // - AlwaysActAsServerClassMachine   forces the C2 (server) JIT even on machines the JVM
+  //                                   would otherwise treat as "client", for higher peak FPS.
+  // - ReservedCodeCacheSize=400M      a heavily modded client JITs a lot of code; a bigger
+  //                                   cache stops it flushing and re-compiling mid-session.
+  // - DontCompileHugeMethods off      lets the JIT compile the large methods mixins produce.
+  // - UseFMA / UseNUMA                use fused-multiply-add and NUMA-aware allocation where
+  //                                   the CPU supports them.
+  // - TieredCompilation + Nmethod...  keep full tiered JIT but sweep dead code aggressively.
+  '-XX:+AlwaysActAsServerClassMachine',
+  '-XX:ReservedCodeCacheSize=400M',
+  '-XX:-DontCompileHugeMethods',
+  '-XX:+UseFMA',
+  '-XX:+UseNUMA',
+  '-XX:+TieredCompilation',
+  '-Dfile.encoding=UTF-8',
 ];
 
 export function buildCommand(
@@ -118,6 +134,8 @@ export function buildCommand(
     `-Xms${memory}M`,
     `-Xmx${memory}M`,
     ...PERFORMANCE_FLAGS,
+    // Let the JIT and GC use every logical core on the machine.
+    `-XX:ActiveProcessorCount=${Math.max(1, os.cpus().length)}`,
     `-Dminecraft.launcher.brand=${BRAND.name.toLowerCase()}`,
     `-Dminecraft.launcher.version=${app.getVersion()}`,
     ...splitExtraArgs(options.extraJvmArgs),
@@ -154,13 +172,12 @@ export async function launchGame(
     windowsHide: true,
   });
 
-  // Above-normal keeps the render thread ahead of background work (updaters, browsers)
-  // when the CPU is contended. Deliberately not HIGH: starving the OS input and audio
-  // threads makes the game feel worse, not better.
+  // High priority puts the game ahead of every background process (updaters, browsers,
+  // Discord) when the CPU is contended, so the render thread never waits its turn.
   if (child.pid) {
     try {
-      os.setPriority(child.pid, os.constants.priority.PRIORITY_ABOVE_NORMAL);
-      log.info('Raised the game process priority to above-normal.');
+      os.setPriority(child.pid, os.constants.priority.PRIORITY_HIGH);
+      log.info('Raised the game process priority to high.');
     } catch (error) {
       log.warn('Could not raise the game process priority.', error);
     }

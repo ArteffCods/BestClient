@@ -19,6 +19,11 @@ export interface PackMod {
   defaultEnabled: boolean;
   iconUrl?: string;
   note: string;
+  /**
+   * Pin this mod to an exact Modrinth version_number instead of taking the newest build.
+   * Used to hold a mod on a specific stable release (e.g. Sodium one release back).
+   */
+  pinnedVersion?: string;
 }
 
 export interface Pack {
@@ -147,7 +152,16 @@ export async function resolveMods(pack: Pack, enabled: readonly string[]): Promi
   const settled = await mapLimit(wanted, 6, async (mod) => {
     try {
       const versions = await fetchJson<ModrinthVersion[]>(versionQuery(mod.slug, pack));
-      const version = versions[0];
+
+      // Honour an exact pin when set; otherwise take the newest build for the version.
+      const version = mod.pinnedVersion
+        ? versions.find((candidate) => candidate.version_number === mod.pinnedVersion) ?? versions[0]
+        : versions[0];
+
+      if (mod.pinnedVersion && version?.version_number !== mod.pinnedVersion) {
+        log.warn(`Pinned version ${mod.pinnedVersion} of ${mod.slug} not found; used the newest instead.`);
+      }
+
       const file = version ? primaryFile(version) : undefined;
 
       if (!version || !file) {

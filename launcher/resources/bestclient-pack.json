@@ -19,7 +19,8 @@
       "locked": true,
       "defaultEnabled": true,
       "note": "Full renderer replacement. The biggest FPS gain.",
-      "iconUrl": "https://cdn.modrinth.com/data/AANobbMI/295862f4724dc3f78df3447ad6072b2dcd3ef0c9_96.webp"
+      "iconUrl": "https://cdn.modrinth.com/data/AANobbMI/295862f4724dc3f78df3447ad6072b2dcd3ef0c9_96.webp",
+      "pinnedVersion": "mc1.21.11-0.8.12-fabric"
     },
     {
       "slug": "asynclogger",

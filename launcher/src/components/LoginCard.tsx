@@ -196,7 +196,7 @@ export function LoginCard({
       >
         <Avatar account={active} size={36} active />
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-[13px] text-ink">{active.username}</span>
+          <span className="block text-[13px] leading-tight text-ink">{active.username}</span>
           <span className="block text-[10px] text-ink-faint">
             {accounts.length > 1 ? `${accounts.length} accounts` : 'Signed in'}
           </span>
@@ -232,9 +232,7 @@ export function LoginCard({
                   className="flex min-w-0 flex-1 items-center gap-2 rounded px-1.5 py-1 text-left transition-colors hover:bg-panel"
                 >
                   <Avatar account={entry} size={22} active={isActive} />
-                  <span className="min-w-0 flex-1 truncate text-[12px] text-ink-dim">
-                    {entry.username}
-                  </span>
+                  <span className="min-w-0 flex-1 text-[12px] text-ink-dim">{entry.username}</span>
                 </button>
                 <RemoveButton onClick={() => onRemove(entry.uuid)} label={`Remove ${entry.username}`} />
               </div>

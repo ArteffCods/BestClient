@@ -350,7 +350,7 @@ export default function Page() {
               logs.map((line, index) => (
                 <p
                   key={index}
-                  className="select-text font-mono text-[11px] leading-[1.6] text-ink-dim"
+                  className={`select-text font-mono text-[11px] leading-[1.6] ${logLineColor(line)}`}
                 >
                   {line}
                 </p>
@@ -418,8 +418,8 @@ function PlayStage({
         style={{ animationDelay: '120ms' }}
       >
         <Readout label="Mods" value={String(activeModCount)} />
-        <Readout label="Memory" value={`${(memoryMb / 1024).toFixed(1)} GB`} />
-        <Readout label="Java" value={String(info?.target.javaMajor ?? 21)} />
+        <Readout label="Memory" value={`${(memoryMb / 1024).toFixed(1)} GB`} unit="max" />
+        <Readout label="CPU" value={String(info?.cpuCount ?? '-')} unit="cores" />
         <Readout label="Status" value={statusWord} accent={launchState === 'ready'} last />
       </div>
 
@@ -443,22 +443,38 @@ function PlayStage({
 function Readout({
   label,
   value,
+  unit,
   accent = false,
   last = false,
 }: {
   label: string;
   value: string;
+  unit?: string;
   accent?: boolean;
   last?: boolean;
 }) {
   return (
     <div className={`px-5 first:pl-0 ${last ? '' : 'border-r border-edge'}`}>
       <p className="eyebrow">{label}</p>
-      <p className={`mt-1 font-mono text-[15px] tabular-nums ${accent ? 'text-rose-soft' : 'text-ink'}`}>
-        {value}
+      <p className="mt-1 flex items-baseline gap-1">
+        <span className={`font-mono text-[15px] tabular-nums ${accent ? 'text-rose-soft' : 'text-ink'}`}>
+          {value}
+        </span>
+        {unit ? <span className="font-mono text-[10px] text-ink-faint">{unit}</span> : null}
       </p>
     </div>
   );
+}
+
+/**
+ * Colours a game log line by severity so the console reads at a glance:
+ * red for errors, orange for warnings, green for healthy INFO, white for the rest.
+ */
+function logLineColor(line: string): string {
+  if (/\b(error|exception|fatal|severe|caused by)\b/i.test(line)) return 'text-danger';
+  if (/\bwarn(ing)?\b/i.test(line)) return 'text-warn';
+  if (/\binfo\b|loaded|started|success|ready|done/i.test(line)) return 'text-[#63d492]';
+  return 'text-ink';
 }
 
 /** Electron prefixes IPC rejections with "Error invoking remote method '...':". */

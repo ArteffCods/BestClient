@@ -5,6 +5,8 @@ export interface AppInfo {
   brand: { name: string; primary: string; secondary: string };
   target: { minecraft: string; fabricLoader: string; javaMajor: number };
   lockedServer: { name: string; address: string };
+  /** Logical processors on this machine: the CPU cap the client is allowed to use. */
+  cpuCount: number;
 }
 
 export interface PublicAccount {
