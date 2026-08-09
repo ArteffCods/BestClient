@@ -1,7 +1,21 @@
 [
   {
+    "version": "0.2.1",
+    "date": "2026-08-09",
+    "title": "Minecraft-style MOTDs, white buttons and softer panels",
+    "description": "Partner-server MOTDs speak in Minecraft's own symbols instead of Windows colour emojis, the store, the mod list and the settings sit on a rounded panel in front of the wallpaper, and every solid button is white now.",
+    "changes": [
+      "Partner-server MOTDs: Windows colour emojis are rewritten to Minecraft's monochrome symbols",
+      "Modrinth, the mod list and Settings sit on one soft rounded panel, inset from the edges of the page",
+      "Solid buttons - Search, Download, Update, Browse files, pager, settings - are white instead of dark",
+      "News moved further down, banners shown at natural size without cropping or stretching",
+      "Hovering a news item zooms its banner slightly",
+      "The memory slider has a thicker, brand-pink knob"
+    ]
+  },
+  {
     "version": "0.2.0",
-    "date": "2026 08. 09.",
+    "date": "2026-08-09",
     "title": "Partner servers, the changelog rail and in-game BestClient",
     "description": "The Play screen now shows live partner-server status you can join with a double-click, the mod list finally covers everything that is actually installed, and the client ships with its own in-game mod.",
     "changes": [
@@ -20,7 +34,7 @@
   },
   {
     "version": "0.1.0",
-    "date": "2026 07. 20.",
+    "date": "2026-07-20",
     "title": "First build",
     "description": "Microsoft sign-in, the Fabric 1.21.11 install pipeline, the Modrinth store and the PvP-tuned defaults.",
     "changes": [

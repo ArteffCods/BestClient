@@ -1,7 +1,7 @@
 {
-  "version": "0.2.0",
-  "notes": "Partner servers, the changelog rail and the in-game BestClient mod.",
-  "tag": "v0.2.0",
-  "asset": "BestClient-Setup-0.2.0.exe",
-  "sha256": "4436b0bffc451aee1fabbab3f2f4f32f2800008027873017a8b788f92672edb4"
+  "version": "0.2.1",
+  "notes": "Minecraft-style MOTDs, white buttons, store/mod/settings panels, news polish.",
+  "tag": "v0.2.1",
+  "asset": "BestClient-Setup-0.2.1.exe",
+  "sha256": "fc66b1334f29a11df0c8bab7ee06426209896db894899003a8243a8c22380719"
 }
