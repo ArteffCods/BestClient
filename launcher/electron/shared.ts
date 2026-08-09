@@ -67,6 +67,11 @@ export interface AuthConfigStatus {
   file: string;
 }
 
+export interface AccountList {
+  accounts: PublicAccount[];
+  activeUuid: string | null;
+}
+
 export interface ServerListEntry {
   name: string;
   address: string;
@@ -93,6 +98,8 @@ export const CHANNELS = {
   authCancel: 'auth:cancel',
   authLogout: 'auth:logout',
   authCurrent: 'auth:current',
+  authList: 'auth:list',
+  authSelect: 'auth:select',
   play: 'play:run',
   repair: 'install:repair',
   serversList: 'servers:list',

@@ -21,6 +21,7 @@ PvP-re optimalizált Minecraft launcher és kliens a **BestPvP** hálózathoz.
 | **GC-hangolás** | G1GC 50 ms pause target, `Xms == Xmx` + `AlwaysPreTouch`, `MaxTenuringThreshold=1`, `IHOP=15` — a cél a lapos frame time, nem a nyers throughput |
 | **Folyamat-prioritás** | A játék *above-normal* prioritást kap (nem *high*: az OS input- és audioszálának éheztetése rontana, nem javítana) |
 | **Bejelentkezés** | Microsoft device-code OAuth → Xbox Live → XSTS → Minecraft; a token a `launcher.json`-ban marad, a rendererhez soha nem jut el |
+| **Több fiók** | Több Microsoft-fiók is bejelentkeztethető és eltárolható; a kliens megjegyzi őket, egy kattintással váltasz, és a profilkép a fiók 2D-s Minecraft-feje |
 
 ---
 
@@ -67,6 +68,11 @@ Telepítő build (NSIS, Windows x64):
 ```bash
 npm run dist
 ```
+
+Az eredmény a `launcher/release/BestClient Setup <verzió>.exe`. Ez egy asszisztált
+(nem egykattintásos) varázsló, amelynek oldalképe és fejléce a kliens logója —
+ezeket a `scripts/make-icons.ps1` állítja elő (`installer-sidebar.bmp`,
+`installer-header.bmp`).
 
 ---
 
@@ -163,6 +169,8 @@ Ebből generálódik minden más, a `scripts/make-icons.ps1` segítségével:
 | `launcher/resources/icon.ico` | az exe ikonja és a futó ablak / tálca ikonja (16–256 px, 7 felbontás) |
 | `launcher/resources/icon.png` | 512 px tartalék az electron-buildernek |
 | `launcher/public/logo.png` | 256 px, ez látszik a címsor bal oldalán |
+| `launcher/resources/installer-sidebar.bmp` | 164×314, a telepítővarázsló oldalképe |
+| `launcher/resources/installer-header.bmp` | 150×57, a telepítővarázsló fejléce |
 
 Ha cserélni akarod a logót: írd felül a `logo-source.png`-t, majd futtasd a
 `scripts/make-icons.ps1`-et.

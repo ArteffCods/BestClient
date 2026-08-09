@@ -1,6 +1,8 @@
 appId: eu.bestpvp.bestclient
 productName: BestClient
 copyright: Copyright (c) 2026 BestClient
+# A hoisted electront a workspace gyokerbol telepitjuk, ezert a verziot kezzel adjuk meg.
+electronVersion: 43.3.0
 
 directories:
   output: release
@@ -11,6 +13,8 @@ files:
   - resources/**/*
   - package.json
   - '!**/*.map'
+  # Telepito-arculat: csak build-bemenet, nem kell a csomagolt appba.
+  - '!resources/installer-*.bmp'
 
 asar: true
 
@@ -28,3 +32,10 @@ nsis:
   createDesktopShortcut: true
   createStartMenuShortcut: true
   shortcutName: BestClient
+  # A telepito arculata: ugyanaz a logo a varazslo oldalkepen es fejlecen.
+  installerIcon: resources/icon.ico
+  uninstallerIcon: resources/icon.ico
+  installerHeaderIcon: resources/icon.ico
+  installerSidebar: resources/installer-sidebar.bmp
+  uninstallerSidebar: resources/installer-sidebar.bmp
+  installerHeader: resources/installer-header.bmp

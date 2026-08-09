@@ -66,6 +66,11 @@ export interface AuthConfigStatus {
   file: string;
 }
 
+export interface AccountList {
+  accounts: PublicAccount[];
+  activeUuid: string | null;
+}
+
 export interface ServerListEntry {
   name: string;
   address: string;
@@ -86,8 +91,10 @@ export interface BestClientApi {
   getAuthConfig(): Promise<AuthConfigStatus>;
   setAuthClientId(clientId: string): Promise<AuthConfigStatus>;
   cancelLogin(): Promise<void>;
-  logout(): Promise<void>;
+  logout(uuid?: string): Promise<AccountList>;
   currentAccount(): Promise<PublicAccount | null>;
+  listAccounts(): Promise<AccountList>;
+  selectAccount(uuid: string): Promise<PublicAccount | null>;
   play(quickConnect?: string | null): Promise<InstallSummary>;
   repair(): Promise<InstallSummary>;
   resetPvpOptions(): Promise<{ applied: string[] }>;

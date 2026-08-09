@@ -4,7 +4,7 @@ import path from 'node:path';
 import { log } from './logger';
 import { USER_AGENT } from './net';
 import { externalResourceFile, parseJson, resourceFile } from './paths';
-import { readSettings, writeSettings, type MinecraftAccount } from './store';
+import { activeAccount, removeAccount, updateAccountTokens, type MinecraftAccount } from './store';
 
 const DEVICE_CODE_URL = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/devicecode';
 const TOKEN_URL = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token';
@@ -247,26 +247,27 @@ export async function refreshAccount(account: MinecraftAccount): Promise<Minecra
   return exchangeForMinecraft(token.access_token, token.refresh_token ?? account.refreshToken);
 }
 
-/** {@returns a valid account, refreshing it first when the token is close to expiry} */
+/** {@returns the active account, refreshing it first when the token is close to expiry} */
 export async function currentAccount(): Promise<MinecraftAccount | null> {
-  const stored = readSettings().account;
+  const stored = activeAccount();
 
   if (!stored) return null;
   if (stored.expiresAt - 60_000 > Date.now()) return stored;
 
   try {
     const refreshed = await refreshAccount(stored);
-    writeSettings({ account: refreshed });
+    updateAccountTokens(refreshed);
     return refreshed;
   } catch (error) {
-    log.warn('Session refresh failed, the player has to sign in again.', error);
-    writeSettings({ account: null });
+    log.warn('Session refresh failed, this account has to sign in again.', error);
+    removeAccount(stored.uuid);
     return null;
   }
 }
 
-export function logout(): void {
-  writeSettings({ account: null });
+export function logout(uuid?: string): void {
+  const target = uuid ?? activeAccount()?.uuid;
+  if (target) removeAccount(target);
 }
 
 async function exchangeForMinecraft(microsoftToken: string, refreshToken: string): Promise<MinecraftAccount> {

@@ -10,8 +10,28 @@ import { loadPack, reconcileSelection } from './core/modpack';
 import { applyPvpDefaults } from './core/options';
 import { dirs } from './core/paths';
 import { readServerList } from './core/servers';
-import { publicSettings, readSettings, writeSettings, type Settings } from './core/store';
-import { CHANNELS, type AppInfo, type PublicSettings } from './shared';
+import {
+  listAccounts,
+  publicSettings,
+  readSettings,
+  setActiveAccount,
+  upsertAccount,
+  writeSettings,
+  type Settings,
+} from './core/store';
+import { CHANNELS, type AccountList, type AppInfo, type PublicSettings } from './shared';
+
+const toPublic = (account: { uuid: string; username: string }) => ({
+  uuid: account.uuid,
+  username: account.username,
+});
+
+function accountList(): AccountList {
+  return {
+    accounts: listAccounts().map(toPublic),
+    activeUuid: readSettings().activeUuid,
+  };
+}
 
 let loginCancelled = false;
 let gameProcess: ChildProcess | null = null;
@@ -79,7 +99,16 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
 
   ipcMain.handle(CHANNELS.authCurrent, async () => {
     const account = await currentAccount();
-    return account ? { uuid: account.uuid, username: account.username } : null;
+    return account ? toPublic(account) : null;
+  });
+
+  ipcMain.handle(CHANNELS.authList, (): AccountList => accountList());
+
+  ipcMain.handle(CHANNELS.authSelect, async (_event, uuid: string) => {
+    setActiveAccount(uuid);
+    // Refresh on switch so the chosen account is launch-ready right away.
+    const account = await currentAccount();
+    return account ? toPublic(account) : null;
   });
 
   ipcMain.handle(CHANNELS.authConfigGet, () => authConfigStatus());
@@ -96,18 +125,19 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
       () => loginCancelled,
     );
 
-    writeSettings({ account });
+    upsertAccount(account);
     log.info(`Signed in as ${account.username}`);
 
-    return { uuid: account.uuid, username: account.username };
+    return toPublic(account);
   });
 
   ipcMain.handle(CHANNELS.authCancel, () => {
     loginCancelled = true;
   });
 
-  ipcMain.handle(CHANNELS.authLogout, () => {
-    logout();
+  ipcMain.handle(CHANNELS.authLogout, (_event, uuid?: string) => {
+    logout(uuid);
+    return accountList();
   });
 
   ipcMain.handle(CHANNELS.repair, async () => {

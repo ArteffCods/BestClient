@@ -4,13 +4,37 @@ import { useState } from 'react';
 
 import type { DeviceCodeEvent, PublicAccount } from '@/types/bestclient';
 
+interface Props {
+  accounts: PublicAccount[];
+  activeUuid: string | null;
+  deviceCode: DeviceCodeEvent | null;
+  busy: boolean;
+  error: string | null;
+  onLogin: () => void;
+  onCancel: () => void;
+  onSelect: (uuid: string) => void;
+  onRemove: (uuid: string) => void;
+}
+
 /** 2D front of the player's head, rendered blocky to keep the Minecraft look. */
-function Avatar({ account }: { account: PublicAccount }) {
+function Avatar({
+  account,
+  size = 36,
+  active = false,
+}: {
+  account: PublicAccount;
+  size?: number;
+  active?: boolean;
+}) {
   const [failed, setFailed] = useState(false);
+  const ring = active ? 'ring-2 ring-rose' : 'ring-1 ring-edge';
 
   if (failed) {
     return (
-      <div className="brand-gradient grid h-9 w-9 shrink-0 place-items-center rounded font-display text-sm font-bold text-void">
+      <div
+        style={{ width: size, height: size }}
+        className={`brand-gradient grid shrink-0 place-items-center rounded font-display text-sm font-bold text-void ${ring}`}
+      >
         {account.username.slice(0, 1).toUpperCase()}
       </div>
     );
@@ -21,44 +45,43 @@ function Avatar({ account }: { account: PublicAccount }) {
       src={`https://mc-heads.net/avatar/${account.uuid}/64`}
       alt=""
       aria-hidden="true"
-      width={36}
-      height={36}
+      width={size}
+      height={size}
+      style={{ width: size, height: size }}
       draggable={false}
       onError={() => setFailed(true)}
-      className="h-9 w-9 shrink-0 rounded ring-1 ring-edge [image-rendering:pixelated]"
+      className={`shrink-0 rounded [image-rendering:pixelated] ${ring}`}
     />
   );
 }
 
-interface Props {
-  account: PublicAccount | null;
-  deviceCode: DeviceCodeEvent | null;
-  busy: boolean;
-  error: string | null;
-  onLogin: () => void;
-  onCancel: () => void;
-  onLogout: () => void;
+function RemoveButton({ onClick, label }: { onClick: () => void; label: string }) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      onClick={onClick}
+      className="grid h-6 w-6 shrink-0 place-items-center rounded text-ink-faint transition-colors hover:bg-rose-deep/20 hover:text-rose-soft"
+    >
+      <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true">
+        <path d="M0 0 L10 10 M10 0 L0 10" stroke="currentColor" strokeWidth="1.4" />
+      </svg>
+    </button>
+  );
 }
 
-export function LoginCard({ account, deviceCode, busy, error, onLogin, onCancel, onLogout }: Props) {
-  if (account) {
-    return (
-      <div className="border-t border-edge pt-3">
-        <div className="flex items-center gap-2.5">
-          <Avatar account={account} />
-          <p className="min-w-0 flex-1 truncate text-[13px] text-ink">{account.username}</p>
-        </div>
-        <button
-          type="button"
-          onClick={onLogout}
-          className="mt-2.5 w-full rounded border border-edge py-1.5 text-[11px] text-ink-dim transition-colors hover:border-edge-bright hover:text-ink"
-        >
-          Kijelentkezés
-        </button>
-      </div>
-    );
-  }
-
+export function LoginCard({
+  accounts,
+  activeUuid,
+  deviceCode,
+  busy,
+  error,
+  onLogin,
+  onCancel,
+  onSelect,
+  onRemove,
+}: Props) {
+  // Signing a new account in: show the device code and nothing else.
   if (deviceCode) {
     return (
       <div className="border-t border-rose/30 pt-3">
@@ -89,7 +112,9 @@ export function LoginCard({ account, deviceCode, busy, error, onLogin, onCancel,
         <button
           type="button"
           onClick={() =>
-            void window.bestclient.openExternal(deviceCode.verificationUriComplete ?? deviceCode.verificationUri)
+            void window.bestclient.openExternal(
+              deviceCode.verificationUriComplete ?? deviceCode.verificationUri,
+            )
           }
           className="brand-gradient mt-2.5 w-full rounded py-1.5 text-[11px] font-semibold text-void transition hover:brightness-110"
         >
@@ -106,17 +131,63 @@ export function LoginCard({ account, deviceCode, busy, error, onLogin, onCancel,
     );
   }
 
+  // No accounts yet: a single sign-in call to action.
+  if (accounts.length === 0) {
+    return (
+      <div className="border-t border-edge pt-3">
+        <button
+          type="button"
+          disabled={busy}
+          onClick={onLogin}
+          className="w-full rounded border border-rose/40 bg-panel-high py-2 text-[11px] font-semibold text-rose-soft transition-colors hover:border-rose hover:bg-rose/10 disabled:opacity-50"
+        >
+          {busy ? 'Bejelentkezés…' : 'Bejelentkezés'}
+        </button>
+        {error ? <p className="mt-2 text-[11px] leading-snug text-danger">{error}</p> : null}
+      </div>
+    );
+  }
+
+  const active = accounts.find((entry) => entry.uuid === activeUuid) ?? accounts[0]!;
+  const others = accounts.filter((entry) => entry.uuid !== active.uuid);
+
   return (
-    <div className="border-t border-edge pt-3">
+    <div className="space-y-2.5 border-t border-edge pt-3">
+      <div className="flex items-center gap-2.5">
+        <Avatar account={active} size={36} active />
+        <p className="min-w-0 flex-1 truncate text-[13px] text-ink">{active.username}</p>
+        <RemoveButton onClick={() => onRemove(active.uuid)} label="Aktív fiók kijelentkeztetése" />
+      </div>
+
+      {others.length > 0 ? (
+        <div className="space-y-0.5">
+          {others.map((entry) => (
+            <div key={entry.uuid} className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => onSelect(entry.uuid)}
+                className="flex min-w-0 flex-1 items-center gap-2 rounded px-1.5 py-1 text-left transition-colors hover:bg-panel"
+              >
+                <Avatar account={entry} size={22} />
+                <span className="min-w-0 flex-1 truncate text-[12px] text-ink-dim">
+                  {entry.username}
+                </span>
+              </button>
+              <RemoveButton onClick={() => onRemove(entry.uuid)} label={`${entry.username} eltávolítása`} />
+            </div>
+          ))}
+        </div>
+      ) : null}
+
       <button
         type="button"
         disabled={busy}
         onClick={onLogin}
-        className="w-full rounded border border-rose/40 bg-panel-high py-2 text-[11px] font-semibold text-rose-soft transition-colors hover:border-rose hover:bg-rose/10 disabled:opacity-50"
+        className="w-full rounded border border-edge py-1.5 text-[11px] font-semibold text-ink-dim transition-colors hover:border-rose/60 hover:text-rose-soft disabled:opacity-50"
       >
-        {busy ? 'Bejelentkezés…' : 'Bejelentkezés'}
+        {busy ? 'Bejelentkezés…' : '+ Fiók hozzáadása'}
       </button>
-      {error ? <p className="mt-2 text-[11px] leading-snug text-danger">{error}</p> : null}
+      {error ? <p className="text-[11px] leading-snug text-danger">{error}</p> : null}
     </div>
   );
 }

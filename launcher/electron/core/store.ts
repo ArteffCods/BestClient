@@ -32,7 +32,10 @@ export interface Settings {
   appliedPvpDefaults: boolean;
   closeOnLaunch: boolean;
   extraJvmArgs: string;
-  account: MinecraftAccount | null;
+  /** Every signed-in account, in the order they were added. Tokens live here. */
+  accounts: MinecraftAccount[];
+  /** UUID of the account launches and the profile use; null when none is signed in. */
+  activeUuid: string | null;
 }
 
 const DEFAULTS: Settings = {
@@ -43,8 +46,14 @@ const DEFAULTS: Settings = {
   appliedPvpDefaults: false,
   closeOnLaunch: false,
   extraJvmArgs: '',
-  account: null,
+  accounts: [],
+  activeUuid: null,
 };
+
+/** The pre-multi-account shape, kept only so old launcher.json files still migrate. */
+interface LegacySettings extends Partial<Settings> {
+  account?: MinecraftAccount | null;
+}
 
 let cache: Settings | null = null;
 
@@ -54,7 +63,8 @@ export function readSettings(): Settings {
   const file = dirs().settingsFile;
 
   try {
-    cache = { ...DEFAULTS, ...parseJson<Partial<Settings>>(fs.readFileSync(file, 'utf8')) };
+    const parsed = parseJson<LegacySettings>(fs.readFileSync(file, 'utf8'));
+    cache = migrate({ ...DEFAULTS, ...parsed }, parsed);
     return cache;
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
@@ -75,6 +85,59 @@ export function readSettings(): Settings {
   return cache;
 }
 
+/** Folds a single legacy `account` into the accounts list on first load. */
+function migrate(settings: Settings, legacy: LegacySettings): Settings {
+  if (legacy.account && settings.accounts.length === 0) {
+    settings.accounts = [legacy.account];
+    settings.activeUuid = legacy.account.uuid;
+  }
+
+  // Guard against an activeUuid that points at an account that is no longer present.
+  if (!settings.accounts.some((account) => account.uuid === settings.activeUuid)) {
+    settings.activeUuid = settings.accounts[0]?.uuid ?? null;
+  }
+
+  return settings;
+}
+
+export function listAccounts(): MinecraftAccount[] {
+  return readSettings().accounts;
+}
+
+export function activeAccount(): MinecraftAccount | null {
+  const settings = readSettings();
+  return settings.accounts.find((account) => account.uuid === settings.activeUuid) ?? null;
+}
+
+/** Adds a freshly signed-in account (or refreshes its identity) and makes it active. */
+export function upsertAccount(account: MinecraftAccount): void {
+  const others = readSettings().accounts.filter((existing) => existing.uuid !== account.uuid);
+  writeSettings({ accounts: [...others, account], activeUuid: account.uuid });
+}
+
+/** Replaces an account's tokens in place without changing which one is active. */
+export function updateAccountTokens(account: MinecraftAccount): void {
+  const accounts = readSettings().accounts.map((existing) =>
+    existing.uuid === account.uuid ? account : existing,
+  );
+  writeSettings({ accounts });
+}
+
+export function removeAccount(uuid: string): void {
+  const settings = readSettings();
+  const accounts = settings.accounts.filter((account) => account.uuid !== uuid);
+  const activeUuid = settings.activeUuid === uuid ? (accounts[0]?.uuid ?? null) : settings.activeUuid;
+
+  writeSettings({ accounts, activeUuid });
+}
+
+export function setActiveAccount(uuid: string): MinecraftAccount | null {
+  const found = readSettings().accounts.find((account) => account.uuid === uuid);
+  if (found) writeSettings({ activeUuid: uuid });
+
+  return found ?? null;
+}
+
 export function writeSettings(patch: Partial<Settings>): Settings {
   const next = { ...readSettings(), ...patch };
   cache = next;
@@ -90,14 +153,14 @@ export function writeSettings(patch: Partial<Settings>): Settings {
 }
 
 /** Everything the renderer is allowed to see - never the tokens. */
-export function publicSettings(): Omit<Settings, 'account'> & {
+export function publicSettings(): Omit<Settings, 'accounts' | 'activeUuid'> & {
   account: { uuid: string; username: string } | null;
 } {
-  const settings = readSettings();
-  const { account, ...rest } = settings;
+  const { accounts: _accounts, activeUuid: _activeUuid, ...rest } = readSettings();
+  const active = activeAccount();
 
   return {
     ...rest,
-    account: account ? { uuid: account.uuid, username: account.username } : null,
+    account: active ? { uuid: active.uuid, username: active.username } : null,
   };
 }

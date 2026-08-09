@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron';
 
 import {
   CHANNELS,
+  type AccountList,
   type AppInfo,
   type DeviceCodeEvent,
   type AuthConfigStatus,
@@ -42,8 +43,11 @@ const api = {
   setAuthClientId: (clientId: string): Promise<AuthConfigStatus> =>
     ipcRenderer.invoke(CHANNELS.authConfigSet, clientId),
   cancelLogin: (): Promise<void> => ipcRenderer.invoke(CHANNELS.authCancel),
-  logout: (): Promise<void> => ipcRenderer.invoke(CHANNELS.authLogout),
+  logout: (uuid?: string): Promise<AccountList> => ipcRenderer.invoke(CHANNELS.authLogout, uuid),
   currentAccount: (): Promise<PublicAccount | null> => ipcRenderer.invoke(CHANNELS.authCurrent),
+  listAccounts: (): Promise<AccountList> => ipcRenderer.invoke(CHANNELS.authList),
+  selectAccount: (uuid: string): Promise<PublicAccount | null> =>
+    ipcRenderer.invoke(CHANNELS.authSelect, uuid),
 
   play: (quickConnect?: string | null): Promise<InstallSummary> =>
     ipcRenderer.invoke(CHANNELS.play, quickConnect ?? null),

@@ -8,6 +8,7 @@ import { ModsView } from '@/components/ModsView';
 import { SettingsView } from '@/components/SettingsView';
 import { TitleBar } from '@/components/TitleBar';
 import type {
+  AccountList,
   AppInfo,
   DeviceCodeEvent,
   InstallProgressEvent,
@@ -32,7 +33,8 @@ export default function Page() {
   const [settings, setSettings] = useState<PublicSettings | null>(null);
   const [pack, setPack] = useState<PackView | null>(null);
   const [servers, setServers] = useState<ServerListEntry[]>([]);
-  const [account, setAccount] = useState<PublicAccount | null>(null);
+  const [accounts, setAccounts] = useState<PublicAccount[]>([]);
+  const [activeUuid, setActiveUuid] = useState<string | null>(null);
 
   const [tab, setTab] = useState<Tab>('play');
   const [deviceCode, setDeviceCode] = useState<DeviceCodeEvent | null>(null);
@@ -50,6 +52,11 @@ export default function Page() {
   const [showLogs, setShowLogs] = useState(false);
   const [bridgeMissing, setBridgeMissing] = useState(false);
   const logEndRef = useRef<HTMLDivElement>(null);
+
+  const applyAccountList = useCallback((list: AccountList) => {
+    setAccounts(list.accounts);
+    setActiveUuid(list.activeUuid);
+  }, []);
 
   useEffect(() => {
     const api = window.bestclient;
@@ -76,9 +83,12 @@ export default function Page() {
       setServers(serverList);
     })();
 
-    // The account is fetched on its own: a stale token triggers a Microsoft refresh
-    // (several round trips), and the UI must not wait on the network to render.
-    void api.currentAccount().then(setAccount);
+    // Accounts load on their own: a stale token triggers a Microsoft refresh (several
+    // round trips), and the UI must not wait on the network to render. The stored list
+    // shows instantly; currentAccount() then validates the active token and drops it if
+    // the session died, after which we re-read the (self-healed) list.
+    void api.listAccounts().then(applyAccountList);
+    void api.currentAccount().then(() => api.listAccounts().then(applyAccountList));
 
     const unsubscribers = [
       api.onDeviceCode(setDeviceCode),
@@ -101,7 +111,7 @@ export default function Page() {
     ];
 
     return () => unsubscribers.forEach((unsubscribe) => unsubscribe());
-  }, []);
+  }, [applyAccountList]);
 
   useEffect(() => {
     if (showLogs) logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -117,14 +127,30 @@ export default function Page() {
     setLoginError(null);
 
     try {
-      setAccount(await window.bestclient.login());
+      await window.bestclient.login();
+      applyAccountList(await window.bestclient.listAccounts());
     } catch (error) {
       setLoginError(error instanceof Error ? cleanError(error.message) : String(error));
     } finally {
       setLoginBusy(false);
       setDeviceCode(null);
     }
-  }, []);
+  }, [applyAccountList]);
+
+  const handleSelectAccount = useCallback(
+    async (uuid: string) => {
+      await window.bestclient.selectAccount(uuid);
+      applyAccountList(await window.bestclient.listAccounts());
+    },
+    [applyAccountList],
+  );
+
+  const handleRemoveAccount = useCallback(
+    async (uuid: string) => {
+      applyAccountList(await window.bestclient.logout(uuid));
+    },
+    [applyAccountList],
+  );
 
   const handlePlay = useCallback(async () => {
     setBusy(true);
@@ -183,7 +209,12 @@ export default function Page() {
     return pack.mods.filter((mod) => mod.locked || settings.enabledMods.includes(mod.slug)).length;
   }, [pack, settings]);
 
-  const launchState: LaunchState = !account
+  const activeAccount = useMemo(
+    () => accounts.find((entry) => entry.uuid === activeUuid) ?? null,
+    [accounts, activeUuid],
+  );
+
+  const launchState: LaunchState = !activeAccount
     ? 'locked'
     : running
       ? 'running'
@@ -244,16 +275,15 @@ export default function Page() {
 
           <div className="mt-auto">
             <LoginCard
-              account={account}
+              accounts={accounts}
+              activeUuid={activeUuid}
               deviceCode={deviceCode}
               busy={loginBusy}
               error={loginError}
               onLogin={() => void handleLogin()}
               onCancel={() => void window.bestclient.cancelLogin()}
-              onLogout={() => {
-                void window.bestclient.logout();
-                setAccount(null);
-              }}
+              onSelect={(uuid) => void handleSelectAccount(uuid)}
+              onRemove={(uuid) => void handleRemoveAccount(uuid)}
             />
           </div>
         </nav>
