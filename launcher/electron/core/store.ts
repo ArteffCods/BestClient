@@ -108,9 +108,11 @@ function migrate(settings: Settings, legacy: LegacySettings): Settings {
     settings.activeUuid = legacy.account.uuid;
   }
 
-  // The old two-way choice maps onto the new tri-state: false meant minimise, true hid.
-  if (typeof legacy.closeOnLaunch === 'boolean') {
-    settings.launchBehaviour = legacy.closeOnLaunch ? 'hide' : 'minimise';
+  // The launcher always stays open after the game starts now - the old two-way choice
+  // (minimise or hide) no longer exists, so any value from an older version is folded
+  // onto the single behaviour.
+  if (typeof legacy.closeOnLaunch === 'boolean' || settings.launchBehaviour !== 'stay') {
+    settings.launchBehaviour = 'stay';
   }
 
   // Guard against an activeUuid that points at an account that is no longer present.

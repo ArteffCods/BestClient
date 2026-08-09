@@ -1,7 +1,7 @@
 {
-  "version": "0.2.8",
-  "notes": "Fixed 16:9 window, Minecraft-font MOTDs, bundled in-game mod, faster updates.",
-  "tag": "v0.2.8",
-  "asset": "BestClient-Setup-0.2.8.exe",
-  "sha256": "0405da8b867e8639d7e84c432b4db22993684f5034a7b11768b08860ef11f2e4"
+  "version": "0.2.9",
+  "notes": "BestClient mod always on, stay-open launcher, static news, grey RAM icon.",
+  "tag": "v0.2.9",
+  "asset": "BestClient-Setup-0.2.9.exe",
+  "sha256": "562376d40920e47c1c87034289ef116ee0e8d86cdabe3a3eabfdefc159fcdb79"
 }

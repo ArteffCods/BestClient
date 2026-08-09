@@ -4,6 +4,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import { BRAND } from './core/brand';
+import { ensureBundledMods } from './core/bundled';
 import { log } from './core/logger';
 import { resourceFile } from './core/paths';
 import { registerIpc } from './ipc';
@@ -59,6 +60,12 @@ async function bootstrap(): Promise<void> {
 
   registerIpc(() => mainWindow);
   createWindow();
+
+  // The client's own mods land in the instance as soon as the launcher is up, not at the
+  // first Play - the Mods screen must see them on from the moment it opens.
+  ensureBundledMods().catch((error) => {
+    log.error('Could not install the bundled mods at startup.', error);
+  });
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

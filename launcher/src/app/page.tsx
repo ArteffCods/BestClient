@@ -428,11 +428,6 @@ function PlayStage({
           <span className="display-caps text-[15px] leading-none text-rose-soft">OpenGL</span>
           <span aria-hidden="true" className="h-3 w-px bg-edge-bright" />
           <span className="display-caps text-[15px] leading-none text-ink">{minecraft}</span>
-          {info?.gpuModel ? (
-            <span className="truncate font-mono text-[10px] text-ink-faint">
-              {gpuLabel(info.gpuModel)}
-            </span>
-          ) : null}
         </p>
 
         <LaunchButton
@@ -465,9 +460,9 @@ function PlayStage({
           label="Memory"
           value={`${(memoryMb / 1024).toFixed(1)} GB`}
           unit={
-            // A memory chip instead of "max": the chip says what the value is, the
-            // number says all there is to say about how much.
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" className="h-[13px] w-[13px]">
+            // A memory chip instead of "max": bigger and grey, so the icon reads as
+            // hardware rather than brand.
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="h-[20px] w-[20px] text-ink-dim">
               <rect x="3.5" y="6" width="17" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" />
               <path
                 d="M8 6 V3 M12 6 V3 M16 6 V3 M8 21 V18 M12 21 V18 M16 21 V18"
@@ -692,9 +687,9 @@ function minecraftish(text: string): string {
 
 /**
  * News feed from the project's GitHub repo, at the foot of the Play screen. The window
- * is one fixed size, so the grid is hard-coded to three columns and the banners are
- * locked to a fixed 16:9 box: nothing re-measures when the window cannot resize. The
- * only motion on hover is the picture growing inside its box - the layout stays put.
+ * is one fixed size, so the grid is hard-coded to two columns and every banner is locked
+ * to a fixed 16:9 box; more items simply continue below, on the same page scroll. The
+ * pictures never move on hover - the cursor over a card only marks it.
  */
 function NewsStrip({ news }: { news: NewsItem[] }) {
   if (news.length === 0) return null;
@@ -708,7 +703,7 @@ function NewsStrip({ news }: { news: NewsItem[] }) {
       aria-label="News"
     >
       <h2 className="display-caps text-[18px] leading-none text-white">News</h2>
-      <div className="mt-4 grid grid-cols-3 gap-8">
+      <div className="mt-4 grid grid-cols-2 gap-8">
         {news.map((item, index) => (
           <NewsCard key={`${item.title}-${index}`} item={item} />
         ))}
@@ -723,8 +718,7 @@ function NewsCard({ item }: { item: NewsItem }) {
   const inner = (
     <>
       {/* Banner in a fixed 16:9 box: cover-cropped, so every picture lines up and no
-          letterboxing shows. The hover grows the picture slightly inside that box; the
-          `group` tag lets the whole card's hover drive it. */}
+          letterboxing shows. It is fully static - hovering a card only marks it. */}
       {item.image ? (
         <span className="block overflow-hidden rounded-lg">
           <img
@@ -732,7 +726,7 @@ function NewsCard({ item }: { item: NewsItem }) {
             alt=""
             aria-hidden="true"
             loading="lazy"
-            className="aspect-video h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.06]"
+            className="aspect-video h-full w-full object-cover"
             draggable={false}
           />
         </span>
@@ -756,8 +750,8 @@ function NewsCard({ item }: { item: NewsItem }) {
     </>
   );
 
-  // No frame: just the rounded banner and the text below it. The `group` tag lets the
-  // banner's image answer to the hover on the whole card.
+  // No frame: just the rounded banner and the text below it. `group` stays for the
+  // hover-marking on clickable cards.
   const shared = 'group flex flex-col text-left transition-opacity';
 
   if (clickable) {
@@ -825,10 +819,6 @@ function cleanError(message: string): string {
 }
 
 /** GPU strings from Chromium trail a vendor suffix after the first parenthesis. */
-function gpuLabel(model: string): string {
-  const bare = model.split('(')[0]?.trim() ?? '';
-  return bare.length > 24 ? `${bare.slice(0, 24)}…` : bare;
-}
 
 function IconPlay() {
   return (
