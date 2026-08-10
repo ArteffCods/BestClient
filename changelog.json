@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.3.4",
+    "date": "2026-08-10",
+    "title": "News pictures lose the dashed outline",
+    "description": "The dashed white border added in the last build is gone. Hovering a news item still turns the cursor into a pointer and lifts the picture a little.",
+    "changes": [
+      "News: the dashed white outline on hover was removed",
+      "The pointer cursor and the slight lift on hover stay"
+    ]
+  },
+  {
     "version": "0.3.3",
     "date": "2026-08-10",
     "title": "News pictures mark themselves",

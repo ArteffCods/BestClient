@@ -1,6 +1,8 @@
 package eu.bestpvp.bestclient.hud;
 
 import eu.bestpvp.bestclient.BestClientConfig;
+import eu.bestpvp.bestclient.gui.Draw;
+import eu.bestpvp.bestclient.gui.Fonts;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -131,9 +133,11 @@ public final class BestClientHud {
 
     /** Draws one "LABEL value" row and returns the y for the next one. */
     private static int line(DrawContext context, MinecraftClient client, String label, String value, int y) {
-        context.drawTextWithShadow(client.textRenderer, Text.literal(label), MARGIN, y, ROSE);
-        context.drawTextWithShadow(client.textRenderer, Text.literal(value),
-                MARGIN + client.textRenderer.getWidth(label) + 4, y, INK);
+        Text name = Fonts.of(label);
+
+        context.drawTextWithShadow(client.textRenderer, name, MARGIN, y, ROSE);
+        context.drawTextWithShadow(client.textRenderer, Fonts.of(value),
+                MARGIN + client.textRenderer.getWidth(name) + 4, y, INK);
 
         return y + LINE_HEIGHT;
     }
@@ -352,13 +356,11 @@ public final class BestClientHud {
                             int width, int height, String label, KeyBinding binding) {
         boolean down = binding.isPressed();
 
-        context.fill(x + 1, y, x + width - 1, y + height, down ? KEY_ON : KEY_OFF);
-        context.fill(x, y + 1, x + 1, y + height - 1, down ? KEY_ON : KEY_OFF);
-        context.fill(x + width - 1, y + 1, x + width, y + height - 1, down ? KEY_ON : KEY_OFF);
+        Draw.round(context, x, y, width, height, 3, down ? KEY_ON : KEY_OFF);
 
-        int textWidth = client.textRenderer.getWidth(label);
-        context.drawText(client.textRenderer, Text.literal(label),
-                x + (width - textWidth) / 2, y + (height - 8) / 2 + 1,
+        Text text = Fonts.of(label);
+        context.drawText(client.textRenderer, text,
+                x + (width - client.textRenderer.getWidth(text)) / 2, y + (height - 8) / 2 + 1,
                 down ? KEY_TEXT_ON : KEY_TEXT_OFF, false);
     }
 }

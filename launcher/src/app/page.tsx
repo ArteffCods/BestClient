@@ -715,23 +715,13 @@ function NewsStrip({ news }: { news: NewsItem[] }) {
 function NewsCard({ item }: { item: NewsItem }) {
   const clickable = Boolean(item.url);
 
-  // The border is always there, only transparent until the cursor arrives: reserving the
-  // two pixels up front means the picture does not shift when the outline appears. It is
-  // only drawn on a card that actually opens something, so the marking never promises a
-  // link that is not there.
-  const frame = [
-    'block origin-bottom overflow-hidden rounded-lg border-2 border-transparent',
-    'transition-all duration-300 ease-out group-hover:scale-[1.02]',
-    clickable ? 'group-hover:border-dashed group-hover:border-white' : '',
-  ].join(' ');
-
   const inner = (
     <>
       {/* Banner in a fixed 16:9 box: cover-cropped, so every picture lines up and no
           letterboxing shows. On hover the picture lifts a little - anchored to its bottom
           edge, so the movement reads as the card answering, not as the image jumping. */}
       {item.image ? (
-        <span className={frame}>
+        <span className="block origin-bottom overflow-hidden rounded-lg transition-transform duration-300 ease-out group-hover:scale-[1.02]">
           <img
             src={item.image}
             alt=""

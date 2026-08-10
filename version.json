@@ -1,7 +1,7 @@
 {
-  "version": "0.3.3",
-  "notes": "News pictures mark themselves on hover.",
-  "tag": "v0.3.3",
-  "asset": "BestClient-Setup-0.3.3.exe",
-  "sha256": "7a9aef8784b70623533032f0a2d35db19c444be55706d422e6e4d7768fc6d4db"
+  "version": "0.3.4",
+  "notes": "News pictures lose the dashed outline on hover.",
+  "tag": "v0.3.4",
+  "asset": "BestClient-Setup-0.3.4.exe",
+  "sha256": "df728819d4d424163d236dd1e0a357c2efeb6b5dd88387add62ec19490473df7"
 }
