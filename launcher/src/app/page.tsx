@@ -488,36 +488,40 @@ function PlayStage({
     // Launch control anchored top-left; nothing floats in the middle.
     <div className="flex min-h-full flex-col px-5 py-6 sm:px-8 sm:py-8">
       <div className="rise flex w-full max-w-sm flex-col gap-2">
-        {/* Which Minecraft you are about to launch. The whole line is the control that
-            changes it - pencil first, so it reads as something you can edit rather than
-            a label. */}
-        <button
-          type="button"
-          onClick={onEditProfile}
-          aria-haspopup="dialog"
-          aria-label={`Minecraft ${minecraft}. Choose a different version`}
-          className="group flex w-fit cursor-pointer items-baseline gap-2.5 rounded-md py-0.5 pr-1 transition-colors"
-        >
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 16 16"
-            fill="none"
-            aria-hidden="true"
-            className="translate-y-px text-ink-faint transition-colors group-hover:text-rose-soft"
+        {/* What you are about to launch. Only the version is the control - the pencil sits
+            against it, so the thing you can change and the mark saying so are one target;
+            the renderer beside it is a fact, not a button. */}
+        <p className="flex items-baseline gap-2.5">
+          <button
+            type="button"
+            onClick={onEditProfile}
+            aria-haspopup="dialog"
+            aria-label={`Minecraft ${minecraft}. Choose a different version`}
+            className="group flex cursor-pointer items-baseline gap-2 rounded-md transition-colors"
           >
-            <path
-              d="M11.2 2.3 L13.7 4.8 L5.4 13.1 L2 14 L2.9 10.6 Z M10 3.5 L12.5 6"
-              stroke="currentColor"
-              strokeWidth="1.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="display-caps text-[15px] leading-none text-rose-soft">Minecraft</span>
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+              className="translate-y-0.5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] transition-transform group-hover:scale-110"
+            >
+              <path
+                d="M11.2 2.3 L13.7 4.8 L5.4 13.1 L2 14 L2.9 10.6 Z M10 3.5 L12.5 6"
+                stroke="#ffffff"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="display-caps text-[15px] leading-none text-rose-soft">
+              {minecraft}
+            </span>
+          </button>
           <span aria-hidden="true" className="h-3 w-px bg-edge-bright" />
-          <span className="display-caps text-[15px] leading-none text-ink">{minecraft}</span>
-        </button>
+          <span className="display-caps text-[15px] leading-none text-ink">OpenGL</span>
+        </p>
 
         <LaunchButton
           state={launchState}

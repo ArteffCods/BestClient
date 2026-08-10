@@ -1,7 +1,7 @@
 {
-  "version": "0.4.2",
-  "notes": "A roomier version picker that stays open while you choose.",
-  "tag": "v0.4.2",
-  "asset": "BestClient-Setup-0.4.2.exe",
-  "sha256": "8858ca424c50a59f38b6a4bb38ccc6fdfc1eb7177e9b7bc0f7249cacba4dfcac"
+  "version": "0.4.3",
+  "notes": "The version leads the line above Launch, with a white edit mark.",
+  "tag": "v0.4.3",
+  "asset": "BestClient-Setup-0.4.3.exe",
+  "sha256": "e8cacceb35f7bc0925f6a1e1b39e0172aea62e4884c215122c6565bdd30c5447"
 }
