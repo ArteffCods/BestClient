@@ -1,5 +1,22 @@
 /** IPC contract shared between the Electron main process and the preload bridge. */
 
+export type ProfileId = 'fight' | 'survival';
+
+/** One of the two builds, as the picker shows it. */
+export interface ProfileView {
+  id: ProfileId;
+  name: string;
+  tagline: string;
+  minecraft: string;
+  /** How many mods the profile installs, so the card can say what you are choosing. */
+  mods: number;
+}
+
+export interface ProfileList {
+  active: ProfileId;
+  profiles: ProfileView[];
+}
+
 export interface AppInfo {
   version: string;
   brand: { name: string; primary: string; secondary: string };
@@ -243,6 +260,8 @@ export const CHANNELS = {
   settingsGet: 'settings:get',
   settingsSet: 'settings:set',
   packGet: 'pack:get',
+  profilesGet: 'profiles:get',
+  profileSet: 'profiles:set',
   authLogin: 'auth:login',
   authConfigGet: 'auth:config-get',
   authConfigSet: 'auth:config-set',

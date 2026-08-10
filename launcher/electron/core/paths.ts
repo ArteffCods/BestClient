@@ -21,12 +21,29 @@ export interface Dirs {
 
 let cached: Dirs | null = null;
 
+/**
+ * Which profile's game directory `dirs()` points at.
+ *
+ * It is a plain module variable rather than a read of the settings file, because the
+ * settings store itself needs `dirs()` to find that file - asking it here would be a
+ * circle. Whoever loads or changes the settings sets this instead.
+ */
+let profileFolder = 'fight';
+
+export function setProfileFolder(folder: string): void {
+  if (folder === profileFolder) return;
+
+  profileFolder = folder;
+  // The instance and mods paths just changed; everything else is shared.
+  cached = null;
+}
+
 export function dirs(): Dirs {
   if (cached) return cached;
 
   const root = path.join(app.getPath('appData'), '.bestclient');
   const assets = path.join(root, 'assets');
-  const instance = path.join(root, 'instance');
+  const instance = path.join(root, 'instances', profileFolder);
 
   cached = {
     root,
@@ -47,6 +64,8 @@ export function dirs(): Dirs {
 }
 
 export async function ensureDirs(): Promise<void> {
+  await migrateSingleInstance();
+
   const d = dirs();
   const targets = [
     d.root,
@@ -62,6 +81,29 @@ export async function ensureDirs(): Promise<void> {
   ];
 
   await Promise.all(targets.map((dir) => fs.promises.mkdir(dir, { recursive: true })));
+}
+
+/**
+ * Moves a pre-profile installation into the Fight profile.
+ *
+ * Before profiles there was one game directory, `<root>/instance`. Leaving it behind would
+ * read to the player as the launcher having lost their saves, screenshots and settings, so
+ * it becomes the Fight instance - which is exactly what it was.
+ */
+async function migrateSingleInstance(): Promise<void> {
+  const root = path.join(app.getPath('appData'), '.bestclient');
+  const old = path.join(root, 'instance');
+  const target = path.join(root, 'instances', 'fight');
+
+  if (!(await exists(old)) || (await exists(target))) return;
+
+  try {
+    await fs.promises.mkdir(path.dirname(target), { recursive: true });
+    await fs.promises.rename(old, target);
+  } catch {
+    // A locked file leaves the old folder in place; the profile simply starts empty
+    // rather than the launcher refusing to run.
+  }
 }
 
 /** Resolves a file bundled with the launcher itself (works both packed and unpacked). */

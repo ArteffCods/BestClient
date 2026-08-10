@@ -4,6 +4,8 @@ import path from 'node:path';
 import { log } from './logger';
 import { downloadFile, fetchJson, mapLimit, type ProgressFn, type VerifyMode } from './net';
 import { dirs, exists, parseJson, resourceFile } from './paths';
+import { profile } from './profiles';
+import { readSettings } from './store';
 
 const MODRINTH = 'https://api.modrinth.com/v2';
 /** Maps Modrinth project id -> the jar the launcher installed for it. */
@@ -47,11 +49,30 @@ export interface PackMod {
   pinnedVersion?: string;
 }
 
+/**
+ * A resource pack or shader the profile ships with, pinned to an exact Modrinth version.
+ *
+ * Pinned rather than resolved to newest on purpose: a pack that changed itself between
+ * launches would change how the game looks, and for a PvP pack that is muscle memory.
+ */
+export interface PackContent {
+  slug: string;
+  name: string;
+  versionId: string;
+  fileName: string;
+  sha1: string;
+}
+
 export interface Pack {
   minecraft: string;
   loader: string;
   loaderVersion: string;
   mods: PackMod[];
+  /** Load order, lowest priority first - the order options.txt wants. */
+  resourcePacks?: PackContent[];
+  shaders?: PackContent[];
+  /** The shader selected in Iris, by file name. */
+  selectedShader?: string;
 }
 
 export interface ResolvedMod extends PackMod {
@@ -93,15 +114,19 @@ interface ModrinthProject {
   icon_url: string | null;
 }
 
-let packCache: Pack | null = null;
+/** Keyed by pack file: both profiles' packs stay loaded once they have been read. */
+const packCache = new Map<string, Pack>();
 
 export async function loadPack(): Promise<Pack> {
-  if (packCache) return packCache;
+  const file = profile(readSettings().activeProfile).packFile;
+  const cached = packCache.get(file);
 
-  const file = resourceFile('bestclient-pack.json');
-  packCache = parseJson<Pack>(await fs.promises.readFile(file, 'utf8'));
+  if (cached) return cached;
 
-  return packCache;
+  const parsed = parseJson<Pack>(await fs.promises.readFile(resourceFile(file), 'utf8'));
+  packCache.set(file, parsed);
+
+  return parsed;
 }
 
 export interface Reconciled {

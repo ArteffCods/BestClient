@@ -1,4 +1,4 @@
-import AdmZip from 'adm-zip';
+﻿import AdmZip from 'adm-zip';
 import { execFile } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -24,29 +24,32 @@ interface AdoptiumBinary {
 }
 
 /**
- * Returns the path of a `javaw.exe` that can run Minecraft {@link TARGET.minecraft}.
- * Prefers the runtime the launcher manages itself, falls back to a matching system
- * install, and downloads a Temurin JRE as a last resort.
+ * Returns the path of a `javaw.exe` of the given major version.
+ *
+ * The major is asked for rather than fixed, because the profiles run different Minecraft
+ * versions and the version manifest is what says which Java each one needs. Prefers the
+ * runtime the launcher manages itself, falls back to a matching system install, and
+ * downloads a Temurin JRE as a last resort.
  */
-export async function ensureJava(onProgress?: ProgressFn): Promise<string> {
-  const managed = await findManagedJava();
+export async function ensureJava(major: number, onProgress?: ProgressFn): Promise<string> {
+  const managed = await findManagedJava(major);
 
   if (managed) {
     log.info(`Using managed Java runtime: ${managed}`);
     return managed;
   }
 
-  const system = await findSystemJava();
+  const system = await findSystemJava(major);
 
   if (system) {
     log.info(`Using system Java runtime: ${system}`);
     return system;
   }
 
-  return downloadJava(onProgress);
+  return downloadJava(major, onProgress);
 }
 
-async function findManagedJava(): Promise<string | null> {
+async function findManagedJava(major: number): Promise<string | null> {
   const base = dirs().java;
 
   if (!(await exists(base))) return null;
@@ -58,7 +61,7 @@ async function findManagedJava(): Promise<string | null> {
 
     const candidate = path.join(base, entry.name, 'bin', 'javaw.exe');
 
-    if ((await exists(candidate)) && (await probeMajorVersion(candidate)) === TARGET.javaMajor) {
+    if ((await exists(candidate)) && (await probeMajorVersion(candidate)) === major) {
       return candidate;
     }
   }
@@ -66,7 +69,7 @@ async function findManagedJava(): Promise<string | null> {
   return null;
 }
 
-async function findSystemJava(): Promise<string | null> {
+async function findSystemJava(major: number): Promise<string | null> {
   const candidates: string[] = [];
 
   if (process.env.JAVA_HOME) {
@@ -96,7 +99,7 @@ async function findSystemJava(): Promise<string | null> {
   for (const candidate of candidates) {
     if (!(await exists(candidate))) continue;
 
-    if ((await probeMajorVersion(candidate)) === TARGET.javaMajor) {
+    if ((await probeMajorVersion(candidate)) === major) {
       return candidate;
     }
   }
@@ -125,43 +128,44 @@ async function probeMajorVersion(javawPath: string): Promise<number | null> {
   }
 }
 
-async function downloadJava(onProgress?: ProgressFn): Promise<string> {
+async function downloadJava(major: number, onProgress?: ProgressFn): Promise<string> {
   const url =
-    `https://api.adoptium.net/v3/assets/latest/${TARGET.javaMajor}/hotspot` +
+    `https://api.adoptium.net/v3/assets/latest/${major}/hotspot` +
     '?architecture=x64&image_type=jre&os=windows&vendor=eclipse';
 
   const assets = await fetchJson<AdoptiumBinary[]>(url);
   const asset = assets[0];
 
   if (!asset) {
-    throw new Error(`Adoptium has no Java ${TARGET.javaMajor} Windows x64 JRE available.`);
+    throw new Error(`Adoptium has no Java ${major} Windows x64 JRE available.`);
   }
 
   const pkg = asset.binary.package;
   const archive = path.join(dirs().java, pkg.name);
 
-  onProgress?.({ done: 0, total: 1, bytes: 0, label: `Downloading Java ${TARGET.javaMajor}` });
+  onProgress?.({ done: 0, total: 1, bytes: 0, label: `Downloading Java ${major}` });
 
   let bytes = 0;
   await downloadFile({ url: pkg.link, dest: archive, size: pkg.size }, (delta) => {
     bytes += delta;
-    onProgress?.({ done: 0, total: 1, bytes, label: `Downloading Java ${TARGET.javaMajor}` });
+    onProgress?.({ done: 0, total: 1, bytes, label: `Downloading Java ${major}` });
   });
 
-  onProgress?.({ done: 0, total: 1, bytes, label: `Extracting Java ${TARGET.javaMajor}` });
+  onProgress?.({ done: 0, total: 1, bytes, label: `Extracting Java ${major}` });
 
   const zip = new AdmZip(archive);
   zip.extractAllTo(dirs().java, true);
   await fs.promises.rm(archive, { force: true });
 
-  const installed = await findManagedJava();
+  const installed = await findManagedJava(major);
 
   if (!installed) {
-    throw new Error(`Java ${TARGET.javaMajor} was extracted but no javaw.exe was found inside it.`);
+    throw new Error(`Java ${major} was extracted but no javaw.exe was found inside it.`);
   }
 
-  onProgress?.({ done: 1, total: 1, bytes, label: `Java ${TARGET.javaMajor} ready` });
+  onProgress?.({ done: 1, total: 1, bytes, label: `Java ${major} ready` });
   log.info(`Installed managed Java runtime: ${asset.release_name}`);
 
   return installed;
 }
+

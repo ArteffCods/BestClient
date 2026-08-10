@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { resourcePackList } from './content';
 import { log } from './logger';
+import type { Pack } from './modpack';
 import { dirs, exists } from './paths';
 
 /**
@@ -45,7 +46,6 @@ const PVP_DEFAULTS: Record<string, string> = {
   fullscreen: 'true',
   toggleCrouch: 'false',
   toggleSprint: 'false',
-  resourcePacks: resourcePackList(),
   incompatibleResourcePacks: '[]',
 };
 
@@ -60,7 +60,7 @@ export interface OptionsResult {
  * By default only keys the player has never set are written, so tweaks made in-game
  * survive. Pass `force` to push every value back to the baseline.
  */
-export async function applyPvpDefaults(force = false): Promise<OptionsResult> {
+export async function applyPvpDefaults(pack: Pack, force = false): Promise<OptionsResult> {
   const file = path.join(dirs().instance, 'options.txt');
   await fs.promises.mkdir(path.dirname(file), { recursive: true });
 
@@ -68,7 +68,9 @@ export async function applyPvpDefaults(force = false): Promise<OptionsResult> {
   const current = existed ? parseOptions(await fs.promises.readFile(file, 'utf8')) : new Map<string, string>();
   const applied: string[] = [];
 
-  for (const [key, value] of Object.entries(PVP_DEFAULTS)) {
+  const defaults = { ...PVP_DEFAULTS, resourcePacks: resourcePackList(pack) };
+
+  for (const [key, value] of Object.entries(defaults)) {
     if (!force && current.has(key)) continue;
     if (current.get(key) === value) continue;
 

@@ -1,5 +1,20 @@
 [
   {
+    "version": "0.4.0",
+    "date": "2026-08-10",
+    "title": "Two builds: Fight and Survival",
+    "description": "The client is two clients now. Fight is the PvP build it has always been. Survival is a full world on Minecraft 26.1.2 with 141 mods and 59 resource packs, and you switch between them from the line above Launch.",
+    "changes": [
+      "Pick your build from the line above Launch - it has an edit mark now, and opens a card for each one",
+      "Fight: Minecraft 1.21.11, the PvP mod set and packs, exactly as before",
+      "Survival: Minecraft 26.1.2, 141 mods, 59 resource packs and 8 shaders",
+      "Each build keeps its own mods, worlds, settings and screenshots - switching never touches the other one",
+      "Your existing installation becomes the Fight build, with everything where you left it",
+      "The Java version now comes from Minecraft's own manifest, so a build that needs a newer Java gets one",
+      "Fight's mods and packs are also in Survival, sitting under Survival's own; anything with no 26.1.2 build is listed but switched off"
+    ]
+  },
+  {
     "version": "0.3.6",
     "date": "2026-08-10",
     "title": "The PvP pack set, and Launch signs you in",

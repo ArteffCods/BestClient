@@ -1,3 +1,19 @@
+export type ProfileId = 'fight' | 'survival';
+
+/** One of the two builds, as the picker shows it. */
+export interface ProfileView {
+  id: ProfileId;
+  name: string;
+  tagline: string;
+  minecraft: string;
+  mods: number;
+}
+
+export interface ProfileList {
+  active: ProfileId;
+  profiles: ProfileView[];
+}
+
 export interface AppInfo {
   version: string;
   brand: { name: string; primary: string; secondary: string };
@@ -206,6 +222,8 @@ export interface BestClientApi {
   getSettings(): Promise<PublicSettings>;
   setSettings(patch: Partial<PublicSettings>): Promise<PublicSettings>;
   getPack(): Promise<PackView>;
+  getProfiles(): Promise<ProfileList>;
+  setProfile(id: ProfileId): Promise<ProfileId>;
   getServers(): Promise<ServerListEntry[]>;
   login(): Promise<PublicAccount>;
   getAuthConfig(): Promise<AuthConfigStatus>;

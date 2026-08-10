@@ -4,6 +4,8 @@ import {
   CHANNELS,
   type AccountList,
   type AppInfo,
+  type ProfileId,
+  type ProfileList,
   type ChangelogEntry,
   type DeviceCodeEvent,
   type AuthConfigStatus,
@@ -48,6 +50,10 @@ const api = {
     ipcRenderer.invoke(CHANNELS.settingsSet, patch),
 
   getPack: (): Promise<PackView> => ipcRenderer.invoke(CHANNELS.packGet),
+
+  getProfiles: (): Promise<ProfileList> => ipcRenderer.invoke(CHANNELS.profilesGet),
+  setProfile: (id: ProfileId): Promise<ProfileId> => ipcRenderer.invoke(CHANNELS.profileSet, id),
+
   getServers: (): Promise<ServerListEntry[]> => ipcRenderer.invoke(CHANNELS.serversList),
 
   login: (): Promise<PublicAccount> => ipcRenderer.invoke(CHANNELS.authLogin),

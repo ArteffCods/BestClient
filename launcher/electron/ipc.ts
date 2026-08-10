@@ -1,5 +1,6 @@
 import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import type { ChildProcess } from 'node:child_process';
+import fs from 'node:fs';
 
 import { authConfigStatus, currentAccount, loginWithDeviceCode, logout, saveAuthClientId } from './core/auth';
 import { BRAND, TARGET } from './core/brand';
@@ -23,11 +24,12 @@ import {
 import { presenceIdle, presencePlaying, setDiscordEnabled, startDiscord } from './core/discord';
 import { checkJvmFlags, detectForeignLauncher } from './core/hardening';
 import { defaultJvmFlags, splitFlags } from './core/jvmFlags';
+import { isProfileId, PROFILES, profile } from './core/profiles';
 import { loadPack, applyNvidiaOptimization, readManagedManifest, reconcileSelection, updateManagedToNewest } from './core/modpack';
 import { getNews } from './core/news';
 import { getPartnerServers } from './core/serverPing';
 import { applyPvpDefaults } from './core/options';
-import { dirs } from './core/paths';
+import { dirs, parseJson, resourceFile } from './core/paths';
 import { ensureLockedServer, readServerList } from './core/servers';
 import {
   CHECK_INTERVAL_MS,
@@ -45,7 +47,13 @@ import {
   writeSettings,
   type Settings,
 } from './core/store';
-import { CHANNELS, type AccountList, type AppInfo, type PublicSettings } from './shared';
+import {
+  CHANNELS,
+  type AccountList,
+  type AppInfo,
+  type ProfileList,
+  type PublicSettings,
+} from './shared';
 
 const toPublic = (account: { uuid: string; username: string }) => ({
   uuid: account.uuid,
@@ -82,10 +90,12 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
     return {
       version: app.getVersion(),
       brand: { name: BRAND.name, primary: BRAND.primary, secondary: BRAND.secondary },
+      // The version shown is the active profile's, not a constant: the two builds run
+      // different Minecraft versions.
       target: {
-        minecraft: TARGET.minecraft,
+        minecraft: profile(readSettings().activeProfile).minecraft,
         fabricLoader: TARGET.fabricLoader,
-        javaMajor: TARGET.javaMajor,
+        javaMajor: profile(readSettings().activeProfile).javaMajor,
       },
       gpuModel: await gpuModel(),
       defaultJvmFlags: defaultJvmFlags(),
@@ -200,6 +210,53 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
   });
 
   ipcMain.handle(CHANNELS.packGet, () => loadPack());
+
+  ipcMain.handle(CHANNELS.profilesGet, async (): Promise<ProfileList> => {
+    const active = readSettings().activeProfile;
+
+    // The mod count comes from the pack file itself rather than a number written by hand,
+    // so the card can never claim a size the profile does not have.
+    const views = await Promise.all(
+      Object.values(PROFILES).map(async (entry) => {
+        let mods = 0;
+
+        try {
+          const pack = parseJson<{ mods?: unknown[] }>(
+            await fs.promises.readFile(resourceFile(entry.packFile), 'utf8'),
+          );
+          mods = pack.mods?.length ?? 0;
+        } catch {
+          // A pack file that will not read leaves the count at zero rather than hiding
+          // the profile: the install would report the real problem.
+        }
+
+        return {
+          id: entry.id,
+          name: entry.name,
+          tagline: entry.tagline,
+          minecraft: entry.minecraft,
+          mods,
+        };
+      }),
+    );
+
+    return { active, profiles: views };
+  });
+
+  ipcMain.handle(CHANNELS.profileSet, (_event, id: unknown): ProfileList['active'] => {
+    if (gameProcess && gameProcess.exitCode === null) {
+      throw new Error('Close the game before switching profile.');
+    }
+
+    if (!isProfileId(id)) {
+      throw new Error('Unknown profile.');
+    }
+
+    // writeSettings repoints every game-directory path at the new profile.
+    writeSettings({ activeProfile: id });
+
+    return id;
+  });
   ipcMain.handle(CHANNELS.serversList, async () => {
     // Normalize the list on read too, so a delisted server (bestpvp.hu) disappears as
     // soon as the launcher opens, not only after the next Play.
@@ -259,7 +316,7 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
     return { unavailableMods: install.unavailableMods, dependencies: install.dependencies };
   });
 
-  ipcMain.handle(CHANNELS.optionsReset, () => applyPvpDefaults(true));
+  ipcMain.handle(CHANNELS.optionsReset, async () => applyPvpDefaults(await loadPack(), true));
 
   ipcMain.handle(CHANNELS.openInstanceFolder, async () => {
     await shell.openPath(dirs().instance);

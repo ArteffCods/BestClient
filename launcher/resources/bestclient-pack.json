@@ -488,5 +488,52 @@
       "note": "Client-side hit registration. Many servers ban it, use at your own risk.",
       "iconUrl": "https://cdn.modrinth.com/data/MIKwzoiY/bd1ddd73c5c2d5174b8d69c3c7988169124202d6.png"
     }
-  ]
+  ],
+  "resourcePacks": [
+    {
+      "versionId": "Xikh9SJk",
+      "name": "Classic Glint",
+      "fileName": "Classic Glint.zip",
+      "slug": "classic-glint",
+      "sha1": "6e8d7dec967a26c7a43174a2d6dd8ad240fe6172"
+    },
+    {
+      "versionId": "RP4ozzMC",
+      "name": "Low Fire",
+      "fileName": "Low Fire.zip",
+      "slug": "low-fire-pack",
+      "sha1": "0f8e2e5f6eb9f1e2fe35da7a7a0a355760998021"
+    },
+    {
+      "versionId": "4LeYKTYX",
+      "name": "Low Shield",
+      "fileName": "Low Shield.zip",
+      "slug": "low-shield-pack",
+      "sha1": "4b843b57dd0883fae0cdfece453ad359e1088d68"
+    },
+    {
+      "versionId": "gmCGV0CM",
+      "name": "Short Swords",
+      "fileName": "Short Swords.zip",
+      "slug": "short-swords-pack",
+      "sha1": "cc2362ce3974d946c398660d5ea96ad891dc4da5"
+    },
+    {
+      "versionId": "kIV3n698",
+      "name": "Teeny Totem Pop",
+      "fileName": "Teeny Totem Pop.zip",
+      "slug": "teeny-totem-pop",
+      "sha1": "6e442f6bb2f5198ce7077c90bd4233bdb17e9b5c"
+    }
+  ],
+  "shaders": [
+    {
+      "versionId": "yCCduG44",
+      "name": "Complementary Reimagined",
+      "fileName": "ComplementaryReimagined_r5.8.1.zip",
+      "slug": "complementary-reimagined",
+      "sha1": "5a021081f0178ed91dd911194071465ab0a4348b"
+    }
+  ],
+  "selectedShader": "ComplementaryReimagined_r5.8.1.zip"
 }

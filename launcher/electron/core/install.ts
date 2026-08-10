@@ -10,6 +10,7 @@ import { log } from './logger';
 import { loadPack, NVIDIA_MODS, reconcileSelection, resolveMods, syncMods } from './modpack';
 import type { ProgressReport } from './net';
 import { applyPvpDefaults } from './options';
+import { profile } from './profiles';
 import { dirs, ensureDirs } from './paths';
 import { ensureLockedServer } from './servers';
 import { readSettings, writeSettings } from './store';
@@ -107,13 +108,17 @@ export async function installClient(
     emit(step, `${report.label} (${report.done}/${report.total})`, fraction);
   };
 
-  // 1 - Java 21
+  // 1 - Java. The version manifest is the authority on which major the game needs; the
+  // profile's own number is only the fallback for a manifest that does not say.
   emit(1, 'Checking Java');
-  const javaPath = await ensureJava(relay(1));
+  const target = profile(settings.activeProfile);
+  const vanillaEarly = await resolveVanilla(pack.minecraft);
+  const javaMajor = vanillaEarly.javaVersion?.majorVersion ?? target.javaMajor;
+  const javaPath = await ensureJava(javaMajor, relay(1));
 
   // 2 - version metadata
   emit(2, `Minecraft ${pack.minecraft}`);
-  const vanilla = await resolveVanilla(pack.minecraft);
+  const vanilla = vanillaEarly;
   emit(2, `Fabric Loader ${pack.loaderVersion}`, 0.5);
   const fabric = await resolveFabric(pack.minecraft, pack.loaderVersion);
   await installClientJar(vanilla, relay(2), verify);
@@ -145,12 +150,12 @@ export async function installClient(
 
   // Before options.txt on purpose: a pack the game cannot find when it starts is dropped
   // from the list, and the player would have to pick every one of them again by hand.
-  await ensureContent();
+  await ensureContent(pack);
 
   emit(7, 'Server list and settings');
   const servers = await ensureLockedServer();
-  const gameOptions = await applyPvpDefaults(!settings.appliedPvpDefaults);
-  await applyShaderDefaults(!settings.appliedPvpDefaults);
+  const gameOptions = await applyPvpDefaults(pack, !settings.appliedPvpDefaults);
+  await applyShaderDefaults(pack, !settings.appliedPvpDefaults);
 
   writeSettings({ appliedPvpDefaults: true });
 

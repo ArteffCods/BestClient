@@ -6,6 +6,7 @@ import { ChangelogRail } from '@/components/ChangelogRail';
 import { LaunchButton, type LaunchState } from '@/components/LaunchButton';
 import { LoginCard } from '@/components/LoginCard';
 import { ModsView } from '@/components/ModsView';
+import { ProfilePicker } from '@/components/ProfilePicker';
 import { SettingsView } from '@/components/SettingsView';
 import { StoreView } from '@/components/StoreView';
 import { TitleBar } from '@/components/TitleBar';
@@ -17,6 +18,7 @@ import type {
   InstallProgressEvent,
   NewsItem,
   PartnerServer,
+  ProfileList,
   PublicAccount,
   PublicSettings,
   UpdateState,
@@ -52,6 +54,10 @@ export default function Page() {
   const [busy, setBusy] = useState(false);
   const [playError, setPlayError] = useState<string | null>(null);
   const [unavailable, setUnavailable] = useState<string[]>([]);
+
+  const [profiles, setProfiles] = useState<ProfileList | null>(null);
+  const [pickingProfile, setPickingProfile] = useState(false);
+  const [switchingProfile, setSwitchingProfile] = useState(false);
 
   const [logs, setLogs] = useState<string[]>([]);
   const [showLogs, setShowLogs] = useState(false);
@@ -92,6 +98,7 @@ export default function Page() {
 
     // The three feeds are fetched from GitHub / the network and cached; a slow connection
     // never blocks the first paint.
+    void api.getProfiles().then(setProfiles);
     void api.getNews().then(setNews);
     void api.getPartners().then(setPartners);
     void api.getChangelog().then(setChangelog);
@@ -225,6 +232,50 @@ export default function Page() {
     [patchSettings, settings],
   );
 
+  /**
+   * Switching build changes which Minecraft is installed and which game folder is used,
+   * so everything that was read for the old one is read again: the version shown above
+   * Launch, the mod list, the settings and the pack all belong to a profile.
+   */
+  const handlePickProfile = useCallback(
+    async (id: string) => {
+      if (profiles?.active === id) {
+        setPickingProfile(false);
+        return;
+      }
+
+      setSwitchingProfile(true);
+
+      try {
+        await window.bestclient.setProfile(id as never);
+
+        const [nextInfo, nextSettings, nextProfiles] = await Promise.all([
+          window.bestclient.appInfo(),
+          window.bestclient.getSettings(),
+          window.bestclient.getProfiles(),
+        ]);
+
+        setInfo(nextInfo);
+        setSettings(nextSettings);
+        setProfiles(nextProfiles);
+        // The old profile's "these mods had no build" list means nothing here.
+        setUnavailable([]);
+        setPlayError(null);
+        setPickingProfile(false);
+      } catch (error) {
+        setPlayError(error instanceof Error ? cleanError(error.message) : String(error));
+      } finally {
+        setSwitchingProfile(false);
+      }
+    },
+    [profiles],
+  );
+
+  const activeProfileName = useMemo(() => {
+    const found = profiles?.profiles.find((entry) => entry.id === profiles.active);
+    return found?.name ?? 'Fight';
+  }, [profiles]);
+
   const activeAccount = useMemo(
     () => accounts.find((entry) => entry.uuid === activeUuid) ?? null,
     [accounts, activeUuid],
@@ -322,6 +373,8 @@ export default function Page() {
               onStop={() => void handleStop()}
               onSignIn={() => void handleLogin()}
               signInError={loginError}
+              onEditProfile={() => setPickingProfile(true)}
+              profileName={activeProfileName}
               memoryMb={settings?.memoryMb ?? 4096}
               news={news}
               partners={partners}
@@ -359,6 +412,16 @@ export default function Page() {
 
         <ChangelogRail entries={changelog} />
       </div>
+
+      {pickingProfile && profiles ? (
+        <ProfilePicker
+          profiles={profiles.profiles}
+          active={profiles.active}
+          busy={switchingProfile}
+          onPick={(id) => void handlePickProfile(id)}
+          onClose={() => setPickingProfile(false)}
+        />
+      ) : null}
 
       <footer className="shrink-0 border-t border-edge bg-void/40 backdrop-blur-sm">
         <button
@@ -407,6 +470,8 @@ function PlayStage({
   onStop,
   onSignIn,
   signInError,
+  onEditProfile,
+  profileName,
   memoryMb,
   news,
   partners,
@@ -420,6 +485,8 @@ function PlayStage({
   onStop: () => void;
   onSignIn: () => void;
   signInError: string | null;
+  onEditProfile: () => void;
+  profileName: string;
   memoryMb: number;
   news: NewsItem[];
   partners: PartnerServer[];
@@ -430,13 +497,38 @@ function PlayStage({
     // Launch control anchored top-left; nothing floats in the middle.
     <div className="flex min-h-full flex-col px-5 py-6 sm:px-8 sm:py-8">
       <div className="rise flex w-full max-w-sm flex-col gap-2">
-        {/* What you are about to launch, stated above the button: the renderer and the
-            game version, nothing else. No labels - the values say what they are. */}
-        <p className="flex items-baseline gap-2.5">
-          <span className="display-caps text-[15px] leading-none text-rose-soft">OpenGL</span>
+        {/* What you are about to launch: which build, and which Minecraft it runs. The
+            whole line is the control that changes it - pencil first, so it reads as
+            something you can edit rather than a label. */}
+        <button
+          type="button"
+          onClick={onEditProfile}
+          aria-haspopup="dialog"
+          aria-label={`Build: ${profileName}. Choose a different one`}
+          className="group flex w-fit cursor-pointer items-baseline gap-2.5 rounded-md py-0.5 pr-1 transition-colors"
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+            className="translate-y-px text-ink-faint transition-colors group-hover:text-rose-soft"
+          >
+            <path
+              d="M11.2 2.3 L13.7 4.8 L5.4 13.1 L2 14 L2.9 10.6 Z M10 3.5 L12.5 6"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span className="display-caps text-[15px] leading-none text-rose-soft">
+            {profileName}
+          </span>
           <span aria-hidden="true" className="h-3 w-px bg-edge-bright" />
           <span className="display-caps text-[15px] leading-none text-ink">{minecraft}</span>
-        </p>
+        </button>
 
         <LaunchButton
           state={launchState}

@@ -2,7 +2,8 @@ import fs from 'node:fs';
 
 import { defaultJvmFlags } from './jvmFlags';
 import { log } from './logger';
-import { dirs, parseJson } from './paths';
+import { dirs, parseJson, setProfileFolder } from './paths';
+import { DEFAULT_PROFILE, isProfileId, profile, type ProfileId } from './profiles';
 
 export interface MinecraftAccount {
   /** Minecraft profile UUID without dashes, as the game expects it. */
@@ -16,6 +17,8 @@ export interface MinecraftAccount {
 }
 
 export interface Settings {
+  /** Which build the launcher is on: the PvP one or the survival one. */
+  activeProfile: ProfileId;
   /** Megabytes handed to the JVM via -Xmx. */
   memoryMb: number;
   /** Slugs of the optional mods the player turned on. */
@@ -59,6 +62,7 @@ export interface Settings {
 }
 
 const DEFAULTS: Settings = {
+  activeProfile: DEFAULT_PROFILE,
   memoryMb: 4096,
   enabledMods: [],
   knownMods: [],
@@ -114,6 +118,15 @@ export function readSettings(): Settings {
 
 /** Folds a single legacy `account` into the accounts list on first load. */
 function migrate(settings: Settings, legacy: LegacySettings): Settings {
+  // A settings file written by hand, or by a version that never had profiles.
+  if (!isProfileId(settings.activeProfile)) {
+    settings.activeProfile = DEFAULT_PROFILE;
+  }
+
+  // Every path that resolves a game directory reads this, so it has to be right before
+  // anything else in the launcher asks where the instance is.
+  setProfileFolder(profile(settings.activeProfile).folder);
+
   if (legacy.account && settings.accounts.length === 0) {
     settings.accounts = [legacy.account];
     settings.activeUuid = legacy.account.uuid;
@@ -181,6 +194,10 @@ export function setActiveAccount(uuid: string): MinecraftAccount | null {
 export function writeSettings(patch: Partial<Settings>): Settings {
   const next = { ...readSettings(), ...patch };
   cache = next;
+
+  // Switching profile changes where the game directory is, and every later call to dirs()
+  // has to see the new one.
+  setProfileFolder(profile(next.activeProfile).folder);
 
   try {
     fs.mkdirSync(dirs().root, { recursive: true });

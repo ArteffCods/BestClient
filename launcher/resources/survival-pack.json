@@ -1,0 +1,1748 @@
+{
+  "minecraft": "26.1.2",
+  "loader": "fabric",
+  "loaderVersion": "0.19.3",
+  "mods": [
+    {
+      "slug": "aitk",
+      "name": "Arrow In The Knee",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Mod that allows arrows to be rendered on all types of entities, not…",
+      "iconUrl": "https://cdn.modrinth.com/data/A0W9tMly/7d15e5087b7d0ff63d7a4f4671f65f1a5fa10880_96.webp"
+    },
+    {
+      "slug": "almanac",
+      "name": "Almanac",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Almanac is a library used by my mods with mostly loader independent…",
+      "iconUrl": "https://cdn.modrinth.com/data/Gi02250Z/f0bb3148fcb735bb989ef5723d199114e1f24542.png"
+    },
+    {
+      "slug": "ambientsounds",
+      "name": "AmbientSounds",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "#listentonature",
+      "iconUrl": "https://cdn.modrinth.com/data/fM515JnW/9a8eca9c055ec1dd753a7209210fcb22a2d40ff7_96.webp"
+    },
+    {
+      "slug": "architectury-api",
+      "name": "Architectury API",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "An intermediary api aimed to ease developing multiplatform mods.",
+      "iconUrl": "https://cdn.modrinth.com/data/lhGA9TYQ/05fe3a61c28faaccaec3533b92e1b321edde7bf6_96.webp"
+    },
+    {
+      "slug": "asyncparticles",
+      "name": "AsyncParticles",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Async particle tick, GPU accelerated particle rendering.",
+      "iconUrl": "https://cdn.modrinth.com/data/c3onkd5k/5d159d5d5067cee28e5a73709321bebc0e47a265.png"
+    },
+    {
+      "slug": "atmospherics",
+      "name": "ATMOSPHERICS",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Change fog, sky, clouds, haze and stars per biome in real time",
+      "iconUrl": "https://cdn.modrinth.com/data/ft2cYBpB/167f7cb559efaa1c16102a4675a6a08b9bd709b5_96.webp"
+    },
+    {
+      "slug": "automodpack",
+      "name": "AutoModpack",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Enjoy a seamless modpack installation process and effortless updates…",
+      "iconUrl": "https://cdn.modrinth.com/data/k68glP2e/1cee94d3e17436d409839a79fa5d6bced5993023.png"
+    },
+    {
+      "slug": "badoptimizations",
+      "name": "BadOptimizations",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Optimization mod that focuses on things other than rendering"
+    },
+    {
+      "slug": "baguettelib",
+      "name": "BaguetteLib",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Ever tried to make a mod that needs proper death handling or…",
+      "iconUrl": "https://cdn.modrinth.com/data/OfKzpbRU/d007c3afd229b8e796f41174ceacd7c8f0f436cc_96.webp"
+    },
+    {
+      "slug": "better-block-entities",
+      "name": "Better Block Entities",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A Minecraft optimization mod for Fabric-Sodium that improves…",
+      "iconUrl": "https://cdn.modrinth.com/data/ONZm0H7Y/5ff4f3ad6948a0bf185f641c407878932bae3dcf.png"
+    },
+    {
+      "slug": "bedrockify",
+      "name": "BedrockIfy",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "BedrockIfy is a fabric Minecraft Mod that implements some useful…",
+      "iconUrl": "https://cdn.modrinth.com/data/ox3rDp1B/icon.png"
+    },
+    {
+      "slug": "better-f1-reborn",
+      "name": "Better F1 Reborn",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Hide only the HUD using F1",
+      "iconUrl": "https://cdn.modrinth.com/data/2JIeCmxb/e8ce320a388b18455e49386aed2ab56578fe19d8_96.webp"
+    },
+    {
+      "slug": "betterf3",
+      "name": "BetterF3",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "BetterF3 is a mod that replaces Minecraft's original debug HUD with a…",
+      "iconUrl": "https://cdn.modrinth.com//data/8shC1gFX/icon.png"
+    },
+    {
+      "slug": "better-mount-hud",
+      "name": "Better Mount HUD",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Improves the ingame HUD while riding a mount",
+      "iconUrl": "https://cdn.modrinth.com/data/kqJFAPU9/2347cd97d4d4a5f87842dccebd8eba211d77d37a_96.webp"
+    },
+    {
+      "slug": "better-smoke",
+      "name": "Better Smoke",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Revamped Campfire Smoke System",
+      "iconUrl": "https://cdn.modrinth.com/data/Effrh3ze/274739fa3b82cb862dc571f83513c753e45fd0d1_96.webp"
+    },
+    {
+      "slug": "c2me-fabric",
+      "name": "Concurrent Chunk Management Engine (Fabric)",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A Fabric mod designed to improve the chunk performance of Minecraft.",
+      "iconUrl": "https://cdn.modrinth.com/data/VSNURh3q/3c2ce471054466712a44c8758a03e03bb868f93b_96.webp"
+    },
+    {
+      "slug": "cameraoverhaul",
+      "name": "Camera Overhaul",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A mod that makes gameplay & movement more satisfying through the use…",
+      "iconUrl": "https://cdn.modrinth.com/data/m0oRwcZx/bebf0a98167f737c643abe85382a7ec14d264cbf.png"
+    },
+    {
+      "slug": "capes",
+      "name": "Capes",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Lets you use capes from OptiFine, LabyMod and other cape mods",
+      "iconUrl": "https://cdn.modrinth.com/data/89Wsn8GD/icon.png"
+    },
+    {
+      "slug": "chatanimation",
+      "name": "Chat Animation [Smooth Chat]",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Makes chat messages appear with a smooth animation.",
+      "iconUrl": "https://cdn.modrinth.com/data/DnNYdJsx/f6b2002ed12e72c4d74d56b80fe768ae96cd4d24_96.webp"
+    },
+    {
+      "slug": "chat-heads",
+      "name": "Chat Heads",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "See who you're chatting with!",
+      "iconUrl": "https://cdn.modrinth.com/data/Wb5oqrBJ/icon.png"
+    },
+    {
+      "slug": "cloth-config",
+      "name": "Cloth Config API",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Configuration Library for Minecraft Mods",
+      "iconUrl": "https://cdn.modrinth.com/data/9s6osm5g/ed8a2316cbb6f4fc5f510e8e13a59a85cbbbff4d_96.webp"
+    },
+    {
+      "slug": "continuity",
+      "name": "Continuity",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A Minecraft mod that allows for efficient connected textures",
+      "iconUrl": "https://cdn.modrinth.com/data/1IjD5062/icon.png"
+    },
+    {
+      "slug": "controlling",
+      "name": "Controlling",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds a search bar to the Key-Bindings menu",
+      "iconUrl": "https://cdn.modrinth.com/data/xv94TkTM/bdb6feb3d04ca37da4ed5aa73fef062a39d8b3e5_96.webp"
+    },
+    {
+      "slug": "coolrain",
+      "name": "Cool Rain",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Creates ambient sounds for certain blocks during rain",
+      "iconUrl": "https://cdn.modrinth.com/data/iDyqnQLT/a252e26685c30f1ae82a47b087b01fa6b968a6f1_96.webp"
+    },
+    {
+      "slug": "creativecore",
+      "name": "CreativeCore",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A core mod",
+      "iconUrl": "https://cdn.modrinth.com/data/OsZiaDHq/4953ecd3c0c8b185b2a56d64cdb104b03f3e5038_96.webp"
+    },
+    {
+      "slug": "detail-armor-bar-reconstructed",
+      "name": "Detail Armor Bar Reconstructed",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "More details about armor in the armor bar!",
+      "iconUrl": "https://cdn.modrinth.com/data/Si9Uim4y/01f8bfb3455a5c13bdd8bc3402e4779ecf3b7bbe_96.webp"
+    },
+    {
+      "slug": "dynamiccrosshair",
+      "name": "Dynamic Crosshair",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A mod that hides or changes the crosshair dependent on context",
+      "iconUrl": "https://cdn.modrinth.com/data/ZcR9weSm/8da8af58ca961f937bd05d41dcefa26be7b5c182.png"
+    },
+    {
+      "slug": "eclipseui",
+      "name": "EclipseUI",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A modern config and config UI lib.",
+      "iconUrl": "https://cdn.modrinth.com/data/99cGtHRy/34be6e13fc6d04cd70b58632249eb69ab47d8ea7_96.webp"
+    },
+    {
+      "slug": "particle-interactions",
+      "name": "Particle Interactions",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds particles to more interactions in the game, such as placing…",
+      "iconUrl": "https://cdn.modrinth.com/data/xFCYuAs8/e2e36e1660365d4405c2268f3800f6500b8350cf_96.webp"
+    },
+    {
+      "slug": "elytra-contrails-mod",
+      "name": "Elytra Contrails Mod",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds Accurate Elytra Trails with a Mod!",
+      "iconUrl": "https://cdn.modrinth.com/data/dWMHBEAQ/01afeedfb5d6e284ac16261a8728abf4c9bccd54_96.webp"
+    },
+    {
+      "slug": "enchantment-glint-outline",
+      "name": "Enchantment Glint Outline",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds a customisable outline to enchanted items. Works with resource…",
+      "iconUrl": "https://cdn.modrinth.com/data/Qx2rzv1x/f240a0b87e1d513a73e953aff20a340ec3fadc05_96.webp"
+    },
+    {
+      "slug": "entityculling",
+      "name": "Entity Culling",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Using async path-tracing to hide Block-/Entities that are not visible",
+      "iconUrl": "https://cdn.modrinth.com/data/NNAgCjsB/7873452d6cede4daed12da3d7d8c193ab88b4fd6_96.webp"
+    },
+    {
+      "slug": "entity-model-features",
+      "name": "[EMF] Entity Model Features",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "EMF is an, OptiFine format, Custom Entity Model replacement mod…",
+      "iconUrl": "https://cdn.modrinth.com/data/4I1XuqiY/6e5bbd0d06b1741bfdab6c0cfab6de8fdaf0064c_96.webp"
+    },
+    {
+      "slug": "entitytexturefeatures",
+      "name": "[ETF] Entity Texture Features",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Emissive, Random & Custom texture support for entities in…",
+      "iconUrl": "https://cdn.modrinth.com/data/BVzZfTc1/af683d206d50b05258d865b0d6e4aa2f2cee12f2_96.webp"
+    },
+    {
+      "slug": "euphoria-patches",
+      "name": "Euphoria Patches",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Euphoria Patches is an add-on for Complementary Shaders, extending it…",
+      "iconUrl": "https://cdn.modrinth.com/data/4H6sumDB/437130f3f10997f720ff0b788cb24cde3b3b8541.png"
+    },
+    {
+      "slug": "explosive-enhancement",
+      "name": "Explosive Enhancement",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Makes the explosion animation look cooler.",
+      "iconUrl": "https://cdn.modrinth.com/data/OSQ8mw2r/88f44e9ed022061b1eb865996b2f98fe01937de6.png"
+    },
+    {
+      "slug": "fabric-api",
+      "name": "Fabric API",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Lightweight and modular API providing common hooks and…",
+      "iconUrl": "https://cdn.modrinth.com/data/P7dR8mSH/icon.png"
+    },
+    {
+      "slug": "fabric-language-kotlin",
+      "name": "Fabric Language Kotlin",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "This is a mod that enables usage of the Kotlin programming language…",
+      "iconUrl": "https://cdn.modrinth.com/data/Ha28R6CL/72c3d74aeb665e45aea93a945a01474cbce3b7da_96.webp"
+    },
+    {
+      "slug": "fancy-toasts",
+      "name": "Fancy Toasts | Better Advancements",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Overhauls the old advancement toast system",
+      "iconUrl": "https://cdn.modrinth.com/data/eUziWqPC/7c0819090ba6c3aede929de1ed484923a953a828.png"
+    },
+    {
+      "slug": "ferrite-core",
+      "name": "FerriteCore",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Memory usage optimizations",
+      "iconUrl": "https://cdn.modrinth.com/data/uXXizFIs/222a126f26f8f9ae1eb339f3b767677f18bff31f_96.webp"
+    },
+    {
+      "slug": "forge-config-api-port",
+      "name": "Forge Config API Port",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "NeoForge's & Forge's config systems provided to other modding…",
+      "iconUrl": "https://cdn.modrinth.com/data/ohNO6lps/cb3b942cc18a66a0f35f802e004713f134e46cc2_96.webp"
+    },
+    {
+      "slug": "fwa",
+      "name": "Fancy World Animations",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "This mod adds animations to a bunch of interactable blocks like…",
+      "iconUrl": "https://cdn.modrinth.com/data/IAzUFvS6/d4d09297c301994b44fdd6fbdfe7468aeb476beb_96.webp"
+    },
+    {
+      "slug": "fzzy-config",
+      "name": "Fzzy Config",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Config API with automatic GUIs, powerful validation options,…",
+      "iconUrl": "https://cdn.modrinth.com/data/hYykXjDp/11f469b1bf1f201a95c2e3ddc09ca47d85c3ed53.png"
+    },
+    {
+      "slug": "glowing-trims-mod",
+      "name": "Glowing Trims Mod",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Glowing Trims adds permanent glow to armor trims.",
+      "iconUrl": "https://cdn.modrinth.com/data/V1c2WNSt/3e5157b8a5b7a6e35388faf98f41d588126d978c_96.webp"
+    },
+    {
+      "slug": "hover-items",
+      "name": "Hover Items",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Clean pop-out hover animation for Items and a toggleable bounce…",
+      "iconUrl": "https://cdn.modrinth.com/data/mPPc1NjY/9466d44b9aed3d91c531a48f2781d2b844b5570b_96.webp"
+    },
+    {
+      "slug": "immediatelyfast",
+      "name": "ImmediatelyFast",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Speed up immediate mode rendering in Minecraft",
+      "iconUrl": "https://cdn.modrinth.com/data/5ZwdcRci/e57b6b451425692ac17ad322d5e14bea686a383a_96.webp"
+    },
+    {
+      "slug": "inventory-particles",
+      "name": "Inventory Particles",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Beautiful particles for your inventory items! Make your inventory…",
+      "iconUrl": "https://cdn.modrinth.com/data/XYnKrsxH/e6973926d0f896e2bf7df8d69a7e53e78502606f_96.webp"
+    },
+    {
+      "slug": "iris",
+      "name": "Iris Shaders",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A modern shader pack loader for Minecraft intended to be compatible…",
+      "iconUrl": "https://cdn.modrinth.com/data/YL57xq9U/18d0e7f076d3d6ed5bedd472b853909aac5da202_96.webp"
+    },
+    {
+      "slug": "ixeris",
+      "name": "Ixeris",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Buffered raw input and threaded event polling",
+      "iconUrl": "https://cdn.modrinth.com/data/p8RJPJIC/4ca312df105cb246a91f5b782bfd863930d8888f_96.webp"
+    },
+    {
+      "slug": "ksyxis",
+      "name": "Ksyxis",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Speed up your world loading by removing unneeded chunks.",
+      "iconUrl": "https://cdn.modrinth.com/data/2ecVyZ49/e7c3867d7a7da57f987bc0d6d37de88020c626a5_96.webp"
+    },
+    {
+      "slug": "lambdynamiclights",
+      "name": "LambDynamicLights - Dynamic Lights",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds dynamic lights to Minecraft as the most feature-complete and…",
+      "iconUrl": "https://cdn.modrinth.com/data/yBW8D80W/d4f5c3ff8df7caf024178b04eca6d69f95979cfe_96.webp"
+    },
+    {
+      "slug": "leadphysics",
+      "name": "LeadPhysics",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Physical lead simulation with configurable rendering and collisions.…",
+      "iconUrl": "https://cdn.modrinth.com/data/Bm1xIawU/f9c1f5f9d757b40874cd98fb0317205929f57bf6_96.webp"
+    },
+    {
+      "slug": "lmd",
+      "name": "Let Me Despawn",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Improves performance by tweaking mob despawn rules. Say bye to pesky…",
+      "iconUrl": "https://cdn.modrinth.com/data/vE2FN5qn/2609f745e46bd92e57a67e1da07319eb2154c6f7.png"
+    },
+    {
+      "slug": "libjf",
+      "name": "LibJF",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A library for my mods",
+      "iconUrl": "https://cdn.modrinth.com/data/WKwQAwke/icon.png"
+    },
+    {
+      "slug": "lithium",
+      "name": "Lithium",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "No-compromises game logic optimization mod, useful for both…",
+      "iconUrl": "https://cdn.modrinth.com/data/gvQqBUqZ/bcc8686c13af0143adf4285d741256af824f70b7_96.webp"
+    },
+    {
+      "slug": "mc2-interactive-foliage",
+      "name": "Interactive Foliage",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Plants physically react to players, mobs and items — no shaders…",
+      "iconUrl": "https://cdn.modrinth.com/data/ba5MV2CF/fef912048183d2710eb9f6cd3d44d5452e509662_96.webp"
+    },
+    {
+      "slug": "modernfix-mvus",
+      "name": "ModernFix-mVUS",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A fork of ModernFix that adds minor version update support.",
+      "iconUrl": "https://cdn.modrinth.com/data/TjSm1wrD/e1d2433476995be1b1a94ff1afaf6167752274ae_96.webp"
+    },
+    {
+      "slug": "modmenu",
+      "name": "Mod Menu",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds a mod menu to view the list of mods you have installed.",
+      "iconUrl": "https://cdn.modrinth.com/data/mOgUt4GM/5a20ed1450a0e1e79a1fe04e61bb4e5878bf1d20.png"
+    },
+    {
+      "slug": "moreculling",
+      "name": "More Culling",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A mod that changes how multiple types of culling are handled in order…",
+      "iconUrl": "https://cdn.modrinth.com/data/51shyZVL/c51b07193b56e952269ef50101d12aecba2b4747_96.webp"
+    },
+    {
+      "slug": "mossylib",
+      "name": "MossyLib",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Library with basic utilities for Mossy projects.",
+      "iconUrl": "https://cdn.modrinth.com/data/ffLDUGbm/1787470c1ca81b2d0e0b3a9370d6f039d4f13207_96.webp"
+    },
+    {
+      "slug": "mru",
+      "name": "MRU",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A library mod used by Cassian and IMB11's mods to function.",
+      "iconUrl": "https://cdn.modrinth.com/data/SNVQ2c0g/82339bfc8a0a3a6a3c376f5c29555a378379cfa0_96.webp"
+    },
+    {
+      "slug": "no-chat-reports",
+      "name": "No Chat Reports",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Makes chat unreportable (where possible)",
+      "iconUrl": "https://cdn.modrinth.com/data/qQyHxfxd/icon.png"
+    },
+    {
+      "slug": "not-enough-animations-emf-compat",
+      "name": "EMF Compat: Not Enough Animations",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Makes Not Enough Animations work correctly with animated EMF player…",
+      "iconUrl": "https://cdn.modrinth.com/data/IGCrWfL7/cdb0dd3b911d8880731e17c08c17b51cef788c70_96.webp"
+    },
+    {
+      "slug": "not-enough-animations",
+      "name": "Not Enough Animations",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Bringing first-person animations to the third-person",
+      "iconUrl": "https://cdn.modrinth.com/data/MPCX6s5C/b97fd5f7a893165052408b747286d6eb38d57abb_96.webp"
+    },
+    {
+      "slug": "packed-packs",
+      "name": "Packed Packs",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Pack resource and data packs into profiles with multiple selection,…",
+      "iconUrl": "https://cdn.modrinth.com/data/8Pq6Exn2/ddfa6a6bc6bc282160fa92b70df711fab6948d01.png"
+    },
+    {
+      "slug": "particle-effects",
+      "name": "Particle Effects",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Visual Mod which adds unique textured particles for every effect in…",
+      "iconUrl": "https://cdn.modrinth.com/data/PLAGcSFJ/a1c206381f51a0fb2bf5e5e38bb850392b31141b_96.webp"
+    },
+    {
+      "slug": "particle-rain",
+      "name": "Particle Rain",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Replaces weather with prettier particle effects",
+      "iconUrl": "https://cdn.modrinth.com/data/nrikgvxm/e637304d1bec07c39e833d810aa4bdbb9703bf95_96.webp"
+    },
+    {
+      "slug": "particle-core",
+      "name": "Particle Core",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Particle optimizations: Culling, rendering optimizations,…",
+      "iconUrl": "https://cdn.modrinth.com/data/RSeLon5O/147110a6a4457b2f287f68fc626771f0f8ef2cde_96.webp"
+    },
+    {
+      "slug": "particular-reforged",
+      "name": "Particular ✨ Reforged",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Particular is a mod that enhances Minecraft's ambience with many…",
+      "iconUrl": "https://cdn.modrinth.com/data/pYFUU6cq/152536579fe8e475149273b64cabdef764b3da9f_96.webp"
+    },
+    {
+      "slug": "placeholder-api",
+      "name": "Text Placeholder API",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Placeholder and Text manipulation library for your Minecraft mods.",
+      "iconUrl": "https://cdn.modrinth.com/data/eXts2L7r/e9c9990896e6422bffc5f73d2c41b8f077348f83.png"
+    },
+    {
+      "slug": "polytone",
+      "name": "Polytone",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Customize Map Color, Block Colors, Colormaps and Block Sounds, Biome…",
+      "iconUrl": "https://cdn.modrinth.com/data/3qAYkBMB/828636188cd2427eb1158dd1e0bddd42d318ccbf_96.webp"
+    },
+    {
+      "slug": "presence-footsteps",
+      "name": "Presence Footsteps",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "..An Overly complicated Sound Mod...",
+      "iconUrl": "https://cdn.modrinth.com/data/rcTfTZr3/c08dc581f0bf3b729f86e962fa800463af86e9a2_96.webp"
+    },
+    {
+      "slug": "punchy-fpa",
+      "name": "Punchy!",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A mod that adds various first person animations and visible hands…",
+      "iconUrl": "https://cdn.modrinth.com/data/8aoMKplv/a9171ec026d659ccad5c3dff6fdfc80259d63e09.gif"
+    },
+    {
+      "slug": "puzzle",
+      "name": "Puzzle",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds resourcepack features and a GUI to configure OptiFine…",
+      "iconUrl": "https://cdn.modrinth.com/data/3IuO68q1/7f24e545ac7779557dfffb89b6e0981d0c2d4a7e_96.webp"
+    },
+    {
+      "slug": "respackopts",
+      "name": "Respackopts",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Config menus for resource packs",
+      "iconUrl": "https://cdn.modrinth.com/data/TiF5QWZY/16b68a9cf4a526e0b03e77310c98040ac2e6225c_96.webp"
+    },
+    {
+      "slug": "ripple",
+      "name": "Ripple",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Makes particles react to entities",
+      "iconUrl": "https://cdn.modrinth.com/data/5hOgUfig/8c98653a8c597caa11813257cd804363fc9a7325_96.webp"
+    },
+    {
+      "slug": "rsls",
+      "name": "Raise Sound Limit Simplified",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A mod that improves sound engine performance and raises Minecraft…",
+      "iconUrl": "https://cdn.modrinth.com/data/SKW62Pht/icon.png"
+    },
+    {
+      "slug": "scroll-walk",
+      "name": "Scroll Walk",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Alt+Scroll to slow down. Total control over your walking speed.",
+      "iconUrl": "https://cdn.modrinth.com/data/kYsKe2qV/45fd8701f59472d017807bfc947356bde561c4f9_96.webp"
+    },
+    {
+      "slug": "searchables",
+      "name": "Searchables",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Searchables is a library mod that adds helper methods that allow for…",
+      "iconUrl": "https://cdn.modrinth.com/data/fuuu3xnx/206971d54b37b30a2e728b1c194f7f096963d05a_96.webp"
+    },
+    {
+      "slug": "servercore",
+      "name": "ServerCore",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A mod that aims to optimize the minecraft server.",
+      "iconUrl": "https://cdn.modrinth.com/data/4WWQxlQP/5207e4657a1d0e929506a8c07491a42fa73b0a29_96.webp"
+    },
+    {
+      "slug": "shine",
+      "name": "Shine",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds bloom, colored lighting, and stylized effects to Minecraft,…",
+      "iconUrl": "https://cdn.modrinth.com/data/uQgWIE6A/6e084c42cc4647ca8306728c21b5e315ad552898_96.webp"
+    },
+    {
+      "slug": "shoulder-surfing-reloaded",
+      "name": "Shoulder Surfing Reloaded",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Highly configurable third person camera mod",
+      "iconUrl": "https://cdn.modrinth.com/data/kepjj2sy/4e83375b655b3a9f0e981bd747b095a4009df4e9_96.webp"
+    },
+    {
+      "slug": "skyboxify",
+      "name": "Skyboxify",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A skybox mod that allows you to use OptiFine skies in Fabric 1.21+",
+      "iconUrl": "https://cdn.modrinth.com/data/DWuwk8aA/7fe3045177b02be3aaf2706fdbbe469a1e268bd6_96.webp"
+    },
+    {
+      "slug": "smart-particles",
+      "name": "Smart Particles",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A performance mod that greatly optimizes particle rendering and…",
+      "iconUrl": "https://cdn.modrinth.com/data/l8rWP4Tc/57f5774fa5c3eb82cb5500f899eed5fd9c592bc3_96.webp"
+    },
+    {
+      "slug": "smooth-gui",
+      "name": "Smooth Gui",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Smooth animation when opening GUI for Minecraft.\nGUI fades up when…",
+      "iconUrl": "https://cdn.modrinth.com/data/j6yrZogB/513135473a86464be6f7e3f1218942f142698545_96.webp"
+    },
+    {
+      "slug": "smooth-scroll",
+      "name": "Smooth Scrolling",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Customize the scrolling smoothness or speed in various places like…",
+      "iconUrl": "https://cdn.modrinth.com/data/CllP7wW0/6d787d5cd5fface4fe9a5f6ce0770576bca09132.png"
+    },
+    {
+      "slug": "smooth-swapping",
+      "name": "Smooth Swapping",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Moves items smoothly in inventories",
+      "iconUrl": "https://cdn.modrinth.com/data/ydZic5r4/2d949628d59149ec28c08f50f61d2984dd81ecbb_96.webp"
+    },
+    {
+      "slug": "sodium-extra",
+      "name": "Sodium Extra",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A Sodium addon that adds features that shouldn't be in Sodium.",
+      "iconUrl": "https://cdn.modrinth.com/data/PtjYWJkn/0df4fb22a11e1dcb5e83cb0aadd275b571aca7a9_96.webp"
+    },
+    {
+      "slug": "sodium",
+      "name": "Sodium",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A high-performance rendering engine replacement for Minecraft, which…",
+      "iconUrl": "https://cdn.modrinth.com/data/AANobbMI/295862f4724dc3f78df3447ad6072b2dcd3ef0c9_96.webp"
+    },
+    {
+      "slug": "snow-imprints",
+      "name": "Soft Imprints",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A client-side mod that adds dynamic block trails",
+      "iconUrl": "https://cdn.modrinth.com/data/UhxJgB1o/7ccfeb3ec71c51e7928a1b16a46bc1fa76eae8a1.png"
+    },
+    {
+      "slug": "sound-physics-remastered",
+      "name": "Sound Physics Remastered",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A Minecraft mod that provides realistic sound attenuation,…",
+      "iconUrl": "https://cdn.modrinth.com/data/qyVF9oeo/798fbfae58ec95ad51f3e1d522b43227306c326c.png"
+    },
+    {
+      "slug": "sound-culling",
+      "name": "Sound Culling",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Dynamically limits and dampens overlapping sounds to reduce audio…",
+      "iconUrl": "https://cdn.modrinth.com/data/sFgqI5oP/85c1897b203b9972f1538365846ef36cc87529b7_96.webp"
+    },
+    {
+      "slug": "sound",
+      "name": "Sounds",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "It's what it says on the tin. A complete upgrade to Minecraft's SFX…",
+      "iconUrl": "https://cdn.modrinth.com/data/ZouiUX7t/b6ae84ea14654245f58856722473afeddf72360c_96.webp"
+    },
+    {
+      "slug": "shadeandsaturation",
+      "name": "Shade & Saturation Slider",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds a shade and saturation slider for visual tweeks",
+      "iconUrl": "https://cdn.modrinth.com/data/TjdLmzvL/d6a14a865004a10339293924fde74d28cdafb879.png"
+    },
+    {
+      "slug": "subtle-effects",
+      "name": "Subtle Effects",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adding many new subtle details through particles and a few sounds",
+      "iconUrl": "https://cdn.modrinth.com/data/4q8UOK1d/8a5d3febe9a9badba435a3f66a49668d04ada01f_96.webp"
+    },
+    {
+      "slug": "sway",
+      "name": "SWAY",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Realistic foliage interaction and deformation for Minecraft.",
+      "iconUrl": "https://cdn.modrinth.com/data/Gj6Yce3v/7e303b8fe41a607e41fe9f525d8851b069a910f0_96.webp"
+    },
+    {
+      "slug": "swinging-lanterns",
+      "name": "Swinging Lanterns",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds configurable swinging motions to Minecraft lanterns.",
+      "iconUrl": "https://cdn.modrinth.com/data/3IOcW74j/7a7acb86b4ee971558d8ad65aac6426b1eed5953_96.webp"
+    },
+    {
+      "slug": "tightfire",
+      "name": "Tightfire",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Makes fire render tighter against blocks like slabs and fences",
+      "iconUrl": "https://cdn.modrinth.com/data/jExZM2Rj/39f2503737f44cb721dbaf9c2fc87e11fdd5a23c.png"
+    },
+    {
+      "slug": "toolbar-sounds",
+      "name": "Toolbar Sounds",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A lightweight datapack that brings sound effects to your toolbar…",
+      "iconUrl": "https://cdn.modrinth.com/data/CsOiS4nS/a51f5830a36b5380a6e3fa8e4c9cdb90a09c02ed.png"
+    },
+    {
+      "slug": "twod_projectiles",
+      "name": "2D Projectiles ➵",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Makes projectiles (arrows, firework rockets, trident, etc.) look 2D!",
+      "iconUrl": "https://cdn.modrinth.com/data/W2K5WNdH/856a2297894fd95c11a7a0e5b2db9a7f8e06db01_96.webp"
+    },
+    {
+      "slug": "visuality",
+      "name": "Visuality",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Little visual improvements by adding a bunch of new particles.",
+      "iconUrl": "https://cdn.modrinth.com/data/rI0hvYcd/5c866549318e907bbfe0d525afe43cb17a36a481.png"
+    },
+    {
+      "slug": "vmp-fabric",
+      "name": "Very Many Players (Fabric)",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A Fabric mod designed to improve server performance at high…",
+      "iconUrl": "https://cdn.modrinth.com/data/wnEe9KBa/0bb4b66e80c6cca9c37f6f1021a94670d6f820dc_96.webp"
+    },
+    {
+      "slug": "wakes",
+      "name": "Wakes",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Adds splashes and wakes while traveling on water",
+      "iconUrl": "https://cdn.modrinth.com/data/dlNu0RQY/46be95a28f27da8a98e9721b6695703fcec2d7d8_96.webp"
+    },
+    {
+      "slug": "wavey-capes",
+      "name": "Wavey Capes",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "The cape shouldn't be a static slab",
+      "iconUrl": "https://cdn.modrinth.com/data/kYuIpRLv/a51c297bdaf9685a23cc9994372fa8d45852b98b_96.webp"
+    },
+    {
+      "slug": "wi-zoom",
+      "name": "WI Zoom",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "WI Zoom is a Minecraft mod offering up to 50x zoom with smooth camera…",
+      "iconUrl": "https://cdn.modrinth.com/data/o7DitHWP/e9930b8a9c45890f14f64cc910ec66abc15dbc9e_96.webp"
+    },
+    {
+      "slug": "windy",
+      "name": "Windy",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Client-side mod that adds wind particles to your world",
+      "iconUrl": "https://cdn.modrinth.com/data/EwYg6C78/2114520e253341130a8edf3ee2c5be61e0b7103a_96.webp"
+    },
+    {
+      "slug": "yacl",
+      "name": "YetAnotherConfigLib (YACL)",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "A builder-based configuration library for Minecraft!",
+      "iconUrl": "https://cdn.modrinth.com/data/1eAoo2KR/08c0cd32515e260f4bb20bbc0696510041523f9a_96.webp"
+    },
+    {
+      "slug": "zfastnoise",
+      "name": "Fast Noise",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Vanilla Worldgen optimization mod",
+      "iconUrl": "https://cdn.modrinth.com/data/OnlVIpq5/6f2393cd87c37ef685efb82aacc5b0c9fae0c28d.png"
+    },
+    {
+      "slug": "asynclogger",
+      "name": "Async Logger",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Moves logging off the main thread.",
+      "iconUrl": "https://cdn.modrinth.com/data/zvNzKfGF/b3cd32f8aa093ca73b960e384bf4ac46ac68aaec_96.webp"
+    },
+    {
+      "slug": "collision-fix",
+      "name": "Collision Fix",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Faster, correct collision handling.",
+      "iconUrl": "https://cdn.modrinth.com/data/CBtq0jWL/e9e08fd8035efe52dca32cb705b664b26295e093_96.webp"
+    },
+    {
+      "slug": "consumableoptimizer",
+      "name": "Consumable Optimizer",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Smoother eating and drinking.",
+      "iconUrl": "https://cdn.modrinth.com/data/4alTd2ag/861eb3ac98f0610c9987caae3ee8ee905ec3eac8_96.webp"
+    },
+    {
+      "slug": "crossbow-bow-optimizer",
+      "name": "Crossbow & Bow Optimizer",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Smoother bow and crossbow use.",
+      "iconUrl": "https://cdn.modrinth.com/data/jePYlol0/1c9cb2d62082c767e68cd27534ad524d54b33e7e_96.webp"
+    },
+    {
+      "slug": "anchor",
+      "name": "Hero's Anchor Optimizer",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "Optimized respawn anchor logic.",
+      "iconUrl": "https://cdn.modrinth.com/data/5J1t3PV8/8781049d46e9b6b67bc6eb2c3338c18fc011084f_96.webp"
+    },
+    {
+      "slug": "krypton",
+      "name": "Krypton",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Network stack optimizations.",
+      "iconUrl": "https://cdn.modrinth.com/data/fQEb0iXm/3ea60899d060a9286e03b87bfa9e71d0cbe2dde7_96.webp"
+    },
+    {
+      "slug": "kreno-fpatcher",
+      "name": "KryptonReno's Fabric Patcher",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Runtime patches for extra performance.",
+      "iconUrl": "https://cdn.modrinth.com/data/yzkasIPx/12eb3f11f8b35e8e50a7d758da3ab46c8dfc1639_96.webp"
+    },
+    {
+      "slug": "pearl_optimizer",
+      "name": "Pearl Optimizer",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Optimized ender pearl handling.",
+      "iconUrl": "https://cdn.modrinth.com/data/aSymSNSe/8ca3d2d99eb5e6fdf473b1c437eb6ecc7b38f3ec_96.webp"
+    },
+    {
+      "slug": "scalablelux",
+      "name": "ScalableLux",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Multithreaded light engine, fewer stalls.",
+      "iconUrl": "https://cdn.modrinth.com/data/Ps1zyz6x/27133942a1a58af1bb11b087957ea4cc14414dd3_96.webp"
+    },
+    {
+      "slug": "silicons",
+      "name": "Silicon",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Rendering and math optimizations.",
+      "iconUrl": "https://cdn.modrinth.com/data/MdNZOBlg/b7e1e985a0fc8bb0164b025a310c3e843b4a5211_96.webp"
+    },
+    {
+      "slug": "threatengl",
+      "name": "ThreatenGL",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "OpenGL threading tweaks.",
+      "iconUrl": "https://cdn.modrinth.com/data/RSFrpoou/eddc6c55514c9bef07626d68fdc6862bcc5aeb0d_96.webp"
+    },
+    {
+      "slug": "better-movement-(fabric)",
+      "name": "Better Movement",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Smoother client movement input.",
+      "iconUrl": "https://cdn.modrinth.com/data/ZXFzr1lx/e9b0589e5df0484e768fa81dba27272b2e1730a6_96.webp"
+    },
+    {
+      "slug": "chatpatches",
+      "name": "Chat Patches",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Persistent chat history and search.",
+      "iconUrl": "https://cdn.modrinth.com/data/MOqt4Z5n/56c954dea290ef4dd1b0d6ea92a811acac62ca85.png"
+    },
+    {
+      "slug": "client-kits",
+      "name": "Client Kits",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Save and load inventory kits.",
+      "iconUrl": "https://cdn.modrinth.com/data/oOgpKFQ2/2419e37875b1cc7022b13f5205444bbb015752fc.png"
+    },
+    {
+      "slug": "cubes-without-borders",
+      "name": "Cubes Without Borders",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Borderless fullscreen window.",
+      "iconUrl": "https://cdn.modrinth.com/data/ETlrkaYF/6c1711b4b788b5f25cc1e99ed8805aea94d9e167_96.webp"
+    },
+    {
+      "slug": "hutiertagger",
+      "name": "HutierTagger",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Tags players by tier for PvP.",
+      "iconUrl": "https://cdn.modrinth.com/data/ZjFE87YH/b65beb80279abbaae99d195b264ba028014d95c2_96.webp"
+    },
+    {
+      "slug": "g1axnamehistory",
+      "name": "G1axNameHistory",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "Name history and UUIDs in chat.",
+      "iconUrl": "https://cdn.modrinth.com/data/AwA4mJY3/bbe564ea963ca957d95c8b5367b39a82dc4308a1.png"
+    },
+    {
+      "slug": "no-death-animation",
+      "name": "No Death Animation",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Removes the death tilt animation.",
+      "iconUrl": "https://cdn.modrinth.com/data/r6VxNyu0/e339c87d40f2ccad5bc5ea52f14a66ed5b28daf5.png"
+    },
+    {
+      "slug": "raknetify",
+      "name": "Raknetify",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "Networking improvements for compatible servers.",
+      "iconUrl": "https://cdn.modrinth.com/data/5IovSY3u/39e6a3b097bd84ac78699a3da8a527b135352d15_96.webp"
+    },
+    {
+      "slug": "ridingmousefix",
+      "name": "Riding Mouse Fix",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "Fixes mouse input while riding.",
+      "iconUrl": "https://cdn.modrinth.com/data/kwS02byl/4ca19b43027b2ac0e1c9580e52aa9cf7fd674e28.png"
+    },
+    {
+      "slug": "serveraddressspacefix",
+      "name": "ServerAddressSpaceFix",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Fixes server address parsing."
+    },
+    {
+      "slug": "complete-shield-fixes",
+      "name": "Shield Fixes",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Fixes shield timing bugs.",
+      "iconUrl": "https://cdn.modrinth.com/data/HfLFMeJe/4cdbe16ddfccb93066d33680d6d5ba9a220b5767.png"
+    },
+    {
+      "slug": "simple-voice-chat",
+      "name": "Simple Voice Chat",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Proximity voice chat.",
+      "iconUrl": "https://cdn.modrinth.com/data/9eGKb6K1/icon.png"
+    },
+    {
+      "slug": "symbol-chat",
+      "name": "Symbol Chat",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Type symbols and emojis in chat.",
+      "iconUrl": "https://cdn.modrinth.com/data/NKvLVQMc/6cd9aaaeabce9b52326b6aabaeb0743255817520_96.webp"
+    },
+    {
+      "slug": "viafabricplus",
+      "name": "ViaFabricPlus",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Join servers on many older versions.",
+      "iconUrl": "https://cdn.modrinth.com/data/rIC2XJV4/34c6c433ac1cbfc1401dbe749214641fce8f1ebf_96.webp"
+    },
+    {
+      "slug": "craft-config",
+      "name": "Craft Config Lib",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Config library.",
+      "iconUrl": "https://cdn.modrinth.com/data/pqvUbuK1/88066fdfbe63f31920784daeef924dd7860627ae_96.webp"
+    },
+    {
+      "slug": "debugify",
+      "name": "Debugify",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Backports Mojang bug fixes.",
+      "iconUrl": "https://cdn.modrinth.com/data/QwxR6Gcd/d16ec025a7f2d9908248bb4d1477e3e624a2f17f_96.webp"
+    },
+    {
+      "slug": "forcecloseworldloadingscreen",
+      "name": "Force Close Loading Screen",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Closes the loading screen sooner.",
+      "iconUrl": "https://cdn.modrinth.com/data/blWBX5n1/d492b6615d766b09e2e5a274f224e1649dbeea21_96.webp"
+    },
+    {
+      "slug": "language-reload",
+      "name": "Language Reload",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Faster language loading.",
+      "iconUrl": "https://cdn.modrinth.com/data/uLbm7CG6/9cae8ec18cac3b1cc6ef1efa239f381d669264e6.png"
+    },
+    {
+      "slug": "log-cleaner",
+      "name": "Log Cleaner",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Hides noisy log spam.",
+      "iconUrl": "https://cdn.modrinth.com/data/hwRo6mwQ/797f2ec51b4007295b0ddc47f0b6d464301e996e.png"
+    },
+    {
+      "slug": "walksylib",
+      "name": "WalksyLib",
+      "category": "library",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Shared library for PvP mods.",
+      "iconUrl": "https://cdn.modrinth.com/data/7P86n6Vg/ae681f3326e26337b61ccb660ffba988565c017d.png"
+    },
+    {
+      "slug": "nvidium",
+      "name": "Nvidium",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "NVIDIA-only renderer. Managed by the NVIDIA optimization switch in Settings.",
+      "iconUrl": "https://cdn.modrinth.com/data/mIIxhiSm/44cec12425568233b0b3735e87897050d56c73ff_96.webp"
+    },
+    {
+      "slug": "betterhitreg",
+      "name": "Better Hitreg",
+      "category": "risky",
+      "locked": false,
+      "defaultEnabled": false,
+      "note": "Client-side hit registration. Many servers ban it, use at your own risk.",
+      "iconUrl": "https://cdn.modrinth.com/data/MIKwzoiY/bd1ddd73c5c2d5174b8d69c3c7988169124202d6.png"
+    }
+  ],
+  "resourcePacks": [
+    {
+      "versionId": "Xikh9SJk",
+      "name": "Classic Glint",
+      "fileName": "Classic Glint.zip",
+      "slug": "classic-glint",
+      "sha1": "6e8d7dec967a26c7a43174a2d6dd8ad240fe6172"
+    },
+    {
+      "versionId": "RP4ozzMC",
+      "name": "Low Fire",
+      "fileName": "Low Fire.zip",
+      "slug": "low-fire-pack",
+      "sha1": "0f8e2e5f6eb9f1e2fe35da7a7a0a355760998021"
+    },
+    {
+      "versionId": "4LeYKTYX",
+      "name": "Low Shield",
+      "fileName": "Low Shield.zip",
+      "slug": "low-shield-pack",
+      "sha1": "4b843b57dd0883fae0cdfece453ad359e1088d68"
+    },
+    {
+      "versionId": "gmCGV0CM",
+      "name": "Short Swords",
+      "fileName": "Short Swords.zip",
+      "slug": "short-swords-pack",
+      "sha1": "cc2362ce3974d946c398660d5ea96ad891dc4da5"
+    },
+    {
+      "versionId": "kIV3n698",
+      "name": "Teeny Totem Pop",
+      "fileName": "Teeny Totem Pop.zip",
+      "slug": "teeny-totem-pop",
+      "sha1": "6e442f6bb2f5198ce7077c90bd4233bdb17e9b5c"
+    },
+    {
+      "slug": "gLbwPaHh",
+      "name": "Enchanting Table Magic Circle v.2.5 (1.21.9 - 1.21.11)",
+      "versionId": "XJgXFYLQ",
+      "fileName": "Enchanting Table Magic Circle v.2.5 (1.21.9 - 1.21.11).zip",
+      "sha1": "bbf1b6535f7fd8b674d17b651c9543f049b2c4d7"
+    },
+    {
+      "slug": "NVBMhec4",
+      "name": "HyperPunchy-v2.5+",
+      "versionId": "nJiwz3lJ",
+      "fileName": "HyperPunchy-v2.5+.zip",
+      "sha1": "244f180a03bdcbe4333e3535cadf4e83762d0c47"
+    },
+    {
+      "slug": "ulXVKXEC",
+      "name": "Brush+Juice-5.4.0",
+      "versionId": "XCPEnuWN",
+      "fileName": "Brush+Juice-5.4.0.zip",
+      "sha1": "a630eace0e90b52c650b696a1b622b8c3abb2088"
+    },
+    {
+      "slug": "Q9KwAZ06",
+      "name": "Resprited",
+      "versionId": "aFoQpfbG",
+      "fileName": "Resprited.zip",
+      "sha1": "d84b3ea8d6d8813b1bef25b64bce9873b2fcc070"
+    },
+    {
+      "slug": "yE1XChcU",
+      "name": "Rethoughted Spawn Eggs",
+      "versionId": "rviWLDMa",
+      "fileName": "Rethoughted Spawn Eggs.zip",
+      "sha1": "9099fff78e1cea513cfd5c0513b4db1077cf0b63"
+    },
+    {
+      "slug": "UGEVQ6t9",
+      "name": "Fancy Crops v1.3",
+      "versionId": "ZJEBZjg6",
+      "fileName": "Fancy Crops v1.3.zip",
+      "sha1": "788e5169eb064b696b2e20d4c5d998cceb387a2e"
+    },
+    {
+      "slug": "cIbVOeXJ",
+      "name": "Story Mode Clouds",
+      "versionId": "ShzxIBqk",
+      "fileName": "Story Mode Clouds.zip",
+      "sha1": "f04083106aa17fbfb1eb477a69963b4295595c92"
+    },
+    {
+      "slug": "GY1qsy2O",
+      "name": "§6Bray's Bow & Arrows v1.2.3",
+      "versionId": "gIAJoXtO",
+      "fileName": "§6Bray's Bow & Arrows v1.2.3.zip",
+      "sha1": "da70efe1d75da990098de2c95146cf81a2fdf2ff"
+    },
+    {
+      "slug": "bwYhZ5Le",
+      "name": "trabens-3d-arrows-1.2",
+      "versionId": "olGuFrhW",
+      "fileName": "trabens-3d-arrows-1.2.zip",
+      "sha1": "29cde698be39a1f70ccf562a168514ae81630e2f"
+    },
+    {
+      "slug": "fJhp04UU",
+      "name": "Shiny Hearts 1.1",
+      "versionId": "VGi1caYg",
+      "fileName": "Shiny Hearts 1.1.zip",
+      "sha1": "51658329efe179ff936d9826fa54de726ca6f844"
+    },
+    {
+      "slug": "O7z3QKAG",
+      "name": "Icons v.1.13.4",
+      "versionId": "RNni6iXH",
+      "fileName": "Icons v.1.13.4.zip",
+      "sha1": "6b3eddcace8c82bf95d96c57d0d633058631f46e"
+    },
+    {
+      "slug": "TAIMVZCL",
+      "name": "FA+Player-v1.1",
+      "versionId": "Wj7NeGjP",
+      "fileName": "FA+Player-v1.1.zip",
+      "sha1": "122e397af111e3dc5fb6b60004aad9464980f13a"
+    },
+    {
+      "slug": "E6UMWeLX",
+      "name": "FA+Player_Expressions-v1.2 (put on top of FA Player)",
+      "versionId": "4nucOSHc",
+      "fileName": "FA+Player_Expressions-v1.2.zip",
+      "sha1": "40d7a3ac13b83b8c79b917ccdf2851fe49567bc4"
+    },
+    {
+      "slug": "kuutk8OW",
+      "name": "Just 3d armors 1.4",
+      "versionId": "Ae4kaiFk",
+      "fileName": "Just 3d armors 1.4.zip",
+      "sha1": "13c92b767076ffaf930abc7cc5213662a6c44dcb"
+    },
+    {
+      "slug": "ojdqgkQK",
+      "name": "Trident Fusion 2",
+      "versionId": "UcRTXbVy",
+      "fileName": "Trident Fusion 2.zip",
+      "sha1": "dda9e37a90416ea99061c114a75e402c09ba1a40"
+    },
+    {
+      "slug": "Ik3Z3RFx",
+      "name": "Fyoncle's 3D Trims",
+      "versionId": "RX7VuqZF",
+      "fileName": "Fyoncle's 3D Trims.zip",
+      "sha1": "9efb696de520210a66b00da9e56cb42d0bf131d4"
+    },
+    {
+      "slug": "50dA9Sha",
+      "name": "FreshAnimations_v1.10.5",
+      "versionId": "RGIzA5em",
+      "fileName": "FreshAnimations_v1.10.5.zip",
+      "sha1": "0d069c5583d1dd4591e55ec5ff6dd0905f3f8615"
+    },
+    {
+      "slug": "lctgpCsu",
+      "name": "FA+Details-v2.3",
+      "versionId": "qZUQ2JxK",
+      "fileName": "FA+Details-v2.3.zip",
+      "sha1": "150320584ccb0f7632b3fe81a7fe97101293c747"
+    },
+    {
+      "slug": "aqKnWmBf",
+      "name": "FA+Spiders-v2.2",
+      "versionId": "26pzeVJN",
+      "fileName": "FA+Spiders-v2.2.zip",
+      "sha1": "8a673f176a9ab80b703586547d9d527c00878451"
+    },
+    {
+      "slug": "VRS2YQn9",
+      "name": "FA+Emissive-v1.6",
+      "versionId": "byyyyS7z",
+      "fileName": "FA+Emissive-v1.6.zip",
+      "sha1": "9ded93d65124d02bdccd0c5700271da69e283c7f"
+    },
+    {
+      "slug": "hrmO5YH3",
+      "name": "golems-refreshed-fa-v2.1",
+      "versionId": "x198Pgd4",
+      "fileName": "golems-refreshed-fa-v2.1.zip",
+      "sha1": "0886c7e9d309c1248569e69466ef9d64bae993f9"
+    },
+    {
+      "slug": "ZtzFTQ38",
+      "name": "§eHorse Armor & Stuff_FA_1.21.11",
+      "versionId": "VlHAKc74",
+      "fileName": "§eHorse Armor & Stuff_FA_1.21.11.zip",
+      "sha1": "61aa25adbd012aab3c8d9fb0efb1d92fb28f1b4e"
+    },
+    {
+      "slug": "flwLm9de",
+      "name": "Tears & Cheers 1.3 - Panorama",
+      "versionId": "eK9toPku",
+      "fileName": "Tears & Cheers 1.3 - Panorama.zip",
+      "sha1": "5353cf2a8550b74add7d8b820f8521329e61ae27"
+    },
+    {
+      "slug": "wu98VK2w",
+      "name": "Fox_Refreshed_FA_V1",
+      "versionId": "L0niJsx8",
+      "fileName": "Fox_Refreshed_FA_V1.zip",
+      "sha1": "ad83093709dc86056819b9cfaf7a40f6ae26acc3"
+    },
+    {
+      "slug": "P4Y2W7Ny",
+      "name": "§9Drodi's Illagers x FA [v5.2]",
+      "versionId": "afT2DcAE",
+      "fileName": "§9Drodi's Illagers x FA [v5.2].zip",
+      "sha1": "aa2450ad6714794bed25637802b1b6b20ce4e17b"
+    },
+    {
+      "slug": "XZhhYcY0",
+      "name": "Fresh Skeleton Physics",
+      "versionId": "wHqKIDhw",
+      "fileName": "Fresh Skeleton Physics.zip",
+      "sha1": "ff2ca04683778f5a3ba57f7c2d951fac74c68910"
+    },
+    {
+      "slug": "AhPf2E1u",
+      "name": "FA+Creepers-v2.1",
+      "versionId": "GrfbfoJB",
+      "fileName": "FA+Creepers-v2.1.zip",
+      "sha1": "41ebafbc64e1d90ef1628e3ffb8da7d2dd3b2c6c"
+    },
+    {
+      "slug": "d2srP5t3",
+      "name": "AL's Creepers Revamped 2.0",
+      "versionId": "nhyEtMeW",
+      "fileName": "AL's Creepers Revamped 2.0.zip",
+      "sha1": "862d874e41dceaaaf7593d02dc0218b44d230376"
+    },
+    {
+      "slug": "RQUfNOVH",
+      "name": "AL's Piglins Revamped+FA 1.2",
+      "versionId": "WogeFltv",
+      "fileName": "AL's Piglins Revamped+FA 1.2.zip",
+      "sha1": "4fa893db916341bce3f0fec9f782af637004bbb6"
+    },
+    {
+      "slug": "iKIcN9kc",
+      "name": "AL's Zombies Revamped+FA 1.4.1",
+      "versionId": "E9lqUdLZ",
+      "fileName": "AL's Zombies Revamped+FA 1.4.1.zip",
+      "sha1": "880efe33cf2c12a9b331f1334ca3f588fd8da7d5"
+    },
+    {
+      "slug": "Ov4CTV3r",
+      "name": "Prettier-Horses-1.4.1(Fresh-Animations)",
+      "versionId": "7bZx5YwB",
+      "fileName": "Prettier-Horses-1.4.1(Fresh-Animations).zip",
+      "sha1": "53c4ec1004751bef242ddd9c60485d341312bce1"
+    },
+    {
+      "slug": "sNfe5Lxl",
+      "name": "§3Fresh §bWeapons & Tools",
+      "versionId": "1VWxT7Mi",
+      "fileName": "§3Fresh §bWeapons & Tools.zip",
+      "sha1": "8cae8ba8dc8f8bb3ab5ac3b8296566f602b17205"
+    },
+    {
+      "slug": "l2nl8HQJ",
+      "name": "Refined Buckets 2.4.1",
+      "versionId": "IDRASEyH",
+      "fileName": "Refined Buckets 2.4.1.zip",
+      "sha1": "8c7f840b603430e5d33e0263f416a07142651270"
+    },
+    {
+      "slug": "PuwwhnS7",
+      "name": "§aBetter Fresher 3D Books v1.5.1",
+      "versionId": "PxP0VCwq",
+      "fileName": "§aBetter Fresher 3D Books v1.5.1.zip",
+      "sha1": "9ff8c89591a77c6ef4609ee8abd4ee2242fcf207"
+    },
+    {
+      "slug": "elBxAvkW",
+      "name": "Just 3D Potions",
+      "versionId": "2UHFzGd5",
+      "fileName": "Just 3D Potions.zip",
+      "sha1": "78b5bf3b1325c6c0bae3e33dad31a5ac503ff298"
+    },
+    {
+      "slug": "k7um3II4",
+      "name": "§d§lGlowy Nether Portals",
+      "versionId": "bbL23zQU",
+      "fileName": "§d§lGlowy Nether Portals.zip",
+      "sha1": "18d275d55cd16cea624796d0206d00ca6e983bd4"
+    },
+    {
+      "slug": "SWJC4o8x",
+      "name": "Enhanced Shulkers x Fresh Animations",
+      "versionId": "KrBSJO6v",
+      "fileName": "Enhanced Shulkers x Fresh Animations.zip",
+      "sha1": "bded81fd31e2f9dbdeb0e24b2b4f4ed7e022bbb6"
+    },
+    {
+      "slug": "wyzOam9h",
+      "name": "Fresh Flowers and Plants 1.4.8",
+      "versionId": "cEvoLuXa",
+      "fileName": "Fresh Flowers and Plants 1.4.8.zip",
+      "sha1": "a53561c9fe1d4de1226e76d3fa03f201e37dc0b7"
+    },
+    {
+      "slug": "M6aa729D",
+      "name": "refined torches 2.1",
+      "versionId": "e7EW6ibn",
+      "fileName": "refined torches 2.1.zip",
+      "sha1": "c54c37df63e0419ec2b834a67f256cd59ecbb2e4"
+    },
+    {
+      "slug": "UoLAbzII",
+      "name": "Fresh Food",
+      "versionId": "kQYADnq4",
+      "fileName": "Fresh Food.zip",
+      "sha1": "d562843c91b4b9001db3e131dba37fae2e38d573"
+    },
+    {
+      "slug": "jyZfZovk",
+      "name": "Enhanced Flower Pots V1-9",
+      "versionId": "7jcsgAVl",
+      "fileName": "Enhanced Flower Pots V1-9.zip",
+      "sha1": "3b5c797a476d4062e5d93a5a7eedcd17ea7cd8f8"
+    },
+    {
+      "slug": "nVlzkEBu",
+      "name": "sound balancing",
+      "versionId": "FA0NhSQh",
+      "fileName": "sound balancing.zip",
+      "sha1": "7bddc9e3a0b59bbfdb913d42ee2200e6986468cd"
+    },
+    {
+      "slug": "qdNj7A1T",
+      "name": "Fresh Music Discs",
+      "versionId": "s2cAkYTJ",
+      "fileName": "Fresh Music Discs.zip",
+      "sha1": "98eeb32449329ec4da1ba5f24f83cf1bc9b8585d"
+    },
+    {
+      "slug": "8262nqZo",
+      "name": "Mace Fusion",
+      "versionId": "fATrnhuN",
+      "fileName": "Mace Fusion.zip",
+      "sha1": "f36a6b7d774c02651c6577191c1322886a6c44eb"
+    },
+    {
+      "slug": "koLlIzIB",
+      "name": "Fresh Seeds 1.3",
+      "versionId": "AZ5XAwsx",
+      "fileName": "Fresh Seeds 1.3.zip",
+      "sha1": "093d99a60b7d761454626ed1f70057fc83fadc0b"
+    },
+    {
+      "slug": "EJtEdO0N",
+      "name": "Cute Pumpkin 1.21.9",
+      "versionId": "zGo77elW",
+      "fileName": "Cute Pumpkin.zip",
+      "sha1": "03507b466f7b8945bee4862c442849a97d7d1f16"
+    },
+    {
+      "slug": "HtIrK6OV",
+      "name": "Dimanic Beds",
+      "versionId": "Po1Q2Pe5",
+      "fileName": "Dimanic Beds.zip",
+      "sha1": "0b5c142f5c5d792b9f9af405b4470f080f29f8bc"
+    },
+    {
+      "slug": "Ik2kfsWC",
+      "name": "AL's Armor Stands Revamped",
+      "versionId": "NNFbgODp",
+      "fileName": "AL's Armor Stands Revamped.zip",
+      "sha1": "d0be625d2c21885b25848672f4a34d7d2a30cebd"
+    },
+    {
+      "slug": "ZbZNRA1g",
+      "name": "boss-refreshed-v2",
+      "versionId": "YtkUXFnb",
+      "fileName": "boss-refreshed-v2.zip",
+      "sha1": "d4a8a6cdf5a0c96b7fc212ac3657c1d96c876997"
+    },
+    {
+      "slug": "1OR06fW9",
+      "name": "3D Harness x Fresh Animations",
+      "versionId": "a0QVMnbA",
+      "fileName": "3D Harness x Fresh Animations.zip",
+      "sha1": "f24bcfe6dc0ac840765365fdff459d600ae6a13a"
+    },
+    {
+      "slug": "LGnScTVE",
+      "name": "Glowing 3D Totem",
+      "versionId": "nXRYkgY5",
+      "fileName": "Glowing 3D Totem.zip",
+      "sha1": "1e5bcecad783bd46c0cf74216f551a4e197671dd"
+    },
+    {
+      "slug": "23O9JVMV",
+      "name": "FA+Objects-v2.1.2",
+      "versionId": "AIGgXNdl",
+      "fileName": "FA+Objects-v2.1.2.zip",
+      "sha1": "bea6b91e4234b7223010d7ac248123d0398e7aa2"
+    },
+    {
+      "slug": "GB2EXKpD",
+      "name": "Gentler Weather Sounds 2.2.0",
+      "versionId": "h9LZVq3I",
+      "fileName": "Gentler Weather Sounds 2.2.0.zip",
+      "sha1": "acf6429087da9f8f942ccc842f14820a37856d25"
+    },
+    {
+      "slug": "YSIJ1xkc",
+      "name": "sunbathing-v1.9",
+      "versionId": "vOdbhHRf",
+      "fileName": "sunbathing-v1.9.zip",
+      "sha1": "e7a04f6e2a7acfa7efa6fa32b238eb1d0dcef740"
+    }
+  ],
+  "shaders": [
+    {
+      "slug": "pgzM6RBY",
+      "name": "BSLClassic_v10.0",
+      "versionId": "a05qYRrG",
+      "fileName": "BSLClassic_v10.0.zip",
+      "sha1": "e753bd1d3e55b35f6af165f7c657d3cf7a5a9e99"
+    },
+    {
+      "slug": "HVnmMxH1",
+      "name": "ComplementaryReimagined_r5.8.1",
+      "versionId": "yCCduG44",
+      "fileName": "ComplementaryReimagined_r5.8.1.zip",
+      "sha1": "5a021081f0178ed91dd911194071465ab0a4348b"
+    },
+    {
+      "slug": "DoODk4HD",
+      "name": "I Like Vanilla v1.4.2b",
+      "versionId": "mlRHgUyG",
+      "fileName": "I Like Vanilla v1.4.2b.zip",
+      "sha1": "46fc57716fe4fc39bb8fa1684a2fa7fb0f7c521a"
+    },
+    {
+      "slug": "lLqFfGNs",
+      "name": "photon_v1.3b",
+      "versionId": "gUv7fBPN",
+      "fileName": "photon_v1.3b.zip",
+      "sha1": "d975d25c9686de5f10e8b86c8518613cdf3f040a"
+    },
+    {
+      "slug": "kmwfVOoi",
+      "name": "rethinking-voxels_r0.1-beta9",
+      "versionId": "cpD4esk9",
+      "fileName": "rethinking-voxels_r0.1-beta9.zip",
+      "sha1": "9689915ec1a7215eb6060be2a08eaf3a09ebdbab"
+    },
+    {
+      "slug": "EPsIYDj1",
+      "name": "VanillaPlus_v3.3",
+      "versionId": "U3rhmRqW",
+      "fileName": "VanillaPlus_v3.3.zip",
+      "sha1": "e3e6d764cfb598fc4d0e62c6dd99f1211037ee38"
+    },
+    {
+      "slug": "l6Uqs2fS",
+      "name": "Visual-Vibrance-v0.3.5a",
+      "versionId": "zGC385Y8",
+      "fileName": "Visual-Vibrance-v0.3.5a.zip",
+      "sha1": "e60e5c1ea1243bf93798ddd34b4a70202781cab8"
+    },
+    {
+      "slug": "RphJSnEs",
+      "name": "§r§lAstra§4§lLex§r§l_By_LexBoosT_§4§lV93.0§r§l",
+      "versionId": "qSbtQS2o",
+      "fileName": "§r§lAstra§4§lLex§r§l_By_LexBoosT_§4§lV93.0§r§l.zip",
+      "sha1": "1041c11b811ee3546bca75cbb14c8c1916a2e9c3"
+    }
+  ],
+  "selectedShader": "§r§lAstra§4§lLex§r§l_By_LexBoosT_§4§lV93.0§r§l.zip"
+}
