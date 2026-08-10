@@ -50,6 +50,8 @@ export interface Settings {
    * Heap size is not in here; the memory slider owns `-Xms`/`-Xmx`.
    */
   jvmFlags: string;
+  /** Show what you are doing on your Discord profile. */
+  discordRpc: boolean;
   /** Every signed-in account, in the order they were added. Tokens live here. */
   accounts: MinecraftAccount[];
   /** UUID of the account launches and the profile use; null when none is signed in. */
@@ -66,6 +68,7 @@ const DEFAULTS: Settings = {
   launchBehaviour: 'stay',
   nvidiaOptimize: null,
   jvmFlags: '',
+  discordRpc: true,
   accounts: [],
   activeUuid: null,
 };

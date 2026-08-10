@@ -82,6 +82,24 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
             </div>
           </Section>
 
+          <Section title="Discord" delay={120}>
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <p className="text-[13px] font-semibold text-ink">Show on your profile</p>
+                <p className="mt-1 text-[12px] leading-relaxed text-ink-faint">
+                  Puts BestClient on your Discord profile: whether you are in the launcher or
+                  in game, which server you joined, and how long you have been playing.
+                  Nothing else is sent, and turning this off clears it straight away.
+                </p>
+              </div>
+              <Switch
+                checked={settings.discordRpc ?? true}
+                onChange={(next) => void onPatch({ discordRpc: next })}
+                label="Discord presence"
+              />
+            </div>
+          </Section>
+
           <Section title="Launch" delay={140}>
             <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
               What the launcher does with itself once the game window opens. The choice is

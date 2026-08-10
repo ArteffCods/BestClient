@@ -1,7 +1,7 @@
 {
-  "version": "0.3.4",
-  "notes": "News pictures lose the dashed outline on hover.",
-  "tag": "v0.3.4",
-  "asset": "BestClient-Setup-0.3.4.exe",
-  "sha256": "df728819d4d424163d236dd1e0a357c2efeb6b5dd88387add62ec19490473df7"
+  "version": "0.3.5",
+  "notes": "Discord presence, and the injection routes into the game closed.",
+  "tag": "v0.3.5",
+  "asset": "BestClient-Setup-0.3.5.exe",
+  "sha256": "2f42d655f16a4b383ad5050ebc9baa31d3bea988ece1f22668c3ac724467cc00"
 }

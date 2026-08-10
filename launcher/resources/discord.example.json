@@ -1,0 +1,17 @@
+{
+  "_comment": [
+    "Discord Rich Presence. Copy this file to discord.json next to it and put your own",
+    "application id in clientId, then rebuild.",
+    "",
+    "Make the application at https://discord.com/developers/applications. The id is the",
+    "'Application ID' on the General Information page - it is not a secret and not a token,",
+    "it only names the application to Discord.",
+    "",
+    "Under Rich Presence > Art Assets upload an image named exactly 'bestclient'; that is",
+    "the key the launcher asks for. Without it the presence still shows, just with no",
+    "artwork.",
+    "",
+    "With no discord.json at all, presence is simply never started."
+  ],
+  "clientId": "000000000000000000"
+}

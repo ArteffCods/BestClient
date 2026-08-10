@@ -1,5 +1,8 @@
 import os from 'node:os';
 
+import { checkJvmFlags } from './hardening';
+import { log } from './logger';
+
 /**
  * The JVM flag set the game starts with.
  *
@@ -88,8 +91,20 @@ export function splitFlags(raw: string): string[] {
     .filter(Boolean);
 }
 
-/** The flags a launch should use: whatever the player edited, or the defaults. */
+/**
+ * The flags a launch should use: whatever the player edited, or the defaults.
+ *
+ * Filtered on the way out, not only when the box is saved. Settings is not the only way a
+ * value can reach here - the settings file itself can be edited by hand - so the gate sits
+ * at the point the command line is actually built.
+ */
 export function resolveJvmFlags(edited: string): string[] {
   const custom = splitFlags(edited);
-  return custom.length > 0 ? custom : defaultJvmFlags();
+  const { safe, rejected } = checkJvmFlags(custom.length > 0 ? custom : defaultJvmFlags());
+
+  for (const entry of rejected) {
+    log.warn(`Refused JVM flag ${entry.flag}: it ${entry.why}.`);
+  }
+
+  return safe;
 }

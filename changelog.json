@@ -1,5 +1,18 @@
 [
   {
+    "version": "0.3.5",
+    "date": "2026-08-10",
+    "title": "Discord presence and four ways in, closed",
+    "description": "BestClient now shows on your Discord profile, and the launcher shuts the routes a cheat client uses to get into the game behind the mod check.",
+    "changes": [
+      "Discord: your profile shows whether you are in the launcher or in game, which server you joined and how long you have played, with a switch in Settings that clears it the moment you turn it off",
+      "The JVM attach mechanism is closed, which is how an injector loads itself into a game that is already running",
+      "Startup flags that can load code - Java agents, boot class path, Fabric and Mixin loader properties - are refused, in the settings box and again at launch",
+      "The launch stops if another launcher has been pointed at the game folder, because starting from it would skip the mod check entirely",
+      "The application refuses to start if its own files were edited, and can no longer be re-run as plain Node to load an outside script"
+    ]
+  },
+  {
     "version": "0.3.4",
     "date": "2026-08-10",
     "title": "News pictures lose the dashed outline",

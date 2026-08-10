@@ -20,7 +20,9 @@ import {
   searchModsPage,
   verifyModsAreFromModrinth,
 } from './core/market';
-import { defaultJvmFlags } from './core/jvmFlags';
+import { presenceIdle, presencePlaying, setDiscordEnabled, startDiscord } from './core/discord';
+import { checkJvmFlags, detectForeignLauncher } from './core/hardening';
+import { defaultJvmFlags, splitFlags } from './core/jvmFlags';
 import { loadPack, applyNvidiaOptimization, readManagedManifest, reconcileSelection, updateManagedToNewest } from './core/modpack';
 import { getNews } from './core/news';
 import { getPartnerServers } from './core/serverPing';
@@ -153,7 +155,31 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
     if (typeof patch.jvmFlags === 'string') {
       // Long enough for the full default set plus a player's own additions, short enough
       // that the field can never be used to stuff the settings file.
-      allowed.jvmFlags = patch.jvmFlags.slice(0, 4096);
+      const trimmed = patch.jvmFlags.slice(0, 4096);
+      const { rejected } = checkJvmFlags(splitFlags(trimmed));
+
+      // Refused here rather than silently dropped at launch, so the box says why. The
+      // launch path filters again anyway - the settings file can be edited by hand.
+      if (rejected.length > 0) {
+        throw new Error(
+          `${rejected.map((entry) => entry.flag).join(', ')} cannot be used: ` +
+            `${rejected[0]!.why}. A flag that loads code into the game would let a cheat ` +
+            'client in behind the mod check.',
+        );
+      }
+
+      allowed.jvmFlags = trimmed;
+    }
+
+    if (typeof patch.discordRpc === 'boolean') {
+      allowed.discordRpc = patch.discordRpc;
+      // Presence connects or clears itself immediately - a switch that only took effect
+      // on the next start would look broken.
+      setDiscordEnabled(patch.discordRpc);
+
+      if (patch.discordRpc) {
+        presenceIdle();
+      }
     }
 
     writeSettings(allowed);
@@ -381,6 +407,11 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
   void checkForUpdate();
   setInterval(() => void checkForUpdate(), CHECK_INTERVAL_MS).unref();
 
+  // Discord presence. Silently stays off when the player switched it off, when Discord
+  // is not running, or when no application id was configured.
+  startDiscord(readSettings().discordRpc);
+  presenceIdle();
+
   ipcMain.handle(CHANNELS.play, async (_event, quickConnect: string | null) => {
     if (gameProcess && gameProcess.exitCode === null) {
       throw new Error('The game is already running.');
@@ -396,6 +427,19 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
     // by hand) is a cheat risk and stops the client here, before anything is downloaded.
     // Known injectors are stopped with their own message, even when Modrinth would
     // vouch for the file.
+    // A second launcher aimed at this game folder is how the mod check gets skipped
+    // entirely: the launcher that runs the check is not the one starting the game. It
+    // cannot be prevented from here, but it will not pass unnoticed.
+    const foreign = await detectForeignLauncher();
+
+    if (foreign.length > 0) {
+      throw new Error(
+        `Another launcher has been pointed at the game folder (${foreign.join(', ')}). ` +
+          'Starting the game from it skips the mod check entirely. Delete those files, ' +
+          'or point that launcher somewhere else, and try again.',
+      );
+    }
+
     const integrity = await verifyModsAreFromModrinth();
 
     if (integrity.flagged.length > 0) {
@@ -428,12 +472,14 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
       (line) => send(CHANNELS.onGameLog, line),
       (code) => {
         gameProcess = null;
+        presenceIdle();
         restoreWindow();
         send(CHANNELS.onGameExit, code);
       },
     );
 
     gameProcess = handle.process;
+    presencePlaying(quickConnect ?? null);
 
     // Move the launcher out of the way so the game can own the cursor. A visible
     // Electron window under the fullscreen game keeps input focus, and Windows then

@@ -18,6 +18,23 @@ files:
 
 asar: true
 
+# Electron fuses: flags burned into the packaged binary, so they cannot be turned back on
+# without repacking and re-signing the whole application.
+#
+# - onlyLoadAppFromAsar + enableEmbeddedAsarIntegrityValidation: the executable carries the
+#   archive's hash and refuses to start if the app code was edited. Swapping a file inside
+#   app.asar to inject something is the obvious way to attack a launcher; this closes it.
+# - runAsNode off, nodeOptions off, inspect arguments off: without these, the shipped
+#   Electron binary can be re-run as plain Node and told to require an arbitrary script
+#   through NODE_OPTIONS - an injection route that needs no modified files at all.
+electronFuses:
+  runAsNode: false
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  enableEmbeddedAsarIntegrityValidation: true
+  onlyLoadAppFromAsar: true
+  enableCookieEncryption: true
+
 win:
   target:
     - target: nsis

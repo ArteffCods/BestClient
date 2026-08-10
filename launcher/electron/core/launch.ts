@@ -5,6 +5,7 @@ import path from 'node:path';
 
 import { BRAND } from './brand';
 import type { InstallResult } from './install';
+import { ATTACH_GUARD } from './hardening';
 import { resolveJvmFlags } from './jvmFlags';
 import { log } from './logger';
 import { dirs, exists } from './paths';
@@ -89,6 +90,9 @@ export function buildCommand(
     `-Dminecraft.launcher.brand=${BRAND.name.toLowerCase()}`,
     `-Dminecraft.launcher.version=${app.getVersion()}`,
     ...jvmArgs,
+    // Last on purpose: for -XX flags the JVM takes the final occurrence, so nothing
+    // earlier on the line can re-open the attach mechanism an injector needs.
+    ATTACH_GUARD,
     install.mainClass,
     ...gameArgs,
     // The client always opens in fullscreen. Windowed installs are the disconnector's

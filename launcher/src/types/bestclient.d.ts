@@ -26,6 +26,8 @@ export interface PublicSettings {
   nvidiaOptimize: boolean;
   /** The whole JVM flag block; empty means the launcher's defaults are in use. */
   jvmFlags: string;
+  /** Show what you are doing on your Discord profile. */
+  discordRpc: boolean;
   account: PublicAccount | null;
 }
 
