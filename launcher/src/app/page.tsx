@@ -491,13 +491,13 @@ function PlayStage({
         {/* What you are about to launch. Only the version is the control - the pencil sits
             against it, so the thing you can change and the mark saying so are one target;
             the renderer beside it is a fact, not a button. */}
-        <p className="flex items-baseline gap-2.5">
+        <p className="flex w-fit items-center gap-3 rounded-lg border border-edge bg-panel px-3.5 py-2 backdrop-blur-md">
           <button
             type="button"
             onClick={onEditProfile}
             aria-haspopup="dialog"
             aria-label={`Minecraft ${minecraft}. Choose a different version`}
-            className="group flex cursor-pointer items-baseline gap-2 rounded-md transition-colors"
+            className="group flex cursor-pointer items-center gap-2 rounded-md transition-colors"
           >
             {/* Fixed size: the mark stays put under the cursor and only changes colour,
                 because something that grows when you approach it is harder to hit. */}
@@ -507,7 +507,7 @@ function PlayStage({
               viewBox="0 0 16 16"
               fill="none"
               aria-hidden="true"
-              className="translate-y-1 text-[#cbc0d4] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] transition-colors group-hover:text-white"
+              className="shrink-0 text-[#cbc0d4] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] transition-colors group-hover:text-white"
             >
               <path
                 d="M11.2 2.3 L13.7 4.8 L5.4 13.1 L2 14 L2.9 10.6 Z M10 3.5 L12.5 6"
