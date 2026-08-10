@@ -92,19 +92,22 @@ export function splitFlags(raw: string): string[] {
 }
 
 /**
- * The flags a launch should use: whatever the player edited, or the defaults.
+ * The flags a launch uses: the tuned set, then whatever the player added.
  *
- * Filtered on the way out, not only when the box is saved. Settings is not the only way a
- * value can reach here - the settings file itself can be edited by hand - so the gate sits
- * at the point the command line is actually built.
+ * The defaults are not editable. They were chosen against frame time, and a launcher that
+ * lets them be rewritten spends its life explaining why someone's game stutters. What the
+ * player adds goes after them, so a later flag still wins where the JVM takes the last
+ * occurrence - the whole set stays reachable without any of it being removable.
+ *
+ * Additions are filtered here, not only when the box is saved: the settings file can be
+ * edited by hand, so the gate has to sit where the command line is actually built.
  */
-export function resolveJvmFlags(edited: string): string[] {
-  const custom = splitFlags(edited);
-  const { safe, rejected } = checkJvmFlags(custom.length > 0 ? custom : defaultJvmFlags());
+export function resolveJvmFlags(extra: string): string[] {
+  const { safe, rejected } = checkJvmFlags(splitFlags(extra));
 
   for (const entry of rejected) {
     log.warn(`Refused JVM flag ${entry.flag}: it ${entry.why}.`);
   }
 
-  return safe;
+  return [...defaultJvmFlags(), ...safe];
 }

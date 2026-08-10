@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 
@@ -18,7 +18,7 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
   const [applyingNvidia, setApplyingNvidia] = useState(false);
 
   if (!settings || !info) {
-    return <p className="text-sm text-ink-faint">Loading settings…</p>;
+    return <p className="text-sm text-ink-faint">Loading settingsâ€¦</p>;
   }
 
   return (
@@ -31,7 +31,7 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
         <div className="space-y-4">
           <Section title="Memory" delay={60}>
             <p className="mb-4 text-[12px] leading-relaxed text-ink-faint">
-              Maximum handed to the JVM. 4–6 GB is plenty for PvP: extra heap brings no FPS, only
+              Maximum handed to the JVM. 4â€“6 GB is plenty for PvP: extra heap brings no FPS, only
               longer GC pauses, and it is the pause that costs you the hit.
             </p>
             <div className="flex items-center gap-5">
@@ -76,7 +76,7 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
               />
               {applyingNvidia ? (
                 <span className="animate-pulse font-mono text-[10.5px] text-ink-faint">
-                  applying…
+                  applyingâ€¦
                 </span>
               ) : null}
             </div>
@@ -150,7 +150,7 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
                   onRepair();
                 }}
               >
-                {busy ? 'Verifying…' : 'Verify and repair files'}
+                {busy ? 'Verifyingâ€¦' : 'Verify and repair files'}
               </Action>
               <Action
                 onClick={async () => {
@@ -158,7 +158,7 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
                   setNote({ source: 'maintenance', text: `${result.applied.length} settings restored.` });
                 }}
               >
-                Reset PvP defaults
+                Reset defaults
               </Action>
               <Action onClick={() => void window.bestclient.openInstanceFolder()}>
                 Open game folder
@@ -280,14 +280,17 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
 }
 
 /**
- * The whole JVM command line, shown and editable.
+ * The JVM command line: the tuned set, locked, and a box for your own additions.
  *
- * Heap size is not in the box: the Memory slider above owns it, and two controls writing
- * the same flag would fight. It is printed as the first, greyed line so the list still
- * reads as the complete set the game starts with.
+ * The defaults are shown but not editable. They were chosen against frame time, and a
+ * launcher that lets them be rewritten spends its life explaining why someone's game
+ * stutters. Additions go after them, so a later flag still wins where the JVM takes the
+ * last occurrence - nothing is hidden and nothing can be lost.
  *
- * The text is only written to disk when the field loses focus - a settings write per
- * keystroke would be a file write per keystroke.
+ * Heap size is not in either box: the Memory slider owns it, and two controls writing the
+ * same flag would fight.
+ *
+ * The text is written when the field loses focus, not per keystroke.
  */
 function StartupFlags({
   value,
@@ -300,60 +303,43 @@ function StartupFlags({
   memoryMb: number;
   onChange: (next: string) => void;
 }) {
-  const defaultText = defaults.join('\n');
-  const [text, setText] = useState(value.trim() ? value : defaultText);
-  const custom = value.trim().length > 0;
-
-  const commit = () => {
-    const next = text.trim();
-    // Typing the defaults back by hand means the defaults, not a custom set frozen at
-    // today's values - so it is stored as "unset" and keeps tracking future versions.
-    onChange(next === defaultText.trim() ? '' : next);
-  };
-
-  const restore = () => {
-    setText(defaultText);
-    onChange('');
-  };
+  const [text, setText] = useState(value);
 
   return (
     <>
       <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
-        Everything the JVM is started with. Editing this replaces the launcher&apos;s tuned
-        set entirely, so a bad flag here is a game that will not start - restore the
-        defaults and it launches again.
+        What the game is started with. The tuned set is fixed - you can add to it, and your
+        flags run after it, so anything you add wins where the JVM takes the last one.
       </p>
 
-      <p className="mb-2 rounded-lg bg-surface-high px-3 py-2 font-mono text-[11px] text-ink-faint">
-        -Xms{memoryMb}M -Xmx{memoryMb}M
-        <span className="ml-2 font-body text-[10.5px]">from the Memory slider</span>
-      </p>
+      <div className="max-h-56 overflow-y-auto rounded-lg bg-surface-high px-3 py-2 font-mono text-[11px] leading-relaxed text-ink-faint">
+        <p>
+          -Xms{memoryMb}M -Xmx{memoryMb}M
+          <span className="ml-2 font-body text-[10.5px]">from the Memory slider</span>
+        </p>
+        {defaults.map((flag) => (
+          <p key={flag}>{flag}</p>
+        ))}
+      </div>
 
+      <label className="eyebrow mb-2 mt-4 block" htmlFor="jvm-extra">
+        Your own flags
+      </label>
       <textarea
-        id="jvm-flags"
-        rows={10}
+        id="jvm-extra"
+        rows={3}
         value={text}
+        placeholder="-XX:+UseStringDeduplication"
         onChange={(event) => setText(event.target.value)}
-        onBlur={commit}
+        onBlur={() => onChange(text.trim())}
         spellCheck={false}
-        aria-label="Startup flags"
-        className="w-full resize-y whitespace-pre rounded-lg bg-surface-high px-3 py-2 font-mono text-[11px] leading-relaxed text-ink outline-none transition-colors hover:bg-surface-top"
+        className="w-full resize-y whitespace-pre rounded-lg bg-surface-high px-3 py-2 font-mono text-[11px] leading-relaxed text-ink outline-none transition-colors placeholder:text-ink-faint hover:bg-surface-top"
       />
 
-      <div className="mt-2 flex items-center justify-between gap-3">
-        <p className="text-[11px] text-ink-faint">
-          {custom ? 'Edited - the launcher defaults are not in use.' : 'Launcher defaults.'}
-        </p>
-        {custom ? (
-          <button
-            type="button"
-            onClick={restore}
-            className="shrink-0 cursor-pointer font-mono text-[10.5px] text-ink-faint underline underline-offset-2 transition-colors hover:text-rose-soft"
-          >
-            restore defaults
-          </button>
-        ) : null}
-      </div>
+      <p className="mt-2 text-[11px] leading-relaxed text-ink-faint">
+        Flags that can load code - Java agents, the boot class path, Fabric and Mixin loader
+        properties - are refused, because they would let a cheat client past the mod check.
+      </p>
     </>
   );
 }

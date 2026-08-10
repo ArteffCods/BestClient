@@ -1,7 +1,7 @@
 {
-  "version": "0.5.0",
-  "notes": "Update every mod at once, with compatibility checked before anything is installed.",
-  "tag": "v0.5.0",
-  "asset": "BestClient-Setup-0.5.0.exe",
-  "sha256": "c4a6cd012f7ef2084b95441ed1d964b3b6cc34e0ce8372b64080dea90588f82b"
+  "version": "0.5.1",
+  "notes": "Locked startup flags you can add to, and Java 25 on every version.",
+  "tag": "v0.5.1",
+  "asset": "BestClient-Setup-0.5.1.exe",
+  "sha256": "d739dc198a4e04e852f05d7c2051598b42ac86205f30cb2e989f39b8cf8ca120"
 }

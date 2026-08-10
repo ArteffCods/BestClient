@@ -183,7 +183,7 @@ export function ModsView({ unavailable, pins, onPin }: Props) {
             type="button"
             disabled={updatingAll}
             onClick={() => void updateAll()}
-            className="flex cursor-pointer items-center gap-2 rounded-lg bg-rose-deep px-3.5 py-1.5 text-[12px] font-bold text-void transition-colors hover:bg-rose disabled:cursor-default disabled:opacity-60"
+            className="flex cursor-pointer items-center gap-2 rounded-lg bg-surface px-3.5 py-1.5 text-[12px] font-semibold text-white transition-colors hover:bg-surface-high disabled:cursor-default disabled:opacity-60"
           >
             <svg
               width="14"

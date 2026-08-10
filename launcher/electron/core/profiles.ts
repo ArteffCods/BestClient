@@ -17,13 +17,29 @@ export type ProfileId = '26.2' | '26.1.2' | '1.21.11';
 export interface Profile {
   /** The Minecraft version, which is also the profile's whole identity. */
   id: ProfileId;
-  /** Java major the game needs. The version manifest wins over this when it says. */
+  /**
+   * The Java the launcher would rather run this on.
+   *
+   * A floor, not a ceiling: the version manifest says the minimum the game needs, and the
+   * higher of the two wins. Newer JVMs are faster and the game's own classes are built for
+   * an older release anyway, so running above the minimum is normal.
+   */
   javaMajor: number;
   /** Game directory name under `<root>/instances`. */
   folder: string;
   /** Card artwork in the renderer's public folder. */
   image: string;
 }
+
+/**
+ * The Java the client runs on.
+ *
+ * The newest long-term release, not the newest release full stop. A feature release is
+ * supported for six months and the mod toolchain - Mixin, ASM, the access wideners - is
+ * always behind it; an LTS is what mod authors actually build against. 26 exists and is
+ * deliberately not used.
+ */
+const JAVA = 25;
 
 export const PROFILE_ORDER: ProfileId[] = ['26.2', '26.1.2', '1.21.11'];
 
@@ -42,7 +58,9 @@ export const PROFILES: Record<ProfileId, Profile> = {
   },
   '1.21.11': {
     id: '1.21.11',
-    javaMajor: 21,
+    // Its manifest asks for 21; it runs on the current LTS, which is what every version
+    // here uses so there is one runtime on disk instead of two.
+    javaMajor: JAVA,
     folder: '1.21.11',
     image: '/profiles/mc-1.21.11.jpg',
   },

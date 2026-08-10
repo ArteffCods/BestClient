@@ -112,11 +112,15 @@ export async function installClient(
     emit(step, `${report.label} (${report.done}/${report.total})`, fraction);
   };
 
-  // 1 - Java. The version manifest is the authority on which major the game needs; the
-  // profile's own number is only the fallback for a manifest that does not say.
+  // 1 - Java. The manifest says the least the game will accept and the profile says what
+  // the launcher would rather use; the higher wins. Running above the minimum is normal -
+  // the game's own classes are built for an older release either way - and it keeps one
+  // runtime on disk instead of one per version.
   emit(1, 'Checking Java');
   const vanillaEarly = await resolveVanilla(pack.minecraft);
-  const javaMajor = vanillaEarly.javaVersion?.majorVersion ?? profile(settings.activeProfile).javaMajor;
+  const required = vanillaEarly.javaVersion?.majorVersion ?? 0;
+  const javaMajor = Math.max(required, profile(settings.activeProfile).javaMajor);
+  log.info(`Minecraft ${pack.minecraft} needs Java ${required || '?'}; using ${javaMajor}.`);
   const javaPath = await ensureJava(javaMajor, relay(1));
 
   // 2 - version metadata

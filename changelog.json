@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.5.1",
+    "date": "2026-08-11",
+    "title": "Locked startup flags and a newer Java",
+    "description": "The tuned startup flags can no longer be rewritten - you add to them instead - and every version now runs on the current long-term Java release.",
+    "changes": [
+      "Startup flags: the tuned set is fixed and shown in full; your own flags go in their own box and run after it, so anything you add still wins",
+      "Every version runs on Java 25 now, never below what the game itself asks for",
+      "\"Reset PvP defaults\" is now \"Reset defaults\"",
+      "Update all matches the other buttons: white text on the standard grey"
+    ]
+  },
+  {
     "version": "0.5.0",
     "date": "2026-08-11",
     "title": "Update every mod at once",
