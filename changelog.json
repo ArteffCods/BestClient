@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.4.2",
+    "date": "2026-08-11",
+    "title": "A roomier version picker",
+    "description": "The version picker is much larger, and picking one leaves it open so you can look at the others.",
+    "changes": [
+      "The picker fills far more of the window, with bigger artwork and a bigger version number on each",
+      "Choosing a version no longer closes the picker - the card lights up and you stay where you are",
+      "The \"In use\" tag is gone; the lit card is the answer"
+    ]
+  },
+  {
     "version": "0.4.1",
     "date": "2026-08-11",
     "title": "Pick a Minecraft version",

@@ -1,7 +1,7 @@
 {
-  "version": "0.4.1",
-  "notes": "One mod pack, three Minecraft versions: 26.2, 26.1.2 and 1.21.11.",
-  "tag": "v0.4.1",
-  "asset": "BestClient-Setup-0.4.1.exe",
-  "sha256": "27d5cef10d947d0107aa369b8e69a5ca91eb61fcdf942056b9a056567e31c6de"
+  "version": "0.4.2",
+  "notes": "A roomier version picker that stays open while you choose.",
+  "tag": "v0.4.2",
+  "asset": "BestClient-Setup-0.4.2.exe",
+  "sha256": "8858ca424c50a59f38b6a4bb38ccc6fdfc1eb7177e9b7bc0f7249cacba4dfcac"
 }

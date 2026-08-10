@@ -239,10 +239,10 @@ export default function Page() {
    */
   const handlePickProfile = useCallback(
     async (id: string) => {
-      if (profiles?.active === id) {
-        setPickingProfile(false);
-        return;
-      }
+      // Picking never closes the dialog. Switching is a comparison - you look at the
+      // three, try one, and the card lighting up is the answer; being thrown back to the
+      // Play screen each time would make trying a second one a chore.
+      if (profiles?.active === id) return;
 
       setSwitchingProfile(true);
 
@@ -261,7 +261,6 @@ export default function Page() {
         // The old profile's "these mods had no build" list means nothing here.
         setUnavailable([]);
         setPlayError(null);
-        setPickingProfile(false);
       } catch (error) {
         setPlayError(error instanceof Error ? cleanError(error.message) : String(error));
       } finally {

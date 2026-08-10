@@ -30,7 +30,7 @@ export function ProfilePicker({
       role="dialog"
       aria-modal="true"
       aria-label="Choose a Minecraft version"
-      className="fixed inset-0 z-50 grid place-items-center bg-void/70 p-6 backdrop-blur-sm"
+      className="fixed inset-0 z-50 grid place-items-center bg-void/70 p-5 backdrop-blur-sm"
       onClick={onClose}
       onKeyDown={(event) => {
         if (event.key === 'Escape') onClose();
@@ -38,12 +38,12 @@ export function ProfilePicker({
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className="w-full max-w-3xl rounded-2xl bg-surface p-5 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.9)]"
+        className="w-full max-w-6xl rounded-2xl bg-surface p-7 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.9)]"
       >
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start justify-between gap-4">
           <span>
-            <p className="display-caps text-[18px] leading-none text-ink">Choose a version</p>
-            <p className="mt-1.5 text-[12px] leading-relaxed text-ink-faint">
+            <p className="display-caps text-[24px] leading-none text-ink">Choose a version</p>
+            <p className="mt-2 text-[13px] leading-relaxed text-ink-faint">
               The same mods and settings on every one. Each keeps its own worlds - switching
               never touches the others.
             </p>
@@ -52,15 +52,15 @@ export function ProfilePicker({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="grid h-7 w-7 shrink-0 cursor-pointer place-items-center rounded-lg bg-surface-high text-ink-faint transition-colors hover:bg-surface-top hover:text-ink"
+            className="grid h-9 w-9 shrink-0 cursor-pointer place-items-center rounded-lg bg-surface-high text-ink-faint transition-colors hover:bg-surface-top hover:text-ink"
           >
-            <svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 12 12" aria-hidden="true">
               <path d="M1 1 L11 11 M11 1 L1 11" stroke="currentColor" strokeWidth="1.5" />
             </svg>
           </button>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-3">
           {profiles.map((entry) => (
             <VersionCard
               key={entry.id}
@@ -111,18 +111,12 @@ function VersionCard({
       {/* The artwork is busy everywhere, so the number gets its own shade to sit on. */}
       <span
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/75 to-transparent"
+        className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/75 to-transparent"
       />
 
-      <span className="absolute left-3 top-2.5 display-caps text-[15px] leading-none text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+      <span className="absolute left-4 top-3 display-caps text-[19px] leading-none text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
         {profile.id}
       </span>
-
-      {selected ? (
-        <span className="absolute right-2.5 top-2.5 rounded-full bg-void/75 px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-rose-soft">
-          In use
-        </span>
-      ) : null}
     </button>
   );
 }
