@@ -2,6 +2,7 @@ import path from 'node:path';
 
 import { TARGET } from './brand';
 import { ensureBundledMods } from './bundled';
+import { applyShaderDefaults, ensureContent } from './content';
 import { resolveNvidiaOptimize } from './gpu';
 import { resolveFabric } from './fabric';
 import { ensureJava } from './java';
@@ -140,9 +141,16 @@ export async function installClient(
   const bundled = await ensureBundledMods();
 
   // 7 - client configuration
+  emit(7, 'Resource packs and shader');
+
+  // Before options.txt on purpose: a pack the game cannot find when it starts is dropped
+  // from the list, and the player would have to pick every one of them again by hand.
+  await ensureContent();
+
   emit(7, 'Server list and settings');
   const servers = await ensureLockedServer();
   const gameOptions = await applyPvpDefaults(!settings.appliedPvpDefaults);
+  await applyShaderDefaults(!settings.appliedPvpDefaults);
 
   writeSettings({ appliedPvpDefaults: true });
 

@@ -231,7 +231,9 @@ export default function Page() {
   );
 
   const launchState: LaunchState = !activeAccount
-    ? 'locked'
+    ? loginBusy
+      ? 'signing-in'
+      : 'locked'
     : running
       ? 'running'
       : busy
@@ -318,6 +320,8 @@ export default function Page() {
               unavailable={unavailable}
               onPlay={(quickConnect) => void handlePlay(quickConnect)}
               onStop={() => void handleStop()}
+              onSignIn={() => void handleLogin()}
+              signInError={loginError}
               memoryMb={settings?.memoryMb ?? 4096}
               news={news}
               partners={partners}
@@ -401,6 +405,8 @@ function PlayStage({
   unavailable,
   onPlay,
   onStop,
+  onSignIn,
+  signInError,
   memoryMb,
   news,
   partners,
@@ -412,6 +418,8 @@ function PlayStage({
   unavailable: string[];
   onPlay: (quickConnect: string | null) => void;
   onStop: () => void;
+  onSignIn: () => void;
+  signInError: string | null;
   memoryMb: number;
   news: NewsItem[];
   partners: PartnerServer[];
@@ -435,8 +443,22 @@ function PlayStage({
           percent={progress?.percent ?? 0}
           step={progress?.label ?? ''}
           target={`v${minecraft}`}
-          onClick={() => onPlay(null)}
+          // Signed out, the same button starts the Microsoft sign-in; the code to enter
+          // appears in the account popup as soon as Microsoft hands it over.
+          onClick={() => (launchState === 'locked' ? onSignIn() : onPlay(null))}
         />
+
+        {launchState === 'signing-in' ? (
+          <p className="text-[11.5px] leading-relaxed text-ink-dim">
+            Finish signing in with the code in the account panel, bottom left.
+          </p>
+        ) : null}
+
+        {signInError && launchState === 'locked' ? (
+          <p className="rounded-lg bg-danger/15 px-3 py-2 text-[11.5px] leading-relaxed text-danger">
+            {signInError}
+          </p>
+        ) : null}
 
         {/* Close-game button: directly under Launch, left-aligned, a little smaller, and
             only while the game is running. */}

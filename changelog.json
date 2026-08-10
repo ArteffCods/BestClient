@@ -1,5 +1,19 @@
 [
   {
+    "version": "0.3.6",
+    "date": "2026-08-10",
+    "title": "The PvP pack set, and Launch signs you in",
+    "description": "The client now installs its own resource packs and shader and turns them on for you, and the big button signs you in when you are signed out instead of just saying so.",
+    "changes": [
+      "Five PvP resource packs install themselves and are switched on in the right order: Classic Glint, Low Fire, Low Shield, Short Swords and Teeny Totem Pop",
+      "Complementary Reimagined is installed and selected as the shader, left switched off so it costs you nothing until you want it",
+      "Everything is pinned to an exact version and checked against its hash, so a pack cannot change under you between launches",
+      "New mod: G1axNameHistory, name history and UUIDs in chat",
+      "Default settings retuned: full field of view, render distance 8, hold to sprint, no view bob, no entity shadows",
+      "Signed out, the Launch button signs you in - the code to enter appears in the account panel"
+    ]
+  },
+  {
     "version": "0.3.5",
     "date": "2026-08-10",
     "title": "Discord presence and four ways in, closed",

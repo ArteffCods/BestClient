@@ -265,6 +265,15 @@
       "iconUrl": "https://cdn.modrinth.com/data/ZjFE87YH/b65beb80279abbaae99d195b264ba028014d95c2_96.webp"
     },
     {
+      "slug": "g1axnamehistory",
+      "name": "G1axNameHistory",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Name history and UUIDs in chat.",
+      "iconUrl": "https://cdn.modrinth.com/data/AwA4mJY3/bbe564ea963ca957d95c8b5367b39a82dc4308a1.png"
+    },
+    {
       "slug": "no-death-animation",
       "name": "No Death Animation",
       "category": "pvp",

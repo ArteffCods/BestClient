@@ -1,7 +1,7 @@
 {
-  "version": "0.3.5",
-  "notes": "Discord presence, and the injection routes into the game closed.",
-  "tag": "v0.3.5",
-  "asset": "BestClient-Setup-0.3.5.exe",
-  "sha256": "2f42d655f16a4b383ad5050ebc9baa31d3bea988ece1f22668c3ac724467cc00"
+  "version": "0.3.6",
+  "notes": "PvP resource packs and shader included, and Launch signs you in.",
+  "tag": "v0.3.6",
+  "asset": "BestClient-Setup-0.3.6.exe",
+  "sha256": "3ebcbce8f63b004a7a728d2a73ded38cdb1a003e51756ee4d3b2cdd6d27a795e"
 }

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { resourcePackList } from './content';
 import { log } from './logger';
 import { dirs, exists } from './paths';
 
@@ -15,15 +16,21 @@ import { dirs, exists } from './paths';
  * - `particles:2`          - "minimal": explosion and potion particles stop blocking sight.
  * - `entityShadows:false`  - measurable in crowded fights.
  * - `graphicsMode:0`       - "fast": no fancy transparency or leaves.
- * - `renderDistance:6`     - short chunks keep the frame time flat in open arenas.
+ * - `fov:1.0`              - the maximum field of view; more of the arena on screen.
+ * - `toggleSprint:false`   - hold to sprint, so sprint state is never a surprise.
+ *
+ * `resourcePacks` lists the packs the client ships with, lowest priority first - the order
+ * Minecraft reads, where a later entry wins. The files themselves are installed before
+ * this is written, because a pack the game cannot find is dropped from the list on the
+ * first launch and the player would have to re-pick every one of them.
  */
 const PVP_DEFAULTS: Record<string, string> = {
-  renderDistance: '6',
+  renderDistance: '8',
   simulationDistance: '8',
   maxFps: '260',
   enableVsync: 'false',
   graphicsMode: '0',
-  ao: 'false',
+  ao: 'true',
   particles: '2',
   entityShadows: 'false',
   bobView: 'false',
@@ -33,6 +40,13 @@ const PVP_DEFAULTS: Record<string, string> = {
   guiScale: '2',
   autoJump: 'false',
   attackIndicator: '1',
+  fov: '1.0',
+  gamma: '0.0',
+  fullscreen: 'true',
+  toggleCrouch: 'false',
+  toggleSprint: 'false',
+  resourcePacks: resourcePackList(),
+  incompatibleResourcePacks: '[]',
 };
 
 export interface OptionsResult {
