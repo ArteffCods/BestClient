@@ -1,15 +1,11 @@
 /** IPC contract shared between the Electron main process and the preload bridge. */
 
-export type ProfileId = 'fight' | 'survival';
+export type ProfileId = '26.2' | '26.1.2' | '1.21.11';
 
-/** One of the two builds, as the picker shows it. */
+/** One Minecraft version, as the picker shows it: a picture and the version on it. */
 export interface ProfileView {
   id: ProfileId;
-  name: string;
-  tagline: string;
-  minecraft: string;
-  /** How many mods the profile installs, so the card can say what you are choosing. */
-  mods: number;
+  image: string;
 }
 
 export interface ProfileList {

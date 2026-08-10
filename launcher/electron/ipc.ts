@@ -1,6 +1,5 @@
 import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import type { ChildProcess } from 'node:child_process';
-import fs from 'node:fs';
 
 import { authConfigStatus, currentAccount, loginWithDeviceCode, logout, saveAuthClientId } from './core/auth';
 import { BRAND, TARGET } from './core/brand';
@@ -24,12 +23,12 @@ import {
 import { presenceIdle, presencePlaying, setDiscordEnabled, startDiscord } from './core/discord';
 import { checkJvmFlags, detectForeignLauncher } from './core/hardening';
 import { defaultJvmFlags, splitFlags } from './core/jvmFlags';
-import { isProfileId, PROFILES, profile } from './core/profiles';
+import { isProfileId, PROFILE_ORDER, PROFILES, profile } from './core/profiles';
 import { loadPack, applyNvidiaOptimization, readManagedManifest, reconcileSelection, updateManagedToNewest } from './core/modpack';
 import { getNews } from './core/news';
 import { getPartnerServers } from './core/serverPing';
 import { applyPvpDefaults } from './core/options';
-import { dirs, parseJson, resourceFile } from './core/paths';
+import { dirs } from './core/paths';
 import { ensureLockedServer, readServerList } from './core/servers';
 import {
   CHECK_INTERVAL_MS,
@@ -90,10 +89,9 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
     return {
       version: app.getVersion(),
       brand: { name: BRAND.name, primary: BRAND.primary, secondary: BRAND.secondary },
-      // The version shown is the active profile's, not a constant: the two builds run
-      // different Minecraft versions.
+      // The selected version, not a constant: the profile is the Minecraft version.
       target: {
-        minecraft: profile(readSettings().activeProfile).minecraft,
+        minecraft: readSettings().activeProfile,
         fabricLoader: TARGET.fabricLoader,
         javaMajor: profile(readSettings().activeProfile).javaMajor,
       },
@@ -211,48 +209,21 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
 
   ipcMain.handle(CHANNELS.packGet, () => loadPack());
 
-  ipcMain.handle(CHANNELS.profilesGet, async (): Promise<ProfileList> => {
-    const active = readSettings().activeProfile;
-
-    // The mod count comes from the pack file itself rather than a number written by hand,
-    // so the card can never claim a size the profile does not have.
-    const views = await Promise.all(
-      Object.values(PROFILES).map(async (entry) => {
-        let mods = 0;
-
-        try {
-          const pack = parseJson<{ mods?: unknown[] }>(
-            await fs.promises.readFile(resourceFile(entry.packFile), 'utf8'),
-          );
-          mods = pack.mods?.length ?? 0;
-        } catch {
-          // A pack file that will not read leaves the count at zero rather than hiding
-          // the profile: the install would report the real problem.
-        }
-
-        return {
-          id: entry.id,
-          name: entry.name,
-          tagline: entry.tagline,
-          minecraft: entry.minecraft,
-          mods,
-        };
-      }),
-    );
-
-    return { active, profiles: views };
-  });
+  ipcMain.handle(CHANNELS.profilesGet, (): ProfileList => ({
+    active: readSettings().activeProfile,
+    profiles: PROFILE_ORDER.map((id) => ({ id, image: PROFILES[id].image })),
+  }));
 
   ipcMain.handle(CHANNELS.profileSet, (_event, id: unknown): ProfileList['active'] => {
     if (gameProcess && gameProcess.exitCode === null) {
-      throw new Error('Close the game before switching profile.');
+      throw new Error('Close the game before switching version.');
     }
 
     if (!isProfileId(id)) {
-      throw new Error('Unknown profile.');
+      throw new Error('Unknown version.');
     }
 
-    // writeSettings repoints every game-directory path at the new profile.
+    // writeSettings repoints every game-directory path at the new version.
     writeSettings({ activeProfile: id });
 
     return id;

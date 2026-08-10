@@ -17,7 +17,7 @@ export interface MinecraftAccount {
 }
 
 export interface Settings {
-  /** Which build the launcher is on: the PvP one or the survival one. */
+  /** The Minecraft version the launcher installs and launches. */
   activeProfile: ProfileId;
   /** Megabytes handed to the JVM via -Xmx. */
   memoryMb: number;

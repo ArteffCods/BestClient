@@ -1,7 +1,7 @@
 {
-  "version": "0.4.0",
-  "notes": "Two builds: the PvP Fight client and a full Survival client on 26.1.2.",
-  "tag": "v0.4.0",
-  "asset": "BestClient-Setup-0.4.0.exe",
-  "sha256": "814545a6c6e72ceeb0e4b67d55d868f9669bd413c22902596f578fd005deb3b7"
+  "version": "0.4.1",
+  "notes": "One mod pack, three Minecraft versions: 26.2, 26.1.2 and 1.21.11.",
+  "tag": "v0.4.1",
+  "asset": "BestClient-Setup-0.4.1.exe",
+  "sha256": "27d5cef10d947d0107aa369b8e69a5ca91eb61fcdf942056b9a056567e31c6de"
 }

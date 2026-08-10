@@ -4,7 +4,7 @@ import path from 'node:path';
 import { log } from './logger';
 import { downloadFile, fetchJson, mapLimit, type ProgressFn, type VerifyMode } from './net';
 import { dirs, exists, parseJson, resourceFile } from './paths';
-import { profile } from './profiles';
+import { PACK_FILE } from './profiles';
 import { readSettings } from './store';
 
 const MODRINTH = 'https://api.modrinth.com/v2';
@@ -114,19 +114,21 @@ interface ModrinthProject {
   icon_url: string | null;
 }
 
-/** Keyed by pack file: both profiles' packs stay loaded once they have been read. */
-const packCache = new Map<string, Pack>();
+let packCache: Pack | null = null;
 
+/**
+ * The pack, with its Minecraft version replaced by the selected profile's.
+ *
+ * There is one pack file and it names 1.21.11, but the same set of mods is installed on
+ * whichever version the player picked - the resolver asks Modrinth per version anyway, so
+ * a mod with no build for that version is reported and skipped rather than breaking.
+ */
 export async function loadPack(): Promise<Pack> {
-  const file = profile(readSettings().activeProfile).packFile;
-  const cached = packCache.get(file);
+  if (!packCache) {
+    packCache = parseJson<Pack>(await fs.promises.readFile(resourceFile(PACK_FILE), 'utf8'));
+  }
 
-  if (cached) return cached;
-
-  const parsed = parseJson<Pack>(await fs.promises.readFile(resourceFile(file), 'utf8'));
-  packCache.set(file, parsed);
-
-  return parsed;
+  return { ...packCache, minecraft: readSettings().activeProfile };
 }
 
 export interface Reconciled {

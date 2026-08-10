@@ -3,14 +3,14 @@
 import type { ProfileId, ProfileView } from '@/types/bestclient';
 
 /**
- * The two builds, side by side.
+ * The versions the client can run, as pictures.
  *
- * Each card carries its own artwork rather than a photograph: the two profiles are moods,
- * not places, so a hot pink diagonal for Fight and a cool green horizon for Survival say
- * more in a sixteenth of the file size - and they never fail to load.
+ * Nothing but the artwork and the version number on it: the mods, the packs and the
+ * settings are the same on all of them, so there is nothing to compare - the only question
+ * is which Minecraft you want to be in.
  *
- * The dialog covers the window because switching profile changes which Minecraft the
- * client installs and which game folder it uses. That is not a toggle to bump into.
+ * The dialog covers the window because switching version changes what the launcher
+ * installs and which game folder it uses. That is not a control to brush past.
  */
 export function ProfilePicker({
   profiles,
@@ -29,7 +29,7 @@ export function ProfilePicker({
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Choose a build"
+      aria-label="Choose a Minecraft version"
       className="fixed inset-0 z-50 grid place-items-center bg-void/70 p-6 backdrop-blur-sm"
       onClick={onClose}
       onKeyDown={(event) => {
@@ -38,14 +38,14 @@ export function ProfilePicker({
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className="w-full max-w-2xl rounded-2xl bg-surface p-5 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.9)]"
+        className="w-full max-w-3xl rounded-2xl bg-surface p-5 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.9)]"
       >
         <div className="flex items-start justify-between gap-3">
           <span>
-            <p className="display-caps text-[18px] leading-none text-ink">Choose a build</p>
+            <p className="display-caps text-[18px] leading-none text-ink">Choose a version</p>
             <p className="mt-1.5 text-[12px] leading-relaxed text-ink-faint">
-              Each build is its own Minecraft, its own mods and its own worlds. Switching
-              keeps both installed - nothing is deleted.
+              The same mods and settings on every one. Each keeps its own worlds - switching
+              never touches the others.
             </p>
           </span>
           <button
@@ -60,9 +60,9 @@ export function ProfilePicker({
           </button>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
           {profiles.map((entry) => (
-            <ProfileCard
+            <VersionCard
               key={entry.id}
               profile={entry}
               selected={entry.id === active}
@@ -76,7 +76,7 @@ export function ProfilePicker({
   );
 }
 
-function ProfileCard({
+function VersionCard({
   profile,
   selected,
   busy,
@@ -93,92 +93,36 @@ function ProfileCard({
       disabled={busy}
       onClick={() => onPick(profile.id)}
       aria-pressed={selected}
-      className={`group flex cursor-pointer flex-col overflow-hidden rounded-xl bg-surface-high text-left transition-colors hover:bg-surface-top disabled:cursor-default disabled:opacity-60 ${
+      aria-label={`Minecraft ${profile.id}`}
+      className={`group relative block aspect-video w-full cursor-pointer overflow-hidden rounded-xl bg-void transition-opacity disabled:cursor-default disabled:opacity-60 ${
         selected ? 'ring-2 ring-rose' : ''
       }`}
     >
-      <span className="relative block h-24 w-full overflow-hidden">
-        <ProfileArt id={profile.id} />
-
-        {selected ? (
-          <span className="absolute right-2 top-2 rounded-full bg-void/70 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-rose-soft">
-            In use
-          </span>
-        ) : null}
-      </span>
-
-      <span className="block p-4">
-        <span className="flex items-baseline justify-between gap-2">
-          <span className="display-caps text-[17px] leading-none text-ink">{profile.name}</span>
-          <span className="font-mono text-[11px] tabular-nums text-rose-soft">
-            {profile.minecraft}
-          </span>
-        </span>
-        <span className="mt-2 block text-[12px] leading-relaxed text-ink-dim">
-          {profile.tagline}
-        </span>
-        <span className="mt-2 block font-mono text-[10.5px] tabular-nums text-ink-faint">
-          {profile.mods} mods
-        </span>
-      </span>
-    </button>
-  );
-}
-
-/** Card artwork, drawn rather than loaded: two gradients and a horizon. */
-function ProfileArt({ id }: { id: ProfileId }) {
-  if (id === 'fight') {
-    return (
-      <svg
-        viewBox="0 0 240 96"
-        preserveAspectRatio="none"
+      <img
+        src={profile.image}
+        alt=""
         aria-hidden="true"
-        className="h-full w-full transition-transform duration-300 group-hover:scale-[1.03]"
-      >
-        <defs>
-          <linearGradient id="art-fight" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#3a1030" />
-            <stop offset="55%" stopColor="#d94a9c" />
-            <stop offset="100%" stopColor="#ff75c3" />
-          </linearGradient>
-        </defs>
-        <rect width="240" height="96" fill="url(#art-fight)" />
-        {/* Crossed blades: the one shape that says PvP without a word. */}
-        <g stroke="#0d0913" strokeWidth="5" strokeLinecap="round" opacity="0.55">
-          <path d="M92 74 L148 26" />
-          <path d="M148 74 L92 26" />
-        </g>
-        <g stroke="#ffe3f2" strokeWidth="2" strokeLinecap="round" opacity="0.9">
-          <path d="M92 74 L148 26" />
-          <path d="M148 74 L92 26" />
-        </g>
-      </svg>
-    );
-  }
+        draggable={false}
+        className={`h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04] ${
+          selected ? '' : 'brightness-[0.72] group-hover:brightness-100'
+        }`}
+      />
 
-  return (
-    <svg
-      viewBox="0 0 240 96"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      className="h-full w-full transition-transform duration-300 group-hover:scale-[1.03]"
-    >
-      <defs>
-        <linearGradient id="art-survival" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#12283a" />
-          <stop offset="60%" stopColor="#2f6b52" />
-          <stop offset="100%" stopColor="#63d492" />
-        </linearGradient>
-      </defs>
-      <rect width="240" height="96" fill="url(#art-survival)" />
-      {/* A horizon with trees: a world you live in rather than fight in. */}
-      <circle cx="196" cy="26" r="12" fill="#ffe9b0" opacity="0.85" />
-      <path d="M0 74 L52 52 L96 70 L142 46 L192 68 L240 54 L240 96 L0 96 Z" fill="#0f2a22" opacity="0.75" />
-      <g fill="#0d211b">
-        <path d="M42 78 L52 58 L62 78 Z" />
-        <path d="M128 82 L140 56 L152 82 Z" />
-        <path d="M182 80 L191 62 L200 80 Z" />
-      </g>
-    </svg>
+      {/* The artwork is busy everywhere, so the number gets its own shade to sit on. */}
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/75 to-transparent"
+      />
+
+      <span className="absolute left-3 top-2.5 display-caps text-[15px] leading-none text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+        {profile.id}
+      </span>
+
+      {selected ? (
+        <span className="absolute right-2.5 top-2.5 rounded-full bg-void/75 px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-rose-soft">
+          In use
+        </span>
+      ) : null}
+    </button>
   );
 }

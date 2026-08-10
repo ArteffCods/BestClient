@@ -1,59 +1,66 @@
 /**
- * The two things the client can be.
+ * The Minecraft versions the client can run.
  *
- * Fight is the PvP build the launcher has always shipped: Minecraft 1.21.11, a short mod
- * list chosen for frame time, and the packs that strip visual noise out of a fight.
- * Survival is a different game on a different Minecraft - 26.1.2, a hundred mods, and the
- * resource packs that make the world look like something you want to live in.
+ * There is one mod pack - the PvP set - and it is installed on whichever version is
+ * selected. A profile is therefore a version and nothing else: same mods, same packs,
+ * same settings, a different game.
  *
- * They are separate installations, not two settings of one. Different Minecraft versions
- * cannot share a mods folder, and a survival world has no business in a PvP instance, so
- * each profile owns its own game directory - saves, config, options and all.
+ * They are separate installations, not one with a switch. Two Minecraft versions cannot
+ * share a mods folder, and worlds saved on one have no business in another, so each owns
+ * its own game directory - saves, config, options and all.
+ *
+ * Newest first, which is the order the picker shows.
  */
 
-export type ProfileId = 'fight' | 'survival';
+export type ProfileId = '26.2' | '26.1.2' | '1.21.11';
 
 export interface Profile {
+  /** The Minecraft version, which is also the profile's whole identity. */
   id: ProfileId;
-  name: string;
-  /** One line, shown under the name in the picker. */
-  tagline: string;
-  minecraft: string;
   /** Java major the game needs. The version manifest wins over this when it says. */
   javaMajor: number;
-  /** Pack definition in `resources/`. */
-  packFile: string;
   /** Game directory name under `<root>/instances`. */
   folder: string;
+  /** Card artwork in the renderer's public folder. */
+  image: string;
 }
 
+export const PROFILE_ORDER: ProfileId[] = ['26.2', '26.1.2', '1.21.11'];
+
 export const PROFILES: Record<ProfileId, Profile> = {
-  fight: {
-    id: 'fight',
-    name: 'Fight',
-    tagline: 'PvP build - tuned for frame time',
-    minecraft: '1.21.11',
-    javaMajor: 21,
-    packFile: 'bestclient-pack.json',
-    folder: 'fight',
-  },
-  survival: {
-    id: 'survival',
-    name: 'Survival',
-    tagline: 'The full world - shaders and a hundred mods',
-    minecraft: '26.1.2',
-    // 26.1.2 asks for Java 25. The version manifest is checked at install time and wins
-    // over this, so the number here only matters if Mojang ever stops declaring one.
+  '26.2': {
+    id: '26.2',
     javaMajor: 25,
-    packFile: 'survival-pack.json',
-    folder: 'survival',
+    folder: '26.2',
+    image: '/profiles/mc-26.2.jpg',
+  },
+  '26.1.2': {
+    id: '26.1.2',
+    javaMajor: 25,
+    folder: '26.1.2',
+    image: '/profiles/mc-26.1.2.webp',
+  },
+  '1.21.11': {
+    id: '1.21.11',
+    javaMajor: 21,
+    folder: '1.21.11',
+    image: '/profiles/mc-1.21.11.jpg',
   },
 };
 
-export const DEFAULT_PROFILE: ProfileId = 'fight';
+/**
+ * The version the client starts on.
+ *
+ * 1.21.11 rather than the newest: it is what bestpvp.eu runs, and it is where every
+ * existing installation already is.
+ */
+export const DEFAULT_PROFILE: ProfileId = '1.21.11';
+
+/** The one pack, installed on every version. */
+export const PACK_FILE = 'bestclient-pack.json';
 
 export function isProfileId(value: unknown): value is ProfileId {
-  return value === 'fight' || value === 'survival';
+  return typeof value === 'string' && Object.prototype.hasOwnProperty.call(PROFILES, value);
 }
 
 export function profile(id: ProfileId): Profile {

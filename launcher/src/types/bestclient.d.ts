@@ -1,12 +1,9 @@
-export type ProfileId = 'fight' | 'survival';
+export type ProfileId = '26.2' | '26.1.2' | '1.21.11';
 
-/** One of the two builds, as the picker shows it. */
+/** One Minecraft version, as the picker shows it: a picture and the version on it. */
 export interface ProfileView {
   id: ProfileId;
-  name: string;
-  tagline: string;
-  minecraft: string;
-  mods: number;
+  image: string;
 }
 
 export interface ProfileList {

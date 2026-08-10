@@ -1,5 +1,19 @@
 [
   {
+    "version": "0.4.1",
+    "date": "2026-08-11",
+    "title": "Pick a Minecraft version",
+    "description": "Fight and Survival are gone. There is one mod pack - the PvP one - and you choose which Minecraft to run it on: 26.2, 26.1.2 or 1.21.11.",
+    "changes": [
+      "Click the version above Launch to choose between 26.2, 26.1.2 and 1.21.11",
+      "The same mods, resource packs, shader and settings on every version",
+      "Each version keeps its own worlds and screenshots; switching never touches the others",
+      "Your installation stays where it is, on 1.21.11",
+      "Mods with no build for the version you picked are named and skipped rather than blocking the launch",
+      "Game folders left behind by an old version are cleaned up on every start - worlds and screenshots are never removed"
+    ]
+  },
+  {
     "version": "0.4.0",
     "date": "2026-08-10",
     "title": "Two builds: Fight and Survival",

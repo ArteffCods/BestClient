@@ -271,11 +271,6 @@ export default function Page() {
     [profiles],
   );
 
-  const activeProfileName = useMemo(() => {
-    const found = profiles?.profiles.find((entry) => entry.id === profiles.active);
-    return found?.name ?? 'Fight';
-  }, [profiles]);
-
   const activeAccount = useMemo(
     () => accounts.find((entry) => entry.uuid === activeUuid) ?? null,
     [accounts, activeUuid],
@@ -374,7 +369,6 @@ export default function Page() {
               onSignIn={() => void handleLogin()}
               signInError={loginError}
               onEditProfile={() => setPickingProfile(true)}
-              profileName={activeProfileName}
               memoryMb={settings?.memoryMb ?? 4096}
               news={news}
               partners={partners}
@@ -471,7 +465,6 @@ function PlayStage({
   onSignIn,
   signInError,
   onEditProfile,
-  profileName,
   memoryMb,
   news,
   partners,
@@ -486,7 +479,6 @@ function PlayStage({
   onSignIn: () => void;
   signInError: string | null;
   onEditProfile: () => void;
-  profileName: string;
   memoryMb: number;
   news: NewsItem[];
   partners: PartnerServer[];
@@ -497,14 +489,14 @@ function PlayStage({
     // Launch control anchored top-left; nothing floats in the middle.
     <div className="flex min-h-full flex-col px-5 py-6 sm:px-8 sm:py-8">
       <div className="rise flex w-full max-w-sm flex-col gap-2">
-        {/* What you are about to launch: which build, and which Minecraft it runs. The
-            whole line is the control that changes it - pencil first, so it reads as
-            something you can edit rather than a label. */}
+        {/* Which Minecraft you are about to launch. The whole line is the control that
+            changes it - pencil first, so it reads as something you can edit rather than
+            a label. */}
         <button
           type="button"
           onClick={onEditProfile}
           aria-haspopup="dialog"
-          aria-label={`Build: ${profileName}. Choose a different one`}
+          aria-label={`Minecraft ${minecraft}. Choose a different version`}
           className="group flex w-fit cursor-pointer items-baseline gap-2.5 rounded-md py-0.5 pr-1 transition-colors"
         >
           <svg
@@ -523,9 +515,7 @@ function PlayStage({
               strokeLinejoin="round"
             />
           </svg>
-          <span className="display-caps text-[15px] leading-none text-rose-soft">
-            {profileName}
-          </span>
+          <span className="display-caps text-[15px] leading-none text-rose-soft">Minecraft</span>
           <span aria-hidden="true" className="h-3 w-px bg-edge-bright" />
           <span className="display-caps text-[15px] leading-none text-ink">{minecraft}</span>
         </button>

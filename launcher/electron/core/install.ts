@@ -75,7 +75,11 @@ export async function installClient(
   onProgress?: InstallProgressFn,
   options: InstallOptions = {},
 ): Promise<InstallResult> {
-  await ensureDirs();
+  const pruned = await ensureDirs();
+
+  if (pruned.length > 0) {
+    log.info(`Cleared game directories no version uses any more: ${pruned.join(', ')}.`);
+  }
 
   const pack = await loadPack();
   const verify: VerifyMode = options.repair ? 'hash' : 'size';
@@ -111,9 +115,8 @@ export async function installClient(
   // 1 - Java. The version manifest is the authority on which major the game needs; the
   // profile's own number is only the fallback for a manifest that does not say.
   emit(1, 'Checking Java');
-  const target = profile(settings.activeProfile);
   const vanillaEarly = await resolveVanilla(pack.minecraft);
-  const javaMajor = vanillaEarly.javaVersion?.majorVersion ?? target.javaMajor;
+  const javaMajor = vanillaEarly.javaVersion?.majorVersion ?? profile(settings.activeProfile).javaMajor;
   const javaPath = await ensureJava(javaMajor, relay(1));
 
   // 2 - version metadata
