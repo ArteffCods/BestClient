@@ -85,7 +85,7 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
           <Section title="Discord" delay={120}>
             <div className="flex items-center justify-between gap-4">
               <div className="min-w-0">
-                <p className="text-[13px] font-semibold text-ink">Show on your profile</p>
+                <p className="text-[13px] font-semibold text-ink">Discord RPC</p>
                 <p className="mt-1 text-[12px] leading-relaxed text-ink-faint">
                   Puts BestClient on your Discord profile: whether you are in the launcher or
                   in game, which server you joined, and how long you have been playing.
@@ -308,23 +308,11 @@ function StartupFlags({
   return (
     <>
       <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
-        What the game is started with. The tuned set is fixed - you can add to it, and your
-        flags run after it, so anything you add wins where the JVM takes the last one.
+        The client is already tuned for frame time, and that set is fixed. Anything you put
+        here is added on top and runs after it, so your flag wins where the JVM takes the
+        last one. Heap size comes from the Memory slider above.
       </p>
 
-      <div className="max-h-56 overflow-y-auto rounded-lg bg-surface-high px-3 py-2 font-mono text-[11px] leading-relaxed text-ink-faint">
-        <p>
-          -Xms{memoryMb}M -Xmx{memoryMb}M
-          <span className="ml-2 font-body text-[10.5px]">from the Memory slider</span>
-        </p>
-        {defaults.map((flag) => (
-          <p key={flag}>{flag}</p>
-        ))}
-      </div>
-
-      <label className="eyebrow mb-2 mt-4 block" htmlFor="jvm-extra">
-        Your own flags
-      </label>
       <textarea
         id="jvm-extra"
         rows={3}

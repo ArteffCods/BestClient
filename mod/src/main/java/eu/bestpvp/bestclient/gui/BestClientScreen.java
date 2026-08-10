@@ -1,13 +1,12 @@
 package eu.bestpvp.bestclient.gui;
 
 import eu.bestpvp.bestclient.BestClientConfig;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.PressableWidget;
-import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 
@@ -314,8 +313,14 @@ public class BestClientScreen extends Screen {
         ClickableWidget widget();
     }
 
-    /** A module you switch on or off; the whole tile is the button. */
-    private class Toggle extends PressableWidget implements Tile {
+    /**
+     * A module you switch on or off; the whole tile is the button.
+     *
+     * Built on ClickableWidget rather than PressableWidget: the latter paints the vanilla
+     * button itself - its renderWidget is final and subclasses only fill in an icon - which
+     * is exactly the look this screen exists to avoid.
+     */
+    private class Toggle extends ClickableWidget implements Tile {
 
         private final Category category;
         private final Icons.Icon icon;
@@ -353,10 +358,8 @@ public class BestClientScreen extends Screen {
             return this;
         }
 
-        // PressableWidget routes both a click and the keyboard's Space/Enter here, so the
-        // tile needs no input handling of its own.
         @Override
-        public void onPress() {
+        public void onClick(Click click, boolean doubled) {
             this.setter.accept(!this.getter.getAsBoolean());
             BestClientConfig.markDirty();
         }
@@ -418,13 +421,15 @@ public class BestClientScreen extends Screen {
      * The track is drawn four pixels in from each edge, which is exactly the span
      * SliderWidget maps the mouse across - so the knob always lands under the cursor.
      */
-    private class Brightness extends SliderWidget implements Tile {
+    private class Brightness extends ClickableWidget implements Tile {
 
         private float hover;
+        /** 0 to 1 across the track. */
+        private double value;
 
         Brightness() {
-            super(0, 0, TILE_W, TILE_H, Text.empty(),
-                    (BestClientConfig.clampStrength(BestClientConfig.fullbrightStrength) - 1.0D) / 19.0D);
+            super(0, 0, TILE_W, TILE_H, Text.empty());
+            this.value = (BestClientConfig.clampStrength(BestClientConfig.fullbrightStrength) - 1.0D) / 19.0D;
         }
 
         private double toStrength() {
@@ -446,18 +451,29 @@ public class BestClientScreen extends Screen {
             return this;
         }
 
-        @Override
-        protected void updateMessage() {
-            // The readout is painted by hand next to the name; the widget's own message
-            // would land in the middle of the tile.
-            this.setMessage(Text.empty());
-        }
+        /**
+         * The track spans the tile inset by four pixels on each side, which is what the
+         * pointer is mapped across - so the knob always lands under the cursor.
+         */
+        private void setFromMouse(double mouseX) {
+            double left = this.getX() + 4;
+            double span = this.getWidth() - 8;
 
-        @Override
-        protected void applyValue() {
+            this.value = Math.max(0.0D, Math.min(1.0D, (mouseX - left) / span));
+
             BestClientConfig.fullbrightStrength = BestClientConfig.clampStrength(toStrength());
             // Dragging fires this on every mouse move - the write is deferred to close().
             BestClientConfig.markDirty();
+        }
+
+        @Override
+        public void onClick(Click click, boolean doubled) {
+            setFromMouse(click.x());
+        }
+
+        @Override
+        protected void onDrag(Click click, double deltaX, double deltaY) {
+            setFromMouse(click.x());
         }
 
         @Override
@@ -509,10 +525,15 @@ public class BestClientScreen extends Screen {
             int knob = Math.min(trackRight - 5, Math.max(trackLeft, trackLeft + filled - 2));
             Draw.round(context, knob, trackY - 2, 5, 7, 2, fade(live ? ROSE_SOFT : INK_DIM));
         }
+
+        @Override
+        protected void appendClickableNarrations(NarrationMessageBuilder builder) {
+            this.appendDefaultNarrations(builder);
+        }
     }
 
     /** One category in the left rail, drawn as a pill. */
-    private class CategoryTab extends PressableWidget {
+    private class CategoryTab extends ClickableWidget {
 
         private final Category category;
         private float selected;
@@ -524,7 +545,7 @@ public class BestClientScreen extends Screen {
         }
 
         @Override
-        public void onPress() {
+        public void onClick(Click click, boolean doubled) {
             BestClientScreen.this.activeCategory = this.category;
             positionTiles();
         }

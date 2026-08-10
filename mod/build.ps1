@@ -63,10 +63,20 @@ if (-not (Test-Path $gradleBat)) {
 
 Set-Location $here
 
-# The client JVM has to prefer IPv4 as well, not just the daemon: both ends of Gradle's
-# internal socket pair need to agree, or a machine with a VPN/TAP adapter installed fails
-# with "Unable to establish loopback connection" before the build even starts.
-$env:GRADLE_OPTS = '-Djava.net.preferIPv4Stack=true'
+# Both ends of Gradle's internal socket pair need this, not just the daemon.
+#
+# Since JDK 17 a java.nio Selector on Windows is an AF_UNIX socket pair, and its socket
+# file is created in the temp directory. Where that path is a short ("8.3") name -
+# C:\Users\ARTEFF~1\AppData\Local\Temp - connect fails with EINVAL, and Gradle reports it
+# as "Unable to establish loopback connection", which points at a firewall that was never
+# involved. A plain path makes Selector.open() work and the build run.
+#
+# JAVA_TOOL_OPTIONS rather than GRADLE_OPTS: every JVM the build starts inherits it, and
+# this build starts three - the launcher, the daemon it forks, and the workers the daemon
+# forks. Setting it on one of those only moves the failure to the next one.
+$tmp = (Join-Path $here '.gradle-tmp') -replace '\\', '/'
+New-Item -ItemType Directory -Force $tmp | Out-Null
+$env:JAVA_TOOL_OPTIONS = "-Djdk.net.unixdomain.tmpdir=$tmp"
 
 & $gradleBat build --no-daemon
 

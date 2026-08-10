@@ -1,7 +1,7 @@
 {
-  "version": "0.5.1",
-  "notes": "Locked startup flags you can add to, and Java 25 on every version.",
-  "tag": "v0.5.1",
-  "asset": "BestClient-Setup-0.5.1.exe",
-  "sha256": "d739dc198a4e04e852f05d7c2051598b42ac86205f30cb2e989f39b8cf8ca120"
+  "version": "0.5.2",
+  "notes": "The in-game menu ships at last, fullbright works, and six mods join the pack.",
+  "tag": "v0.5.2",
+  "asset": "BestClient-Setup-0.5.2.exe",
+  "sha256": "dfc179effb084749c9556dbd2aef254f358efc85f6431eb29357691ddb21b045"
 }

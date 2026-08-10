@@ -1,5 +1,20 @@
 [
   {
+    "version": "0.5.2",
+    "date": "2026-08-11",
+    "title": "The in-game menu is real, and six mods for a smoother game",
+    "description": "Right Shift now opens the client menu it was always meant to open - its own look, its own typeface, thirteen modules - and fullbright finally works. Six mods join the pack, including one that stops fullscreen from throwing Discord out of fullscreen.",
+    "changes": [
+      "The BestClient mod is built and shipped for the first time: Right Shift opens a menu with its own artwork, typeface and thirteen modules",
+      "Fullbright works - it was never actually wired up before",
+      "New modules: FPS, CPS, coordinates, direction, speed, ping, clock, playtime, memory and a WASD keystroke overlay",
+      "Borderless Fullscreen: the game no longer takes over the display, so Discord and anything else stay where they were",
+      "Sodium Extra, AsyncParticles, Smart Particles, Better Block Entities and Sound Culling join the pack",
+      "Mods screen: Update all replaces the active-mod counter",
+      "Settings: the Discord switch is labelled Discord RPC, and the startup flags box only asks for your own additions"
+    ]
+  },
+  {
     "version": "0.5.1",
     "date": "2026-08-11",
     "title": "Locked startup flags and a newer Java",

@@ -487,6 +487,60 @@
       "defaultEnabled": true,
       "note": "Client-side hit registration. Many servers ban it, use at your own risk.",
       "iconUrl": "https://cdn.modrinth.com/data/MIKwzoiY/bd1ddd73c5c2d5174b8d69c3c7988169124202d6.png"
+    },
+    {
+      "slug": "borderless-fullscreen",
+      "name": "Borderless Fullscreen",
+      "category": "pvp",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Fullscreen without taking over the display.",
+      "iconUrl": "https://cdn.modrinth.com/data/UIexcMP1/2d578a1f4d4bebebf19c7847eb9a1575a8a0b825_96.webp"
+    },
+    {
+      "slug": "sodium-extra",
+      "name": "Sodium Extra",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Sodium options: particles, weather, fog, FPS limits.",
+      "iconUrl": "https://cdn.modrinth.com/data/PtjYWJkn/0df4fb22a11e1dcb5e83cb0aadd275b571aca7a9_96.webp"
+    },
+    {
+      "slug": "asyncparticles",
+      "name": "AsyncParticles",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Particles ticked off-thread and drawn on the GPU.",
+      "iconUrl": "https://cdn.modrinth.com/data/c3onkd5k/5d159d5d5067cee28e5a73709321bebc0e47a265.png"
+    },
+    {
+      "slug": "smart-particles",
+      "name": "Smart Particles",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Caps and culls particle rendering.",
+      "iconUrl": "https://cdn.modrinth.com/data/l8rWP4Tc/57f5774fa5c3eb82cb5500f899eed5fd9c592bc3_96.webp"
+    },
+    {
+      "slug": "better-block-entities",
+      "name": "Better Block Entities",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Faster chests, signs and banners.",
+      "iconUrl": "https://cdn.modrinth.com/data/ONZm0H7Y/5ff4f3ad6948a0bf185f641c407878932bae3dcf.png"
+    },
+    {
+      "slug": "sound-culling",
+      "name": "Sound Culling",
+      "category": "performance",
+      "locked": false,
+      "defaultEnabled": true,
+      "note": "Dampens overlapping sounds instead of playing all of them.",
+      "iconUrl": "https://cdn.modrinth.com/data/sFgqI5oP/85c1897b203b9972f1538365846ef36cc87529b7_96.webp"
     }
   ],
   "resourcePacks": [

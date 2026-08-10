@@ -178,44 +178,40 @@ export function ModsView({ unavailable, pins, onPin }: Props) {
       <div className="rise flex flex-wrap items-center justify-between gap-3">
         <h2 className="display-caps text-[26px] leading-none text-ink">Mods</h2>
 
-        <span className="flex items-center gap-2">
-          <button
-            type="button"
-            disabled={updatingAll}
-            onClick={() => void updateAll()}
-            className="flex cursor-pointer items-center gap-2 rounded-lg bg-surface px-3.5 py-1.5 text-[12px] font-semibold text-white transition-colors hover:bg-surface-high disabled:cursor-default disabled:opacity-60"
+        {/* The counter used to sit here. It was a number nobody acts on; the one thing you
+            actually want from this screen is everything on its newest build. */}
+        <button
+          type="button"
+          disabled={updatingAll}
+          onClick={() => void updateAll()}
+          className="flex cursor-pointer items-center gap-2 rounded-lg bg-rose-deep px-4 py-2 text-[12.5px] font-bold text-void transition-colors hover:bg-rose disabled:cursor-default disabled:opacity-60"
+        >
+          {/* A download arrow into a tray: this pulls new builds down, it does not reload. */}
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+            className={updatingAll ? 'animate-pulse' : ''}
           >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              aria-hidden="true"
-              className={updatingAll ? 'animate-spin' : ''}
-            >
-              <path
-                d="M12.5 7a5.5 5.5 0 1 1-1.7-4M12.5 1.5v4h-4"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            {updatingAll ? 'Updating…' : 'Update all'}
-          </button>
-        </span>
-
-        <span className="flex items-center gap-2 rounded-lg bg-surface px-3 py-1.5">
-          <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" className="text-rose-soft">
-            <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
-            <rect x="9.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
-            <rect x="1.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
-            <rect x="9.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
+            <path
+              d="M8 1.5 V9.5 M4.6 6.2 L8 9.7 L11.4 6.2"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M2.5 11.5 V13 a1 1 0 0 0 1 1 h9 a1 1 0 0 0 1-1 v-1.5"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
-          <span className="font-mono text-[12px] tabular-nums text-rose-soft">
-            {activeCount}/{mods.length} active
-          </span>
-        </span>
+          {updatingAll ? 'Updating…' : 'Update all'}
+        </button>
       </div>
 
       {/* The same soft panel as the store: behind the filter, the list and the drop zone,

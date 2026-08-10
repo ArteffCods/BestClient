@@ -2,6 +2,7 @@ package eu.bestpvp.bestclient.gui;
 
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
+import net.minecraft.text.StyleSpriteSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -19,7 +20,8 @@ import net.minecraft.util.Identifier;
  */
 public final class Fonts {
 
-    private static final Style UI = Style.EMPTY.withFont(Identifier.of("bestclient", "ui"));
+    private static final Style UI =
+            Style.EMPTY.withFont(new StyleSpriteSource.Font(Identifier.of("bestclient", "ui")));
 
     private Fonts() {
     }
