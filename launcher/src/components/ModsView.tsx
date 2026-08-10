@@ -26,6 +26,7 @@ export function ModsView({ unavailable, pins, onPin }: Props) {
   const [note, setNote] = useState<string | null>(null);
   const [latest, setLatest] = useState<Record<string, string> | null>(null);
   const [updatingSlug, setUpdatingSlug] = useState<string | null>(null);
+  const [updatingAll, setUpdatingAll] = useState(false);
   const dragDepth = useRef(0);
 
   const refresh = useCallback(async () => {
@@ -103,6 +104,38 @@ export function ModsView({ unavailable, pins, onPin }: Props) {
     [refresh],
   );
 
+  /**
+   * Moves everything it safely can to its newest build.
+   *
+   * The main process works out the plan first, reading each candidate build's own
+   * dependency block, so a mod whose new build clashes with something else in the set is
+   * left alone. Whatever was held back is named here rather than left to be discovered as
+   * a game that will not start.
+   */
+  const updateAll = useCallback(async () => {
+    setUpdatingAll(true);
+    setNote(null);
+
+    try {
+      const result = await window.bestclient.updateAllMods();
+
+      const lines = [
+        result.updated.length
+          ? `Updated ${result.updated.length} mod${result.updated.length === 1 ? '' : 's'}.`
+          : 'Everything is already on its newest build.',
+        ...result.skipped.map((entry) => `${entry.slug}: ${entry.reason}`),
+        ...result.failed.map((entry) => `${entry.slug} failed: ${entry.reason}`),
+      ];
+
+      setNote(lines.join(' · '));
+      await refresh();
+    } catch (cause) {
+      setNote(cause instanceof Error ? cause.message : String(cause));
+    } finally {
+      setUpdatingAll(false);
+    }
+  }, [refresh]);
+
   const visible = useMemo(() => {
     if (!mods) return [];
     const needle = query.trim().toLowerCase();
@@ -144,6 +177,34 @@ export function ModsView({ unavailable, pins, onPin }: Props) {
     >
       <div className="rise flex flex-wrap items-center justify-between gap-3">
         <h2 className="display-caps text-[26px] leading-none text-ink">Mods</h2>
+
+        <span className="flex items-center gap-2">
+          <button
+            type="button"
+            disabled={updatingAll}
+            onClick={() => void updateAll()}
+            className="flex cursor-pointer items-center gap-2 rounded-lg bg-rose-deep px-3.5 py-1.5 text-[12px] font-bold text-void transition-colors hover:bg-rose disabled:cursor-default disabled:opacity-60"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              aria-hidden="true"
+              className={updatingAll ? 'animate-spin' : ''}
+            >
+              <path
+                d="M12.5 7a5.5 5.5 0 1 1-1.7-4M12.5 1.5v4h-4"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            {updatingAll ? 'Updating…' : 'Update all'}
+          </button>
+        </span>
+
         <span className="flex items-center gap-2 rounded-lg bg-surface px-3 py-1.5">
           <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" className="text-rose-soft">
             <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />

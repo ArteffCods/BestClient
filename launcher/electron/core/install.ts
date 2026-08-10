@@ -1,7 +1,7 @@
 import path from 'node:path';
 
 import { TARGET } from './brand';
-import { ensureBundledMods } from './bundled';
+import { ensureBundledMods, loadBundledMods } from './bundled';
 import { applyShaderDefaults, ensureContent } from './content';
 import { resolveNvidiaOptimize } from './gpu';
 import { resolveFabric } from './fabric';
@@ -146,7 +146,22 @@ export async function installClient(
 
   // BestClient's own mods go in last and are re-checked against their stamped hash every
   // launch, so they cannot be removed or swapped out from under the player.
+  const expected = await loadBundledMods();
   const bundled = await ensureBundledMods();
+
+  // Required, not best-effort. If a mod this build ships could not be put in place - the
+  // jar is missing, or it failed its hash - the client is not the client any more, and
+  // starting it anyway would hand the player something the server has no reason to trust.
+  if (bundled.length < expected.length) {
+    const missing = expected
+      .filter((entry) => !bundled.some((installed) => installed.id === entry.id))
+      .map((entry) => entry.name);
+
+    throw new Error(
+      `${missing.join(', ')} could not be installed or failed its integrity check. ` +
+        'BestClient will not start without it - reinstall the launcher.',
+    );
+  }
 
   // 7 - client configuration
   emit(7, 'Resource packs and shader');

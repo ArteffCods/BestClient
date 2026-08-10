@@ -73,6 +73,12 @@ interface ModrinthFile {
   size: number;
 }
 
+interface ModrinthDependency {
+  project_id: string | null;
+  version_id: string | null;
+  dependency_type: 'required' | 'optional' | 'incompatible' | 'embedded';
+}
+
 interface ModrinthVersion {
   id: string;
   project_id: string;
@@ -81,6 +87,7 @@ interface ModrinthVersion {
   version_type: 'release' | 'beta' | 'alpha';
   date_published: string;
   files: ModrinthFile[];
+  dependencies?: ModrinthDependency[];
 }
 
 interface ModrinthProject {
@@ -234,6 +241,116 @@ function versionQuery(slug: string, minecraft: string, loader: string): string {
  * the Mods list just shows no update for that row. Six lanes keeps the launcher inside
  * Modrinth's rate budget even with a full pack.
  */
+/**
+ * Works out which mods can move to a newer build without breaking the set.
+ *
+ * The check is done against the builds that would actually be installed, not against a
+ * list written by hand: every candidate's own dependency block is read, and a build that
+ * declares another mod in the set incompatible is left where it is. The test runs both
+ * ways - a new build that rejects an installed mod is refused, and so is one that an
+ * installed mod already rejects.
+ *
+ * Anything skipped is named with the reason. Silently not updating a mod and silently
+ * breaking the game are both worse than saying which one is in the way.
+ */
+export async function planModUpdates(
+  minecraft: string,
+  loader: string,
+  slugs: readonly string[],
+  current: Readonly<Record<string, string>>,
+): Promise<UpdatePlan> {
+  const unique = [...new Set(slugs)];
+  const candidates = new Map<string, ModrinthVersion>();
+  const skipped: UpdateSkip[] = [];
+
+  await mapLimit(unique, 6, async (slug) => {
+    try {
+      const newest = newestFirst(
+        await fetchJson<ModrinthVersion[]>(versionQuery(slug, minecraft, loader)),
+      )[0];
+
+      if (newest) candidates.set(slug, newest);
+    } catch (error) {
+      log.warn(`Could not look up ${slug}.`, error);
+      skipped.push({ slug, reason: 'Modrinth could not be reached for this one.' });
+    }
+  });
+
+  // Every project that will be present once the run finishes - the newest build where
+  // there is one, the installed build otherwise. Incompatibility is a property of the
+  // whole set, so it has to be judged against the whole set.
+  const projectBySlug = new Map<string, string>();
+  for (const [slug, version] of candidates) projectBySlug.set(slug, version.project_id);
+
+  const present = new Set(projectBySlug.values());
+  const slugByProject = new Map([...projectBySlug].map(([slug, id]) => [id, slug]));
+
+  const updates: UpdateChoice[] = [];
+
+  for (const [slug, version] of candidates) {
+    if (current[slug] === version.version_number) continue;
+
+    const clash = (version.dependencies ?? []).find(
+      (dependency) =>
+        dependency.dependency_type === 'incompatible' &&
+        dependency.project_id !== null &&
+        dependency.project_id !== version.project_id &&
+        present.has(dependency.project_id),
+    );
+
+    if (clash) {
+      const other = slugByProject.get(clash.project_id!) ?? clash.project_id!;
+      skipped.push({ slug, reason: `Its newest build does not work with ${other}.` });
+      continue;
+    }
+
+    updates.push({ slug, version: version.version_number });
+  }
+
+  // The other direction: a build already installed may reject one of the candidates.
+  const rejected = new Set<string>();
+
+  for (const [slug, version] of candidates) {
+    for (const dependency of version.dependencies ?? []) {
+      if (dependency.dependency_type !== 'incompatible' || !dependency.project_id) continue;
+
+      const other = slugByProject.get(dependency.project_id);
+      if (other && other !== slug) rejected.add(`${slug}:${other}`);
+    }
+  }
+
+  return {
+    updates: updates.filter((entry) => {
+      const blocker = [...rejected].find((pair) => pair.endsWith(`:${entry.slug}`));
+
+      if (!blocker) return true;
+
+      skipped.push({
+        slug: entry.slug,
+        reason: `${blocker.split(':')[0]} does not work alongside this build.`,
+      });
+
+      return false;
+    }),
+    skipped,
+  };
+}
+
+export interface UpdateChoice {
+  slug: string;
+  version: string;
+}
+
+export interface UpdateSkip {
+  slug: string;
+  reason: string;
+}
+
+export interface UpdatePlan {
+  updates: UpdateChoice[];
+  skipped: UpdateSkip[];
+}
+
 export async function checkModUpdates(
   minecraft: string,
   loader: string,

@@ -51,6 +51,15 @@ export interface PublicSettings {
   account: PublicAccount | null;
 }
 
+/** The result of updating everything at once. */
+export interface UpdateAllResult {
+  updated: string[];
+  /** Mods left on their current build, and what is in the way. */
+  skipped: { slug: string; reason: string }[];
+  failed: { slug: string; reason: string }[];
+  mods: InventoryMod[];
+}
+
 export interface PackModView {
   slug: string;
   name: string;
@@ -286,6 +295,7 @@ export const CHANNELS = {
   modsDelete: 'mods:delete',
   modsUpdates: 'mods:updates',
   modsUpdate: 'mods:update',
+  modsUpdateAll: 'mods:update-all',
   newsGet: 'news:get',
   partnersGet: 'partners:get',
   changelogGet: 'changelog:get',

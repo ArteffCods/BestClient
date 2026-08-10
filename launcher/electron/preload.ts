@@ -6,6 +6,7 @@ import {
   type AppInfo,
   type ProfileId,
   type ProfileList,
+  type UpdateAllResult,
   type ChangelogEntry,
   type DeviceCodeEvent,
   type AuthConfigStatus,
@@ -91,6 +92,7 @@ const api = {
   deleteMod: (id: string): Promise<InventoryMod[]> => ipcRenderer.invoke(CHANNELS.modsDelete, id),
   checkModUpdates: (): Promise<Record<string, string>> => ipcRenderer.invoke(CHANNELS.modsUpdates),
   updateMod: (slug: string): Promise<InventoryMod[]> => ipcRenderer.invoke(CHANNELS.modsUpdate, slug),
+  updateAllMods: (): Promise<UpdateAllResult> => ipcRenderer.invoke(CHANNELS.modsUpdateAll),
 
   getNews: (): Promise<NewsItem[]> => ipcRenderer.invoke(CHANNELS.newsGet),
   getPartners: (): Promise<PartnerServer[]> => ipcRenderer.invoke(CHANNELS.partnersGet),

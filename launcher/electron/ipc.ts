@@ -16,6 +16,7 @@ import {
   installFromModrinth,
   listInstalledMods,
   listModVersions,
+  planModUpdates,
   removeInstalledMod,
   searchModsPage,
   verifyModsAreFromModrinth,
@@ -52,6 +53,7 @@ import {
   type AppInfo,
   type ProfileList,
   type PublicSettings,
+  type UpdateAllResult,
 } from './shared';
 
 const toPublic = (account: { uuid: string; username: string }) => ({
@@ -414,6 +416,59 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
     }
 
     return listInventory();
+  });
+
+  /**
+   * Moves every mod it safely can to its newest build, in one go.
+   *
+   * The plan is worked out first, against the builds that would actually be installed, so
+   * a mod whose new build clashes with something else in the set stays where it is and is
+   * named rather than quietly breaking the game.
+   */
+  ipcMain.handle(CHANNELS.modsUpdateAll, async (): Promise<UpdateAllResult> => {
+    const pack = await loadPack();
+    const inventory = await listInventory();
+
+    const managed = await readManagedManifest();
+    const managedSlugs = new Set(Object.values(managed).map((entry) => entry.slug));
+
+    const rows = inventory.filter((row) => row.slug && row.source !== 'client');
+    const current: Record<string, string> = {};
+
+    for (const row of rows) {
+      if (row.slug && row.version) current[row.slug] = row.version;
+    }
+
+    const plan = await planModUpdates(
+      pack.minecraft,
+      pack.loader,
+      rows.map((row) => row.slug!),
+      current,
+    );
+
+    const updated: string[] = [];
+    const failed: { slug: string; reason: string }[] = [];
+
+    // One at a time: these write into the same mods folder and the same manifest, and a
+    // race there would leave the folder disagreeing with what the launcher thinks is in it.
+    for (const entry of plan.updates) {
+      try {
+        if (managedSlugs.has(entry.slug)) {
+          await updateManagedToNewest(entry.slug, pack);
+        } else {
+          await installFromModrinth(entry.slug, pack.minecraft, pack.loader);
+        }
+
+        updated.push(entry.slug);
+      } catch (error) {
+        failed.push({
+          slug: entry.slug,
+          reason: error instanceof Error ? error.message : String(error),
+        });
+      }
+    }
+
+    return { updated, skipped: plan.skipped, failed, mods: await listInventory() };
   });
 
   ipcMain.handle(CHANNELS.newsGet, () => getNews());

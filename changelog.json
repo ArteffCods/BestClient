@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.5.0",
+    "date": "2026-08-11",
+    "title": "Update every mod at once",
+    "description": "One button on the Mods screen moves everything to its newest build, and works out which ones cannot go together before it touches anything.",
+    "changes": [
+      "New Update all button on the Mods screen",
+      "Before anything is installed, each new build's own compatibility rules are read: a build that will not work alongside another mod you have is left where it is, and named",
+      "Both directions are checked - a new build that rejects an installed mod, and an installed mod that rejects the new build",
+      "The client refuses to start if its own mod is missing or fails its hash check, instead of launching without it"
+    ]
+  },
+  {
     "version": "0.4.5",
     "date": "2026-08-11",
     "title": "The version sits in its own panel",

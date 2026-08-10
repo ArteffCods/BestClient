@@ -46,6 +46,15 @@ export interface PublicSettings {
 
 export type ModCategory = 'core' | 'performance' | 'pvp' | 'library' | 'risky';
 
+/** The result of updating everything at once. */
+export interface UpdateAllResult {
+  updated: string[];
+  /** Mods left on their current build, and what is in the way. */
+  skipped: { slug: string; reason: string }[];
+  failed: { slug: string; reason: string }[];
+  mods: InventoryMod[];
+}
+
 export interface PackModView {
   slug: string;
   name: string;
@@ -241,6 +250,7 @@ export interface BestClientApi {
   deleteMod(id: string): Promise<InventoryMod[]>;
   checkModUpdates(): Promise<Record<string, string>>;
   updateMod(slug: string): Promise<InventoryMod[]>;
+  updateAllMods(): Promise<UpdateAllResult>;
   getNews(): Promise<NewsItem[]>;
   getPartners(): Promise<PartnerServer[]>;
   getChangelog(): Promise<ChangelogEntry[]>;
