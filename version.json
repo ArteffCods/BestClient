@@ -1,7 +1,7 @@
 {
-  "version": "0.4.3",
-  "notes": "The version leads the line above Launch, with a white edit mark.",
-  "tag": "v0.4.3",
-  "asset": "BestClient-Setup-0.4.3.exe",
-  "sha256": "e8cacceb35f7bc0925f6a1e1b39e0172aea62e4884c215122c6565bdd30c5447"
+  "version": "0.4.4",
+  "notes": "A bigger line above Launch, with a grey edit mark that turns white.",
+  "tag": "v0.4.4",
+  "asset": "BestClient-Setup-0.4.4.exe",
+  "sha256": "0dd588f37470150655c07b654907a9bf535dd285df3967637ae4a46c786d14bb"
 }

@@ -499,28 +499,30 @@ function PlayStage({
             aria-label={`Minecraft ${minecraft}. Choose a different version`}
             className="group flex cursor-pointer items-baseline gap-2 rounded-md transition-colors"
           >
+            {/* Fixed size: the mark stays put under the cursor and only changes colour,
+                because something that grows when you approach it is harder to hit. */}
             <svg
               width="15"
               height="15"
               viewBox="0 0 16 16"
               fill="none"
               aria-hidden="true"
-              className="translate-y-0.5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] transition-transform group-hover:scale-110"
+              className="translate-y-1 text-[#cbc0d4] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] transition-colors group-hover:text-white"
             >
               <path
                 d="M11.2 2.3 L13.7 4.8 L5.4 13.1 L2 14 L2.9 10.6 Z M10 3.5 L12.5 6"
-                stroke="#ffffff"
+                stroke="currentColor"
                 strokeWidth="1.7"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
-            <span className="display-caps text-[15px] leading-none text-rose-soft">
+            <span className="display-caps text-[19px] leading-none text-rose-soft">
               {minecraft}
             </span>
           </button>
-          <span aria-hidden="true" className="h-3 w-px bg-edge-bright" />
-          <span className="display-caps text-[15px] leading-none text-ink">OpenGL</span>
+          <span aria-hidden="true" className="h-4 w-px bg-edge-bright" />
+          <span className="display-caps text-[19px] leading-none text-ink">OpenGL</span>
         </p>
 
         <LaunchButton

@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.4.4",
+    "date": "2026-08-11",
+    "title": "A bigger line above Launch",
+    "description": "The version and renderer above the Launch button are larger, and the edit mark is a quiet grey that turns white under the cursor.",
+    "changes": [
+      "The version and OpenGL above Launch are noticeably larger",
+      "The edit mark is grey at rest and white when you hover it",
+      "It no longer grows under the cursor - a target that moves is harder to hit"
+    ]
+  },
+  {
     "version": "0.4.3",
     "date": "2026-08-11",
     "title": "The version leads the line",
