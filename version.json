@@ -1,5 +1,5 @@
 {
-  "version": "0.5.5",
+  "version": "0.5.4.2",
   "notes": "The renderer picker opens downward again, and the client shows its own release number.",
   "tag": "v0.5.4.2",
   "asset": "BestClient-Setup-0.5.4.2.exe",
