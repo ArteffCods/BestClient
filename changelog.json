@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.7.3",
+    "date": "2026-08-11",
+    "title": "The streak card grows sideways",
+    "description": "The card is back to the height it had before and reaches further left instead: 400 pixels wide, with the same type sizes and the same bar strip as it had. The extra width goes into the day bars, which now have room to breathe.",
+    "changes": [
+      "The streak card is the height it was, and 400 pixels wide",
+      "The day bars are wider, since the card no longer grows downwards"
+    ]
+  },
+  {
     "version": "0.7.2",
     "date": "2026-08-11",
     "title": "The friend list knows where to call",

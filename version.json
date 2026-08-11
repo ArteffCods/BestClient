@@ -1,7 +1,7 @@
 {
-  "version": "0.7.2",
-  "notes": "The friend list now points at client.bestpvp.eu.",
-  "tag": "v0.7.2",
-  "asset": "BestClient-Setup-0.7.2.exe",
-  "sha256": "6be0f3b6266508dbc6c1e1f17123ae764b6644810759c7d996623443d52203d1"
+  "version": "0.7.3",
+  "notes": "The streak card grows sideways, not downwards.",
+  "tag": "v0.7.3",
+  "asset": "BestClient-Setup-0.7.3.exe",
+  "sha256": "2d9b0ac4ed34fdffd834182da3c5bc1fb4e65df0ef38cc38b11851b93854de53"
 }
