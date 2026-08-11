@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.6.4",
+    "date": "2026-08-11",
+    "title": "Status effects, saturation the way AppleSkin draws it, and armor that counts down",
+    "description": "A status effect module with the time left on each one. Saturation is now an outline hugging each shank, half lit for half a shank, instead of a box around it. Armor counts what is left rather than what is gone, and the skin layers stay under the armour worn over them.",
+    "changes": [
+      "Status effects module: every effect you are carrying with the time left, sorted by whichever runs out first",
+      "Saturation traces the shank it covers instead of boxing it in, and a half shank gets half an outline",
+      "Armor shows the durability left again, with the colour still telling you how far gone the piece is",
+      "3D skin layers no longer push through the armour worn over them: a part wearing a piece is left flat",
+      "The keystroke block has no plate of its own any more, only the key faces",
+      "The preview in a module settings card is sized to the module, so the bottom row of keystrokes is no longer cut off",
+      "The layout screen carries the BestClient wordmark under the mark",
+      "A different icon for FPS"
+    ]
+  },
+  {
     "version": "0.6.3",
     "date": "2026-08-11",
     "title": "Installs that fail once no longer fail for good",

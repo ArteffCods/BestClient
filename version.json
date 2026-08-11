@@ -1,7 +1,7 @@
 {
-  "version": "0.6.3",
-  "notes": "Store installs survive a rate limit, and failures say what went wrong.",
-  "tag": "v0.6.3",
-  "asset": "BestClient-Setup-0.6.3.exe",
-  "sha256": "e558089f960fea4d1afe61e1a6bb79d35cc198e1452a0cbd70e9023f0e51df3c"
+  "version": "0.6.4",
+  "notes": "Status effects, AppleSkin style saturation, and armor that counts down.",
+  "tag": "v0.6.4",
+  "asset": "BestClient-Setup-0.6.4.exe",
+  "sha256": "1ee5c9fc039d9dbeae8199757b4b7a921a02737c8d6b0746e833b3556e0276d8"
 }
