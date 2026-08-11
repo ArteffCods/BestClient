@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.6.7",
+    "date": "2026-08-11",
+    "title": "It says what it is doing, and a streak on the right",
+    "description": "The wait after pressing Play is no longer silent: the mods folder check now reports what it is reading and how far it has got, and it reads the jars four at a time instead of one after another. The right rail carries a streak card with the days you have played.",
+    "changes": [
+      "The mods folder check reports its progress instead of leaving the button looking dead",
+      "The jars are hashed four at a time, so the check finishes in a fraction of the time on a big mod folder",
+      "A streak card on the right: days running, best run, time today, total, and the last fourteen days as a bar for each",
+      "Playtime is recorded per day when the game closes and kept for a year"
+    ]
+  },
+  {
     "version": "0.6.6",
     "date": "2026-08-11",
     "title": "Play works again when Modrinth does not",

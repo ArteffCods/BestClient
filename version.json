@@ -1,7 +1,7 @@
 {
-  "version": "0.6.6",
-  "notes": "Play works again when Modrinth does not answer.",
-  "tag": "v0.6.6",
-  "asset": "BestClient-Setup-0.6.6.exe",
-  "sha256": "de4bfd147c77898c61a75cd0c4dd9de8aa3fe151903d92b5425dbebc5b298be6"
+  "version": "0.6.7",
+  "notes": "Progress while it checks, and a play streak on the right.",
+  "tag": "v0.6.7",
+  "asset": "BestClient-Setup-0.6.7.exe",
+  "sha256": "23553e877d41f0b496cb74cc512408f436840c28bd6e70238c7165cdc2803e38"
 }
