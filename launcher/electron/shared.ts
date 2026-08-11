@@ -6,7 +6,7 @@
  * The package version has to stay a plain X.Y.Z for electron-builder, so the release
  * number (which may carry an extra segment) lives here and is what the client displays.
  */
-export const APP_DISPLAY_VERSION = '0.5.4.2';
+export const APP_DISPLAY_VERSION = '0.5.4.3';
 
 export type ProfileId = '26.2' | '26.1.2' | '1.21.11';
 

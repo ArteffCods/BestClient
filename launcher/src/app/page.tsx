@@ -896,15 +896,18 @@ function PartnerCard({
  * closest symbol in the game's own alphabet before it is painted.
  */
 function minecraftish(text: string): string {
+  // The invisible variation selectors Windows tacks onto hearts and swords would keep a
+  // colour-emoji presentation alive; the game alphabet has no use for them.
+  let out = text.replace(/[\uFE0F\uFE0E]/g, '');
   const swaps: [string, string][] = [
     // Swords, shields and picks are already pixel-font symbols; only the variation
     // selector (the invisible tag Windows adds for colour) needs to go.
-    ['\u{1F5E1}\uFE0F', '🗡'],
-    ['\u{1F6E1}\uFE0F', '🛡'],
-    ['\u{2694}\uFE0F', '⚔'],
-    ['\u{26CF}\uFE0F', '⛏'],
-    ['\u{2620}\uFE0F', '☠'],
-    ['\u{2764}\uFE0F', '♥'],
+    ['🗡', '⚔'],
+    ['🛡', '⚔'],
+    ['⚔', '⚔'],
+    ['⛏', '⛏'],
+    ['☠', '☠'],
+    ['♥', '♥'],
     // Everything from here on is a real swap.
     ['💀', '☠'],
     ['❤', '♥'],
@@ -930,18 +933,42 @@ function minecraftish(text: string): string {
     ['🥈', '♛'],
     ['🥉', '♛'],
     ['🎖', '♛'],
+    ['🏅', '♛'],
     ['🔥', '✹'],
     ['🌋', '✹'],
+    ['💣', '✹'],
+    ['🧨', '✹'],
+    ['💥', '✹'],
+    ['⚡', '☄'],
+    ['🌩', '☄'],
     ['🌞', '☀'],
     ['💧', '☁'],
     ['🌊', '☁'],
+    ['☁', '☁'],
     ['🌙', '☽'],
     ['🌈', '❈'],
     ['🌨', '❄'],
     ['🌬', '☁'],
+    ['❄', '❄'],
+    ['🌹', '✿'],
+    ['🌷', '✿'],
+    ['🌺', '✿'],
+    ['🌻', '✿'],
+    ['🥀', '✿'],
+    ['🎗', '✿'],
+    ['💤', '❁'],
+    ['✅', '✔'],
+    ['☑', '✔'],
+    ['✔', '✔'],
+    ['❌', '✖'],
+    ['❎', '✖'],
+    ['⚠', '‼'],
+    ['🎉', '✦'],
+    ['🎊', '✦'],
+    ['🥳', '✦'],
+    ['💯', '✹'],
   ];
 
-  let out = text;
   for (const [emoji, symbol] of swaps) {
     out = out.split(emoji).join(symbol);
   }

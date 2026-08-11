@@ -192,6 +192,10 @@
  * in page.tsx already rewrites the coloured emojis to the closest game glyph; this font
  * draws those glyphs (and the rest of the MOTD) in the actual pixel style. Anything the
  * game alphabet does not carry falls back to the plain text glyph of the system font.
+ *
+ * The face is GNU Unifont (GPLv2+ with the font-embedding exception), the same bitmap
+ * alphabet the game's own font is built on - every glyph these cards can meet exists in
+ * it, in the same blocky cut.
  */
 @font-face {
   font-family: 'Minecraft';
