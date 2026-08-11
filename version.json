@@ -1,7 +1,7 @@
 {
-  "version": "0.5.8",
-  "notes": "The overlay gets its own screen, every module gets its own settings.",
-  "tag": "v0.5.8",
-  "asset": "BestClient-Setup-0.5.8.exe",
-  "sha256": "feae3d011dc8b148a46655503942e8c1fd035efc50fdab3569b4ed05b2c790df"
+  "version": "0.5.8.1",
+  "notes": "The mod list icon is the original artwork again.",
+  "tag": "v0.5.8.1",
+  "asset": "BestClient-Setup-0.5.8.1.exe",
+  "sha256": "34c1a537f355a4b5de478d7244f34a86eee19d9356cec0c84cdeb6797be7d32f"
 }
