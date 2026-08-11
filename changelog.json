@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.5.9",
+    "date": "2026-08-11",
+    "title": "Armor durability, saturation, and a plate under every readout",
+    "description": "Two new modules in the Right Shift menu: armor durability, drawn as the four pieces you are wearing with the hits each one has left, and saturation. Every readout now sits on a rounded black plate at thirty percent, so the numbers stay readable over snow, sand and a lit sky.",
+    "changes": [
+      "Armor durability module: your four worn pieces with the durability left under each, counting down through gold and red as a piece wears out",
+      "Saturation module",
+      "Every readout is drawn on a rounded black plate at thirty percent opacity, on by default. It is still per module: turn the plate off for any of them in its own settings"
+    ]
+  },
+  {
     "version": "0.5.8.2",
     "date": "2026-08-11",
     "title": "The client mod shows its own mark on the Mods page",

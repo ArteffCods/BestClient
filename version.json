@@ -1,7 +1,7 @@
 {
-  "version": "0.5.8.2",
-  "notes": "The BestClient mark is drawn whole on the Mods page.",
-  "tag": "v0.5.8.2",
-  "asset": "BestClient-Setup-0.5.8.2.exe",
-  "sha256": "9d5e39a2392b67ec2f704dce889b02f040a51a8f77d1a9e1367ddf20fc8cf9dc"
+  "version": "0.5.9",
+  "notes": "Armor durability and saturation modules, and a plate under every readout.",
+  "tag": "v0.5.9",
+  "asset": "BestClient-Setup-0.5.9.exe",
+  "sha256": "3970de71d0874485fe540e34cac9ca9fdb00e312e8647a58073ed0929f2a6f57"
 }
