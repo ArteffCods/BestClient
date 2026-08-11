@@ -1,5 +1,20 @@
 [
   {
+    "version": "0.5.6.5",
+    "date": "2026-08-11",
+    "title": "Modrinth shows what you already have",
+    "description": "Searching Modrinth used to hide every mod the client already ships, so looking one up came back empty. They are all there now, marked as installed, and Update only appears on the ones that actually have a newer build.",
+    "changes": [
+      "The Modrinth search lists installed mods too, marked Installed instead of Download",
+      "Update is shown only where a newer build exists - on both the Modrinth and the Mods screen. It used to appear on rows whose build the launcher simply did not know",
+      "Updating a mod that belongs to the client updates it in place instead of installing a second copy under the store’s name, which is what put the same mod in the list twice",
+      "A build installed by an older version of the launcher is recognised again, so its old jar is removed rather than left beside the new one",
+      "The renderer list drops the line about taking effect on the next launch",
+      "The Mods screen drops the \"Client\" tag next to BestClient’s own mods",
+      "In game: the menu says BESTCLIENT as one word, and the \"ESC to close\" line is gone from the bottom corner"
+    ]
+  },
+  {
     "version": "0.5.6.4",
     "date": "2026-08-11",
     "title": "The renderer is called OpenGL",

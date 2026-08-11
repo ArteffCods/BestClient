@@ -1,7 +1,7 @@
 {
-  "version": "0.5.6.4",
-  "notes": "The renderer is called OpenGL now, it is the default, and Sodium is what draws it.",
-  "tag": "v0.5.6.4",
-  "asset": "BestClient-Setup-0.5.6.4.exe",
-  "sha256": "e08708ec10e14cfdfaa859df07e4adce1644bbfe9bcf151df1f1b33210516fa3"
+  "version": "0.5.6.5",
+  "notes": "Modrinth lists what you already have, and Update only shows up where there is one.",
+  "tag": "v0.5.6.5",
+  "asset": "BestClient-Setup-0.5.6.5.exe",
+  "sha256": "9ffc2bc50b41779ed6d101fcd2ee7aa055c07027659ecd93af23947b54bfbebe"
 }
