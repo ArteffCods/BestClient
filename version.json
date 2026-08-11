@@ -1,7 +1,7 @@
 {
-  "version": "0.7.0",
-  "notes": "A friend list, the BestClient badge in the tab list, and BestClient as the client name.",
-  "tag": "v0.7.0",
-  "asset": "BestClient-Setup-0.7.0.exe",
-  "sha256": "3a7bc0a0ee4383c1ee4021779925c440740a93bbb73fe30ae17a7bb870131998"
+  "version": "0.7.1",
+  "notes": "A bigger streak card and a new FPS icon.",
+  "tag": "v0.7.1",
+  "asset": "BestClient-Setup-0.7.1.exe",
+  "sha256": "12d80a465b26106bc93355a1ac9a235c0ac0811fa3405a49080545d295bb0d50"
 }

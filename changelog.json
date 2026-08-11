@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.7.1",
+    "date": "2026-08-11",
+    "title": "A streak card you can actually read",
+    "description": "The streak card grew from 248 to 344 pixels wide, the running count is half again as large, the day bars are taller, and it appears on narrower windows than before. The FPS module carries a film frame now, because frames per second is what it counts.",
+    "changes": [
+      "The streak card is 344 pixels wide, with a larger count, larger rows and taller day bars",
+      "It shows from 1220 pixels of window width instead of 1300",
+      "The FPS module icon is a film frame"
+    ]
+  },
+  {
     "version": "0.7.0",
     "date": "2026-08-11",
     "title": "Friends, and the client says its own name",
