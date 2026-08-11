@@ -540,7 +540,11 @@
       "locked": false,
       "defaultEnabled": true,
       "note": "Dampens overlapping sounds instead of playing all of them.",
-      "iconUrl": "https://cdn.modrinth.com/data/sFgqI5oP/85c1897b203b9972f1538365846ef36cc87529b7_96.webp"
+      "iconUrl": "https://cdn.modrinth.com/data/sFgqI5oP/85c1897b203b9972f1538365846ef36cc87529b7_96.webp",
+      "minecraft": [
+        "26.1.2",
+        "26.2"
+      ]
     }
   ],
   "resourcePacks": [

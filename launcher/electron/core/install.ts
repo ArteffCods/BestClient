@@ -6,8 +6,17 @@ import { applyShaderDefaults, ensureContent } from './content';
 import { resolveNvidiaOptimize } from './gpu';
 import { resolveFabric } from './fabric';
 import { ensureJava } from './java';
+import { describe, readBundledLibraries } from './deps';
 import { log } from './logger';
-import { loadPack, NVIDIA_MODS, reconcileSelection, resolveMods, syncMods } from './modpack';
+import {
+  loadPack,
+  NVIDIA_MODS,
+  reconcileInstalled,
+  reconcileSelection,
+  resolveMods,
+  syncMods,
+  type Repair,
+} from './modpack';
 import type { ProgressReport } from './net';
 import { applyPvpDefaults } from './options';
 import { profile } from './profiles';
@@ -55,6 +64,10 @@ export interface InstallResult {
   unavailableMods: string[];
   /** Libraries pulled in automatically to satisfy other mods' hard requirements. */
   dependencies: string[];
+  /** Mods held back a build so the set loads together. */
+  repairs: Repair[];
+  /** Requirements the installed set still does not meet, in plain words. */
+  conflicts: string[];
 }
 
 const STEPS = [
@@ -167,6 +180,30 @@ export async function installClient(
     );
   }
 
+  // With every jar on disk, read what they demand of each other. Two mods can both be at
+  // their newest build and still refuse to load together, and the loader's answer to that
+  // is to stop during startup - which reaches the player as "exited with code 1" and
+  // nothing else. Anything solvable is solved here; anything left is at least named.
+  emit(6, 'Checking mods against each other', 1);
+  const loaderJar = libraries.classpath.find((entry) =>
+    path.basename(entry).startsWith('fabric-loader-'),
+  );
+
+  const health = await reconcileInstalled(pack, resolved.mods, {
+    minecraft: pack.minecraft,
+    loader: pack.loaderVersion,
+    java: javaMajor,
+    builtIn: loaderJar ? readBundledLibraries(loaderJar) : [],
+  });
+
+  for (const repair of health.repairs) {
+    log.info(`Held ${repair.slug} at ${repair.to} instead of ${repair.from}: ${repair.because}.`);
+  }
+
+  for (const conflict of health.unresolved) {
+    log.warn(`Unresolved: ${describe(conflict)}.`);
+  }
+
   // 7 - client configuration
   emit(7, 'Resource packs and shader');
 
@@ -200,6 +237,8 @@ export async function installClient(
     fabric,
     unavailableMods: resolved.unavailable,
     dependencies: resolved.dependencies,
+    repairs: health.repairs,
+    conflicts: health.unresolved.map(describe),
   };
 }
 

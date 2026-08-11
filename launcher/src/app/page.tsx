@@ -54,6 +54,8 @@ export default function Page() {
   const [busy, setBusy] = useState(false);
   const [playError, setPlayError] = useState<string | null>(null);
   const [unavailable, setUnavailable] = useState<string[]>([]);
+  /** Requirements the installed mods do not meet - the reason a launch would die at startup. */
+  const [conflicts, setConflicts] = useState<string[]>([]);
 
   const [profiles, setProfiles] = useState<ProfileList | null>(null);
   const [pickingProfile, setPickingProfile] = useState(false);
@@ -69,6 +71,7 @@ export default function Page() {
     percent: 0,
   });
   const logEndRef = useRef<HTMLDivElement>(null);
+  const recentLogs = useRef<string[]>([]);
 
   const applyAccountList = useCallback((list: AccountList) => {
     setAccounts(list.accounts);
@@ -118,6 +121,10 @@ export default function Page() {
       api.onDeviceCode(setDeviceCode),
       api.onInstallProgress(setProgress),
       api.onGameLog((line) => {
+        // Kept in a ref as well as in state: when the game exits, the reason is in these
+        // lines, and a callback registered once would otherwise close over an empty list.
+        recentLogs.current = [...recentLogs.current, line].slice(-MAX_LOG_LINES);
+
         setLogs((previous) => {
           const next = [...previous, line];
           return next.length > MAX_LOG_LINES ? next.slice(-MAX_LOG_LINES) : next;
@@ -128,7 +135,16 @@ export default function Page() {
         setBusy(false);
 
         if (code !== 0 && code !== null) {
-          setPlayError(`The game exited with code ${code}. See the log for details.`);
+          // The game says why it stopped, in its own output, one line above the exit code.
+          // Repeating only the number would send the player looking for something they
+          // have already been shown.
+          const reason = crashReason(recentLogs.current);
+
+          setPlayError(
+            reason
+              ? `The game stopped: ${reason}`
+              : `The game exited with code ${code}. The full output is below.`,
+          );
           setShowLogs(true);
         }
       }),
@@ -191,6 +207,7 @@ export default function Page() {
       const result = await window.bestclient.play(quickConnect);
 
       setUnavailable(result.unavailableMods);
+      setConflicts(result.conflicts);
       setRunning(true);
     } catch (error) {
       setPlayError(error instanceof Error ? cleanError(error.message) : String(error));
@@ -212,6 +229,7 @@ export default function Page() {
     try {
       const result = await window.bestclient.repair();
       setUnavailable(result.unavailableMods);
+      setConflicts(result.conflicts);
     } catch (error) {
       setPlayError(error instanceof Error ? cleanError(error.message) : String(error));
     } finally {
@@ -363,6 +381,7 @@ export default function Page() {
               progress={progress}
               error={playError}
               unavailable={unavailable}
+              conflicts={conflicts}
               onPlay={(quickConnect) => void handlePlay(quickConnect)}
               onStop={() => void handleStop()}
               onSignIn={() => void handleLogin()}
@@ -459,6 +478,7 @@ function PlayStage({
   progress,
   error,
   unavailable,
+  conflicts,
   onPlay,
   onStop,
   onSignIn,
@@ -473,6 +493,7 @@ function PlayStage({
   progress: InstallProgressEvent | null;
   error: string | null;
   unavailable: string[];
+  conflicts: string[];
   onPlay: (quickConnect: string | null) => void;
   onStop: () => void;
   onSignIn: () => void;
@@ -598,6 +619,23 @@ function PlayStage({
           No {info?.target.minecraft} build for these, so they were skipped:{' '}
           <span className="font-mono">{unavailable.join(', ')}</span>
         </p>
+      ) : null}
+
+      {/* Two mods that will not load together. Fabric stops during startup over this and
+          the process ends with code 1, so without naming them the player is left with a
+          number. Each line says which mod, what it needs, and what it found. */}
+      {conflicts.length > 0 ? (
+        <div className="mt-6 max-w-xl rounded-lg border border-danger/40 bg-danger/5 px-4 py-3 text-[12px] leading-relaxed text-danger">
+          <p className="font-semibold">These mods cannot load together:</p>
+          <ul className="mt-1.5 space-y-1">
+            {conflicts.map((conflict) => (
+              <li key={conflict}>{conflict}</li>
+            ))}
+          </ul>
+          <p className="mt-2 text-danger/80">
+            Turn one of them off on the Mods screen, or pick an older build of it.
+          </p>
+        </div>
       ) : null}
 
       {error ? (
@@ -921,6 +959,42 @@ function logLineColor(line: string): string {
   if (/\bwarn(ing)?\b/i.test(line)) return 'text-warn';
   if (/\binfo\b|loaded|started|success|ready|done/i.test(line)) return 'text-[#63d492]';
   return 'text-ink';
+}
+
+/**
+ * Pulls the reason for a crash out of the game's own output.
+ *
+ * Fabric explains itself well when it refuses to start - it names both mods and both
+ * versions - and then the process ends, and all the launcher gets is the exit code. The
+ * explanation is already on screen; this puts it in the banner as well, so the player is
+ * told what happened rather than asked to go and find it.
+ */
+function crashReason(lines: readonly string[]): string | null {
+  // Read backwards: the last failure is the one that ended the process.
+  for (let i = lines.length - 1; i >= 0; i--) {
+    const line = lines[i]!;
+
+    // Fabric's own bullet: " - Mod 'Sodium Extra' (sodium-extra) 0.9.3 requires ...".
+    const detail = /^\s*-\s+(Mod\s+'.+)$/.exec(line);
+    if (detail) return trim(detail[1]!);
+
+    const missing = /Could not find required mod|Incompatible mods found|Mod resolution failed/i.exec(line);
+    if (missing) {
+      // The headline alone says little; prefer the bullet that follows it, if one came.
+      const bullet = lines.slice(i).find((candidate) => /^\s*-\s+Mod\s+'/.test(candidate));
+      return trim(bullet ? bullet.replace(/^\s*-\s+/, '') : line.replace(/^.*?\]:\s*/, ''));
+    }
+
+    const crash = /(java\.lang\.\w+(?:Error|Exception)|Caused by:\s*.+)/.exec(line);
+    if (crash) return trim(line.replace(/^.*?\]:\s*/, ''));
+  }
+
+  return null;
+}
+
+function trim(value: string): string {
+  const cleaned = value.trim().replace(/\s+/g, ' ');
+  return cleaned.length > 240 ? `${cleaned.slice(0, 237)}...` : cleaned;
 }
 
 /** Electron prefixes IPC rejections with "Error invoking remote method '...':". */

@@ -184,7 +184,7 @@ export function ModsView({ unavailable, pins, onPin }: Props) {
           type="button"
           disabled={updatingAll}
           onClick={() => void updateAll()}
-          className="flex cursor-pointer items-center gap-2 rounded-lg bg-rose-deep px-4 py-2 text-[12.5px] font-bold text-void transition-colors hover:bg-rose disabled:cursor-default disabled:opacity-60"
+          className="flex cursor-pointer items-center gap-2 rounded-lg bg-rose-deep px-4 py-2 text-[12.5px] font-bold text-white transition-colors hover:bg-rose disabled:cursor-default disabled:opacity-60"
         >
           {/* A download arrow into a tray: this pulls new builds down, it does not reload. */}
           <svg

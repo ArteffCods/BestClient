@@ -286,7 +286,12 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
       { repair: true },
     );
 
-    return { unavailableMods: install.unavailableMods, dependencies: install.dependencies };
+    return {
+      unavailableMods: install.unavailableMods,
+      dependencies: install.dependencies,
+      repairs: install.repairs,
+      conflicts: install.conflicts,
+    };
   });
 
   ipcMain.handle(CHANNELS.optionsReset, async () => applyPvpDefaults(await loadPack(), true));
@@ -591,7 +596,12 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
       }
     }, LAUNCH_LINGER_MS);
 
-    return { unavailableMods: install.unavailableMods, dependencies: install.dependencies };
+    return {
+      unavailableMods: install.unavailableMods,
+      dependencies: install.dependencies,
+      repairs: install.repairs,
+      conflicts: install.conflicts,
+    };
   });
 
   ipcMain.handle(CHANNELS.stop, () => {

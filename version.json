@@ -1,7 +1,7 @@
 {
-  "version": "0.5.2",
-  "notes": "The in-game menu ships at last, fullbright works, and six mods join the pack.",
-  "tag": "v0.5.2",
-  "asset": "BestClient-Setup-0.5.2.exe",
-  "sha256": "dfc179effb084749c9556dbd2aef254f358efc85f6431eb29357691ddb21b045"
+  "version": "0.5.3",
+  "notes": "The launcher checks the mods against each other before the game does, and says what went wrong when it cannot.",
+  "tag": "v0.5.3",
+  "asset": "BestClient-Setup-0.5.3.exe",
+  "sha256": "0abf3a3f53648d22903b6714f1e3952a944eb4f0d6aa022f99cc667b5f315e97"
 }

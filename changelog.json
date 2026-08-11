@@ -1,5 +1,20 @@
 [
   {
+    "version": "0.5.3",
+    "date": "2026-08-11",
+    "title": "The launcher checks the mods against each other before the game does",
+    "description": "Two mods that refuse to load together used to reach you as \"exited with code 1\". The launcher now reads what every jar demands of the others, settles the disagreement by holding one mod a build back, and says plainly what happened when it cannot.",
+    "changes": [
+      "Every installed jar is read before launch and checked against the others, including the libraries bundled inside them and inside Fabric Loader itself",
+      "A mod that cannot load beside another is stepped back through its own older builds until one fits - Sodium Extra now yields to the Sodium build Nvidium needs, instead of stopping the game",
+      "When nothing fits, the Play screen names both mods and both versions instead of leaving you a number",
+      "A crash now shows what the game actually said, not only its exit code",
+      "The launcher log is written straight to disk, so its last lines survive a crash",
+      "Sound Culling is offered only on 26.1.2 and 26.2, the versions it is published for",
+      "Update all: white text"
+    ]
+  },
+  {
     "version": "0.5.2",
     "date": "2026-08-11",
     "title": "The in-game menu is real, and six mods for a smoother game",

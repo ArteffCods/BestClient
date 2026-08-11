@@ -1,11 +1,21 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import {
+  auditMods,
+  describe,
+  providers,
+  readMods,
+  satisfies,
+  type Conflict,
+  type Environment,
+  type ModMeta,
+} from './deps';
 import { log } from './logger';
 import { downloadFile, fetchJson, mapLimit, type ProgressFn, type VerifyMode } from './net';
 import { dirs, exists, parseJson, resourceFile } from './paths';
 import { PACK_FILE } from './profiles';
-import { readSettings } from './store';
+import { readSettings, writeSettings } from './store';
 
 const MODRINTH = 'https://api.modrinth.com/v2';
 /** Maps Modrinth project id -> the jar the launcher installed for it. */
@@ -47,6 +57,15 @@ export interface PackMod {
    * Used to hold a mod on a specific stable release (e.g. Sodium one release back).
    */
   pinnedVersion?: string;
+  /**
+   * The Minecraft versions this mod is offered on. Absent means all of them.
+   *
+   * Some mods are only published for the newer versions. Listing them here keeps them in
+   * the pack for the versions that have them, instead of the alternative: leaving them
+   * unrestricted and telling every 1.21.11 player about a mod that was never going to
+   * install.
+   */
+  minecraft?: string[];
 }
 
 /**
@@ -128,7 +147,13 @@ export async function loadPack(): Promise<Pack> {
     packCache = parseJson<Pack>(await fs.promises.readFile(resourceFile(PACK_FILE), 'utf8'));
   }
 
-  return { ...packCache, minecraft: readSettings().activeProfile };
+  const minecraft = readSettings().activeProfile;
+
+  return {
+    ...packCache,
+    minecraft,
+    mods: packCache.mods.filter((mod) => !mod.minecraft || mod.minecraft.includes(minecraft)),
+  };
 }
 
 export interface Reconciled {
@@ -345,6 +370,200 @@ export async function resolveMods(
   }
 
   return { mods, unavailable, dependencies };
+}
+
+// ---------------------------------------------------------------------------
+// Keeping the installed set loadable
+// ---------------------------------------------------------------------------
+
+/** A mod the launcher stepped back to an older build to keep the game startable. */
+export interface Repair {
+  slug: string;
+  from: string;
+  to: string;
+  /** The requirement that forced it, in the words the player would see in the log. */
+  because: string;
+}
+
+export interface ReconcileResult {
+  repairs: Repair[];
+  /** What is still wrong after the repair pass - the game will not start with these. */
+  unresolved: Conflict[];
+}
+
+/** How many builds back the launcher is willing to walk before giving up on a mod. */
+const MAX_STEPBACK = 8;
+
+/**
+ * Checks the installed jars against each other and steps a mod back when they disagree.
+ *
+ * Two mods in the pack can both be at their newest build and still be unable to load
+ * together: Nvidium accepts only Sodium 0.8.11 or 0.8.12, and the newest Sodium Extra
+ * demands 0.8.13 or later. Neither mod is wrong and neither pin is stale - the pack simply
+ * cannot have both newest at once, and which one has to give way changes every time either
+ * of them publishes.
+ *
+ * Rather than freeze a version number in the pack file and have it rot, the disagreement is
+ * settled here at install time: whoever is complaining walks back through its own older
+ * builds until it finds one that accepts what is installed. The choice is written into the
+ * player's pins, so the next launch resolves straight to it instead of paying for the walk
+ * again.
+ */
+export async function reconcileInstalled(
+  pack: Pack,
+  installed: readonly ResolvedMod[],
+  environment: Environment,
+): Promise<ReconcileResult> {
+  const modsDir = dirs().mods;
+  let metas = await readMods(modsDir);
+  let conflicts = auditMods(metas, environment);
+
+  const repairs: Repair[] = [];
+
+  if (conflicts.length === 0) return { repairs, unresolved: [] };
+
+  log.warn(`Mods disagree: ${conflicts.map(describe).join('; ')}.`);
+
+  // A jar can only be stepped back once per install; without this a pair that can never
+  // agree would be downloaded back and forth until the depth limit ran out.
+  const attempted = new Set<string>();
+
+  for (let round = 0; round < 4 && conflicts.length > 0; round++) {
+    const target = conflicts.find(
+      (conflict) => conflict.kind === 'range' && !attempted.has(conflict.fileName),
+    );
+
+    if (!target) break;
+
+    attempted.add(target.fileName);
+
+    // The mod that is complaining is the one that moves. What it complains about is
+    // usually held where it is on purpose - a pack pin, or another mod's hard bound - so
+    // dragging that forward would only break something else.
+    const mod = installed.find((candidate) => candidate.fileName === target.fileName);
+
+    if (!mod) continue;
+
+    const repair = await stepBack(pack, mod, metas, environment, target);
+
+    if (!repair) {
+      log.warn(`No older build of ${mod.slug} accepts ${target.target} ${target.present}.`);
+      continue;
+    }
+
+    repairs.push(repair);
+    metas = await readMods(modsDir);
+    conflicts = auditMods(metas, environment);
+  }
+
+  if (repairs.length > 0) {
+    // Remember the outcome so the resolver picks it directly next time.
+    const pins = { ...readSettings().pinnedVersions };
+    for (const repair of repairs) pins[repair.slug] = repair.to;
+    writeSettings({ pinnedVersions: pins });
+  }
+
+  return { repairs, unresolved: conflicts };
+}
+
+/**
+ * Walks a mod's published builds, newest first, until one loads against what is installed.
+ *
+ * The only way to know what a build demands is to open it: Modrinth records the version a
+ * release was built against, not the range the jar enforces, and the loader honours the
+ * jar. So each candidate is downloaded and read, and the first one whose whole `depends`
+ * block is met takes the place of the jar that was there.
+ */
+async function stepBack(
+  pack: Pack,
+  mod: ResolvedMod,
+  metas: readonly ModMeta[],
+  environment: Environment,
+  conflict: Conflict,
+): Promise<Repair | null> {
+  // What the folder would offer once this mod's own jar is out of it.
+  const provided = providers(metas, environment, mod.fileName);
+
+  let versions: ModrinthVersion[];
+
+  try {
+    versions = newestFirst(await fetchJson<ModrinthVersion[]>(versionQuery(mod.slug, pack)));
+  } catch (error) {
+    log.warn(`Could not list older builds of ${mod.slug}.`, error);
+    return null;
+  }
+
+  const modsDir = dirs().mods;
+  const staging = path.join(modsDir, '.repair');
+  await fs.promises.mkdir(staging, { recursive: true });
+
+  try {
+    const older = versions.filter((candidate) => candidate.version_number !== mod.versionNumber);
+
+    for (const candidate of older.slice(0, MAX_STEPBACK)) {
+      const file = primaryFile(candidate);
+      if (!file) continue;
+
+      const staged = path.join(staging, file.filename);
+
+      try {
+        await downloadFile({ url: file.url, dest: staged, sha1: file.hashes.sha1, size: file.size });
+      } catch (error) {
+        log.warn(`Could not download ${mod.slug} ${candidate.version_number}.`, error);
+        continue;
+      }
+
+      const [meta] = await readMods(staging);
+
+      // Everything this build asks for has to hold, not only the requirement that failed:
+      // an older build can demand an older library, and swapping one break for another is
+      // not a repair.
+      const fits =
+        meta !== undefined &&
+        Object.entries(meta.depends).every(([id, predicate]) => {
+          const present = provided.get(id);
+          // Java is the launcher's own choice and is always at or above what a mod asks.
+          if (id === 'java') return true;
+          return present !== undefined && satisfies(present, predicate);
+        });
+
+      if (!fits) {
+        await fs.promises.rm(staged, { force: true });
+        continue;
+      }
+
+      await fs.promises.rm(path.join(modsDir, mod.fileName), { force: true });
+      await fs.promises.rm(path.join(modsDir, `${mod.fileName}.disabled`), { force: true });
+      await fs.promises.rename(staged, path.join(modsDir, file.filename));
+
+      const manifest = await readManagedManifest();
+      manifest[candidate.project_id] = {
+        fileName: file.filename,
+        slug: mod.slug,
+        version: candidate.version_number,
+      };
+      await fs.promises.writeFile(
+        path.join(modsDir, MANAGED_MANIFEST),
+        JSON.stringify(manifest, null, 2),
+        'utf8',
+      );
+
+      log.info(
+        `Stepped ${mod.slug} back from ${mod.versionNumber} to ${candidate.version_number}: ${describe(conflict)}.`,
+      );
+
+      return {
+        slug: mod.slug,
+        from: mod.versionNumber,
+        to: candidate.version_number,
+        because: describe(conflict),
+      };
+    }
+  } finally {
+    await fs.promises.rm(staging, { recursive: true, force: true });
+  }
+
+  return null;
 }
 
 /**

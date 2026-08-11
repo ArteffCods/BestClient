@@ -89,6 +89,10 @@ export interface InstallSummary {
   unavailableMods: string[];
   /** Titles of the libraries installed automatically to satisfy hard requirements. */
   dependencies: string[];
+  /** Mods held one or more builds back so the whole set loads together. */
+  repairs: { slug: string; from: string; to: string; because: string }[];
+  /** Requirements the installed set still does not meet, one readable line each. */
+  conflicts: string[];
 }
 
 export interface DeviceCodeEvent {
