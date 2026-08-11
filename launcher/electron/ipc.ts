@@ -55,6 +55,7 @@ import {
   type Settings,
 } from './core/store';
 import {
+  APP_DISPLAY_VERSION,
   CHANNELS,
   type AccountList,
   type AppInfo,
@@ -96,7 +97,9 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
 
   ipcMain.handle(CHANNELS.appInfo, async (): Promise<AppInfo> => {
     return {
-      version: app.getVersion(),
+      // APP_DISPLAY_VERSION carries the release number the builder cannot: the package
+      // version is a plain X.Y.Z, and this is what the About panel shows instead.
+      version: APP_DISPLAY_VERSION,
       brand: { name: BRAND.name, primary: BRAND.primary, secondary: BRAND.secondary },
       // The selected version, not a constant: the profile is the Minecraft version.
       target: {

@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.5.4.2",
+    "date": "2026-08-11",
+    "title": "The renderer menu opens downward, and the client shows its own version",
+    "description": "The Sodium/Vulkan picker on the Play screen drops its menu below the button again, and the About panel shows the release number itself instead of a son-of-a-different-name.",
+    "changes": [
+      "The renderer picker menu opens downward, under the button",
+      "The launcher's About panel now shows the release version (0.5.4.2) it was shipped under"
+    ]
+  },
+  {
     "version": "0.5.4.1",
     "date": "2026-08-11",
     "title": "Renderer mods are mandatory, and the picker opens upward",
