@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.7.6",
+    "date": "2026-08-11",
+    "title": "The game starts quickly again",
+    "description": "The class cache the game uses to start faster was tied to a fixed file name. After a Java runtime change that file no longer matched, so the JVM printed a shared archive error and rebuilt the cache on every launch, which made starting the game slow. The cache file is now named after the exact Java build, so it is written once and reused, and a stale one is cleared away.",
+    "changes": [
+      "The startup class cache is keyed to the Java build, so it stops mismatching and rebuilding every launch",
+      "A stale cache from an earlier Java runtime is removed automatically",
+      "No more shared archive warning in the log at launch"
+    ]
+  },
+  {
     "version": "0.7.5",
     "date": "2026-08-11",
     "title": "Quicker start and a cleaner saturation ring",
