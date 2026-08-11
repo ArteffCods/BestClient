@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.5.6.4",
+    "date": "2026-08-11",
+    "title": "The renderer is called OpenGL",
+    "description": "Sodium is OpenGL - Minecraft’s own renderer with its drawing rewritten - so the client now says OpenGL and installs Sodium behind it. The third choice, OpenGL without Sodium, was the same renderer only slower, and it is gone.",
+    "changes": [
+      "The renderer chip reads OpenGL and is the default. It is the Sodium path, named for what it draws with rather than for the mod",
+      "Sodium is no longer a choice of its own, and plain OpenGL without it has been dropped - anyone on it moves to OpenGL with Sodium on the next start",
+      "Vulkan is unchanged, and still only offered on the Minecraft versions VulkanMod builds for",
+      "Where Vulkan has no build there is one renderer, so the chip states it instead of opening a list with a single line in it"
+    ]
+  },
+  {
     "version": "0.5.6.3",
     "date": "2026-08-11",
     "title": "One build of each mod, and a renderer list nothing covers",

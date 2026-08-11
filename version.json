@@ -1,7 +1,7 @@
 {
-  "version": "0.5.6.3",
-  "notes": "Update all now removes the build it replaced, so one mod never sits in the folder twice.",
-  "tag": "v0.5.6.3",
-  "asset": "BestClient-Setup-0.5.6.3.exe",
-  "sha256": "2d7f82ab4701ba1aa86c20342d4d76ad347ccea4013ca36988b685a7caf3fd64"
+  "version": "0.5.6.4",
+  "notes": "The renderer is called OpenGL now, it is the default, and Sodium is what draws it.",
+  "tag": "v0.5.6.4",
+  "asset": "BestClient-Setup-0.5.6.4.exe",
+  "sha256": "e08708ec10e14cfdfaa859df07e4adce1644bbfe9bcf151df1f1b33210516fa3"
 }
