@@ -1,7 +1,7 @@
 {
-  "version": "0.6.9",
-  "notes": "The streak moves onto the play screen, with an icon on every line.",
-  "tag": "v0.6.9",
-  "asset": "BestClient-Setup-0.6.9.exe",
-  "sha256": "56d949a1884c434f18a1eb7da42b1231bf2836fd66a620e51a0244063f664cbc"
+  "version": "0.7.0",
+  "notes": "A friend list, the BestClient badge in the tab list, and BestClient as the client name.",
+  "tag": "v0.7.0",
+  "asset": "BestClient-Setup-0.7.0.exe",
+  "sha256": "3a7bc0a0ee4383c1ee4021779925c440740a93bbb73fe30ae17a7bb870131998"
 }
