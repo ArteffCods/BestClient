@@ -103,7 +103,11 @@ function VersionCard({
         alt=""
         aria-hidden="true"
         draggable={false}
-        className={`h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04] ${
+        // Slow and eased on the way in, quicker on the way out. A card that jumps to its
+        // zoomed size the instant the cursor arrives reads as a flicker while you sweep
+        // across three of them; drifting in over most of a second reads as the artwork
+        // coming forward.
+        className={`h-full w-full object-cover transition-[transform,filter] duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.07] group-hover:duration-[900ms] ${
           selected ? '' : 'brightness-[0.72] group-hover:brightness-100'
         }`}
       />

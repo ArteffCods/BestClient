@@ -25,6 +25,13 @@ export interface AppInfo {
    * edited the block, and restores them from here.
    */
   defaultJvmFlags: string[];
+  /**
+   * The renderers that can actually be installed on the selected Minecraft version.
+   *
+   * VulkanMod trails the newest Minecraft by a release or two, so offering Vulkan on a
+   * version it has no build for would be a switch that quietly does nothing.
+   */
+  renderers: ('sodium' | 'vulkan' | 'opengl')[];
 }
 
 export interface PublicAccount {
@@ -48,6 +55,10 @@ export interface PublicSettings {
   jvmFlags: string;
   /** Show what you are doing on your Discord profile. */
   discordRpc: boolean;
+  /** Which renderer draws the game: Sodium, VulkanMod, or Minecraft's own OpenGL path. */
+  renderer: 'sodium' | 'vulkan' | 'opengl';
+  /** Install and select the resource packs and shader the pack carries. Off by default. */
+  bundledContent: boolean;
   account: PublicAccount | null;
 }
 

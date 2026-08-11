@@ -43,6 +43,17 @@ export async function readManagedManifest(): Promise<Record<string, ManagedEntry
 
 export type ModCategory = 'core' | 'performance' | 'pvp' | 'library' | 'risky';
 
+/**
+ * Which renderer draws the game.
+ *
+ * `sodium` is the client's default: the OpenGL path rewritten, which is what shaders,
+ * Nvidium and most of the visual mods are built against. `vulkan` swaps OpenGL out for
+ * Vulkan through VulkanMod - a bigger win on some drivers, and incompatible with all of
+ * the above. `opengl` is Minecraft's own renderer, untouched, for when a mod has to be
+ * ruled out as the cause of something.
+ */
+export type Renderer = 'sodium' | 'vulkan' | 'opengl';
+
 export interface PackMod {
   slug: string;
   name: string;
@@ -66,6 +77,13 @@ export interface PackMod {
    * install.
    */
   minecraft?: string[];
+  /**
+   * The renderer this mod belongs to. Absent means it works under any of them.
+   *
+   * Sodium and VulkanMod each replace the whole renderer, so they cannot be installed
+   * together, and the mods built on top of one are useless - or fatal - under the other.
+   */
+  renderer?: Renderer;
 }
 
 /**
@@ -83,6 +101,15 @@ export interface PackContent {
 }
 
 export interface Pack {
+  /**
+   * Bumped when the pack's own recommendations change, not when a mod is added.
+   *
+   * `defaultEnabled` only reaches installs that have never been offered the mod, which is
+   * what stops a pack update from overriding a choice. That also means a change to what
+   * the client recommends by default would reach nobody who already has it installed - so
+   * a revision bump re-applies the recommendations once, and says so in the log.
+   */
+  revision?: number;
   minecraft: string;
   loader: string;
   loaderVersion: string;
@@ -142,17 +169,54 @@ let packCache: Pack | null = null;
  * whichever version the player picked - the resolver asks Modrinth per version anyway, so
  * a mod with no build for that version is reported and skipped rather than breaking.
  */
-export async function loadPack(): Promise<Pack> {
+async function rawPack(): Promise<Pack> {
   if (!packCache) {
     packCache = parseJson<Pack>(await fs.promises.readFile(resourceFile(PACK_FILE), 'utf8'));
   }
 
+  return packCache;
+}
+
+/**
+ * The renderers the selected Minecraft version can actually run.
+ *
+ * Sodium and plain OpenGL are always possible - one is the pack's own default and the
+ * other is the game as Mojang ships it. Vulkan is only offered where VulkanMod has a
+ * build, because a renderer with no mod behind it is a switch that changes nothing.
+ */
+export async function availableRenderers(): Promise<Renderer[]> {
+  const pack = await rawPack();
   const minecraft = readSettings().activeProfile;
+
+  const hasVulkan = pack.mods.some(
+    (mod) => mod.renderer === 'vulkan' && (!mod.minecraft || mod.minecraft.includes(minecraft)),
+  );
+
+  return hasVulkan ? ['sodium', 'vulkan', 'opengl'] : ['sodium', 'opengl'];
+}
+
+export async function loadPack(): Promise<Pack> {
+  const packCache = await rawPack();
+  const settings = readSettings();
+  const minecraft = settings.activeProfile;
+  const renderer = settings.renderer ?? 'sodium';
+
+  // Off by default: the client installs a mod set and nothing else. The packs and the
+  // shader are a look, and a look is a choice - shipping one by default would change how
+  // the game reads for someone who only asked for the frames.
+  const content = settings.bundledContent === true;
 
   return {
     ...packCache,
     minecraft,
-    mods: packCache.mods.filter((mod) => !mod.minecraft || mod.minecraft.includes(minecraft)),
+    mods: packCache.mods.filter(
+      (mod) =>
+        (!mod.minecraft || mod.minecraft.includes(minecraft)) &&
+        (!mod.renderer || mod.renderer === renderer),
+    ),
+    resourcePacks: content ? packCache.resourcePacks : [],
+    shaders: content ? packCache.shaders : [],
+    selectedShader: content ? packCache.selectedShader : undefined,
   };
 }
 
@@ -188,6 +252,32 @@ export function reconcileSelection(pack: Pack, enabled: readonly string[], known
     enabledMods: [...enabledSet].filter((slug) => inPack.has(slug)),
     knownMods: [...knownSet].filter((slug) => inPack.has(slug)),
   };
+}
+
+/**
+ * Folds the pack into the stored selection and saves the result.
+ *
+ * The one place that decides what is installed, so the install path and the settings
+ * panel cannot drift apart. A pack revision the install has not seen resets the selection
+ * first: the recommendations changed, and a recommendation that only reaches new installs
+ * is not a recommendation.
+ */
+export function foldPackIntoSelection(pack: Pack): Reconciled {
+  const settings = readSettings();
+  const revision = pack.revision ?? 0;
+
+  const stale = revision > (settings.packRevision ?? 0);
+  const known = stale ? [] : settings.knownMods;
+  const enabled = stale ? [] : settings.enabledMods;
+
+  if (stale) {
+    log.info(`Pack revision ${revision}: mod selection reset to the client's recommendations.`);
+  }
+
+  const folded = reconcileSelection(pack, enabled, known);
+  writeSettings({ ...folded, packRevision: revision });
+
+  return folded;
 }
 
 export interface ResolveResult {

@@ -19,6 +19,8 @@ export interface AppInfo {
   gpuModel: string;
   /** The JVM flags this machine launches with out of the box. */
   defaultJvmFlags: string[];
+  /** The renderers that can be installed on the selected Minecraft version. */
+  renderers: Renderer[];
 }
 
 export interface PublicAccount {
@@ -41,8 +43,14 @@ export interface PublicSettings {
   jvmFlags: string;
   /** Show what you are doing on your Discord profile. */
   discordRpc: boolean;
+  /** Which renderer draws the game: Sodium, VulkanMod, or Minecraft's own OpenGL path. */
+  renderer: Renderer;
+  /** Install and select the resource packs and shader the pack carries. Off by default. */
+  bundledContent: boolean;
   account: PublicAccount | null;
 }
+
+export type Renderer = 'sodium' | 'vulkan' | 'opengl';
 
 export type ModCategory = 'core' | 'performance' | 'pvp' | 'library' | 'risky';
 

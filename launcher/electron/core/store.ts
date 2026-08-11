@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import { defaultJvmFlags } from './jvmFlags';
 import { log } from './logger';
 import { dirs, parseJson, setProfileFolder } from './paths';
+import type { Renderer } from './modpack';
 import { DEFAULT_PROFILE, isProfileId, profile, type ProfileId } from './profiles';
 
 export interface MinecraftAccount {
@@ -55,6 +56,17 @@ export interface Settings {
   jvmFlags: string;
   /** Show what you are doing on your Discord profile. */
   discordRpc: boolean;
+  /** Which renderer draws the game: Sodium, VulkanMod, or Minecraft's own OpenGL path. */
+  renderer: Renderer;
+  /**
+   * Install and select the resource packs and the shader the pack carries.
+   *
+   * Off by default. They change how the game looks rather than how it runs, and a client
+   * that arrives with someone else's look already applied is one more thing to undo.
+   */
+  bundledContent: boolean;
+  /** The pack revision whose recommendations this install has already been offered. */
+  packRevision: number;
   /** Every signed-in account, in the order they were added. Tokens live here. */
   accounts: MinecraftAccount[];
   /** UUID of the account launches and the profile use; null when none is signed in. */
@@ -73,6 +85,9 @@ const DEFAULTS: Settings = {
   nvidiaOptimize: null,
   jvmFlags: '',
   discordRpc: true,
+  renderer: 'sodium',
+  bundledContent: false,
+  packRevision: 0,
   accounts: [],
   activeUuid: null,
 };

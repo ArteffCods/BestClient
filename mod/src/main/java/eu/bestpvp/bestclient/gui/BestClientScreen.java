@@ -46,7 +46,6 @@ public class BestClientScreen extends Screen {
     private static final int TILE_ON_TOP = 0xFF3A1C33;
     private static final int TILE_ON_BOTTOM = 0xFF241221;
     private static final int CHIP_OFF = 0xFF241C31;
-    private static final int TRACK = 0xFF2C2338;
     private static final int ROSE = 0xFFFF75C3;
     private static final int ROSE_SOFT = 0xFFFFB8E0;
     private static final int ROSE_DEEP = 0xFFD94A9C;
@@ -132,13 +131,13 @@ public class BestClientScreen extends Screen {
         });
         this.addDrawableChild(search);
 
-        // Visual first: the lighting controls belong together and read as the head of the
-        // list whichever category is open.
+        // Visual first: these read as the head of the list whichever category is open.
         addToggle(Category.VISUAL, Icons.SUN, "Fullbright",
                 () -> BestClientConfig.fullbright, value -> BestClientConfig.fullbright = value);
-        this.tiles.add(new Brightness());
-        addToggle(Category.VISUAL, Icons.EYE, "Hurt camera",
-                () -> BestClientConfig.hurtCamera, value -> BestClientConfig.hurtCamera = value);
+        // Named for what switching it on does, like every other tile here. "Hurt camera"
+        // read as the vanilla effect, so turning it on appeared to do nothing at all.
+        addToggle(Category.VISUAL, Icons.EYE, "No hurt cam",
+                () -> BestClientConfig.noHurtCamera, value -> BestClientConfig.noHurtCamera = value);
 
         addToggle(Category.HUD, Icons.BARS, "FPS",
                 () -> BestClientConfig.showFps, value -> BestClientConfig.showFps = value);
@@ -406,124 +405,6 @@ public class BestClientScreen extends Screen {
                     textX, y + 7, fade(Draw.mix(INK_DIM, INK, this.lit)), false);
             context.drawText(BestClientScreen.this.textRenderer, Fonts.of(on ? "ON" : "OFF"),
                     textX, y + 18, fade(Draw.mix(INK_FAINT, ROSE, this.lit)), false);
-        }
-
-        @Override
-        protected void appendClickableNarrations(NarrationMessageBuilder builder) {
-            this.appendDefaultNarrations(builder);
-        }
-    }
-
-    /**
-     * The brightness tile. It is a real slider, so it is built on SliderWidget for the
-     * drag and keyboard handling and only its painting is replaced.
-     *
-     * The track is drawn four pixels in from each edge, which is exactly the span
-     * SliderWidget maps the mouse across - so the knob always lands under the cursor.
-     */
-    private class Brightness extends ClickableWidget implements Tile {
-
-        private float hover;
-        /** 0 to 1 across the track. */
-        private double value;
-
-        Brightness() {
-            super(0, 0, TILE_W, TILE_H, Text.empty());
-            this.value = (BestClientConfig.clampStrength(BestClientConfig.fullbrightStrength) - 1.0D) / 19.0D;
-        }
-
-        private double toStrength() {
-            return 1.0D + this.value * 19.0D;
-        }
-
-        @Override
-        public Category category() {
-            return Category.VISUAL;
-        }
-
-        @Override
-        public String name() {
-            return "Brightness";
-        }
-
-        @Override
-        public ClickableWidget widget() {
-            return this;
-        }
-
-        /**
-         * The track spans the tile inset by four pixels on each side, which is what the
-         * pointer is mapped across - so the knob always lands under the cursor.
-         */
-        private void setFromMouse(double mouseX) {
-            double left = this.getX() + 4;
-            double span = this.getWidth() - 8;
-
-            this.value = Math.max(0.0D, Math.min(1.0D, (mouseX - left) / span));
-
-            BestClientConfig.fullbrightStrength = BestClientConfig.clampStrength(toStrength());
-            // Dragging fires this on every mouse move - the write is deferred to close().
-            BestClientConfig.markDirty();
-        }
-
-        @Override
-        public void onClick(Click click, boolean doubled) {
-            setFromMouse(click.x());
-        }
-
-        @Override
-        protected void onDrag(Click click, double deltaX, double deltaY) {
-            setFromMouse(click.x());
-        }
-
-        @Override
-        protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-            this.hover = Draw.approach(this.hover, over(this, mouseX, mouseY) ? 1.0F : 0.0F,
-                    14.0F, BestClientScreen.this.frameDelta);
-
-            int x = this.getX();
-            int y = this.getY();
-            // The value only does anything while fullbright is on, so the tile says so
-            // instead of pretending.
-            boolean live = BestClientConfig.fullbright;
-
-            Draw.gradient(context, x, y, TILE_W, TILE_H, TILE_R, fade(TILE_TOP), fade(TILE_BOTTOM));
-
-            if (this.hover > 0.01F) {
-                Draw.round(context, x, y, TILE_W, TILE_H, TILE_R,
-                        fade(Draw.alpha(0x18FFFFFF, this.hover)));
-            }
-
-            int chipX = x + 9;
-            int chipY = y + 3;
-            Draw.round(context, chipX, chipY, 15, 15, 4, fade(CHIP_OFF));
-            Icons.CONTRAST.draw(context, chipX + 2, chipY + 2, fade(live ? ROSE_SOFT : INK_FAINT));
-
-            int textX = chipX + 21;
-            context.drawText(BestClientScreen.this.textRenderer, Fonts.of("Brightness"),
-                    textX, y + 6, fade(live ? INK : INK_DIM), false);
-
-            String readout = String.format("%.1f", toStrength());
-            Text value = Fonts.of(readout);
-            context.drawText(BestClientScreen.this.textRenderer, value,
-                    x + TILE_W - 9 - BestClientScreen.this.textRenderer.getWidth(value), y + 6,
-                    fade(live ? ROSE_SOFT : INK_FAINT), false);
-
-            int trackLeft = x + 4;
-            int trackRight = x + TILE_W - 4;
-            int trackY = y + TILE_H - 9;
-
-            Draw.round(context, trackLeft, trackY, trackRight - trackLeft, 3, 1, fade(TRACK));
-
-            int filled = (int) Math.round(this.value * (trackRight - trackLeft));
-
-            if (filled > 2) {
-                Draw.gradient(context, trackLeft, trackY, filled, 3, 1,
-                        fade(live ? ROSE_SOFT : INK_FAINT), fade(live ? ROSE : INK_FAINT));
-            }
-
-            int knob = Math.min(trackRight - 5, Math.max(trackLeft, trackLeft + filled - 2));
-            Draw.round(context, knob, trackY - 2, 5, 7, 2, fade(live ? ROSE_SOFT : INK_DIM));
         }
 
         @Override

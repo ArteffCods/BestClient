@@ -12,13 +12,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *
  * Vanilla rolls the view when you take damage, which is exactly the moment aim matters
  * most. Cancelling the tilt is a single early return - the matrix work never happens.
+ *
+ * GameRenderer calls `tiltViewWhenHurt` from two places in 1.21.11 (the world render and
+ * the hand render), and both go through this method, so one injection covers the effect
+ * wherever it is applied.
  */
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
 
     @Inject(method = "tiltViewWhenHurt", at = @At("HEAD"), cancellable = true)
     private void bestclient$hurtCamera(CallbackInfo info) {
-        if (!BestClientConfig.hurtCamera) {
+        if (BestClientConfig.noHurtCamera) {
             info.cancel();
         }
     }

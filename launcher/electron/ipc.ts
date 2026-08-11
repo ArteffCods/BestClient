@@ -25,7 +25,14 @@ import { presenceIdle, presencePlaying, setDiscordEnabled, startDiscord } from '
 import { checkJvmFlags, detectForeignLauncher } from './core/hardening';
 import { defaultJvmFlags, splitFlags } from './core/jvmFlags';
 import { isProfileId, PROFILE_ORDER, PROFILES, profile } from './core/profiles';
-import { loadPack, applyNvidiaOptimization, readManagedManifest, reconcileSelection, updateManagedToNewest } from './core/modpack';
+import {
+  applyNvidiaOptimization,
+  availableRenderers,
+  foldPackIntoSelection,
+  loadPack,
+  readManagedManifest,
+  updateManagedToNewest,
+} from './core/modpack';
 import { getNews } from './core/news';
 import { getPartnerServers } from './core/serverPing';
 import { applyPvpDefaults } from './core/options';
@@ -99,6 +106,7 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
       },
       gpuModel: await gpuModel(),
       defaultJvmFlags: defaultJvmFlags(),
+      renderers: await availableRenderers(),
     };
   });
 
@@ -116,10 +124,7 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
     // to the settings panel, so it is always defined before the switch is drawn.
     await resolveNvidiaOptimize();
 
-    const settings = readSettings();
-    const pack = await loadPack();
-
-    writeSettings(reconcileSelection(pack, settings.enabledMods, settings.knownMods));
+    foldPackIntoSelection(await loadPack());
 
     return publicSettings();
   });
@@ -190,6 +195,17 @@ export function registerIpc(getWindow: () => BrowserWindow | null): void {
       if (patch.discordRpc) {
         presenceIdle();
       }
+    }
+
+    // The renderer decides which mods are in the pack at all, so the change lands on the
+    // next install rather than on the mods folder now - which is also the only moment the
+    // game is not running and the jars can be swapped safely.
+    if (patch.renderer === 'sodium' || patch.renderer === 'vulkan' || patch.renderer === 'opengl') {
+      allowed.renderer = patch.renderer;
+    }
+
+    if (typeof patch.bundledContent === 'boolean') {
+      allowed.bundledContent = patch.bundledContent;
     }
 
     writeSettings(allowed);

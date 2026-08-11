@@ -24,8 +24,15 @@ public final class BestClientConfig {
     /** How far the fullbright override pushes gamma. 15 is the usual "full" value. */
     public static double fullbrightStrength = 15.0D;
 
-    /** Vanilla tilts the camera when you take a hit; turning it off steadies aim. */
-    public static boolean hurtCamera = true;
+    /**
+     * Removes the camera roll vanilla plays when you take a hit.
+     *
+     * Stated as what switching it on does, because that is how every other module here
+     * reads. The earlier field said `hurtCamera` and defaulted to true, so the tile
+     * arrived already on and turning it on was a no-op - which is exactly what it looked
+     * like from the inside.
+     */
+    public static boolean noHurtCamera = false;
 
     /** Frames per second, measured by the overlay itself. */
     public static boolean showFps = false;
@@ -73,7 +80,13 @@ public final class BestClientConfig {
     private static final class Data {
         boolean fullbright = false;
         double fullbrightStrength = 15.0D;
-        boolean hurtCamera = true;
+        boolean noHurtCamera = false;
+        /**
+         * The pre-inversion key, read only so an existing config keeps its answer.
+         * A Boolean rather than a boolean: null tells a file written before the rename
+         * apart from one that stored false.
+         */
+        Boolean hurtCamera = null;
         boolean showFps = false;
         boolean showCoordinates = false;
         boolean showPing = false;
@@ -103,7 +116,9 @@ public final class BestClientConfig {
             if (data != null) {
                 fullbright = data.fullbright;
                 fullbrightStrength = clampStrength(data.fullbrightStrength);
-                hurtCamera = data.hurtCamera;
+                // A file from before the rename carries the old key, which meant the
+                // opposite; anything newer carries the current one.
+                noHurtCamera = data.hurtCamera != null ? !data.hurtCamera : data.noHurtCamera;
                 showFps = data.showFps;
                 showCoordinates = data.showCoordinates;
                 showPing = data.showPing;
@@ -138,7 +153,7 @@ public final class BestClientConfig {
         Data data = new Data();
         data.fullbright = fullbright;
         data.fullbrightStrength = fullbrightStrength;
-        data.hurtCamera = hurtCamera;
+        data.noHurtCamera = noHurtCamera;
         data.showFps = showFps;
         data.showCoordinates = showCoordinates;
         data.showPing = showPing;

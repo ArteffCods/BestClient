@@ -9,10 +9,10 @@ import { ensureJava } from './java';
 import { describe, readBundledLibraries } from './deps';
 import { log } from './logger';
 import {
+  foldPackIntoSelection,
   loadPack,
   NVIDIA_MODS,
   reconcileInstalled,
-  reconcileSelection,
   resolveMods,
   syncMods,
   type Repair,
@@ -99,18 +99,17 @@ export async function installClient(
 
   // Fold the current pack into the stored selection here rather than relying on the UI
   // having opened the settings first — the install must be correct on its own.
-  const stored = readSettings();
-  const settings = {
-    ...stored,
-    ...writeSettings(reconcileSelection(pack, stored.enabledMods, stored.knownMods)),
-  };
+  const settings = { ...readSettings(), ...foldPackIntoSelection(pack) };
 
   // NVIDIA optimization joins (or leaves) the pack as one switch, decided from the GPU
   // on the player's first run. When it is on, Nvidium is force-enabled here regardless
   // of what the Mods list says - it is not listed there at all.
   const enabled = new Set(settings.enabledMods);
 
-  if (await resolveNvidiaOptimize()) {
+  // Nvidium is built on Sodium's chunk renderer, so it has nothing to attach to under
+  // Vulkan or plain OpenGL - the switch stays where the player left it and simply does
+  // not apply until Sodium is back.
+  if (settings.renderer === 'sodium' && (await resolveNvidiaOptimize())) {
     for (const slug of NVIDIA_MODS) enabled.add(slug);
   }
 

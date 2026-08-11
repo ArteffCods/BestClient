@@ -21,6 +21,7 @@ import type {
   ProfileList,
   PublicAccount,
   PublicSettings,
+  Renderer,
   UpdateState,
 } from '@/types/bestclient';
 
@@ -382,6 +383,8 @@ export default function Page() {
               error={playError}
               unavailable={unavailable}
               conflicts={conflicts}
+              renderer={settings?.renderer ?? 'sodium'}
+              onRenderer={(next) => void patchSettings({ renderer: next })}
               onPlay={(quickConnect) => void handlePlay(quickConnect)}
               onStop={() => void handleStop()}
               onSignIn={() => void handleLogin()}
@@ -484,6 +487,8 @@ function PlayStage({
   onSignIn,
   signInError,
   onEditProfile,
+  renderer,
+  onRenderer,
   memoryMb,
   news,
   partners,
@@ -494,6 +499,8 @@ function PlayStage({
   error: string | null;
   unavailable: string[];
   conflicts: string[];
+  renderer: Renderer;
+  onRenderer: (next: Renderer) => void;
   onPlay: (quickConnect: string | null) => void;
   onStop: () => void;
   onSignIn: () => void;
@@ -509,16 +516,16 @@ function PlayStage({
     // Launch control anchored top-left; nothing floats in the middle.
     <div className="flex min-h-full flex-col px-5 py-6 sm:px-8 sm:py-8">
       <div className="rise flex w-full max-w-sm flex-col gap-2">
-        {/* What you are about to launch. Only the version is the control - the pencil sits
-            against it, so the thing you can change and the mark saying so are one target;
-            the renderer beside it is a fact, not a button. */}
-        <p className="flex w-fit items-center gap-3 rounded-lg border border-edge bg-panel px-3.5 py-2 backdrop-blur-md">
+        {/* What you are about to launch: the version, and what draws it. Two boxes rather
+            than one, because they are two separate choices - the picker each opens is a
+            different picker, and a single pill would suggest one control. */}
+        <div className="flex w-fit flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={onEditProfile}
             aria-haspopup="dialog"
             aria-label={`Minecraft ${minecraft}. Choose a different version`}
-            className="group flex cursor-pointer items-center gap-2 rounded-md transition-colors"
+            className="group flex cursor-pointer items-center gap-2 rounded-lg border border-edge bg-panel px-3.5 py-2 backdrop-blur-md transition-colors hover:border-edge-bright"
           >
             {/* Fixed size: the mark stays put under the cursor and only changes colour,
                 because something that grows when you approach it is harder to hit. */}
@@ -542,9 +549,13 @@ function PlayStage({
               {minecraft}
             </span>
           </button>
-          <span aria-hidden="true" className="h-4 w-px bg-edge-bright" />
-          <span className="display-caps text-[19px] leading-none text-ink">OpenGL</span>
-        </p>
+
+          <RendererPicker
+            value={renderer}
+            options={info?.renderers ?? ['sodium', 'opengl']}
+            onPick={onRenderer}
+          />
+        </div>
 
         <LaunchButton
           state={launchState}
@@ -645,6 +656,108 @@ function PlayStage({
       ) : null}
 
       <NewsStrip news={news} />
+    </div>
+  );
+}
+
+const RENDERERS: Record<Renderer, { label: string; note: string }> = {
+  sodium: { label: 'Sodium', note: 'The client default. Shaders and Nvidium need it.' },
+  vulkan: { label: 'Vulkan', note: 'VulkanMod instead of OpenGL. No shaders, no Nvidium.' },
+  opengl: { label: 'OpenGL', note: "Minecraft's own renderer, nothing added." },
+};
+
+/**
+ * What draws the game.
+ *
+ * Each choice installs a different set of mods, so this is not a graphics preference the
+ * game reads at startup - it changes the pack. The change lands on the next launch, which
+ * the menu says out loud rather than leaving you to wonder why nothing moved.
+ */
+function RendererPicker({
+  value,
+  options,
+  onPick,
+}: {
+  value: Renderer;
+  options: Renderer[];
+  onPick: (next: Renderer) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const boxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const away = (event: MouseEvent) => {
+      if (!boxRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+
+    document.addEventListener('mousedown', away);
+    return () => document.removeEventListener('mousedown', away);
+  }, [open]);
+
+  return (
+    <div ref={boxRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((previous) => !previous)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={`Renderer: ${RENDERERS[value].label}. Choose a different one`}
+        className="group flex cursor-pointer items-center gap-2 rounded-lg border border-edge bg-panel px-3.5 py-2 backdrop-blur-md transition-colors hover:border-edge-bright"
+      >
+        <span className="display-caps text-[19px] leading-none text-ink transition-colors group-hover:text-white">
+          {RENDERERS[value].label}
+        </span>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 12 12"
+          fill="none"
+          aria-hidden="true"
+          className={`shrink-0 text-ink-faint transition-transform group-hover:text-white ${open ? 'rotate-180' : ''}`}
+        >
+          <path d="M2 4.5 L6 8.5 L10 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      {open ? (
+        <div
+          role="listbox"
+          aria-label="Renderer"
+          className="absolute left-0 top-full z-30 mt-2 w-[280px] rounded-xl border border-edge-bright bg-surface p-1.5 shadow-[0_18px_40px_-16px_rgba(0,0,0,0.9)]"
+        >
+          {options.map((option) => (
+            <button
+              key={option}
+              type="button"
+              role="option"
+              aria-selected={option === value}
+              onClick={() => {
+                onPick(option);
+                setOpen(false);
+              }}
+              className={`block w-full cursor-pointer rounded-lg px-3 py-2 text-left transition-colors ${
+                option === value ? 'bg-surface-high' : 'hover:bg-surface-high'
+              }`}
+            >
+              <span
+                className={`block text-[12.5px] font-semibold ${
+                  option === value ? 'text-rose-soft' : 'text-ink'
+                }`}
+              >
+                {RENDERERS[option].label}
+              </span>
+              <span className="mt-0.5 block text-[11px] leading-relaxed text-ink-faint">
+                {RENDERERS[option].note}
+              </span>
+            </button>
+          ))}
+          <p className="px-3 pb-1.5 pt-2 text-[10.5px] leading-relaxed text-ink-faint">
+            Takes effect on the next launch, when the mods are installed.
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -756,8 +869,11 @@ function PartnerCard({
       </span>
       <span className="min-w-0 flex-1">
         <span className="flex items-center justify-between gap-2">
-          <span className="truncate text-[13px] font-semibold text-ink">{server.name}</span>
-          <span className="flex shrink-0 items-center gap-1 font-mono text-[10px] tabular-nums text-ink-faint">
+          {/* Name, count and MOTD all in the game's own alphabet: a partner card is a
+              server list entry, and half these names carry symbols that only look right
+              in it. Mixing a pixel MOTD under a Montserrat name read as two cards. */}
+          <span className="mc-emoji truncate text-[13px] text-ink">{minecraftish(server.name)}</span>
+          <span className="mc-emoji flex shrink-0 items-center gap-1 text-[11px] tabular-nums text-ink-faint">
             <span
               aria-hidden="true"
               className={`h-1.5 w-1.5 rounded-full ${server.online ? 'bg-[#63d492]' : 'bg-ink-faint'}`}
