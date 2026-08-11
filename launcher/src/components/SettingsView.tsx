@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import type { AppInfo, PublicSettings } from '@/types/bestclient';
+import type { AppInfo, PublicSettings, UpdateState } from '@/types/bestclient';
 import { Switch } from './ModsView';
 
 interface Props {
@@ -16,6 +16,12 @@ interface Props {
 export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props) {
   const [note, setNote] = useState<{ source: 'maintenance' | 'cache' | 'logs'; text: string } | null>(null);
   const [applyingNvidia, setApplyingNvidia] = useState(false);
+  const [update, setUpdate] = useState<UpdateState | null>(null);
+
+  useEffect(() => {
+    void window.bestclient.updateState().then(setUpdate);
+    return window.bestclient.onUpdateState(setUpdate);
+  }, []);
 
   if (!settings || !info) {
     return <p className="text-sm text-ink-faint">Loading settings…</p>;
@@ -176,92 +182,121 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
             ) : null}
           </Section>
 
-          <Section title="Cache" delay={200}>
+          <Section title="Storage" delay={200}>
             <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
-              Hash lists, downloaded installers, news and changelog copies and the extracted
-              natives - everything the launcher regenerates on its own is dropped here. Nothing
-              about the game or your settings is touched.
+              Everything the launcher regenerates on its own lives here: hash lists,
+              downloaded installers, news and changelog copies, extracted natives, and the
+              log files it writes on every start. Nothing about the game or your settings
+              is touched.
             </p>
-            <Action
-              icon={
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path
-                    d="M12.5 7a5.5 5.5 0 1 1-1.7-4M12.5 1.5v4h-4"
-                    stroke="currentColor"
-                    strokeWidth="1.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              }
-              onClick={async () => {
-                setNote(null);
-                try {
-                  const removed = await window.bestclient.clearCache();
-                  setNote({
-                    source: 'cache',
-                    text:
-                      removed > 0
-                        ? `Cleared ${removed} cache entr${removed === 1 ? 'y' : 'ies'}. Re-downloads next launch.`
-                        : 'The cache was already clean.',
-                  });
-                } catch (error) {
-                  setNote({
-                    source: 'cache',
-                    text: error instanceof Error ? error.message : String(error),
-                  });
+            <div className="flex flex-wrap gap-2">
+              <Action
+                icon={
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path
+                      d="M12.5 7a5.5 5.5 0 1 1-1.7-4M12.5 1.5v4h-4"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 }
-              }}
-            >
-              Clear cache
-            </Action>
+                onClick={async () => {
+                  setNote(null);
+                  try {
+                    const removed = await window.bestclient.clearCache();
+                    setNote({
+                      source: 'cache',
+                      text:
+                        removed > 0
+                          ? `Cleared ${removed} cache entr${removed === 1 ? 'y' : 'ies'}. Re-downloads next launch.`
+                          : 'The cache was already clean.',
+                    });
+                  } catch (error) {
+                    setNote({
+                      source: 'cache',
+                      text: error instanceof Error ? error.message : String(error),
+                    });
+                  }
+                }}
+              >
+                Clear cache
+              </Action>
+              <Action
+                icon={
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path
+                      d="M4 1.5h4.5L11.5 4.5 V12.5 H4 Z M8.5 1.5 V4.5 H11.5 M6 7.5 H10 M6 9.5 H10"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                }
+                onClick={async () => {
+                  setNote(null);
+                  try {
+                    const removed = await window.bestclient.clearLogs();
+                    setNote({
+                      source: 'logs',
+                      text:
+                        removed > 0
+                          ? `Deleted ${removed} log file${removed === 1 ? '' : 's'}.`
+                          : 'No log files to delete.',
+                    });
+                  } catch (error) {
+                    setNote({
+                      source: 'logs',
+                      text: error instanceof Error ? error.message : String(error),
+                    });
+                  }
+                }}
+              >
+                Clear logs
+              </Action>
+            </div>
 
-            {note?.source === 'cache' ? (
+            {note?.source === 'cache' || note?.source === 'logs' ? (
               <p className="mt-2 text-[11.5px] text-rose-soft">{note.text}</p>
             ) : null}
           </Section>
 
-          <Section title="Logs" delay={220}>
+          <Section title="Check update" delay={220}>
             <p className="mb-3 text-[12px] leading-relaxed text-ink-faint">
-              The launcher writes its own log file on every start. Old game logs collect in the
-              same folder - deleting them frees space without affecting anything else.
+              A check for new releases runs on its own in the background - this one just
+              forces it right now. When a build is downloaded, the top bar offers the
+              install.
             </p>
-            <Action
-              icon={
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path
-                    d="M4 1.5h4.5L11.5 4.5 V12.5 H4 Z M8.5 1.5 V4.5 H11.5 M6 7.5 H10 M6 9.5 H10"
-                    stroke="currentColor"
-                    strokeWidth="1.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              }
-              onClick={async () => {
-                setNote(null);
-                try {
-                  const removed = await window.bestclient.clearLogs();
-                  setNote({
-                    source: 'logs',
-                    text:
-                      removed > 0
-                        ? `Deleted ${removed} log file${removed === 1 ? '' : 's'}.`
-                        : 'No log files to delete.',
-                  });
-                } catch (error) {
-                  setNote({
-                    source: 'logs',
-                    text: error instanceof Error ? error.message : String(error),
-                  });
+            <div className="flex flex-wrap items-center gap-3">
+              <Action
+                icon={
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path
+                      d="M12.5 7a5.5 5.5 0 1 1-1.7-4M12.5 1.5v4h-4"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 }
-              }}
-            >
-              Clear logs
-            </Action>
+                disabled={update?.status === 'checking' || update?.status === 'downloading'}
+                onClick={() => void window.bestclient.checkForUpdate()}
+              >
+                Check for updates
+              </Action>
+              <UpdateStatus update={update} current={info.version} />
+            </div>
 
-            {note?.source === 'logs' ? (
-              <p className="mt-2 text-[11.5px] text-rose-soft">{note.text}</p>
+            {update?.status === 'ready' ? (
+              <p className="mt-2 text-[11.5px] text-rose-soft">
+                BestClient {update.version} is downloaded - install it from the top bar.
+              </p>
+            ) : null}
+            {update?.status === 'error' && update.error ? (
+              <p className="mt-2 text-[11.5px] text-rose-soft">{update.error}</p>
             ) : null}
           </Section>
 
@@ -405,4 +440,49 @@ function Row({ term, value }: { term: string; value: string }) {
       <dd className="text-right font-mono tabular-nums text-ink">{value}</dd>
     </>
   );
+}
+
+function UpdateStatus({ update, current }: { update: UpdateState | null; current: string }) {
+  if (!update) return null;
+
+  switch (update.status) {
+    case 'checking':
+      return (
+        <span className="animate-pulse font-mono text-[11px] text-ink-faint">
+          Checking for updates…
+        </span>
+      );
+    case 'up-to-date':
+      return (
+        <span className="font-mono text-[11px] text-ink-faint">
+          You are on the newest release ({current}).
+        </span>
+      );
+    case 'available':
+      return (
+        <span className="font-mono text-[11px] text-ink-faint">
+          {update.version} found - downloading.
+        </span>
+      );
+    case 'downloading':
+      return (
+        <span className="font-mono text-[11px] text-ink-faint">
+          Downloading {update.version} - {Math.max(4, update.percent)}%
+        </span>
+      );
+    case 'ready':
+      return (
+        <span className="font-mono text-[11px] text-rose-soft">
+          {update.version} downloaded.
+        </span>
+      );
+    case 'error':
+      return (
+        <span className="font-mono text-[11px] text-rose-soft">
+          {update.error ?? 'Update check failed.'}
+        </span>
+      );
+    default:
+      return null;
+  }
 }

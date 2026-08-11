@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.5.6.1",
+    "date": "2026-08-11",
+    "title": "Settings: cleanup in one place, update check on demand",
+    "description": "Clear cache and Clear logs share a single Storage section in Settings, and a new Check update section forces a refresh whenever you want - when a build is downloaded the top bar offers the install.",
+    "changes": [
+      "Clear cache and Clear logs merged into one Storage section in Settings",
+      "New Check update section: forces an update check and shows what the launcher found",
+      "Version bumped to 0.5.6.1"
+    ]
+  },
+  {
     "version": "0.5.4.4",
     "date": "2026-08-11",
     "title": "version.json now tells the truth",
