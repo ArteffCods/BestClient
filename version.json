@@ -1,7 +1,7 @@
 {
-  "version": "0.5.9",
-  "notes": "Armor durability and saturation modules, and a plate under every readout.",
-  "tag": "v0.5.9",
-  "asset": "BestClient-Setup-0.5.9.exe",
-  "sha256": "3970de71d0874485fe540e34cac9ca9fdb00e312e8647a58073ed0929f2a6f57"
+  "version": "0.6.0",
+  "notes": "Zoom, a crosshair of your own, 3D skin layers, and saturation on the food bar.",
+  "tag": "v0.6.0",
+  "asset": "BestClient-Setup-0.6.0.exe",
+  "sha256": "32837cbbce924cc82b7a6fcf3da80c9cb0b53d1ff0d358e4f18a76987cd6f3aa"
 }
