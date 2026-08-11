@@ -1,5 +1,23 @@
 [
   {
+    "version": "0.5.7",
+    "date": "2026-08-11",
+    "title": "Put the overlay where you want it",
+    "description": "Every readout in the client menu now has a place on the screen as well as a switch. Right-click a module and drag it wherever you want it - one screen, every module you have switched on, the real thing at the real size. The client also stops taking the display over when it starts, and asks the machine for less memory until it needs more.",
+    "changes": [
+      "HUD layout editor: right-click any module in the Right Shift menu, drag it anywhere, snap it to the edges or the centre. R puts everything back",
+      "Positions are stored as a fraction of the screen, so a layout survives fullscreen, GUI scale and another monitor",
+      "Starting the game no longer takes over the display, so whatever you had open stays where it was - borderless fullscreen is part of the client set now",
+      "The heap starts at a third of the memory slider and grows into it, and hands memory back when the game goes idle. The slider is the ceiling, not the reservation",
+      "Startup flags: concurrent GC held off the render thread, string deduplication, and LWJGL argument checks skipped in the render loop",
+      "Vanilla settings tuned further without a mod in sight: biome blending off, clouds off, entities scaled at range, chunk builds at no priority",
+      "Discord presence says what it is doing in Settings - connected and as whom, waiting for Discord, or refused and why. It also no longer loses the handshake when Discord splits it across two packets",
+      "In game: the BestClient mark sits beside the wordmark, and the white line across the top of the card is gone",
+      "The version chip and its pencil are white",
+      "New artwork for 26.1.2"
+    ]
+  },
+  {
     "version": "0.5.6.5",
     "date": "2026-08-11",
     "title": "Modrinth shows what you already have",
