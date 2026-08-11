@@ -1,4 +1,0 @@
-{
-  "_comment": "Copy this file to update-token.json and paste your token in. It is git-ignored. Use a fine-grained personal access token scoped to ONLY the BestClient repository, with Contents: Read-only and nothing else. A token shipped inside the app can be extracted by anyone who has the app, so keep the scope minimal and rotate it if a build leaks. If the repository is public, leave update-token.json absent - no token is needed.",
-  "token": ""
-}
