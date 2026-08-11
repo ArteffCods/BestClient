@@ -1,5 +1,5 @@
 {
-  "revision": 2,
+  "revision": 3,
   "minecraft": "1.21.11",
   "loader": "fabric",
   "loaderVersion": "0.19.3",
@@ -17,11 +17,10 @@
       "slug": "sodium",
       "name": "Sodium",
       "category": "core",
-      "locked": false,
+      "locked": true,
       "defaultEnabled": true,
-      "note": "Full renderer replacement. The biggest FPS gain. Disable only if a shader or mod conflicts.",
+      "note": "Full renderer replacement. Mandatory while the renderer is Sodium - the latest build is resolved at install time.",
       "iconUrl": "https://cdn.modrinth.com/data/AANobbMI/295862f4724dc3f78df3447ad6072b2dcd3ef0c9_96.webp",
-      "pinnedVersion": "mc1.21.11-0.8.12-fabric",
       "renderer": "sodium"
     },
     {
@@ -555,9 +554,9 @@
       "slug": "vulkanmod",
       "name": "VulkanMod",
       "category": "core",
-      "locked": false,
+      "locked": true,
       "defaultEnabled": true,
-      "note": "Replaces OpenGL with Vulkan. Faster on many drivers, and it rules out shaders.",
+      "note": "Replaces OpenGL with Vulkan. Mandatory while the renderer is Vulkan - the latest build is resolved at install time.",
       "iconUrl": "https://cdn.modrinth.com/data/JYQhtZtO/2b37b630b4be3c92101ddb500c628def9b57ea3d_96.webp",
       "renderer": "vulkan",
       "minecraft": [

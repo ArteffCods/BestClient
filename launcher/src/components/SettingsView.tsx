@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 
@@ -18,7 +18,7 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
   const [applyingNvidia, setApplyingNvidia] = useState(false);
 
   if (!settings || !info) {
-    return <p className="text-sm text-ink-faint">Loading settingsâ€¦</p>;
+    return <p className="text-sm text-ink-faint">Loading settings…</p>;
   }
 
   return (
@@ -31,7 +31,7 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
         <div className="space-y-4">
           <Section title="Memory" delay={60}>
             <p className="mb-4 text-[12px] leading-relaxed text-ink-faint">
-              Maximum handed to the JVM. 4â€“6 GB is plenty for PvP: extra heap brings no FPS, only
+              Maximum handed to the JVM. 4–6 GB is plenty for PvP: extra heap brings no FPS, only
               longer GC pauses, and it is the pause that costs you the hit.
             </p>
             <div className="flex items-center gap-5">
@@ -76,28 +76,9 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
               />
               {applyingNvidia ? (
                 <span className="animate-pulse font-mono text-[10.5px] text-ink-faint">
-                  applyingâ€¦
+                  applying…
                 </span>
               ) : null}
-            </div>
-          </Section>
-
-          <Section title="Look" delay={110}>
-            <div className="flex items-center justify-between gap-4">
-              <div className="min-w-0">
-                <p className="text-[13px] font-semibold text-ink">Resource packs and shader</p>
-                <p className="mt-1 text-[12px] leading-relaxed text-ink-faint">
-                  Installs the packs the client ships with - the low-fire, short-sword and
-                  clean-glint set - and puts the shader in your list. Off by default: the
-                  client changes how the game runs, not how it looks, unless you say so.
-                  The shader still has to be switched on in the game&apos;s own menu.
-                </p>
-              </div>
-              <Switch
-                checked={settings.bundledContent ?? false}
-                onChange={(next) => void onPatch({ bundledContent: next })}
-                label="Resource packs and shader"
-              />
             </div>
           </Section>
 
@@ -169,7 +150,7 @@ export function SettingsView({ info, settings, busy, onPatch, onRepair }: Props)
                   onRepair();
                 }}
               >
-                {busy ? 'Verifyingâ€¦' : 'Verify and repair files'}
+                {busy ? 'Verifying…' : 'Verify and repair files'}
               </Action>
               <Action
                 onClick={async () => {

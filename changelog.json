@@ -1,5 +1,18 @@
 [
   {
+    "version": "0.5.4.1",
+    "date": "2026-08-11",
+    "title": "Renderer mods are mandatory, and the picker opens upward",
+    "description": "Whichever renderer you pick on the Play screen, its mod is now a required part of the pack: Sodium when the renderer is Sodium, VulkanMod when it is Vulkan, always resolved to the newest build that fits the version. The renderer menu also opens above its button now, the only four mods that are on by default are BestClient, Sodium, Fabric API and Lithium - and they are on, not off. The resource pack and shader switch is gone from Settings, and the Memory text reads again.",
+    "changes": [
+      "Sodium is mandatory while the renderer is Sodium, VulkanMod while it is Vulkan - locked in the pack, resolved to the latest build at install time",
+      "The Sodium/Vulkan menu on the Play screen opens above its button instead of below",
+      "By default the client installs BestClient, Sodium, Fabric API and Lithium and nothing else - all four enabled",
+      "Removed the \"Resource packs and shader\" switch from Settings; the launcher no longer offers any look to install",
+      "Fixed the broken text in the Memory section - the garbled characters are proper again"
+    ]
+  },
+  {
     "version": "0.5.4",
     "date": "2026-08-11",
     "title": "Pick your renderer, and a client that starts empty",

@@ -55,3 +55,4 @@ update-token.json
 
 # The bundled mod jar is produced by `mod/gradlew build`, not tracked.
 launcher/resources/mods/*.jar
+release-*/

@@ -725,7 +725,7 @@ function RendererPicker({
         <div
           role="listbox"
           aria-label="Renderer"
-          className="absolute left-0 top-full z-30 mt-2 w-[280px] rounded-xl border border-edge-bright bg-surface p-1.5 shadow-[0_18px_40px_-16px_rgba(0,0,0,0.9)]"
+          className="absolute bottom-full left-0 z-30 mb-2 w-[280px] rounded-xl border border-edge-bright bg-surface p-1.5 shadow-[0_18px_40px_-16px_rgba(0,0,0,0.9)]"
         >
           {options.map((option) => (
             <button
