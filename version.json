@@ -1,7 +1,7 @@
 {
-  "version": "0.7.4",
-  "notes": "The streak card is shorter and reaches further left.",
-  "tag": "v0.7.4",
-  "asset": "BestClient-Setup-0.7.4.exe",
-  "sha256": "d7c9366658590e7a7df0f1ebbb1f1496eb1e487f715d2b2b9fba828757bf9213"
+  "version": "0.7.5",
+  "notes": "Quicker startup, and the saturation ring is a clean outline on the outside of the food.",
+  "tag": "v0.7.5",
+  "asset": "BestClient-Setup-0.7.5.exe",
+  "sha256": "9afb6b39853731a6aadb1251fda46e7d8bd5febae5e071448ec56fb6b81cd2d0"
 }

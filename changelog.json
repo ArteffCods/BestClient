@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.7.5",
+    "date": "2026-08-11",
+    "title": "Quicker start and a cleaner saturation ring",
+    "description": "The launcher opens faster. The window appears right away, and the update check and Discord presence start a moment later so they stay out of the way of the first paint. The saturation overlay now draws a thin outline on the outside of the food instead of tracing the inside of each drumstick, and it is still switched on or off from Right Shift under Modules.",
+    "changes": [
+      "The launcher window shows sooner, so starting up feels faster",
+      "The update check and Discord presence start after the window is up, not before it",
+      "Saturation is a one pixel outline around the outside of the food, not an inner lining",
+      "Saturation stays on or off from Right Shift, under Modules"
+    ]
+  },
+  {
     "version": "0.7.4",
     "date": "2026-08-11",
     "title": "A shorter, wider streak card",
