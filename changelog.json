@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.7.7",
+    "date": "2026-08-11",
+    "title": "Friends work, and the game starts fast",
+    "description": "The friends sign in used the account id in the wrong format, so it was refused and the whole friends system stayed dark, including the BestClient tab list icon that depends on it. That is fixed on both ends now, so the friends list, requests, and the tab list icon all work. Startup also drops the custom class cache that could rebuild on every launch and uses the built in one instead, so the game opens quickly.",
+    "changes": [
+      "The friends sign in now sends the account id in the format the service expects, so signing in works",
+      "Friend requests, accepting, removing, and online status all work",
+      "The BestClient icon shows next to players who use the client in the tab list",
+      "Startup uses the built in class cache, so the game no longer rebuilds it and starts slowly"
+    ]
+  },
+  {
     "version": "0.7.6",
     "date": "2026-08-11",
     "title": "The game starts quickly again",

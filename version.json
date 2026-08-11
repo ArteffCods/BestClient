@@ -1,7 +1,7 @@
 {
-  "version": "0.7.6",
-  "notes": "The game starts quickly again: the startup class cache no longer mismatches and rebuilds on every launch.",
-  "tag": "v0.7.6",
-  "asset": "BestClient-Setup-0.7.6.exe",
-  "sha256": "b5e43782ce431347f558498269d38c6f0d0628c95c0e39073baaa78d0a4ebb38"
+  "version": "0.7.7",
+  "notes": "The friends list, requests, and the tab list icon work now, and the game starts fast again.",
+  "tag": "v0.7.7",
+  "asset": "BestClient-Setup-0.7.7.exe",
+  "sha256": "0b2c826e019332eb17fa958fae8d58de79ee143c2bb5dd403d99203f4395c578"
 }
