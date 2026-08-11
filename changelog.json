@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.5.4.3",
+    "date": "2026-08-11",
+    "title": "MOTD emojis in the game's own alphabet, and a zoom that actually zooms",
+    "description": "The version picker's cards ease into their zoom now, and every symbol in a partner server's MOTD - and name and player count - is drawn in a true pixel alphabet, the same cut the game uses.",
+    "changes": [
+      "Version picker: the artwork smoothly zooms in on hover, eased over a second instead of jumping",
+      "Partner servers: the bundled font is now the full pixel alphabet the game is built on (GNU Unifont), so skulls, hearts, swords, bombs, flowers and the rest of it come out blocky like in the game",
+      "More emojis are rewritten to their classic game symbol before drawing, and colour-emoji variation selectors are stripped first"
+    ]
+  },
+  {
     "version": "0.5.4.2",
     "date": "2026-08-11",
     "title": "The renderer menu opens downward, and the client shows its own version",
