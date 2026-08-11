@@ -1,7 +1,7 @@
 {
-  "version": "0.6.7",
-  "notes": "Progress while it checks, and a play streak on the right.",
-  "tag": "v0.6.7",
-  "asset": "BestClient-Setup-0.6.7.exe",
-  "sha256": "23553e877d41f0b496cb74cc512408f436840c28bd6e70238c7165cdc2803e38"
+  "version": "0.6.8",
+  "notes": "Import a Modrinth pack, and saturation traces the food exactly.",
+  "tag": "v0.6.8",
+  "asset": "BestClient-Setup-0.6.8.exe",
+  "sha256": "ba2732abe3d954e240a1d2129d8f8eeb2d422ea1c9086acf121b816784c938ba"
 }

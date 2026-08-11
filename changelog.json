@@ -1,5 +1,22 @@
 [
   {
+    "version": "0.6.8",
+    "date": "2026-08-11",
+    "title": "Bring a Modrinth profile straight in",
+    "description": "Drop a .mrpack on the mods page, or pick one with the new button, and the whole profile comes across: every mod is pulled from Modrinth and checked against the hash in the pack, and the config, resource packs, shaders and schematics are copied into the instance. Saturation now traces the food icon exactly, one pixel around its own outline.",
+    "changes": [
+      "Import .mrpack on the mods page, by button or by drag and drop, with a line telling you where it is",
+      "Mods come down from Modrinth and are checked by hash, so an imported profile passes the launch check",
+      "Jars bundled inside the pack are left out by name and reason, a hacked client hidden in one never lands in your mods folder",
+      "A pack built for another Minecraft version says so instead of quietly mixing the mods in",
+      "The imported mods carry their real names, icons and versions, so they update like anything else",
+      "Packs written with a data descriptor read correctly now, the old reader gave up on most of their files",
+      "Saturation traces the food icon itself, one pixel around its outline, half a shank included",
+      "The status effect module shows nothing at all when you carry no effects, background included",
+      "A new FPS icon"
+    ]
+  },
+  {
     "version": "0.6.7",
     "date": "2026-08-11",
     "title": "It says what it is doing, and a streak on the right",
