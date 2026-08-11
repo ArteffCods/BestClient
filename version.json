@@ -1,7 +1,7 @@
 {
-  "version": "0.6.1",
-  "notes": "Icons instead of unit labels, and armor counts what it has cost.",
-  "tag": "v0.6.1",
-  "asset": "BestClient-Setup-0.6.1.exe",
-  "sha256": "facaf6d726e66c315a1dc7681f56b0af4e014f68dbd0dee7f89e182dd92396d3"
+  "version": "0.6.2",
+  "notes": "grimffa.xyz joins the partner servers.",
+  "tag": "v0.6.2",
+  "asset": "BestClient-Setup-0.6.2.exe",
+  "sha256": "6e70d97e5868180305f9a0797f752bcd2271c161c45ee0573bd288fae9d351c6"
 }

@@ -1,5 +1,14 @@
 [
   {
+    "version": "0.6.2",
+    "date": "2026-08-11",
+    "title": "Grimffa joins the partner servers",
+    "description": "grimffa.xyz is on the Play screen with the others: live player count, MOTD and icon, and a double click launches the game straight into it.",
+    "changes": [
+      "New partner server: grimffa.xyz"
+    ]
+  },
+  {
     "version": "0.6.1",
     "date": "2026-08-11",
     "title": "Icons instead of labels, and armor tells you what it has cost",
