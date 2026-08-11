@@ -42,7 +42,7 @@ win:
   # Nev szokoz nelkul: ez a fajlnev kerul a GitHub release-be es a version.json-ba.
   # Az electron-builder csak X.Y.Z semvert fogad el (l. package.json: 0.5.5), ezert a
   # release nevevel (v0.5.4.1) megnevezett telepito kulon van tabolva a verziotol.
-  artifactName: BestClient-Setup-0.5.6.1.exe
+  artifactName: BestClient-Setup-0.5.6.2.exe
   # Egyetlen forras: ugyanaz a fajl adja az exe ikonjat es a futo ablak ikonjat.
   icon: resources/icon.ico
 

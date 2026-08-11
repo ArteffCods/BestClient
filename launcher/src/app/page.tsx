@@ -697,7 +697,7 @@ function RendererPicker({
   }, [open]);
 
   return (
-    <div ref={boxRef} className="relative">
+    <div ref={boxRef} className="relative z-30">
       <button
         type="button"
         onClick={() => setOpen((previous) => !previous)}

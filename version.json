@@ -1,7 +1,7 @@
 {
-  "version": "0.5.6.1",
-  "notes": "Cache and log cleanup live in one Settings section, and a Check update section forces a refresh on demand.",
-  "tag": "v0.5.6.1",
-  "asset": "BestClient-Setup-0.5.6.1.exe",
-  "sha256": "1d9a5946ad6c51bcfc7d0e6346e610fae54fde7fab451a79fb450a8904e84c32"
+  "version": "0.5.6.2",
+  "notes": "The renderer list (Sodium/Vulkan/OpenGL) floats above the panels it covers while open - still opening downward.",
+  "tag": "v0.5.6.2",
+  "asset": "BestClient-Setup-0.5.6.2.exe",
+  "sha256": "1452a31ed066497d091adde9f5a41a5b84699d4bfb134dc29a108c5df6812050"
 }
