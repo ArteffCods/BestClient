@@ -1,7 +1,7 @@
 {
-  "version": "0.6.0.1",
-  "notes": "Fixes the startup crash in 0.6.0.",
-  "tag": "v0.6.0.1",
-  "asset": "BestClient-Setup-0.6.0.1.exe",
-  "sha256": "df1d32f4e51fc2d6958a50b7d0654d4c3b7b3f0288f8b471f73049a640b1ca4f"
+  "version": "0.6.1",
+  "notes": "Icons instead of unit labels, and armor counts what it has cost.",
+  "tag": "v0.6.1",
+  "asset": "BestClient-Setup-0.6.1.exe",
+  "sha256": "facaf6d726e66c315a1dc7681f56b0af4e014f68dbd0dee7f89e182dd92396d3"
 }

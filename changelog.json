@@ -1,5 +1,19 @@
 [
   {
+    "version": "0.6.1",
+    "date": "2026-08-11",
+    "title": "Icons instead of labels, and armor tells you what it has cost",
+    "description": "FPS, ping and memory no longer spell their own name next to the number, they carry an icon. The armor block now counts the durability spent rather than what is left, coloured by how far gone the piece is.",
+    "changes": [
+      "The readouts carry an icon instead of a unit label: FPS, CPS, facing, speed, ping, time, session and memory. Coordinates keep XYZ, because no icon says which three numbers those are",
+      "Armor counts the durability spent, white while untouched, then green, orange and red as a piece nears breaking",
+      "The categories down the left of the menu carry an icon",
+      "Playtime has its own stopwatch instead of sharing the hourglass",
+      "The right-click hint across the top of the menu is gone",
+      "The settings card for a module with nothing to adjust no longer runs its line off the bottom edge"
+    ]
+  },
+  {
     "version": "0.6.0.1",
     "date": "2026-08-11",
     "title": "Fix the crash on startup",
