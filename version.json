@@ -1,7 +1,7 @@
 {
-  "version": "0.7.1",
-  "notes": "A bigger streak card and a new FPS icon.",
-  "tag": "v0.7.1",
-  "asset": "BestClient-Setup-0.7.1.exe",
-  "sha256": "12d80a465b26106bc93355a1ac9a235c0ac0811fa3405a49080545d295bb0d50"
+  "version": "0.7.2",
+  "notes": "The friend list now points at client.bestpvp.eu.",
+  "tag": "v0.7.2",
+  "asset": "BestClient-Setup-0.7.2.exe",
+  "sha256": "6be0f3b6266508dbc6c1e1f17123ae764b6644810759c7d996623443d52203d1"
 }

@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.7.2",
+    "date": "2026-08-11",
+    "title": "The friend list knows where to call",
+    "description": "The client now talks to client.bestpvp.eu for the friend list and the tab list badge. The address travels in the build, the database password never does: it stays on the server and the client only ever sees the small API in front of it.",
+    "changes": [
+      "The friend list and the tab list badge point at client.bestpvp.eu",
+      "They start working the moment the service answers there, with no further update needed"
+    ]
+  },
+  {
     "version": "0.7.1",
     "date": "2026-08-11",
     "title": "A streak card you can actually read",
