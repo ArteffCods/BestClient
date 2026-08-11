@@ -1,5 +1,14 @@
 [
   {
+    "version": "0.6.0.1",
+    "date": "2026-08-11",
+    "title": "Fix the crash on startup",
+    "description": "0.6.0 could not start: the zoom key registered the BestClient key category a second time, and the game refuses a duplicate. Both keys share the one category now.",
+    "changes": [
+      "Fixed the startup crash: Category bestclient:menu is already registered"
+    ]
+  },
+  {
     "version": "0.6.0",
     "date": "2026-08-11",
     "title": "Zoom, a crosshair of your own, 3D skin layers, and saturation on the food bar",

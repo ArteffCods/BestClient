@@ -1,7 +1,7 @@
 {
-  "version": "0.6.0",
-  "notes": "Zoom, a crosshair of your own, 3D skin layers, and saturation on the food bar.",
-  "tag": "v0.6.0",
-  "asset": "BestClient-Setup-0.6.0.exe",
-  "sha256": "32837cbbce924cc82b7a6fcf3da80c9cb0b53d1ff0d358e4f18a76987cd6f3aa"
+  "version": "0.6.0.1",
+  "notes": "Fixes the startup crash in 0.6.0.",
+  "tag": "v0.6.0.1",
+  "asset": "BestClient-Setup-0.6.0.1.exe",
+  "sha256": "df1d32f4e51fc2d6958a50b7d0654d4c3b7b3f0288f8b471f73049a640b1ca4f"
 }
