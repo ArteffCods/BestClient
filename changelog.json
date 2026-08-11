@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.5.6.3",
+    "date": "2026-08-11",
+    "title": "One build of each mod, and a renderer list nothing covers",
+    "description": "Updating a mod now takes the old jar out as well as putting the new one in. Two builds of the same mod in the folder is a game that closes the moment it opens, and it was possible to end up there by pressing Update all.",
+    "changes": [
+      "Update all deletes the build it replaced. The folder is read jar by jar afterwards, so an older copy goes even when it was installed by hand or by an older version of the launcher",
+      "A copy you switched off yourself is left alone if it is newer than what is loading",
+      "The mods screen names every jar it deleted instead of letting one disappear quietly",
+      "The renderer list is drawn on the page itself now, so the launch button and the panels under it can no longer cover it. It still opens downward and follows the chip when the screen scrolls"
+    ]
+  },
+  {
     "version": "0.5.6.2",
     "date": "2026-08-11",
     "title": "The renderer list floats above everything it covers",

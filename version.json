@@ -1,7 +1,7 @@
 {
-  "version": "0.5.6.2",
-  "notes": "The renderer list (Sodium/Vulkan/OpenGL) floats above the panels it covers while open - still opening downward.",
-  "tag": "v0.5.6.2",
-  "asset": "BestClient-Setup-0.5.6.2.exe",
-  "sha256": "1452a31ed066497d091adde9f5a41a5b84699d4bfb134dc29a108c5df6812050"
+  "version": "0.5.6.3",
+  "notes": "Update all now removes the build it replaced, so one mod never sits in the folder twice.",
+  "tag": "v0.5.6.3",
+  "asset": "BestClient-Setup-0.5.6.3.exe",
+  "sha256": "2d7f82ab4701ba1aa86c20342d4d76ad347ccea4013ca36988b685a7caf3fd64"
 }
