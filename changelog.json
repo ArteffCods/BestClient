@@ -1,5 +1,19 @@
 [
   {
+    "version": "0.5.8",
+    "date": "2026-08-11",
+    "title": "One menu for the overlay, one for the modules",
+    "description": "Right Shift now opens the overlay itself: every module you have switched on, laid out on the screen, with the mark and a MODULES button in the middle. MODULES is where you switch things on and off, and a right-click on any module opens its own settings. Starting the game also stops rearranging the rest of your desktop.",
+    "changes": [
+      "Right Shift opens the layout screen first: drag any module you have switched on, with the BestClient mark and a MODULES button held in the centre the whole time",
+      "MODULES opens the grid you already know; Esc walks back one screen at a time",
+      "Right-click a module for its own settings: scale, accent colour, label, text shadow, backing plate, and a shortcut straight to placing it",
+      "The centre guide lines are gone from the layout screen",
+      "The real mark is now the logo everywhere: the launcher title bar, the client menu and the mod list",
+      "Starting the game no longer minimises whatever was behind the launcher. The game opens at the size of your screen instead of switching the display mode, which is what Windows answered by rearranging every other window"
+    ]
+  },
+  {
     "version": "0.5.7",
     "date": "2026-08-11",
     "title": "Put the overlay where you want it",

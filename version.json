@@ -1,7 +1,7 @@
 {
-  "version": "0.5.7",
-  "notes": "Drag the overlay where you want it, and a client that stops taking over the display.",
-  "tag": "v0.5.7",
-  "asset": "BestClient-Setup-0.5.7.exe",
-  "sha256": "ae108b2e504230e0f8ebb5dfe9b8f24379f912c16994f69b7b7d59f0a3b7c88f"
+  "version": "0.5.8",
+  "notes": "The overlay gets its own screen, every module gets its own settings.",
+  "tag": "v0.5.8",
+  "asset": "BestClient-Setup-0.5.8.exe",
+  "sha256": "8424ccc54abcfbd5a0648a430e6e46fdb1b8b3128cbf2257b5c35bc426f1aae9"
 }
