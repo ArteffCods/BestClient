@@ -1,5 +1,22 @@
 [
   {
+    "version": "0.6.5",
+    "date": "2026-08-11",
+    "title": "A crosshair that tells you when you are on a player, and a faster start",
+    "description": "The crosshair stays a plain cross and answers with four corner brackets the moment you are looking at a player. Saturation traces the shank itself in the client pink. The game also keeps a class cache between launches, so the second start is quicker than the first.",
+    "changes": [
+      "The crosshair no longer spreads. It stays a cross, and four corner brackets appear around it while you are looking at a player",
+      "Saturation hugs the shank outline itself, pixel for pixel, in the client pink",
+      "Armor has four flat colours and nothing in between: white above three quarters, green above half, orange above a quarter, red under it",
+      "A round performance mark for FPS",
+      "The module grid scrolls",
+      "Status effects: nothing at all when you are carrying none, the name in white and the time in grey",
+      "The layout screen says BestClient under the mark, with a soft shadow behind it",
+      "The game keeps a class cache between launches, so every start after the first loads fewer classes from scratch",
+      "Networking: IPv4 first so a connect cannot stall on an IPv6 route that goes nowhere, DNS answers cached for a minute, and netty leak sampling off the packet path"
+    ]
+  },
+  {
     "version": "0.6.4",
     "date": "2026-08-11",
     "title": "Status effects, saturation the way AppleSkin draws it, and armor that counts down",

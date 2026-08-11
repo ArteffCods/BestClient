@@ -1,7 +1,7 @@
 {
-  "version": "0.6.4",
-  "notes": "Status effects, AppleSkin style saturation, and armor that counts down.",
-  "tag": "v0.6.4",
-  "asset": "BestClient-Setup-0.6.4.exe",
-  "sha256": "1ee5c9fc039d9dbeae8199757b4b7a921a02737c8d6b0746e833b3556e0276d8"
+  "version": "0.6.5",
+  "notes": "Corner brackets on a player, AppleSkin saturation in pink, and a faster start.",
+  "tag": "v0.6.5",
+  "asset": "BestClient-Setup-0.6.5.exe",
+  "sha256": "d5277051d96ebc6c58cc495aff7e98cee2bfcdeff9d58729e706ac62bc754de3"
 }
