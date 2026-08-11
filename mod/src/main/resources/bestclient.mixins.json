@@ -1,9 +1,0 @@
-{
-  "required": true,
-  "package": "eu.bestpvp.bestclient.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "client": ["GameRendererMixin", "SimpleOptionMixin"],
-  "injectors": {
-    "defaultRequire": 1
-  }
-}
