@@ -1,7 +1,7 @@
 {
-  "version": "0.5.4.1",
-  "notes": "The renderer mod is mandatory, the picker opens upward, and the four defaults are on.",
-  "tag": "v0.5.4.1",
-  "asset": "BestClient-Setup-0.5.4.1.exe",
-  "sha256": "65b4c03982f4c8c2c6519f7b2f528ca1a053cbf8e06f48479df6231238ee5270"
+  "version": "0.5.5",
+  "notes": "The renderer picker opens downward again, and the client shows its own release number.",
+  "tag": "v0.5.4.2",
+  "asset": "BestClient-Setup-0.5.4.2.exe",
+  "sha256": "870bf3519a0ec0ff42843f719b50ffa60c6c3d934894df152eb1d51bcce2d444"
 }
