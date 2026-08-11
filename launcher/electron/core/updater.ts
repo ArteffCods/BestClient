@@ -7,7 +7,7 @@ import path from 'node:path';
 import { log } from './logger';
 import { fetchJson, fetchText, USER_AGENT } from './net';
 import { dirs, exists, parseJson, resourceFile } from './paths';
-import type { UpdateState } from '../shared';
+import { APP_DISPLAY_VERSION, type UpdateState } from '../shared';
 
 /**
  * Update channel.
@@ -211,7 +211,9 @@ async function run(): Promise<void> {
     return;
   }
 
-  if (!manifest || !isNewer(manifest.version, app.getVersion())) {
+  // Compare against the release number the client shows, not the package version the
+  // builder forced on it - otherwise version.json has to carry a number nobody sees.
+  if (!manifest || !isNewer(manifest.version, APP_DISPLAY_VERSION)) {
     setState({ status: 'up-to-date', version: '', notes: '', percent: 0 });
     return;
   }

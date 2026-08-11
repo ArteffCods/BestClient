@@ -1,7 +1,7 @@
 {
-  "version": "0.5.5",
-  "notes": "Version picker zoom animates, MOTD emojis render in the game's own pixel alphabet.",
-  "tag": "v0.5.4.3",
-  "asset": "BestClient-Setup-0.5.4.3.exe",
-  "sha256": "4b4ea77b655d17104bc8094cfa46c22af7201868f0a305370868c39e5886e619"
+  "version": "0.5.4.4",
+  "notes": "The update check compares against the release number now, so version.json carries it.",
+  "tag": "v0.5.4.4",
+  "asset": "BestClient-Setup-0.5.4.4.exe",
+  "sha256": "3dd643e0db42e7c43a6c2c7aa7c30542134773cb8e66b133b2f0988ab7efa83c"
 }
