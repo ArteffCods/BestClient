@@ -1,7 +1,7 @@
 {
-  "version": "0.6.2",
-  "notes": "grimffa.xyz joins the partner servers.",
-  "tag": "v0.6.2",
-  "asset": "BestClient-Setup-0.6.2.exe",
-  "sha256": "6e70d97e5868180305f9a0797f752bcd2271c161c45ee0573bd288fae9d351c6"
+  "version": "0.6.3",
+  "notes": "Store installs survive a rate limit, and failures say what went wrong.",
+  "tag": "v0.6.3",
+  "asset": "BestClient-Setup-0.6.3.exe",
+  "sha256": "e558089f960fea4d1afe61e1a6bb79d35cc198e1452a0cbd70e9023f0e51df3c"
 }

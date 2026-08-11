@@ -1,5 +1,19 @@
 [
   {
+    "version": "0.6.3",
+    "date": "2026-08-11",
+    "title": "Installs that fail once no longer fail for good",
+    "description": "The store gave up on a mod after four quick tries and then told you nothing but the address it had tried. It now waits when Modrinth asks it to, keeps its own calls under the rate limit, stops retrying answers that will never change, and says what actually went wrong.",
+    "changes": [
+      "A 429 from Modrinth is now honoured: the launcher waits the time the header asks for instead of hammering the same address four times in two seconds",
+      "The launcher holds its own Modrinth calls under 240 a minute, so a search, an update check and an install at once cannot trip the limit",
+      "A 404 or a bad request fails at once instead of being repeated four times",
+      "Failures say what happened: rate limited, timed out, not found, or could not reach the server",
+      "Every request gets a 15 second timeout and the whole retry chain a 45 second one, so a silent host cannot hold a click for two minutes",
+      "The log panel survives a mod that floods it: past 200 lines a second the rest are counted and reported instead of being pushed through one by one"
+    ]
+  },
+  {
     "version": "0.6.2",
     "date": "2026-08-11",
     "title": "Grimffa joins the partner servers",
