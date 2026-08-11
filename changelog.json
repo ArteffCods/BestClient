@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.7.4",
+    "date": "2026-08-11",
+    "title": "A shorter, wider streak card",
+    "description": "The streak card takes less height and more width. The running count and the best and today figures sit side by side on one row instead of stacked, the total moved up next to the title, and the card widened to 420 pixels.",
+    "changes": [
+      "The streak card is shorter: the count and the two figures share a row instead of stacking",
+      "It is 420 pixels wide, so the day bars have more room",
+      "The total playtime moved up beside the Streak title"
+    ]
+  },
+  {
     "version": "0.7.3",
     "date": "2026-08-11",
     "title": "The streak card grows sideways",
