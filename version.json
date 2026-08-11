@@ -1,7 +1,7 @@
 {
-  "version": "0.6.5",
-  "notes": "Corner brackets on a player, AppleSkin saturation in pink, and a faster start.",
-  "tag": "v0.6.5",
-  "asset": "BestClient-Setup-0.6.5.exe",
-  "sha256": "d5277051d96ebc6c58cc495aff7e98cee2bfcdeff9d58729e706ac62bc754de3"
+  "version": "0.6.6",
+  "notes": "Play works again when Modrinth does not answer.",
+  "tag": "v0.6.6",
+  "asset": "BestClient-Setup-0.6.6.exe",
+  "sha256": "de4bfd147c77898c61a75cd0c4dd9de8aa3fe151903d92b5425dbebc5b298be6"
 }

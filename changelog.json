@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.6.6",
+    "date": "2026-08-11",
+    "title": "Play works again when Modrinth does not",
+    "description": "Pressing Play could do nothing at all: the mods folder check runs before any progress is shown, and if Modrinth did not answer it sat there and then refused to start the game. It now says what it is doing from the first moment, and an unreachable Modrinth no longer stops the game.",
+    "changes": [
+      "Play reports Checking the mods folder straight away instead of sitting silent",
+      "If Modrinth cannot be reached the game starts anyway. An outage on their side is not a reason to keep you out of yours, and the check for hacked clients runs on your own machine either way",
+      "The client mod is checked against the hash the launcher ships with, never through Modrinth",
+      "The launcher log says so on the console when it cannot write itself, instead of going quiet"
+    ]
+  },
+  {
     "version": "0.6.5",
     "date": "2026-08-11",
     "title": "A crosshair that tells you when you are on a player, and a faster start",
