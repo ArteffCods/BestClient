@@ -1,7 +1,7 @@
 {
-  "version": "0.5.4.4",
-  "notes": "The update check compares against the release number now, so version.json carries it.",
-  "tag": "v0.5.4.4",
-  "asset": "BestClient-Setup-0.5.4.4.exe",
-  "sha256": "3dd643e0db42e7c43a6c2c7aa7c30542134773cb8e66b133b2f0988ab7efa83c"
+  "version": "0.5.6.1",
+  "notes": "Cache and log cleanup live in one Settings section, and a Check update section forces a refresh on demand.",
+  "tag": "v0.5.6.1",
+  "asset": "BestClient-Setup-0.5.6.1.exe",
+  "sha256": "1d9a5946ad6c51bcfc7d0e6346e610fae54fde7fab451a79fb450a8904e84c32"
 }
