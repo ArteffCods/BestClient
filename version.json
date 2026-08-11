@@ -1,7 +1,7 @@
 {
-  "version": "0.6.8",
-  "notes": "Import a Modrinth pack, and saturation traces the food exactly.",
-  "tag": "v0.6.8",
-  "asset": "BestClient-Setup-0.6.8.exe",
-  "sha256": "ba2732abe3d954e240a1d2129d8f8eeb2d422ea1c9086acf121b816784c938ba"
+  "version": "0.6.9",
+  "notes": "The streak moves onto the play screen, with an icon on every line.",
+  "tag": "v0.6.9",
+  "asset": "BestClient-Setup-0.6.9.exe",
+  "sha256": "56d949a1884c434f18a1eb7da42b1231bf2836fd66a620e51a0244063f664cbc"
 }
