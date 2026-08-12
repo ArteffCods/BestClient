@@ -1,5 +1,20 @@
 [
   {
+    "version": "0.8.1",
+    "date": "2026-08-12",
+    "title": "A live player count, a fixed friends list, and a quieter look",
+    "description": "Friend avatars were broken because the service that drew them went down, so they come from somewhere else now. The friends panel was rebuilt around the part that needs an answer: requests sit in their own frame with a written out Accept button instead of two identical squares. The title bar shows how many people are in game on BestClient right now. The mods and Modrinth pages no longer let the purple wallpaper show through, the console snaps up instead of sliding, and the partner servers take less room.",
+    "changes": [
+      "Friend heads load again, with a second source if the first is down",
+      "Friend requests are easier to tell apart from the list, and Accept says Accept",
+      "The title bar shows how many people are playing on BestClient",
+      "The mods and Modrinth pages sit on a solid dark panel",
+      "The console log snaps up quickly instead of sliding in",
+      "Partner servers are smaller",
+      "Settings drops the changelog and links the terms and privacy policy instead"
+    ]
+  },
+  {
     "version": "0.8.0",
     "date": "2026-08-12",
     "title": "The client mod runs on 26.2 and 26.1.2",

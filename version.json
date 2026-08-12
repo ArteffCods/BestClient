@@ -1,7 +1,7 @@
 {
-  "version": "0.8.0",
-  "notes": "The client mod now works on 26.2 and 26.1.2, not just 1.21.11.",
-  "tag": "v0.8.0",
-  "asset": "BestClient-Setup-0.8.0.exe",
-  "sha256": "ef37bcf10512e9a42806f0b940205c9f8e1c4bfa865a479abc82299ae91a0b4c"
+  "version": "0.8.1",
+  "notes": "Friend heads load again, the title bar shows who is online, and the mods pages lost the purple.",
+  "tag": "v0.8.1",
+  "asset": "BestClient-Setup-0.8.1.exe",
+  "sha256": "6563ca0a496e5eaea7b6d431655cecae38bdf41cffc8dc5d340223ea59b5c779"
 }
