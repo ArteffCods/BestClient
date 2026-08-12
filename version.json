@@ -1,7 +1,7 @@
 {
-  "version": "0.8.1",
-  "notes": "Friend heads load again, the title bar shows who is online, and the mods pages lost the purple.",
-  "tag": "v0.8.1",
-  "asset": "BestClient-Setup-0.8.1.exe",
-  "sha256": "6563ca0a496e5eaea7b6d431655cecae38bdf41cffc8dc5d340223ea59b5c779"
+  "version": "0.8.2",
+  "notes": "The new BestClient icon in the taskbar, the installer and the in game mod menu.",
+  "tag": "v0.8.2",
+  "asset": "BestClient-Setup-0.8.2.exe",
+  "sha256": "53819618cc907e74f09c633f9e33cc60e1375ce48ae093c18d8a995cb4036c67"
 }

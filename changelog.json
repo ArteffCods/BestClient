@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.2",
+    "date": "2026-08-12",
+    "title": "The new mark, everywhere it belongs",
+    "description": "One icon now stands for BestClient in every place Windows and Minecraft show it: the taskbar, the installer, the mods list in the launcher, and the mod menu inside the game. The launcher title bar keeps the plain mark on its own, without the tile behind it.",
+    "changes": [
+      "The taskbar and installer carry the new BestClient icon",
+      "The mod menu in game shows it for BestClient, on all three Minecraft versions",
+      "The launcher mods list shows it too",
+      "The title bar keeps the plain mark, with no tile behind it"
+    ]
+  },
+  {
     "version": "0.8.1",
     "date": "2026-08-12",
     "title": "A live player count, a fixed friends list, and a quieter look",
