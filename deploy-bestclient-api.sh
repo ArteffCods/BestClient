@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# The friend service runs as a docker container behind the Coolify Traefik proxy, which
+# already owns ports 80 and 443 and issues the certificate. Nothing here touches nginx or
+# certbot: installing either would fight Traefik for the ports and quietly do nothing.
+
 HOST="${1:-client.bestpvp.eu}"
-ROOT="/var/www/${HOST}"
+ROOT="/opt/bestclient-api"
+NAME="bestclient-api"
+NETWORK="coolify"
+APP_PORT=8080
 PORT="${BC_DB_PORT:-3306}"
 
 if [ "$(id -u)" -ne 0 ]; then
@@ -15,25 +22,18 @@ fi
 : "${BC_DB_USER:?set BC_DB_USER=... in front of the command}"
 : "${BC_DB_PASS:?set BC_DB_PASS=... in front of the command}"
 
-echo "==> installing nginx, php and certbot"
-export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq
-apt-get install -y -qq nginx php-fpm php-cli php-mysql php-curl certbot python3-certbot-nginx curl >/dev/null
-
-echo "==> opening the web ports"
-if command -v ufw >/dev/null 2>&1 && ufw status 2>/dev/null | head -1 | grep -qi active; then
-    ufw allow 80/tcp >/dev/null || true
-    ufw allow 443/tcp >/dev/null || true
-    echo "    ufw: 80 and 443 allowed"
+if ! command -v docker >/dev/null 2>&1; then
+    echo "docker is not installed, and this service runs as a container." >&2
+    exit 1
 fi
-if command -v iptables >/dev/null 2>&1; then
-    iptables -C INPUT -p tcp --dport 80 -j ACCEPT 2>/dev/null || iptables -I INPUT -p tcp --dport 80 -j ACCEPT || true
-    iptables -C INPUT -p tcp --dport 443 -j ACCEPT 2>/dev/null || iptables -I INPUT -p tcp --dport 443 -j ACCEPT || true
-    echo "    iptables: 80 and 443 accepted"
+
+if ! docker network inspect "${NETWORK}" >/dev/null 2>&1; then
+    echo "The ${NETWORK} docker network is missing. Is the Coolify proxy running?" >&2
+    exit 1
 fi
 
 echo "==> writing the service to ${ROOT}"
-mkdir -p "${ROOT}"
+mkdir -p "${ROOT}/public"
 
 cat > "${ROOT}/index.php" <<'BESTCLIENT_INDEX_PHP'
 <?php
@@ -416,54 +416,75 @@ fail(404, 'No such call.');
 BESTCLIENT_INDEX_PHP
 
 umask 027
-BC_DB_PORT="${PORT}" php -r '$c = ["host" => getenv("BC_DB_HOST"), "port" => (int) (getenv("BC_DB_PORT") ?: 3306), "name" => getenv("BC_DB_NAME"), "user" => getenv("BC_DB_USER"), "pass" => getenv("BC_DB_PASS")]; file_put_contents($argv[1], "<?php\nreturn " . var_export($c, true) . ";\n");' "${ROOT}/config.php"
 
-chown -R www-data:www-data "${ROOT}"
-chmod 640 "${ROOT}/config.php"
+# Written from the shell rather than with php -r, because php is not installed on the
+# host - it only exists inside the image.
+escape() { printf '%s' "$1" | sed "s/\\\\/\\\\\\\\/g; s/'/\\\\'/g"; }
 
-SOCKET="$(ls /run/php/php*-fpm.sock 2>/dev/null | head -1 || true)"
-if [ -z "${SOCKET}" ]; then
-    echo "No php-fpm socket found under /run/php." >&2
-    exit 1
+cat > "${ROOT}/config.php" <<CONFIG
+<?php
+return [
+    'host' => '$(escape "${BC_DB_HOST}")',
+    'port' => ${PORT},
+    'name' => '$(escape "${BC_DB_NAME}")',
+    'user' => '$(escape "${BC_DB_USER}")',
+    'pass' => '$(escape "${BC_DB_PASS}")',
+];
+CONFIG
+
+chmod 600 "${ROOT}/config.php"
+
+# serve_site() answers 503 when public/ is missing, so leave a placeholder for the case
+# where the landing page has not been uploaded yet.
+if [ ! -f "${ROOT}/public/index.html" ]; then
+    printf '<!doctype html><meta charset="utf-8"><title>BestClient</title><p>BestClient is here.\n' \
+        > "${ROOT}/public/index.html"
 fi
 
-echo "==> writing the nginx site, leaving every other site alone"
-cat > "/etc/nginx/sites-available/${HOST}" <<NGINX
-server {
-    listen 80;
-    listen [::]:80;
-    server_name ${HOST};
-    root ${ROOT};
-    index index.php;
+echo "==> building the image"
+cat > "${ROOT}/Dockerfile" <<'DOCKERFILE'
+FROM php:8.3-cli
+RUN docker-php-ext-install pdo_mysql
+DOCKERFILE
 
-    location / { try_files \$uri /index.php\$is_args\$args; }
+docker build -q -t "${NAME}:latest" "${ROOT}" >/dev/null
 
-    location ~ \.php\$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:${SOCKET};
-    }
+echo "==> starting the container behind the Coolify proxy"
+docker rm -f "${NAME}" >/dev/null 2>&1 || true
 
-    location ~ /config\.php { deny all; return 404; }
-}
-NGINX
+docker run -d \
+    --name "${NAME}" \
+    --network "${NETWORK}" \
+    --restart unless-stopped \
+    -v "${ROOT}/index.php:/app/index.php:ro" \
+    -v "${ROOT}/config.php:/app/config.php:ro" \
+    -v "${ROOT}/public:/app/public:ro" \
+    -l "traefik.enable=true" \
+    -l "traefik.docker.network=${NETWORK}" \
+    -l "traefik.http.routers.${NAME}.rule=Host(\`${HOST}\`)" \
+    -l "traefik.http.routers.${NAME}.entrypoints=http" \
+    -l "traefik.http.routers.${NAME}.service=${NAME}" \
+    -l "traefik.http.routers.${NAME}-secure.rule=Host(\`${HOST}\`)" \
+    -l "traefik.http.routers.${NAME}-secure.entrypoints=https" \
+    -l "traefik.http.routers.${NAME}-secure.tls=true" \
+    -l "traefik.http.routers.${NAME}-secure.service=${NAME}" \
+    -l "traefik.http.services.${NAME}.loadbalancer.server.port=${APP_PORT}" \
+    "${NAME}:latest" \
+    php -S "0.0.0.0:${APP_PORT}" -t /app /app/index.php >/dev/null
 
-ln -sf "/etc/nginx/sites-available/${HOST}" "/etc/nginx/sites-enabled/${HOST}"
-nginx -t
-systemctl reload nginx
-
-echo "==> checking the service on the machine itself"
-sleep 1
-if curl -fsS "http://127.0.0.1/?a=health" -H "Host: ${HOST}"; then
-    echo " <- the service answers locally"
+echo "==> checking the container answers"
+sleep 2
+if docker exec "${NAME}" php -r "echo @file_get_contents('http://127.0.0.1:${APP_PORT}/?a=health') ?: '';" | grep -q '"ok"'; then
+    echo "    the service answers inside the container"
 else
-    echo " <- the service did not answer locally. The database details in ${ROOT}/config.php are the usual cause."
+    echo "    the service did not answer. The database details in ${ROOT}/config.php are the usual cause:"
+    docker logs --tail 20 "${NAME}" || true
 fi
 
 echo
-echo "==> asking Let's Encrypt for a certificate"
-certbot --nginx -d "${HOST}" --non-interactive --agree-tos --register-unsafely-without-email --redirect \
-    || echo "certbot did not finish. The site still answers on http. Fix the DNS or the firewall, then run: certbot --nginx -d ${HOST}"
-
-echo
-echo "Done. From your own computer this should print {\"ok\":true}:"
+echo "Traefik picks the container up by its labels and handles the certificate."
+echo "From your own computer this should print {\"ok\":true}:"
 echo "    curl https://${HOST}/?a=health"
+echo
+echo "The landing page is separate - copy it into ${ROOT}/public/ (it is a read-only mount,"
+echo "so new files appear straight away; only a changed index.php needs a container restart)."

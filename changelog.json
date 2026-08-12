@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.0",
+    "date": "2026-08-12",
+    "title": "The client mod runs on 26.2 and 26.1.2",
+    "description": "The in-game half of BestClient only ever existed as a 1.21.11 build, and the launcher copied that same file into the 26.2 and 26.1.2 folders as well. Fabric refuses a mod built for another version, so on those two profiles the game would not start at all. The mod is now built separately for each of the three versions, and the launcher installs the one that matches the version you picked.",
+    "changes": [
+      "The BestClient mod is built for 26.2 and 26.1.2, not only 1.21.11",
+      "The launcher installs the mod that matches the version you are playing",
+      "A client mod left behind for a different version is cleared out of the mods folder",
+      "The HUD, client menu, zoom, fullbright and the tab list badge all work on 26.x"
+    ]
+  },
+  {
     "version": "0.7.7",
     "date": "2026-08-11",
     "title": "Friends work, and the game starts fast",
