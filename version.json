@@ -1,7 +1,7 @@
 {
-  "version": "0.8.5",
-  "notes": "Play starts the game instead of checking it, crashes name the mod that caused them, and the launcher shows your last session's FPS.",
-  "tag": "v0.8.5",
-  "asset": "BestClient-Setup-0.8.5.exe",
-  "sha256": "b84d25a01f27da78433b7f3a13e08bb31a464c5252afa81a523ca9da2f99173b"
+  "version": "0.8.6",
+  "notes": "Minecraft 26 starts: its native libraries were being written to the wrong folder, and Sodium was taking the blame for it.",
+  "tag": "v0.8.6",
+  "asset": "BestClient-Setup-0.8.6.exe",
+  "sha256": "f6336c782f7dc283f53b144888f2a31ea542d6bead57b48d2d40f2a7ea86239a"
 }

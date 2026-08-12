@@ -1,5 +1,18 @@
 [
   {
+    "version": "0.8.6",
+    "date": "2026-08-12",
+    "title": "Minecraft 26 starts",
+    "description": "This is why 26.1.2 and 26.2 never worked. Minecraft 26 moved its native libraries into subfolders: the game is told to look in natives/java, while every launcher release so far wrote them into natives directly. The folder the game looked in was empty, so it died before loading a single mod, with an error that named whichever mod touched graphics first. Sodium was getting the blame for a launcher bug. The natives are now placed where each version asks for them, read out of that version's own manifest rather than guessed from its number. Parties are fixed too: they broke the moment the database moved, because the new tables were created with a different collation than the ones that came across.",
+    "changes": [
+      "Minecraft 26.1.2 and 26.2 start, with natives written where 26 expects them",
+      "The right architecture wins when several builds of a native library are offered",
+      "A missing native library is reported as an install problem, not as the mod that tripped over it",
+      "Parties work again after the database move",
+      "The service can no longer answer an error with a page of HTML and a stack trace"
+    ]
+  },
+  {
     "version": "0.8.5",
     "date": "2026-08-12",
     "title": "Play starts the game, the crash tells you what broke, and the FPS is on screen",
