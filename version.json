@@ -1,7 +1,7 @@
 {
-  "version": "0.8.2",
-  "notes": "The new BestClient icon in the taskbar, the installer and the in game mod menu.",
-  "tag": "v0.8.2",
-  "asset": "BestClient-Setup-0.8.2.exe",
-  "sha256": "53819618cc907e74f09c633f9e33cc60e1375ce48ae093c18d8a995cb4036c67"
+  "version": "0.8.3",
+  "notes": "The zoom module is fully adjustable, and the mod check leaves the client's own jar alone.",
+  "tag": "v0.8.3",
+  "asset": "BestClient-Setup-0.8.3.exe",
+  "sha256": "5099fe5312b6ee6421e6711fec9d902a43adb802462b1eb7afa13a7eddc94483"
 }

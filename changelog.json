@@ -1,5 +1,18 @@
 [
   {
+    "version": "0.8.3",
+    "date": "2026-08-12",
+    "title": "A zoom you can set up, and the mod check leaves our own jar alone",
+    "description": "The zoom module has the settings it was missing: hold or toggle, smooth zoom in and out, smooth camera movement, scroll to zoom with its own speed, the zoom level, and a separate sensitivity while zoomed so turning at 4x is usable. The mod check no longer sends the client's own jar to Modrinth, which it was never going to find.",
+    "changes": [
+      "Zoom can be held or toggled",
+      "Smooth zoom in and out, and smooth camera movement while zoomed",
+      "Scroll to zoom, with its own speed setting",
+      "A separate mouse sensitivity that applies only while zoomed",
+      "The mod check skips the BestClient jar instead of asking Modrinth about it"
+    ]
+  },
+  {
     "version": "0.8.2",
     "date": "2026-08-12",
     "title": "The new mark, everywhere it belongs",
