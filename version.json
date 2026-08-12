@@ -1,7 +1,7 @@
 {
-  "version": "0.8.3",
-  "notes": "The zoom module is fully adjustable, and the mod check leaves the client's own jar alone.",
-  "tag": "v0.8.3",
-  "asset": "BestClient-Setup-0.8.3.exe",
-  "sha256": "5099fe5312b6ee6421e6711fec9d902a43adb802462b1eb7afa13a7eddc94483"
+  "version": "0.8.4",
+  "notes": "Parties with a session clock, a setup that follows your Minecraft account, automatic memory, and one version number everywhere.",
+  "tag": "v0.8.4",
+  "asset": "BestClient-Setup-0.8.4.exe",
+  "sha256": "4e1ce48ed786fe25385ab77ea5c1cdb6303df8322a2118b6e113b76711b5accf"
 }

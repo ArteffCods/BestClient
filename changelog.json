@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.8.4",
+    "date": "2026-08-12",
+    "title": "Parties, a setup that follows your account, and one version number",
+    "description": "Friends can now be pulled into a party that holds together across restarts, with a clock counting the session and a Join button that takes you straight onto the server a friend is playing on. Your setup lives on your Minecraft account: reinstall Windows, sign in, and the memory, mods, HUD, keybinds and first ten servers come back. The heap is picked from the machine instead of a fixed default, and the version number now comes from one place, so the Windows uninstall entry stops claiming 0.5.5.",
+    "changes": [
+      "Parties: invite a friend, see who is in, and follow the leader to their server",
+      "A party clock that counts from when the party formed and survives a restart",
+      "Join a friend straight from the friends list, onto the server they are on",
+      "Your setup is kept on your account and restored after a reinstall",
+      "Each part of that setup is its own switch in Settings",
+      "The first ten servers in your multiplayer list travel with the account",
+      "The memory is picked from the machine, with the slider still there if you want it",
+      "One version number across the launcher, the installer and the uninstall entry"
+    ]
+  },
+  {
     "version": "0.8.3",
     "date": "2026-08-12",
     "title": "A zoom you can set up, and the mod check leaves our own jar alone",
