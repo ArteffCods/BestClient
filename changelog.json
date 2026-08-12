@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.8.5",
+    "date": "2026-08-12",
+    "title": "Play starts the game, the crash tells you what broke, and the FPS is on screen",
+    "description": "Pressing Play used to walk 5121 asset files, check 155 libraries, hash every mod and ask Modrinth twice, every single time, even when nothing had changed since the last launch. All of that now happens quietly in the background while the launcher is open, so Play just starts the game. When the game does crash, the launcher reads the crash report and says which mod caused it, with a button to switch that mod off. And the frame rate the mod already measures is now kept, so the launcher can show what the last session averaged and whether that is better or worse than usual.",
+    "changes": [
+      "Play starts the game straight away when nothing has changed",
+      "Everything is checked in the background, and the mods folder is watched for changes",
+      "A crash now names the mod that caused it, with one button to turn it off",
+      "Out of memory, graphics driver and native crashes are explained in plain words",
+      "The average FPS of your last session, compared against the ones before it",
+      "Party invites arrive in about three seconds instead of twenty",
+      "The online player count refreshes every twelve seconds instead of every sixty",
+      "Neither keeps polling while the launcher window is hidden"
+    ]
+  },
+  {
     "version": "0.8.4",
     "date": "2026-08-12",
     "title": "Parties, a setup that follows your account, and one version number",

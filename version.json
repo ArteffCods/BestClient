@@ -1,7 +1,7 @@
 {
-  "version": "0.8.4",
-  "notes": "Parties with a session clock, a setup that follows your Minecraft account, automatic memory, and one version number everywhere.",
-  "tag": "v0.8.4",
-  "asset": "BestClient-Setup-0.8.4.exe",
-  "sha256": "4e1ce48ed786fe25385ab77ea5c1cdb6303df8322a2118b6e113b76711b5accf"
+  "version": "0.8.5",
+  "notes": "Play starts the game instead of checking it, crashes name the mod that caused them, and the launcher shows your last session's FPS.",
+  "tag": "v0.8.5",
+  "asset": "BestClient-Setup-0.8.5.exe",
+  "sha256": "b84d25a01f27da78433b7f3a13e08bb31a464c5252afa81a523ca9da2f99173b"
 }
