@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.7",
+    "date": "2026-08-13",
+    "title": "A new crosshair indicator, on all three versions",
+    "description": "The indicator that appears when you are aiming at a player is now the one from the Crosshair Indicator mod: four small white corner brackets, drawn from its own artwork, instead of the larger pink brackets the client drew before. It has its own switch under Visual and works over the game's own crosshair, so it no longer needs the custom crosshair turned on. That mod is built for 1.21.x and cannot load on Minecraft 26 at all, so it is drawn by the client itself and looks the same on 1.21.11, 26.1.2 and 26.2.",
+    "changes": [
+      "The player indicator is now four small corner brackets, from the Crosshair Indicator artwork",
+      "It has its own switch under Visual, separate from the custom crosshair",
+      "It draws over the game's own crosshair, so nothing else has to be turned on",
+      "The same on 1.21.11, 26.1.2 and 26.2"
+    ]
+  },
+  {
     "version": "0.8.6",
     "date": "2026-08-12",
     "title": "Minecraft 26 starts",

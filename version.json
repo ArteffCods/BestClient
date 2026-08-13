@@ -1,7 +1,7 @@
 {
-  "version": "0.8.6",
-  "notes": "Minecraft 26 starts: its native libraries were being written to the wrong folder, and Sodium was taking the blame for it.",
-  "tag": "v0.8.6",
-  "asset": "BestClient-Setup-0.8.6.exe",
-  "sha256": "f6336c782f7dc283f53b144888f2a31ea542d6bead57b48d2d40f2a7ea86239a"
+  "version": "0.8.7",
+  "notes": "The player indicator is now the Crosshair Indicator brackets, drawn by the client so it works on all three Minecraft versions.",
+  "tag": "v0.8.7",
+  "asset": "BestClient-Setup-0.8.7.exe",
+  "sha256": "5135278dfe9285afa9fdbe0e34c25bbb18f7ae297637a957e7631a8c96132243"
 }
