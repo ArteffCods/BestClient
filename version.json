@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.3",
-  "notes": "The frame rate log no longer writes on the render thread, the launcher stops polling while the game runs, and two lines of text are gone.",
-  "tag": "v0.8.9.3",
-  "asset": "BestClient-Setup-0.8.9.3.exe",
-  "sha256": "b7dff6d6a6e155a3d94222da8d82c86f9f9567d9cf46337136c81e24cd82ed81"
+  "version": "0.8.9.4",
+  "notes": "Motion blur as a module, a sprint module, and opacity plus a target filter on the crosshair indicator.",
+  "tag": "v0.8.9.4",
+  "asset": "BestClient-Setup-0.8.9.4.exe",
+  "sha256": "bdcc126bc96c93d449ab3466856cf36cf3be5f7ace8e69b59e750f2963cefb5c"
 }

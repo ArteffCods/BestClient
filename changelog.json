@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.4",
+    "date": "2026-08-13",
+    "title": "Motion blur, a sprint module, and more to set on the crosshair",
+    "description": "Motion blur is in, as a module under Visual with three strengths. It is off by default and it needs testing: it works by asking the game to run a blend of the current frame with the previous one, using the same post effect format the game's own blur and invert use, and it has never been run here. If your graphics driver refuses it, it switches itself off and says so in the log rather than leaving you with a broken screen. The sprint module makes sprint a toggle instead of something to hold, and can sprint whenever you walk forwards. The crosshair indicator gains opacity, and a switch for whether it answers to players only or to any living thing.",
+    "changes": [
+      "Motion blur module, three strengths, off by default and switches itself off if the driver refuses it",
+      "Sprint module: toggle instead of hold, and an always sprint option",
+      "Crosshair indicator: opacity, and players only or any living thing",
+      "Both new modules have their own settings under Visual"
+    ]
+  },
+  {
     "version": "0.8.9.3",
     "date": "2026-08-13",
     "title": "The stutter is gone, and two lines of text with it",
