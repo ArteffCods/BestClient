@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.8",
+    "date": "2026-08-13",
+    "title": "The crosshair indicator now looks right",
+    "description": "0.8.7 drew the indicator as a plain white texture, so it painted over the background instead of standing out from it and looked wrong against anything pale. The game draws its own crosshair through a pipeline that inverts what is behind it, which is how it stays readable on snow and on coal alike, and the mod this came from uses that same pipeline. Now so does the client, so the brackets are pixel for pixel what the mod draws.",
+    "changes": [
+      "The indicator uses the crosshair render pipeline, so it inverts the background instead of painting over it",
+      "Checked against the mod's own compiled code: same pipeline, same draw call, same size, same position",
+      "The mod build script accepts any JDK 21 or newer instead of only 21"
+    ]
+  },
+  {
     "version": "0.8.7",
     "date": "2026-08-13",
     "title": "A new crosshair indicator, on all three versions",

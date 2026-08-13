@@ -1,7 +1,7 @@
 {
-  "version": "0.8.7",
-  "notes": "The player indicator is now the Crosshair Indicator brackets, drawn by the client so it works on all three Minecraft versions.",
-  "tag": "v0.8.7",
-  "asset": "BestClient-Setup-0.8.7.exe",
-  "sha256": "5135278dfe9285afa9fdbe0e34c25bbb18f7ae297637a957e7631a8c96132243"
+  "version": "0.8.8",
+  "notes": "The crosshair indicator uses the crosshair render pipeline, matching the mod exactly instead of painting flat white over the background.",
+  "tag": "v0.8.8",
+  "asset": "BestClient-Setup-0.8.8.exe",
+  "sha256": "0d91b1f29af88b00f7f55a50b220bd17281a631c267e4c07c945a04e1edbfe91"
 }
