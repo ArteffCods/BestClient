@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9",
-  "notes": "The crosshair indicator is drawn from inside the crosshair render, the way the mod does it, instead of from the HUD layer.",
-  "tag": "v0.8.9",
-  "asset": "BestClient-Setup-0.8.9.exe",
-  "sha256": "58379ad495c2bbe604761a00a548b22bc4ab0f848fc1dedae10cbe0c1f47b4ee"
+  "version": "0.8.9.1",
+  "notes": "The crosshair indicator is exactly what the mod does, the client's own crosshair is gone, and versions can take a fourth number.",
+  "tag": "v0.8.9.1",
+  "asset": "BestClient-Setup-0.8.9.1.exe",
+  "sha256": "05e384c43f30c3dd0b519336067273a4f08df53ed3170b68f3c153e67b7a0b57"
 }

@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.1",
+    "date": "2026-08-13",
+    "title": "The crosshair is the mod's, nothing else, and versions can take small steps again",
+    "description": "The client's own crosshair is gone. It drew a pink cross of its own over the game's, and it was the thing that looked wrong. What is left is exactly what the mod does and nothing more: the game's own crosshair, untouched, with four small corner brackets drawn after it while you are aiming at a player. Versions can carry a fourth number again, so a small fix goes out as 0.8.9.1 rather than spending a patch number and pushing towards 0.9.",
+    "changes": [
+      "The client's custom crosshair is removed, along with its settings",
+      "The game's crosshair is left exactly as it is, with the indicator drawn after it",
+      "One switch under Visual, Crosshair indicator, and nothing else to set",
+      "Versions can take a fourth number, so releases step in smaller increments"
+    ]
+  },
+  {
     "version": "0.8.9",
     "date": "2026-08-13",
     "title": "The crosshair indicator, rebuilt the way the mod does it",
