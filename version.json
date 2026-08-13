@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.5",
-  "notes": "Motion blur reapplies itself after the menu, rejoining or a dimension change, and its shader matches the game so drivers that refused it now run it.",
-  "tag": "v0.8.9.5",
-  "asset": "BestClient-Setup-0.8.9.5.exe",
-  "sha256": "15f7536b500a90355294aeeb80c07d476082541631c37b0d3ec99dfcad0e88bb"
+  "version": "0.8.9.5.1",
+  "notes": "Motion blur now keeps its previous frame in a persistent buffer, so it blends properly, and the module list gained a scrollbar on the right.",
+  "tag": "v0.8.9.5.1",
+  "asset": "BestClient-Setup-0.8.9.5.1.exe",
+  "sha256": "91edd91325fd1d209f45190d926a2689489648c9720d4a679f4f9145edd38ef0"
 }

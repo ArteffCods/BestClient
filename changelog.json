@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.5.1",
+    "date": "2026-08-13",
+    "title": "Motion blur actually blends, and the module list has a scrollbar",
+    "description": "Motion blur keeps the last frame in a buffer and mixes it into the next one, but that buffer was not marked to survive between frames, so the game was free to reuse it and the blend had nothing real to blend against. It is now a persistent buffer, so the blur builds up the way it should. The module list in the Right Shift menu also gained a scrollbar on the right, so it is clear when there is more below the fold. Both the 26.1.2 and 26.2 builds get the same.",
+    "changes": [
+      "Motion blur holds its previous frame in a persistent buffer, so it blends instead of doing almost nothing",
+      "The module list has a scrollbar down the right side",
+      "Same in the 1.21.11, 26.1.2 and 26.2 builds"
+    ]
+  },
+  {
     "version": "0.8.9.5",
     "date": "2026-08-13",
     "title": "Motion blur that stays clean",
