@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.2",
+    "date": "2026-08-13",
+    "title": "The crosshair indicator is adjustable, and the FPS reads properly",
+    "description": "The indicator has settings of its own now: size, and whether it inverts the background the way the game's crosshair does or is painted in a colour you pick. Module names in the right shift menu no longer run off the end of their tile. The FPS module has an icon that reads as a frame rate rather than a filmstrip, and the launcher shows the last session's average with its worst second and the last dozen sessions behind it, so a change is something you can see.",
+    "changes": [
+      "Crosshair indicator: size, invert or colour, under its own settings",
+      "Module names are trimmed to their tile instead of overflowing it",
+      "The FPS module has a new icon",
+      "The launcher shows the average, the worst second, and a bar per recent session"
+    ]
+  },
+  {
     "version": "0.8.9.1",
     "date": "2026-08-13",
     "title": "The crosshair is the mod's, nothing else, and versions can take small steps again",

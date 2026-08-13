@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.1",
-  "notes": "The crosshair indicator is exactly what the mod does, the client's own crosshair is gone, and versions can take a fourth number.",
-  "tag": "v0.8.9.1",
-  "asset": "BestClient-Setup-0.8.9.1.exe",
-  "sha256": "05e384c43f30c3dd0b519336067273a4f08df53ed3170b68f3c153e67b7a0b57"
+  "version": "0.8.9.2",
+  "notes": "The crosshair indicator has size and colour settings, module names fit their tiles, and the launcher shows a real frame rate readout.",
+  "tag": "v0.8.9.2",
+  "asset": "BestClient-Setup-0.8.9.2.exe",
+  "sha256": "8c584c9ecd2195fd59f430299bcea55b36a1b528737a514638722b04b2a48c7f"
 }
