@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.2",
-  "notes": "The crosshair indicator has size and colour settings, module names fit their tiles, and the launcher shows a real frame rate readout.",
-  "tag": "v0.8.9.2",
-  "asset": "BestClient-Setup-0.8.9.2.exe",
-  "sha256": "8c584c9ecd2195fd59f430299bcea55b36a1b528737a514638722b04b2a48c7f"
+  "version": "0.8.9.3",
+  "notes": "The frame rate log no longer writes on the render thread, the launcher stops polling while the game runs, and two lines of text are gone.",
+  "tag": "v0.8.9.3",
+  "asset": "BestClient-Setup-0.8.9.3.exe",
+  "sha256": "b7dff6d6a6e155a3d94222da8d82c86f9f9567d9cf46337136c81e24cd82ed81"
 }

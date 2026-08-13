@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.3",
+    "date": "2026-08-13",
+    "title": "The stutter is gone, and two lines of text with it",
+    "description": "The frame rate log was writing itself to disk on the render thread, which meant the game hitched every half minute because of the thing measuring how smoothly it ran. That write now happens on a background thread, less often. The launcher was also polling the friends service every few seconds while the game was in front of it, so it now asks for nothing at all until the game closes. The ready line under the Play button and the line confirming the Discord connection are both gone.",
+    "changes": [
+      "The frame rate log no longer writes on the render thread, which was a hitch every 30 seconds",
+      "The launcher stops polling entirely while the game is running",
+      "The ready line under the Play button is gone",
+      "The Discord confirmation line is gone, and only real problems are reported"
+    ]
+  },
+  {
     "version": "0.8.9.2",
     "date": "2026-08-13",
     "title": "The crosshair indicator is adjustable, and the FPS reads properly",
