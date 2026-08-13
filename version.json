@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.5.1",
-  "notes": "Motion blur now keeps its previous frame in a persistent buffer, so it blends properly, and the module list gained a scrollbar on the right.",
-  "tag": "v0.8.9.5.1",
-  "asset": "BestClient-Setup-0.8.9.5.1.exe",
-  "sha256": "91edd91325fd1d209f45190d926a2689489648c9720d4a679f4f9145edd38ef0"
+  "version": "0.8.9.5.2",
+  "notes": "The update builds its own download address instead of asking the rate limited GitHub API, and the launcher code ships obfuscated.",
+  "tag": "v0.8.9.5.2",
+  "asset": "BestClient-Setup-0.8.9.5.2.exe",
+  "sha256": "17e2d122a8e93d806b0def35a6fbb1c778780b181abcb648027b75deeb5b619e"
 }

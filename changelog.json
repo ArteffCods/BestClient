@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.5.2",
+    "date": "2026-08-13",
+    "title": "The update finds its own download, and the code ships obfuscated",
+    "description": "Checking for an update used to ask the GitHub API where the installer was, which sits on a sixty an hour limit for anyone not signed in, so a run of checks could leave the update unable to find its own file and download nothing. It now builds that address itself from the version, with no such limit. The launcher's own compiled code is also obfuscated before it ships now, so it no longer reads like source once unpacked. Nothing secret was ever kept in the client, so this changes how hard it is to read, not what it protects.",
+    "changes": [
+      "The update builds the installer address itself instead of asking the rate limited GitHub API, so the download stops failing after repeated checks",
+      "The launcher's compiled code is obfuscated in the shipped build",
+      "No behaviour change to the modules or the game"
+    ]
+  },
+  {
     "version": "0.8.9.5.1",
     "date": "2026-08-13",
     "title": "Motion blur actually blends, and the module list has a scrollbar",
