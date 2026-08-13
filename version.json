@@ -1,7 +1,7 @@
 {
-  "version": "0.8.8",
-  "notes": "The crosshair indicator uses the crosshair render pipeline, matching the mod exactly instead of painting flat white over the background.",
-  "tag": "v0.8.8",
-  "asset": "BestClient-Setup-0.8.8.exe",
-  "sha256": "0d91b1f29af88b00f7f55a50b220bd17281a631c267e4c07c945a04e1edbfe91"
+  "version": "0.8.9",
+  "notes": "The crosshair indicator is drawn from inside the crosshair render, the way the mod does it, instead of from the HUD layer.",
+  "tag": "v0.8.9",
+  "asset": "BestClient-Setup-0.8.9.exe",
+  "sha256": "58379ad495c2bbe604761a00a548b22bc4ab0f848fc1dedae10cbe0c1f47b4ee"
 }

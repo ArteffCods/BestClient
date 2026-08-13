@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9",
+    "date": "2026-08-13",
+    "title": "The crosshair indicator, rebuilt the way the mod does it",
+    "description": "The previous two attempts drew the indicator from the client's HUD layer, which was the wrong place for it. The crosshair render pipeline does not paint, it inverts whatever is already on screen underneath. Drawn last, after the whole HUD, the brackets were inverting the hotbar and the health bar instead of the world, which is why it looked broken. It is now drawn from inside the crosshair render itself, the same injection point the mod uses, so the only thing behind it is the world.",
+    "changes": [
+      "The indicator is drawn from inside the crosshair render, not from the HUD layer",
+      "On 1.21.11 that is the same method and the same tail injection the mod uses",
+      "On 26.2 and 26.1.2 the equivalent, which sits on a different class in each",
+      "It still appears when the client's own crosshair has replaced the game's"
+    ]
+  },
+  {
     "version": "0.8.8",
     "date": "2026-08-13",
     "title": "The crosshair indicator now looks right",
