@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.5",
+    "date": "2026-08-13",
+    "title": "Motion blur that stays clean",
+    "description": "Motion blur held onto the world it was first switched on, so leaving to the menu, rejoining a server or stepping through a portal left it off until you toggled it again. It now follows you onto each new world and keeps blending. The blend shader was also written for a newer GL version than the game asks for, which is why some drivers refused it and switched it off; it now matches the game's own post shaders, so it compiles where the game does. The same fix ships for the 26.1.2 and 26.2 builds.",
+    "changes": [
+      "Motion blur reapplies itself after leaving to the menu, rejoining, or changing dimension, instead of quietly staying off",
+      "The blend shader targets the same GL version the game uses, so drivers that refused it before now run it",
+      "Same fix in the 1.21.11, 26.1.2 and 26.2 builds"
+    ]
+  },
+  {
     "version": "0.8.9.4",
     "date": "2026-08-13",
     "title": "Motion blur, a sprint module, and more to set on the crosshair",

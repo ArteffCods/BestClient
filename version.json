@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.4",
-  "notes": "Motion blur as a module, a sprint module, and opacity plus a target filter on the crosshair indicator.",
-  "tag": "v0.8.9.4",
-  "asset": "BestClient-Setup-0.8.9.4.exe",
-  "sha256": "bdcc126bc96c93d449ab3466856cf36cf3be5f7ace8e69b59e750f2963cefb5c"
+  "version": "0.8.9.5",
+  "notes": "Motion blur reapplies itself after the menu, rejoining or a dimension change, and its shader matches the game so drivers that refused it now run it.",
+  "tag": "v0.8.9.5",
+  "asset": "BestClient-Setup-0.8.9.5.exe",
+  "sha256": "15f7536b500a90355294aeeb80c07d476082541631c37b0d3ec99dfcad0e88bb"
 }
