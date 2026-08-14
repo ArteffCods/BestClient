@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.5.3",
-  "notes": "Saturation shows on the food bar per point, like AppleSkin, with a partial icon for a half point, and stays colour customisable.",
-  "tag": "v0.8.9.5.3",
-  "asset": "BestClient-Setup-0.8.9.5.3.exe",
-  "sha256": "5c40fb1424432061339a381e4e97bfadbf4abc0fb73ed63a522f430b3afa17de"
+  "version": "0.8.9.5.4",
+  "notes": "The Microsoft sign in survives network trouble, a fresh install sets up only the base mods, the friends list is tidier and parties go up to ten.",
+  "tag": "v0.8.9.5.4",
+  "asset": "BestClient-Setup-0.8.9.5.4.exe",
+  "sha256": "270babc09fa0a71d94269c2f656a24be6bee3957e01e5b60eb65ed043dc46f18"
 }

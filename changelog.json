@@ -1,5 +1,18 @@
 [
   {
+    "version": "0.8.9.5.4",
+    "date": "2026-08-14",
+    "title": "Sign in that stays, a lean install, and tidier friends",
+    "description": "Signing in used to be dropped the moment a session refresh failed, so a second offline was enough to log you out for good. Now only Microsoft actually retiring the sign in ends it; a network blip keeps you signed in. A fresh install now sets up only the essentials, BestClient with Fabric API, Sodium and Lithium, with nothing extra to switch on or off. The friends list shows the service's own wording instead of raw errors, checks more often so requests arrive sooner, and parties go up to ten. Two modules that shared an icon in the Right Shift menu now have their own.",
+    "changes": [
+      "The Microsoft sign in survives network trouble and only ends when Microsoft actually retires it",
+      "A new install sets up only BestClient, Fabric API, Sodium and Lithium, with no optional mods to toggle",
+      "The friends list shows plain wording, not raw errors, and refreshes sooner",
+      "Parties go up to ten players",
+      "Motion blur and Sprint no longer share an icon with another module"
+    ]
+  },
+  {
     "version": "0.8.9.5.3",
     "date": "2026-08-13",
     "title": "Saturation shows on the food, the way AppleSkin does it",
