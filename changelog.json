@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.5.7",
+    "date": "2026-08-14",
+    "title": "Skin layers stop stretching the limbs",
+    "description": "The 3D skin layers grew on every axis, which stretched sleeves past the hands and trousers past the feet. They now thicken to stand off the body without getting any longer than the limb they cover, so the shape stays right. The Depth slider still sets how far they stand off. A fuller, texture built version of the layers is on the way.",
+    "changes": [
+      "Skin layers thicken to stand off the body without stretching the limbs longer",
+      "The Depth slider sets how far they stand off",
+      "Same across the 1.21.11, 26.1.2 and 26.2 builds"
+    ]
+  },
+  {
     "version": "0.8.9.5.6",
     "date": "2026-08-14",
     "title": "Thinner saturation, real skin layers, joinable friends, blur strength",
