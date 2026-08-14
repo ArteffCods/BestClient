@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.5.8",
-  "notes": "Saturation is an outline around the food",
-  "tag": "v0.8.9.5.8",
-  "asset": "BestClient-Setup-0.8.9.5.8.exe",
-  "sha256": "045482ed04d479e79a7540bfbe430b1a6ed9d448513b04aec141b845086e1923"
+  "version": "0.8.9.5.9",
+  "notes": "3D skin layers built the right way",
+  "tag": "v0.8.9.5.9",
+  "asset": "BestClient-Setup-0.8.9.5.9.exe",
+  "sha256": "d501938ae9c84df28077eeb7388014259ff583846110555f5ac1f685429c6350"
 }
