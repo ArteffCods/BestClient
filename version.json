@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.6.2",
-  "notes": "3D skin layers built into the client",
-  "tag": "v0.8.9.6.2",
-  "asset": "BestClient-Setup-0.8.9.6.2.exe",
-  "sha256": "4c3448ca4e69b9e408ba472b048be6516fef1be5e4381ff39a0adb5735cac0f0"
+  "version": "0.8.9.6.3",
+  "notes": "Motion blur survives switching the view",
+  "tag": "v0.8.9.6.3",
+  "asset": "BestClient-Setup-0.8.9.6.3.exe",
+  "sha256": "f0a1d7bb47a096243de41abe0d0c6e86b8fa9942b3da5820ff8aadc3a915cacd"
 }
