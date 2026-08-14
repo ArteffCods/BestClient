@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.5.10",
+    "date": "2026-08-14",
+    "title": "Real 3D skin layers on 1.21.11",
+    "description": "On 1.21.11 the skin overlay now has genuine depth: the proper 3D Skin Layers is built in and runs on its own, so the hat, jacket, sleeves and trousers stand off the body as real geometry that follows the skin. The old approximation was removed there, and its toggle went with it since the layers are on by default. The 26.1.2 and 26.2 builds keep the built in approximation for now while the same depth is ported to them.",
+    "changes": [
+      "1.21.11 ships real 3D skin layers with genuine depth, on by default",
+      "The old skin layer approximation and its toggle are gone on 1.21.11",
+      "26.1.2 and 26.2 keep the current approximation until the port lands"
+    ]
+  },
+  {
     "version": "0.8.9.5.9",
     "date": "2026-08-14",
     "title": "3D skin layers built the right way",
