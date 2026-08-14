@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.8.9.6.5",
+    "date": "2026-08-14",
+    "title": "New wordmark, sorted modules, and a party you can summon",
+    "description": "The BestClient wordmark is now the real logo everywhere it shows, in the launcher and on the mod menu, and the tab list marks BestClient players with the pixel logo before their name. The Right Shift menu is sorted into Combat, Render and HUD, every module has its own settings and its own icon, and No hurt cam gained an on-servers-only option. On the right, the friends panel drops the raw error text, sent requests show the moment you send them, and the party sits in its own collapsible strip at the foot of the rail. A party leader can now summon everyone to their server: each member gets a notice they accept before anything happens, so nobody is ever pulled somewhere on their own. The launcher's own code is packed harder as well.",
+    "changes": [
+      "The BestClient logo replaces the plain wordmark in the launcher and the mod menu",
+      "The tab list shows the BestClient pixel logo before the name of everyone on the client",
+      "The Right Shift menu is sorted into Combat, Render and HUD, with room to breathe",
+      "Every module has at least one setting and its own icon; No hurt cam can be limited to servers",
+      "Friends: no raw error text, and a request you send appears straight away",
+      "The party lives in a collapsible strip at the foot of the friends panel",
+      "A party leader can summon the party to their server, and every member accepts before they move",
+      "The launcher is obfuscated harder, with control-flow flattening and a tamper guard"
+    ]
+  },
+  {
     "version": "0.8.9.6.4",
     "date": "2026-08-14",
     "title": "Faster server pings, raw input, and the Minecraft version on show",
