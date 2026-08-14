@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.5.7",
-  "notes": "Skin layers stop stretching the limbs",
-  "tag": "v0.8.9.5.7",
-  "asset": "BestClient-Setup-0.8.9.5.7.exe",
-  "sha256": "c03ca3da82ac714e5670dfc921643d7498388f99ce2cac7971e8b741f196acb8"
+  "version": "0.8.9.5.8",
+  "notes": "Saturation is an outline around the food",
+  "tag": "v0.8.9.5.8",
+  "asset": "BestClient-Setup-0.8.9.5.8.exe",
+  "sha256": "045482ed04d479e79a7540bfbe430b1a6ed9d448513b04aec141b845086e1923"
 }
