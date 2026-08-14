@@ -1,5 +1,19 @@
 [
   {
+    "version": "0.8.9.5.6",
+    "date": "2026-08-14",
+    "title": "Thinner saturation, real skin layers, joinable friends, blur strength",
+    "description": "Saturation is now a thin line that hugs the bottom of the food and grows with the saturation behind it, instead of the box that sat around it. The 3D skin layers stand off the body far enough to actually see, and the Depth slider drives how far. When the Effects module is on it takes over completely: the vanilla effect icons step aside so only BestClient's list shows. Friends can be joined straight from Discord now, and the presence carries the server so the Join button appears for them. Motion blur has five strength steps from Faint to Max instead of three.",
+    "changes": [
+      "Saturation is a thin line under the food, sized to how much saturation is behind it",
+      "3D skin layers stand off the body enough to see, with the Depth slider setting how far",
+      "The Effects module hides the vanilla effect icons and shows only its own",
+      "Discord shows a Join for the server you are on, and joining from it launches you in",
+      "Motion blur has five strengths, Faint to Max",
+      "Same across the 1.21.11, 26.1.2 and 26.2 builds"
+    ]
+  },
+  {
     "version": "0.8.9.5.5",
     "date": "2026-08-14",
     "title": "Saturation sits at the edge of the food now",
