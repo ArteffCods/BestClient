@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.5.9",
-  "notes": "3D skin layers built the right way",
-  "tag": "v0.8.9.5.9",
-  "asset": "BestClient-Setup-0.8.9.5.9.exe",
-  "sha256": "d501938ae9c84df28077eeb7388014259ff583846110555f5ac1f685429c6350"
+  "version": "0.8.9.5.10",
+  "notes": "Real 3D skin layers on 1.21.11",
+  "tag": "v0.8.9.5.10",
+  "asset": "BestClient-Setup-0.8.9.5.10.exe",
+  "sha256": "8faf29fa2786934e6662060597225e1cf6513d1c4291647778faf6bb5e81cabf"
 }
