@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.6.4",
+    "date": "2026-08-14",
+    "title": "Faster server pings, raw input, and the Minecraft version on show",
+    "description": "The multiplayer list used to ping five servers at a time; it now pings a few per processor core at once, so a long list answers straight away. Raw mouse input is on by default for a more direct feel, the game already launches at high priority, and the launcher title bar now shows the Minecraft version next to the client version.",
+    "changes": [
+      "Multiplayer pings the whole server list at once instead of five at a time",
+      "Raw mouse input is on by default for lower input latency",
+      "The Minecraft version shows next to the client version in the title bar",
+      "Same server ping speed up across the 1.21.11, 26.1.2 and 26.2 builds"
+    ]
+  },
+  {
     "version": "0.8.9.6.3",
     "date": "2026-08-14",
     "title": "Motion blur survives switching the view",
