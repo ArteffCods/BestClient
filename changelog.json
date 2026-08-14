@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.5.8",
+    "date": "2026-08-14",
+    "title": "Saturation is an outline around the food",
+    "description": "Saturation now draws a thin outline that follows the edge of each drumstick, with nothing inside, so the food stays fully visible and the outline sits only around it. One outlined drumstick per two points of saturation. The colour is still yours from the module's settings.",
+    "changes": [
+      "Saturation is a thin outline around the food, not a fill or a line",
+      "One outlined drumstick per two points of saturation",
+      "Same across the 1.21.11, 26.1.2 and 26.2 builds"
+    ]
+  },
+  {
     "version": "0.8.9.5.7",
     "date": "2026-08-14",
     "title": "Skin layers stop stretching the limbs",
