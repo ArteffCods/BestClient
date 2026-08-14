@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.5.3",
+    "date": "2026-08-13",
+    "title": "Saturation shows on the food, the way AppleSkin does it",
+    "description": "The saturation module drew a box around the food bar. It now sits on the food itself, one drumstick per point of saturation, filling from the top for a half point, which is how AppleSkin shows it. The colour is still yours to pick from the module's settings by right clicking it. The 26.1.2 and 26.2 builds match.",
+    "changes": [
+      "Saturation draws a filled overlay on each food icon it backs, with a partial icon for a half point, like AppleSkin",
+      "The colour stays customisable from the Saturation module settings",
+      "Same in the 1.21.11, 26.1.2 and 26.2 builds"
+    ]
+  },
+  {
     "version": "0.8.9.5.2",
     "date": "2026-08-13",
     "title": "The update finds its own download, and the code ships obfuscated",
