@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.6.2",
+    "date": "2026-08-14",
+    "title": "3D skin layers built into the client",
+    "description": "The 3D skin layers are no longer a separate mod file. On 1.21.11 they now ship inside the BestClient mod itself, so there is one mod in the folder, not two. Nothing changes for you: the layers are the real ones with genuine depth, the Right Shift menu toggle still turns them on or off, and the choice is remembered.",
+    "changes": [
+      "3D skin layers are built into the BestClient mod, not a separate file",
+      "The Right Shift menu toggle still turns them on or off and is remembered"
+    ]
+  },
+  {
     "version": "0.8.9.6.1",
     "date": "2026-08-14",
     "title": "3D skin layers back in the Right Shift menu",
