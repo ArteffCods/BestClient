@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.6.3",
-  "notes": "Motion blur survives switching the view",
-  "tag": "v0.8.9.6.3",
-  "asset": "BestClient-Setup-0.8.9.6.3.exe",
-  "sha256": "f0a1d7bb47a096243de41abe0d0c6e86b8fa9942b3da5820ff8aadc3a915cacd"
+  "version": "0.8.9.6.4",
+  "notes": "Faster server pings, raw input, and the Minecraft version on show",
+  "tag": "v0.8.9.6.4",
+  "asset": "BestClient-Setup-0.8.9.6.4.exe",
+  "sha256": "b518c8e783695e69cb182322696561dea0ad3229f11dff71a2092e9ad0acf1c4"
 }
