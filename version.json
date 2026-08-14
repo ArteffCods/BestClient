@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.5.6",
-  "notes": "Thinner saturation, real skin layers, joinable friends, blur strength",
-  "tag": "v0.8.9.5.6",
-  "asset": "BestClient-Setup-0.8.9.5.6.exe",
-  "sha256": "62dafff2f818689a9abd5eaa674b73611c3ed04487fea44f602b3fb75950232b"
+  "version": "0.8.9.5.7",
+  "notes": "Skin layers stop stretching the limbs",
+  "tag": "v0.8.9.5.7",
+  "asset": "BestClient-Setup-0.8.9.5.7.exe",
+  "sha256": "c03ca3da82ac714e5670dfc921643d7498388f99ce2cac7971e8b741f196acb8"
 }
