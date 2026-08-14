@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.5.5",
-  "notes": "Saturation is now a two pixel border at the edge of the food it backs, instead of a fill over the food.",
-  "tag": "v0.8.9.5.5",
-  "asset": "BestClient-Setup-0.8.9.5.5.exe",
-  "sha256": "15da5ddf9e4a265ce514837d701abd138cfeb00580d0a75b7ea1f57f0080d468"
+  "version": "0.8.9.5.6",
+  "notes": "Thinner saturation, real skin layers, joinable friends, blur strength",
+  "tag": "v0.8.9.5.6",
+  "asset": "BestClient-Setup-0.8.9.5.6.exe",
+  "sha256": "62dafff2f818689a9abd5eaa674b73611c3ed04487fea44f602b3fb75950232b"
 }
