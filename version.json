@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.5.4",
-  "notes": "The Microsoft sign in survives network trouble, a fresh install sets up only the base mods, the friends list is tidier and parties go up to ten.",
-  "tag": "v0.8.9.5.4",
-  "asset": "BestClient-Setup-0.8.9.5.4.exe",
-  "sha256": "270babc09fa0a71d94269c2f656a24be6bee3957e01e5b60eb65ed043dc46f18"
+  "version": "0.8.9.5.5",
+  "notes": "Saturation is now a two pixel border at the edge of the food it backs, instead of a fill over the food.",
+  "tag": "v0.8.9.5.5",
+  "asset": "BestClient-Setup-0.8.9.5.5.exe",
+  "sha256": "15da5ddf9e4a265ce514837d701abd138cfeb00580d0a75b7ea1f57f0080d468"
 }

@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.5.5",
+    "date": "2026-08-14",
+    "title": "Saturation sits at the edge of the food now",
+    "description": "Saturation used to paint over the whole food. It is now a two pixel border at the edge of the food it backs, so the food stays visible and the border grows and shrinks with how much saturation is behind it. The colour is still yours from the module's settings.",
+    "changes": [
+      "Saturation is a two pixel border around the saturated food, not a fill over it",
+      "The border widens and narrows with the amount of saturation",
+      "Same in the 1.21.11, 26.1.2 and 26.2 builds"
+    ]
+  },
+  {
     "version": "0.8.9.5.4",
     "date": "2026-08-14",
     "title": "Sign in that stays, a lean install, and tidier friends",
