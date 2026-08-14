@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.5.9",
+    "date": "2026-08-14",
+    "title": "3D skin layers built the right way",
+    "description": "The skin layers were scaled before, which stretched the sleeves and trousers off the limbs. They are now built as larger boxes that stand off the body evenly, the way it is meant to be done, so nothing stretches. The Depth slider sets how far they stand off; after changing Depth or the toggle, reload with F3+T for it to take effect.",
+    "changes": [
+      "3D skin layers stand off as evenly built boxes instead of stretched scaling",
+      "The Depth slider sets how far they stand off",
+      "Changing Depth or the toggle applies after a reload with F3+T",
+      "Same across the 1.21.11, 26.1.2 and 26.2 builds"
+    ]
+  },
+  {
     "version": "0.8.9.5.8",
     "date": "2026-08-14",
     "title": "Saturation is an outline around the food",
