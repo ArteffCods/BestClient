@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.6.0",
-  "notes": "Real 3D skin layers on 1.21.11",
-  "tag": "v0.8.9.6.0",
-  "asset": "BestClient-Setup-0.8.9.6.0.exe",
-  "sha256": "6c6d43be28e1e1ecb4eeef1408f3db259066172a9b2f43901eea9d540c23dfaf"
+  "version": "0.8.9.6.1",
+  "notes": "3D skin layers back in the Right Shift menu",
+  "tag": "v0.8.9.6.1",
+  "asset": "BestClient-Setup-0.8.9.6.1.exe",
+  "sha256": "2a17808ad62e83b6223072f264eaaff54bf197fe1c5ef667f7f4e39eaf1d5c3d"
 }
