@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.6.4",
-  "notes": "Faster server pings, raw input, and the Minecraft version on show",
-  "tag": "v0.8.9.6.4",
-  "asset": "BestClient-Setup-0.8.9.6.4.exe",
-  "sha256": "b518c8e783695e69cb182322696561dea0ad3229f11dff71a2092e9ad0acf1c4"
+  "version": "0.8.9.6.5",
+  "notes": "New wordmark everywhere, sorted Combat/Render/HUD modules each with settings, tab-list pixel logo, redesigned friends panel with instant requests, a collapsible party you can summon your friends to, and a harder-obfuscated launcher.",
+  "tag": "v0.8.9.6.5",
+  "asset": "BestClient-Setup-0.8.9.6.5.exe",
+  "sha256": "7eb2bdb1e404dacccdb0a2b91b45a2a03ff93dfa58be09f1522d81a393bde302"
 }
