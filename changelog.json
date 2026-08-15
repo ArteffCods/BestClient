@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.7.7",
+    "date": "2026-08-15",
+    "title": "A fuller Sneak/Sprint, a shulker peek, and a proper drumstick",
+    "description": "The Sprint module grows into Sneak/Sprint: toggle sprint, toggle sneak, double tap to sprint, an on-screen readout of what is on, and a fly boost with its own amount. A new Shulker Preview module shows a box's contents straight from the slot it sits in, on hover or on a key you pick, tinted with the box's own colour. The saturation icon in the menu is now a clean drumstick that matches the bar over the hotbar.",
+    "changes": [
+      "Sneak/Sprint gains toggle sneak, double tap, an on-screen readout, and fly boost with an amount",
+      "New Shulker Preview module: peek inside a box from its slot, always or on a chosen key",
+      "Shulker preview panel is tinted with the box's own colour, which can be turned off",
+      "The saturation module icon is now a drumstick that matches the hotbar bar"
+    ]
+  },
+  {
     "version": "0.8.9.7.6",
     "date": "2026-08-15",
     "title": "A clean mark over heads, and the roster others can actually see",
