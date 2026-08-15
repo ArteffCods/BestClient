@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.7.3",
+    "date": "2026-08-15",
+    "title": "Saturation outline drawn pixel by pixel",
+    "description": "The saturation rim is no longer built from the hunger sprite, which is what let it come out as a coloured block. It is now drawn directly, pixel by pixel, as the drumstick's own two pixel outline, so it always hugs the meat and the food shows through the middle.",
+    "changes": [
+      "The saturation outline is drawn from raw pixels, never a block, hugging the drumstick",
+      "The food shows through the hollow middle of the outline"
+    ]
+  },
+  {
     "version": "0.8.9.7.2",
     "date": "2026-08-15",
     "title": "Two pixel saturation rim and a clearer drumstick",
