@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.7.8",
+    "date": "2026-08-15",
+    "title": "Everyone's mark shows, and more frames for the game",
+    "description": "The client mark now appears for everyone: two BestClient players on the same server see each other's logo over their heads and on the tab list, not only their own. The roster answer was being misread and always came back empty, so only your own name carried the mark; it is read correctly now. Separately, the launcher no longer sits drawing over the top of the game by default: it steps out of the way when the game starts, which hands those frames back. That setting also sticks now instead of resetting itself.",
+    "changes": [
+      "Two BestClient players on a server now see each other's mark, over the head and on the tab",
+      "Fixed the roster reader that always came back empty, so only your own mark showed",
+      "The launcher now steps out of the way when the game starts, for more in-game frames",
+      "The launch behaviour setting is respected instead of resetting to always-on-screen"
+    ]
+  },
+  {
     "version": "0.8.9.7.7",
     "date": "2026-08-15",
     "title": "A fuller Sneak/Sprint, a shulker peek, and a proper drumstick",
