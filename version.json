@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.6.7",
-  "notes": "Smaller BestClient logo in the Right Shift menu, and a little more space to the left of the logo in the launcher title bar.",
-  "tag": "v0.8.9.6.7",
-  "asset": "BestClient-Setup-0.8.9.6.7.exe",
-  "sha256": "034158b4b06206b6e574e876da7fcb97e8aff7793377ce8f5dd3df01055c1443"
+  "version": "0.8.9.6.8",
+  "notes": "Smaller BestClient logo in the launcher title bar and the Right Shift menu, more room to its right, saturation fills right to left, and its module icon is a drumstick.",
+  "tag": "v0.8.9.6.8",
+  "asset": "BestClient-Setup-0.8.9.6.8.exe",
+  "sha256": "b72537ae8a0ac72372bf11cf5d062c15326221c473568b2384718a9ea0554868"
 }
