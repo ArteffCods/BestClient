@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.6.6",
-  "notes": "The Minecraft version no longer sits in the launcher title bar; it belongs in the game. The BestClient logo and client version stay.",
-  "tag": "v0.8.9.6.6",
-  "asset": "BestClient-Setup-0.8.9.6.6.exe",
-  "sha256": "828c136802bd9bfcfc0cc43d89f0afa35cfb189400749a41542a3a0dc54ab562"
+  "version": "0.8.9.6.7",
+  "notes": "Smaller BestClient logo in the Right Shift menu, and a little more space to the left of the logo in the launcher title bar.",
+  "tag": "v0.8.9.6.7",
+  "asset": "BestClient-Setup-0.8.9.6.7.exe",
+  "sha256": "034158b4b06206b6e574e876da7fcb97e8aff7793377ce8f5dd3df01055c1443"
 }
