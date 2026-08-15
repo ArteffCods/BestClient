@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.7.1",
-  "notes": "The Saturation module icon is a clearer drumstick, and the in-game outline is a thin one pixel rim on the food, not a filled block.",
-  "tag": "v0.8.9.7.1",
-  "asset": "BestClient-Setup-0.8.9.7.1.exe",
-  "sha256": "f22f2c7d453524782508a100bfc3789cb5bd29dc3dba5eefbb9e9a3f1e19471e"
+  "version": "0.8.9.7.2",
+  "notes": "Saturation draws a two pixel outline in the shape of the drumstick, verified against the vanilla sprite, and the module icon is a clearer drumstick.",
+  "tag": "v0.8.9.7.2",
+  "asset": "BestClient-Setup-0.8.9.7.2.exe",
+  "sha256": "dd09f9a6ad06be4eb9d9f2d93c31d0a24e80ed00ca4bc6387f2afadfc2ca9ca3"
 }
