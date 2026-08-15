@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.7.4",
+    "date": "2026-08-15",
+    "title": "Saturation the AppleSkin way, in pink",
+    "description": "The saturation is now drawn exactly the way AppleSkin does it: a pink drumstick outline over the hunger bar, from a plain texture rather than the sprite atlas, with four fill states per shank so a part-full bar shows a part outline. This is the final approach and cannot render as a block.",
+    "changes": [
+      "Saturation is a pink drumstick outline over the hunger bar, the AppleSkin way",
+      "Part-full shanks show a part outline; drawn from a plain texture, never a block"
+    ]
+  },
+  {
     "version": "0.8.9.7.3",
     "date": "2026-08-15",
     "title": "Saturation outline drawn pixel by pixel",
