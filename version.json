@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.7.0",
-  "notes": "The Right Shift screen shows the BestClient logo image instead of text, and the saturation draws a true outline around the drumstick shape rather than a box.",
-  "tag": "v0.8.9.7.0",
-  "asset": "BestClient-Setup-0.8.9.7.0.exe",
-  "sha256": "838079c13370275dce4aedf087506f5917cd8178ae7b601161359d8cffbb19a6"
+  "version": "0.8.9.7.1",
+  "notes": "The Saturation module icon is a clearer drumstick, and the in-game outline is a thin one pixel rim on the food, not a filled block.",
+  "tag": "v0.8.9.7.1",
+  "asset": "BestClient-Setup-0.8.9.7.1.exe",
+  "sha256": "f22f2c7d453524782508a100bfc3789cb5bd29dc3dba5eefbb9e9a3f1e19471e"
 }
