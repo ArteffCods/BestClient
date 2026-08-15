@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.7.2",
+    "date": "2026-08-15",
+    "title": "Two pixel saturation rim and a clearer drumstick",
+    "description": "The saturation outline is a two pixel rim again, checked against the real hunger sprite so it traces the drumstick's own edge rather than boxing it in. The module icon is a clearer drumstick with a bone knob. If you still see a filled block over the hunger bar, you are on an older build; install this one to get the outline.",
+    "changes": [
+      "Saturation draws a two pixel outline in the shape of the drumstick, verified against the vanilla sprite",
+      "The Saturation module icon is a clearer drumstick"
+    ]
+  },
+  {
     "version": "0.8.9.7.1",
     "date": "2026-08-15",
     "title": "A cleaner drumstick and a thin saturation outline",
