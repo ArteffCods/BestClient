@@ -1,5 +1,14 @@
 [
   {
+    "version": "0.8.9.6.9",
+    "date": "2026-08-15",
+    "title": "The menu wordmark drops to text size",
+    "description": "The BestClient wordmark at the top of the Right Shift menu is now the same height the old text was, so it sits quietly beside the round logo instead of standing out. It has been the logo image rather than plain text since a few versions back; this only makes it smaller.",
+    "changes": [
+      "The BestClient wordmark in the Right Shift menu is smaller, matching the old text height"
+    ]
+  },
+  {
     "version": "0.8.9.6.8",
     "date": "2026-08-15",
     "title": "Smaller logo, and the saturation reads right to left",
