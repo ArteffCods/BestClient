@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.7.0",
+    "date": "2026-08-15",
+    "title": "Logo on the Right Shift screen, and the saturation outline hugs the meat",
+    "description": "The Right Shift screen, the one with the Modules button, was still drawing BestClient as text between the logo and the button; it is the logo image now, like everywhere else. And the saturation is fixed: the frame is a real outline in the shape of the drumstick, not a square around it, so only the meat's own edge is drawn.",
+    "changes": [
+      "The Right Shift screen shows the BestClient logo image instead of text",
+      "Saturation draws a true outline around the drumstick shape, not a box",
+      "Both across the 1.21.11, 26.1.2 and 26.2 builds"
+    ]
+  },
+  {
     "version": "0.8.9.6.9",
     "date": "2026-08-15",
     "title": "The menu wordmark drops to text size",
