@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.7.4",
-  "notes": "Saturation is drawn the AppleSkin way: a pink drumstick outline over the hunger bar, from a plain texture, with four fill states per shank. Never a block.",
-  "tag": "v0.8.9.7.4",
-  "asset": "BestClient-Setup-0.8.9.7.4.exe",
-  "sha256": "728192e580f30a66ed2215592acb55f1513c28878a70bae4c5a8aa92f1079fc9"
+  "version": "0.8.9.7.5",
+  "notes": "The BestClient logo shows in front of names above BestClient users' heads, your own name shows in third person, and the tab list always marks your own name. Only the logo, no text.",
+  "tag": "v0.8.9.7.5",
+  "asset": "BestClient-Setup-0.8.9.7.5.exe",
+  "sha256": "74dc50cf1f28c0d1fef150a6eb46ef4746aea3e10bec120bf28f903737d71e07"
 }
