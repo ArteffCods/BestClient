@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.7.5",
+    "date": "2026-08-15",
+    "title": "The BestClient mark over players, and your own name in third person",
+    "description": "The BestClient logo now sits in front of the name floating above a BestClient user's head, the same mark the tab list shows, so players can tell at a glance who is on the client. Your own name and mark now show above your head in third person too, which the game normally hides. The tab list also always marks your own name. Just the logo, no text.",
+    "changes": [
+      "The BestClient logo shows in front of names above BestClient users' heads",
+      "Your own name and mark show over your head in third person (F5)",
+      "The tab list always carries the mark on your own name",
+      "Only the logo, no text; built in and always on across all three builds"
+    ]
+  },
+  {
     "version": "0.8.9.7.4",
     "date": "2026-08-15",
     "title": "Saturation the AppleSkin way, in pink",
