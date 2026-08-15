@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.6.9",
-  "notes": "The BestClient wordmark in the Right Shift menu is smaller, matching the old text height. It has been the logo image, not text, for several versions.",
-  "tag": "v0.8.9.6.9",
-  "asset": "BestClient-Setup-0.8.9.6.9.exe",
-  "sha256": "fbc83376ecc713a8b39f98ef3f496a6d76b84625cf3ef462903ce67887e2c641"
+  "version": "0.8.9.7.0",
+  "notes": "The Right Shift screen shows the BestClient logo image instead of text, and the saturation draws a true outline around the drumstick shape rather than a box.",
+  "tag": "v0.8.9.7.0",
+  "asset": "BestClient-Setup-0.8.9.7.0.exe",
+  "sha256": "838079c13370275dce4aedf087506f5917cd8178ae7b601161359d8cffbb19a6"
 }
