@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.7.1",
+    "date": "2026-08-15",
+    "title": "A cleaner drumstick and a thin saturation outline",
+    "description": "The Saturation module icon is a clearer drumstick, and the in-game outline is now a single pixel thin so it traces the food's edge instead of filling in around it. If you were seeing a colour block over the hunger bar, this is the fix.",
+    "changes": [
+      "The Saturation module icon is a clearer drumstick",
+      "The in-game saturation outline is a thin one pixel rim on the food, not a filled block"
+    ]
+  },
+  {
     "version": "0.8.9.7.0",
     "date": "2026-08-15",
     "title": "Logo on the Right Shift screen, and the saturation outline hugs the meat",
