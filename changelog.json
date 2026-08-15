@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.7.6",
+    "date": "2026-08-15",
+    "title": "A clean mark over heads, and the roster others can actually see",
+    "description": "The stray box that sat next to the logo above a head is gone: the spacer after the mark was being drawn in the icon font, which has no space of its own, so it came out as a missing glyph. The presence check the mod runs on each server now reaches the right route, so a BestClient user sees every other BestClient user on the server, and they see them back, not just their own name.",
+    "changes": [
+      "The mark above heads no longer shows a stray box next to the logo",
+      "BestClient users now see one another on a server, both ways",
+      "The tab mark keeps the same clean spacing"
+    ]
+  },
+  {
     "version": "0.8.9.7.5",
     "date": "2026-08-15",
     "title": "The BestClient mark over players, and your own name in third person",
