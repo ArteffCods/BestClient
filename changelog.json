@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.6.8",
+    "date": "2026-08-15",
+    "title": "Smaller logo, and the saturation reads right to left",
+    "description": "The BestClient logo is smaller again in the launcher title bar and above the modules in the Right Shift menu, with a little more room to its right in the launcher. The saturation now fills from the right, the way the hunger bar empties, and its module icon is a proper drumstick like the food above the hotbar.",
+    "changes": [
+      "The BestClient logo is smaller in the launcher title bar and the Right Shift menu",
+      "More space to the right of the logo in the launcher title bar",
+      "Saturation fills right to left, tracking the hunger bar",
+      "The Saturation module icon is now a drumstick, like the hunger bar"
+    ]
+  },
+  {
     "version": "0.8.9.6.7",
     "date": "2026-08-15",
     "title": "Smaller logo in the Right Shift menu",
