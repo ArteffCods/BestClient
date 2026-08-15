@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.6.7",
+    "date": "2026-08-15",
+    "title": "Smaller logo in the Right Shift menu",
+    "description": "The BestClient logo at the top of the Right Shift menu was too large, so it is now sized to sit neatly beside the mark instead of dominating the header. In the launcher title bar the logo gets a touch more room on its left.",
+    "changes": [
+      "The BestClient logo in the Right Shift menu is smaller and better proportioned",
+      "A little more space to the left of the logo in the launcher title bar"
+    ]
+  },
+  {
     "version": "0.8.9.6.6",
     "date": "2026-08-15",
     "title": "The Minecraft version stays in the game",
