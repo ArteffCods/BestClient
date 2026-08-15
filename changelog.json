@@ -1,5 +1,14 @@
 [
   {
+    "version": "0.8.9.6.6",
+    "date": "2026-08-15",
+    "title": "The Minecraft version stays in the game",
+    "description": "The launcher title bar showed the Minecraft version next to the client version. That belongs in the game, not up there, so it is gone from the title bar again. The BestClient logo and the client version stay where they are.",
+    "changes": [
+      "The Minecraft version no longer sits in the launcher title bar"
+    ]
+  },
+  {
     "version": "0.8.9.6.5",
     "date": "2026-08-14",
     "title": "New wordmark, sorted modules, and a party you can summon",
