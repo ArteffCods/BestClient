@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.8.1",
+    "date": "2026-08-15",
+    "title": "Friends that sign in reliably, and three more frames-savers",
+    "description": "The friends and party sign-in is the thing that was flaky: it proves the account to Mojang the way a server does, and Mojang's session server sometimes just does not answer in time, which used to fail the whole thing with 'Mojang did not confirm that account' and leave friends and parties dead. It now tries a few times and pulls a fresh token and name for each retry, so a single miss no longer takes the system down. On top of Sodium and Lithium, the pack now brings ImmediatelyFast, FerriteCore and Entity Culling, which is most of what a dedicated performance client ships, so the frame rate lands much closer to one.",
+    "changes": [
+      "Friends and party sign-in retries the Mojang check instead of dying on the first miss",
+      "Each retry refreshes the token and name, the usual reason a sign-in is not confirmed",
+      "The pack now includes ImmediatelyFast, FerriteCore and Entity Culling for more frames",
+      "Entity Culling can be turned off in Mods if anything ever looks wrong"
+    ]
+  },
+  {
     "version": "0.8.9.8.0",
     "date": "2026-08-15",
     "title": "The party note sits straight",
