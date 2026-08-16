@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.8.0",
-  "notes": "The party note sits straight",
-  "tag": "v0.8.9.8.0",
-  "asset": "BestClient-Setup-0.8.9.8.0.exe",
-  "sha256": "e1e2a362d37f5ea504095ced88db8819e96d17be9ec13d8564d20c8c546031c2"
+  "version": "0.8.9.8.1",
+  "notes": "Friends that sign in reliably, and three more frames-savers",
+  "tag": "v0.8.9.8.1",
+  "asset": "BestClient-Setup-0.8.9.8.1.exe",
+  "sha256": "81b59ceec383ee71cfe9047277c8cc2a0345bcd449ba381a1df624e90380e974"
 }
