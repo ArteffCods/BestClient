@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.8.9.7.9",
+    "date": "2026-08-15",
+    "title": "Stay signed in longer, and a calmer Modrinth page",
+    "description": "The Microsoft sign-in now renews itself in the background, at start-up and twice a day, saving the rotated token straight away. Because every renewal resets the 90-day window Microsoft keeps the sign-in on, a launcher that opens now and then keeps you signed in for as long as Microsoft allows, without asking again. The Modrinth page no longer re-checks every installed mod for updates on every search, sort and page turn; those checks are now shared and cached for a few minutes, so the page stops running into Modrinth's rate limit.",
+    "changes": [
+      "The Microsoft sign-in renews on its own and keeps you signed in far longer",
+      "The rotated refresh token is saved immediately, so a launch already holds a fresh one",
+      "The Modrinth page stops re-checking every mod for updates on every search and page turn",
+      "Update checks are shared and cached for a few minutes, which clears the constant rate limiting"
+    ]
+  },
+  {
     "version": "0.8.9.7.8",
     "date": "2026-08-15",
     "title": "Everyone's mark shows, and more frames for the game",
