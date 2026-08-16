@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.7.9",
-  "notes": "Stay signed in longer, and a calmer Modrinth page",
-  "tag": "v0.8.9.7.9",
-  "asset": "BestClient-Setup-0.8.9.7.9.exe",
-  "sha256": "df4063d8fba67b0176ff67792fdd9b5a00171c1c24d4083be990748a04c2244c"
+  "version": "0.8.9.8.0",
+  "notes": "The party note sits straight",
+  "tag": "v0.8.9.8.0",
+  "asset": "BestClient-Setup-0.8.9.8.0.exe",
+  "sha256": "e1e2a362d37f5ea504095ced88db8819e96d17be9ec13d8564d20c8c546031c2"
 }
