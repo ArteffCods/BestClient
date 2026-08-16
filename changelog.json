@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.8.0",
+    "date": "2026-08-15",
+    "title": "The party note sits straight",
+    "description": "The little dot beside a party or friend note now lines up with the first line of the text instead of floating above it, on any text size. The party's own idle state also carries the summon field it was missing, so an empty read looks exactly like a full one.",
+    "changes": [
+      "The dot beside a friends or party note is centred on the first line of the text",
+      "The idle party state carries the summon field for a consistent shape"
+    ]
+  },
+  {
     "version": "0.8.9.7.9",
     "date": "2026-08-15",
     "title": "Stay signed in longer, and a calmer Modrinth page",
