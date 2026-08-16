@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.7.8",
-  "notes": "Everyone's mark shows, and more frames for the game",
-  "tag": "v0.8.9.7.8",
-  "asset": "BestClient-Setup-0.8.9.7.8.exe",
-  "sha256": "94916a2f6e25a8602f5f451f5ba0630f40855deaf61a3b9e765d7e22ab8f5682"
+  "version": "0.8.9.7.9",
+  "notes": "Stay signed in longer, and a calmer Modrinth page",
+  "tag": "v0.8.9.7.9",
+  "asset": "BestClient-Setup-0.8.9.7.9.exe",
+  "sha256": "df4063d8fba67b0176ff67792fdd9b5a00171c1c24d4083be990748a04c2244c"
 }
