@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.8.1",
-  "notes": "Friends that sign in reliably, and three more frames-savers",
-  "tag": "v0.8.9.8.1",
-  "asset": "BestClient-Setup-0.8.9.8.1.exe",
-  "sha256": "81b59ceec383ee71cfe9047277c8cc2a0345bcd449ba381a1df624e90380e974"
+  "version": "0.8.9.8.2",
+  "notes": "The friends service stops signing in on a loop",
+  "tag": "v0.8.9.8.2",
+  "asset": "BestClient-Setup-0.8.9.8.2.exe",
+  "sha256": "bc8327158514890e564c650a8ee0cceaee6cba15f2f50c3c81ffefd8d3af502e"
 }
