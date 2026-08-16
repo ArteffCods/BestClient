@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.8.2",
+    "date": "2026-08-16",
+    "title": "The friends service stops signing in on a loop",
+    "description": "This is the real cause of the friends and party trouble. The signed-in session was keyed by a player id with dashes coming back from our server, compared against the dashless id from Microsoft, so the two never matched and a brand new sign-in ran on every single poll: four network round trips including a Mojang join, several times a second. That hammering is what made Mojang start answering 'did not confirm that account', and what made friends and parties feel slow and unstable. The id is now matched by value, so the token earned once is kept, the sign-in happens once, and friends and parties are quick and steady.",
+    "changes": [
+      "Fixed the friends sign-in running on every poll instead of reusing its token",
+      "This was the self-inflicted rate limiting behind the 'Mojang did not confirm' errors",
+      "Friends and parties are now fast and stable instead of re-authenticating constantly"
+    ]
+  },
+  {
     "version": "0.8.9.8.1",
     "date": "2026-08-15",
     "title": "Friends that sign in reliably, and three more frames-savers",
