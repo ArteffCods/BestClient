@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.8.2",
-  "notes": "The friends service stops signing in on a loop",
-  "tag": "v0.8.9.8.2",
-  "asset": "BestClient-Setup-0.8.9.8.2.exe",
-  "sha256": "bc8327158514890e564c650a8ee0cceaee6cba15f2f50c3c81ffefd8d3af502e"
+  "version": "0.8.9.8.3",
+  "notes": "A party invite you cannot miss",
+  "tag": "v0.8.9.8.3",
+  "asset": "BestClient-Setup-0.8.9.8.3.exe",
+  "sha256": "d860a2fbe19222af0f63456020562e9df6317d7981e478037b98a747977f831c"
 }
