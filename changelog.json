@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.8.3",
+    "date": "2026-08-16",
+    "title": "A party invite you cannot miss",
+    "description": "A party invite now raises a notice in the top-right corner, the same place a summon lands, with Accept and Decline right on it, so being asked into a party is as loud as being pulled to one. Accept joins there and then; Decline tucks it away while it still waits in the list below. The invite still shows in the friends panel too.",
+    "changes": [
+      "Party invites now pop a top-right notice with Accept and Decline",
+      "Accept joins straight away; Decline hides the notice but keeps the invite in the list"
+    ]
+  },
+  {
     "version": "0.8.9.8.2",
     "date": "2026-08-16",
     "title": "The friends service stops signing in on a loop",
