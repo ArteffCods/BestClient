@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.8.3",
-  "notes": "A party invite you cannot miss",
-  "tag": "v0.8.9.8.3",
-  "asset": "BestClient-Setup-0.8.9.8.3.exe",
-  "sha256": "d860a2fbe19222af0f63456020562e9df6317d7981e478037b98a747977f831c"
+  "version": "0.8.9.8.4",
+  "notes": "A leftover empty party no longer swallows invites",
+  "tag": "v0.8.9.8.4",
+  "asset": "BestClient-Setup-0.8.9.8.4.exe",
+  "sha256": "0691099392d9a3a5960c6122d1e92eaf02888682c0d8b01d97364946a4aeff98"
 }
