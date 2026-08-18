@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.8.5",
+    "date": "2026-08-18",
+    "title": "Leftover empty parties clear themselves",
+    "description": "The launcher now quietly leaves a one-person party left over from an earlier session, the moment it sees one that is more than a few minutes old. That leftover party was the thing hiding party invites: the service only tells people with no party about them. Now it clears on its own on start-up, so an invite comes through without anyone having to know they were stuck in an empty party, and without waiting on the server side of the same fix.",
+    "changes": [
+      "A stale one-person party is left automatically, so it stops hiding your invites",
+      "Party invites now reach you even if you were sitting in a leftover empty party"
+    ]
+  },
+  {
     "version": "0.8.9.8.4",
     "date": "2026-08-18",
     "title": "A leftover empty party no longer swallows invites",
