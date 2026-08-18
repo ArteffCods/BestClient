@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.8.4",
-  "notes": "A leftover empty party no longer swallows invites",
-  "tag": "v0.8.9.8.4",
-  "asset": "BestClient-Setup-0.8.9.8.4.exe",
-  "sha256": "0691099392d9a3a5960c6122d1e92eaf02888682c0d8b01d97364946a4aeff98"
+  "version": "0.8.9.8.5",
+  "notes": "Leftover empty parties clear themselves",
+  "tag": "v0.8.9.8.5",
+  "asset": "BestClient-Setup-0.8.9.8.5.exe",
+  "sha256": "54913b43d8ad64b7efb2011760b9254698242df1b2c395e3fb81f5aa1b78b20b"
 }
