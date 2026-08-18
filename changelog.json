@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.8.6",
+    "date": "2026-08-18",
+    "title": "Take back a friend request you did not mean to send",
+    "description": "A request sent to the wrong person could not be taken back, and one sent to a name that had not opened BestClient stayed on the list for good with a Cancel button that did nothing. Both are fixed. Cancel now sits next to every pending request and always works: a real one is withdrawn on the server, and one that never reached anyone is simply dropped. A request that fails to send no longer leaves a stranded row behind.",
+    "changes": [
+      "Cancel is always shown next to a pending friend request, so it can be taken back",
+      "A request to a name that has not opened BestClient no longer sticks around forever",
+      "Withdrawing a request removes it for both sides"
+    ]
+  },
+  {
     "version": "0.8.9.8.5",
     "date": "2026-08-18",
     "title": "Leftover empty parties clear themselves",
