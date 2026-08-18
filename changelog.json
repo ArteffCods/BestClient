@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.8.4",
+    "date": "2026-08-18",
+    "title": "A leftover empty party no longer swallows invites",
+    "description": "This is why an invite never arrived: anyone still sitting in a one-person party left over from an earlier session had every incoming invite hidden from them, because the service only showed invites to people with no party at all. A party of just yourself is really nobody's party, so an invite now comes through in that case too, and accepting it simply moves you out of the empty one. The invite shows whether or not you are in such a party.",
+    "changes": [
+      "A one-person leftover party no longer hides party invites sent to you",
+      "The invite notice and list now show even while you sit in an empty party"
+    ]
+  },
+  {
     "version": "0.8.9.8.3",
     "date": "2026-08-16",
     "title": "A party invite you cannot miss",
