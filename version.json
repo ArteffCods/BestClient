@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.8.7",
-  "notes": "Native access is granted at launch, so mods keep their native acceleration on Java 25 and the warning wall is gone.",
-  "tag": "v0.8.9.8.7",
-  "asset": "BestClient-Setup-0.8.9.8.7.exe",
-  "sha256": "54e1f13f727636155df970c6aa56430f554151ac9d214a3dbfc15aa08acc271a"
+  "version": "0.8.9.8.8",
+  "notes": "Removing a friend now asks for a confirm, and the friends list is remembered and shown instantly when the panel opens.",
+  "tag": "v0.8.9.8.8",
+  "asset": "BestClient-Setup-0.8.9.8.8.exe",
+  "sha256": "20e012d05f50df3389d546f25d990c1b3aeb8f5f14b5c2aced302cb96cc35997"
 }
