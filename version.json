@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.8.6",
-  "notes": "Take back a friend request you did not mean to send. Cancel now sits next to every pending request and always works.",
-  "tag": "v0.8.9.8.6",
-  "asset": "BestClient-Setup-0.8.9.8.6.exe",
-  "sha256": "d3d5b1e341a79d0352eb250a75190b8432711f1613933a352b678114b9a4dfc3"
+  "version": "0.8.9.8.7",
+  "notes": "Native access is granted at launch, so mods keep their native acceleration on Java 25 and the warning wall is gone.",
+  "tag": "v0.8.9.8.7",
+  "asset": "BestClient-Setup-0.8.9.8.7.exe",
+  "sha256": "54e1f13f727636155df970c6aa56430f554151ac9d214a3dbfc15aa08acc271a"
 }
