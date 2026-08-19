@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.8.8",
+    "date": "2026-08-19",
+    "title": "Removing a friend asks first, and your list opens instantly",
+    "description": "The cross next to a friend used to remove them on the first click, which is an easy mistake to make and a slow one to undo. Now it asks: the cross turns into Remove and Keep, and only Remove goes through. Alongside that, the friends panel remembers who you know and paints them the moment it opens, instead of sitting on a loading line while it reaches the service. A live check still runs and takes over straight away, so the list is never shown as current when it is not.",
+    "changes": [
+      "Removing a friend now asks for a confirm before it goes through",
+      "The friends list is remembered and shown instantly when the panel opens",
+      "The cached list is per account and always replaced by a live check"
+    ]
+  },
+  {
     "version": "0.8.9.8.7",
     "date": "2026-08-18",
     "title": "Native acceleration stays on, and the log stays clean",
