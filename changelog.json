@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.8.7",
+    "date": "2026-08-18",
+    "title": "Native acceleration stays on, and the log stays clean",
+    "description": "On Java 25 the game printed a page of warnings the moment a mod reached for its native code, and the JVM warned that a future release would block that access outright. The launcher now grants native access at start-up, so the fast paths those mods rely on keep working: C2ME's AVX2 maths, the voice chat codecs, LWJGL itself. Nothing you will see day to day, but it keeps acceleration from being quietly dropped later and takes the noise out of the log.",
+    "changes": [
+      "Native access is granted at launch, so mods keep their native acceleration",
+      "The warning wall those native calls printed on Java 25 is gone"
+    ]
+  },
+  {
     "version": "0.8.9.8.6",
     "date": "2026-08-18",
     "title": "Take back a friend request you did not mean to send",
