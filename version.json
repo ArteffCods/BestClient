@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.8.9",
-  "notes": "Closing the launcher leaves the game running; the console opens smoothly with a bigger arrow; Ixeris is bundled; Discord invites work both ways; stays open by default.",
-  "tag": "v0.8.9.8.9",
-  "asset": "BestClient-Setup-0.8.9.8.9.exe",
-  "sha256": "3c9ef168c98a97b30bb74d1486d904405cfb272b100b2c6ee7b4e57d550ddf40"
+  "version": "0.8.9.9.0",
+  "notes": "1.21.11 runs on Java 21, the runtime it was built for, and the automatic memory tops out at 6 GB for steady PvP frame times.",
+  "tag": "v0.8.9.9.0",
+  "asset": "BestClient-Setup-0.8.9.9.0.exe",
+  "sha256": "e8f4dc708626121faf4a42ea2679e2d64d713ddda837cc390027244722f92b77"
 }
