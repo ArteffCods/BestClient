@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.9.0",
+    "date": "2026-08-19",
+    "title": "1.21.11 runs on Java 21, and the memory picks itself for PvP",
+    "description": "The 1.21.11 profile now runs on Java 21, the runtime this version and its mod were built and tested for, which drops the warning Java 25 printed and keeps the game on known ground. The automatic memory now tops out at 6 GB rather than 8, since past that the garbage collector pauses longer at exactly the wrong moment in a fight; more than that only helps if you set it by hand. The in-game options the client already writes for you (render distance 8, VSync off, entity distance 75 percent, fast graphics, clouds off) stay as they were. The AMD driver's own game-optimization toggles live in Adrenalin and cannot be set from here, but Sodium already works around them on its own.",
+    "changes": [
+      "1.21.11 now launches on Java 21, the runtime it was built for",
+      "Automatic memory tops out at 6 GB, the sweet spot for PvP frame times",
+      "The PvP-tuned in-game options are still applied for you automatically"
+    ]
+  },
+  {
     "version": "0.8.9.8.9",
     "date": "2026-08-19",
     "title": "Closing the launcher leaves the game running, and the console opens smoothly",
