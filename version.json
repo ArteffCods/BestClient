@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.8.8",
-  "notes": "Removing a friend now asks for a confirm, and the friends list is remembered and shown instantly when the panel opens.",
-  "tag": "v0.8.9.8.8",
-  "asset": "BestClient-Setup-0.8.9.8.8.exe",
-  "sha256": "20e012d05f50df3389d546f25d990c1b3aeb8f5f14b5c2aced302cb96cc35997"
+  "version": "0.8.9.8.9",
+  "notes": "Closing the launcher leaves the game running; the console opens smoothly with a bigger arrow; Ixeris is bundled; Discord invites work both ways; stays open by default.",
+  "tag": "v0.8.9.8.9",
+  "asset": "BestClient-Setup-0.8.9.8.9.exe",
+  "sha256": "3c9ef168c98a97b30bb74d1486d904405cfb272b100b2c6ee7b4e57d550ddf40"
 }
