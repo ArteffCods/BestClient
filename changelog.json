@@ -1,5 +1,19 @@
 [
   {
+    "version": "0.8.9.8.9",
+    "date": "2026-08-19",
+    "title": "Closing the launcher leaves the game running, and the console opens smoothly",
+    "description": "Close the launcher next to Minecraft and the game now keeps running untouched until you close it yourself, while the launcher fully quits rather than lingering in the background. The launcher also stays open by default again while you play, since it no longer draws over the game. The console at the foot of the window opens with a bigger arrow and eases open in place instead of snapping up. Ixeris is now installed by default, so window and input handling run off the render thread for lower click delay. Discord can invite you to play and let friends ask to join.",
+    "changes": [
+      "Closing the launcher no longer closes Minecraft; the game runs on until you close it",
+      "The launcher fully quits on close instead of staying in the background",
+      "Staying open while you play is the default again",
+      "The log console has a bigger arrow and eases open smoothly instead of jumping",
+      "Ixeris is installed by default for lower input delay",
+      "Discord party invites work both ways: friends can ask to join and be invited in"
+    ]
+  },
+  {
     "version": "0.8.9.8.8",
     "date": "2026-08-19",
     "title": "Removing a friend asks first, and your list opens instantly",
