@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.9.1",
+    "date": "2026-08-20",
+    "title": "The mods folder is yours; no more hash checking",
+    "description": "The launcher no longer hashes the mods folder or checks it against Modrinth, and it no longer flags anything as unknown or as a hacked client. Whatever mods you put in the folder are yours to run. The bundled client mods also install without a hash gate now, so a rebuilt jar can never silently fail to install over a stale checksum.",
+    "changes": [
+      "Mod hash checking is removed: nothing is flagged as unknown or blocked",
+      "Bundled client mods install without a checksum gate"
+    ]
+  },
+  {
     "version": "0.8.9.9.0",
     "date": "2026-08-19",
     "title": "1.21.11 runs on Java 21, and the memory picks itself for PvP",
