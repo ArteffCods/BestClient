@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.9.2",
+    "date": "2026-08-20",
+    "title": "A premium polish, same identity",
+    "description": "A first pass at making the launcher feel more expensive without changing what it is. The Play button now reads as a lit surface rather than a flat colour: a soft glow underneath, a glass highlight along the top, a play mark, and a single slow band of light that crosses it on hover. The window carries a faint accent halo at the top for depth, focus rings pick up a soft glow, and the scrollbars are thinner and quieter. Same dark and pink identity, just cleaner and more considered.",
+    "changes": [
+      "The Play button glows softly, catches a glass highlight, and sweeps light on hover",
+      "A faint accent halo at the top of the window adds depth",
+      "Focus rings glow softly and scrollbars are thinner and quieter"
+    ]
+  },
+  {
     "version": "0.8.9.9.1",
     "date": "2026-08-20",
     "title": "The mods folder is yours; no more hash checking",
