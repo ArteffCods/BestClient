@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.9.1",
-  "notes": "The launcher no longer hashes or checks the mods folder; whatever mods you install are yours to run.",
-  "tag": "v0.8.9.9.1",
-  "asset": "BestClient-Setup-0.8.9.9.1.exe",
-  "sha256": "b516bae5591644465b6fda5487043066fdf79feb734b900287c957e543f4242b"
+  "version": "0.8.9.9.2",
+  "notes": "A premium polish, same identity: a lit Play button with glow and a light sweep, a faint accent halo, softer focus rings and thinner scrollbars.",
+  "tag": "v0.8.9.9.2",
+  "asset": "BestClient-Setup-0.8.9.9.2.exe",
+  "sha256": "4e93a4400a6e952bd797d754e381f60fdf58264ecdb00096f75631ff9be953bc"
 }
