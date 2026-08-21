@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.9.2",
-  "notes": "A premium polish, same identity: a lit Play button with glow and a light sweep, a faint accent halo, softer focus rings and thinner scrollbars.",
-  "tag": "v0.8.9.9.2",
-  "asset": "BestClient-Setup-0.8.9.9.2.exe",
-  "sha256": "4e93a4400a6e952bd797d754e381f60fdf58264ecdb00096f75631ff9be953bc"
+  "version": "0.8.9.9.3",
+  "notes": "Hand-added mods now show the icon bundled inside their own jar; the Play button is restored; the version switcher uses a dropdown arrow.",
+  "tag": "v0.8.9.9.3",
+  "asset": "BestClient-Setup-0.8.9.9.3.exe",
+  "sha256": "3dccdd92bbbdba5a881b41c3c2129b06b6ac98bbe22bd246be7687acbc8af4cd"
 }
