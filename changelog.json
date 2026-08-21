@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.9.3",
+    "date": "2026-08-20",
+    "title": "Hand-added mods show their own icon, and small tidy-ups",
+    "description": "A mod you add by hand is not on Modrinth, so it had no icon and fell back to a plain placeholder. The launcher now reads the icon straight out of the jar, the same one the mod ships with, so hand-added mods look like themselves in the list. The Play button is back to how it was before the last change. On the main screen the version switcher swaps its pencil for a dropdown arrow, matching the renderer switcher next to it, while the version-picker popup is unchanged.",
+    "changes": [
+      "Hand-added mods show the icon bundled inside their own jar",
+      "The Play button is restored to its previous look",
+      "The version switcher uses a dropdown arrow instead of a pencil"
+    ]
+  },
+  {
     "version": "0.8.9.9.2",
     "date": "2026-08-20",
     "title": "A premium polish, same identity",
