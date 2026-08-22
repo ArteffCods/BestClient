@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.9.3",
-  "notes": "Hand-added mods now show the icon bundled inside their own jar; the Play button is restored; the version switcher uses a dropdown arrow.",
-  "tag": "v0.8.9.9.3",
-  "asset": "BestClient-Setup-0.8.9.9.3.exe",
-  "sha256": "3dccdd92bbbdba5a881b41c3c2129b06b6ac98bbe22bd246be7687acbc8af4cd"
+  "version": "0.8.9.9.4",
+  "notes": "The Mods page now shows each mod's own description read from its jar, for Modrinth mods and hand-added ones alike.",
+  "tag": "v0.8.9.9.4",
+  "asset": "BestClient-Setup-0.8.9.9.4.exe",
+  "sha256": "73a5645a419620f51eba70b2d833efcbb80042ccf9a10b0bf39ee9e8d90af304"
 }
