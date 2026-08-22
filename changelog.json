@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.9.4",
+    "date": "2026-08-20",
+    "title": "Mods show their own description on the Mods page",
+    "description": "Every mod already carries a short description inside its jar. The Mods page now reads it and shows it under the mod's name, for mods from Modrinth as well as ones you added by hand, so each row reads like the mod itself rather than a generic line. The version still shows on the button beside the row, and it is read once and remembered so the list stays quick.",
+    "changes": [
+      "The Mods page shows each mod's own description, read from its jar",
+      "This covers Modrinth mods and hand-added ones alike"
+    ]
+  },
+  {
     "version": "0.8.9.9.3",
     "date": "2026-08-20",
     "title": "Hand-added mods show their own icon, and small tidy-ups",
