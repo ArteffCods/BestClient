@@ -1,5 +1,16 @@
 [
   {
+    "version": "0.8.9.9.5",
+    "date": "2026-08-20",
+    "title": "Right Shift always opens the client menu",
+    "description": "The Right Shift menu could be swallowed or sat on top of in some situations, because the key was only read while no other screen was open. It is now read straight from the keyboard every tick, so it opens the client menu whatever is on screen, and the same key closes it again. It steps aside only where taking the key would break something in progress: while you are typing, with a chest or shulker open, or on the death screen, so a Right Shift meant for a capital letter or a slot still lands where it should.",
+    "changes": [
+      "Right Shift opens the client menu over any other screen, and closes it again",
+      "Nothing else can swallow or override the menu key",
+      "It stays out of the way while typing, in containers, and on the death screen"
+    ]
+  },
+  {
     "version": "0.8.9.9.4",
     "date": "2026-08-20",
     "title": "Mods show their own description on the Mods page",
