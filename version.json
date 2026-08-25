@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.9.4",
-  "notes": "The Mods page now shows each mod's own description read from its jar, for Modrinth mods and hand-added ones alike.",
-  "tag": "v0.8.9.9.4",
-  "asset": "BestClient-Setup-0.8.9.9.4.exe",
-  "sha256": "73a5645a419620f51eba70b2d833efcbb80042ccf9a10b0bf39ee9e8d90af304"
+  "version": "0.8.9.9.5",
+  "notes": "Right Shift now opens the client menu over any screen and closes it again, read straight from the keyboard so nothing can swallow it.",
+  "tag": "v0.8.9.9.5",
+  "asset": "BestClient-Setup-0.8.9.9.5.exe",
+  "sha256": "ab3dfe78ccb558d0c31cb6eebd7224577b83285a4fe3721cc05bca73e3b7b3b7"
 }
