@@ -1,5 +1,14 @@
 [
   {
+    "version": "0.8.9.9.6",
+    "date": "2026-08-20",
+    "title": "A small wording tidy on the Play screen",
+    "description": "The partner server hint now reads \"Double click to join\" without the hyphen, matching the plainer wording used elsewhere.",
+    "changes": [
+      "Partner servers now read \"Double click to join\""
+    ]
+  },
+  {
     "version": "0.8.9.9.5",
     "date": "2026-08-20",
     "title": "Right Shift always opens the client menu",
