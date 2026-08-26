@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.9.8",
-  "notes": "A reach readout joins the HUD, and the rounded name tag box gets a wider, even gap on both sides.",
-  "tag": "v0.8.9.9.8",
-  "asset": "BestClient-Setup-0.8.9.9.8.exe",
-  "sha256": "ac57cb0d87c0dfd698bb24c1b9f8f1a84166c8ddca45d54a34b4481756b18699"
+  "version": "0.8.9.9.9",
+  "notes": "The installer side panel and header are redrawn in the client's own palette and typeface.",
+  "tag": "v0.8.9.9.9",
+  "asset": "BestClient-Setup-0.8.9.9.9.exe",
+  "sha256": "acad1707667fe899b93ed77054a2db480851c73ba20739e15814f479f0283fb4"
 }
