@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.9.8",
+    "date": "2026-08-26",
+    "title": "Reach display, and roomier name tags",
+    "description": "A reach readout joins the HUD, under Right Shift and then HUD. It measures from your eyes to the point on the other player's hitbox your swing landed on, which is the figure an anticheat reads, and it holds the number for a few seconds so you can look at it after the trade rather than during it. The rounded name tag box also sits better: it was pinched on the left and loose on the right, so both sides now get a wider, even gap.",
+    "changes": [
+      "New Reach module in the HUD list, showing the distance of your last hit",
+      "The name tag box has a wider, even gap on both sides of the name"
+    ]
+  },
+  {
     "version": "0.8.9.9.7",
     "date": "2026-08-26",
     "title": "Rounded name tags",
