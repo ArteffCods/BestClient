@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.9.9",
+    "date": "2026-08-26",
+    "title": "The installer looks like the client now",
+    "description": "The setup window carried artwork from an older look, so installing BestClient felt like installing something else. The side panel and the header strip are redrawn in the launcher's own palette and its own typeface, with the mark lit from behind and the wordmark set the way the launcher sets it. They are generated from a script in the repository rather than kept as images nobody can edit, so the installer cannot drift away from the client again.",
+    "changes": [
+      "The installer side panel and header are redrawn in the client's palette",
+      "The artwork is generated from the launcher's own colours and typeface"
+    ]
+  },
+  {
     "version": "0.8.9.9.8",
     "date": "2026-08-26",
     "title": "Reach display, and roomier name tags",
