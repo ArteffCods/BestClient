@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.9.6",
-  "notes": "The partner server hint now reads Double click to join without the hyphen.",
-  "tag": "v0.8.9.9.6",
-  "asset": "BestClient-Setup-0.8.9.9.6.exe",
-  "sha256": "92eb2be3a265c76bb2b3b9ee96c71a08bbd5ca71c56b4f0af3b008145b3d03ef"
+  "version": "0.8.9.9.7",
+  "notes": "The box behind every floating player name now has rounded corners.",
+  "tag": "v0.8.9.9.7",
+  "asset": "BestClient-Setup-0.8.9.9.7.exe",
+  "sha256": "b2745df16fe59fc23a1ea37a2470fe0ff9ff65141d015cbc0b0bd3e691003646"
 }
