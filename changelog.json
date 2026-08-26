@@ -1,5 +1,15 @@
 [
   {
+    "version": "0.8.9.9.7",
+    "date": "2026-08-26",
+    "title": "Rounded name tags",
+    "description": "The dark box behind a floating player name now has rounded corners instead of hard square ones. It applies to every name you can see, your own included when you look at yourself in third person, so the world reads a little softer without anything moving. The box is still drawn in one pass, so it costs nothing in frames.",
+    "changes": [
+      "The box behind every floating player name now has rounded corners",
+      "Your own name is rounded too when you turn the camera around"
+    ]
+  },
+  {
     "version": "0.8.9.9.6",
     "date": "2026-08-20",
     "title": "A small wording tidy on the Play screen",
