@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.9.7",
-  "notes": "The box behind every floating player name now has rounded corners.",
-  "tag": "v0.8.9.9.7",
-  "asset": "BestClient-Setup-0.8.9.9.7.exe",
-  "sha256": "b2745df16fe59fc23a1ea37a2470fe0ff9ff65141d015cbc0b0bd3e691003646"
+  "version": "0.8.9.9.8",
+  "notes": "A reach readout joins the HUD, and the rounded name tag box gets a wider, even gap on both sides.",
+  "tag": "v0.8.9.9.8",
+  "asset": "BestClient-Setup-0.8.9.9.8.exe",
+  "sha256": "ac57cb0d87c0dfd698bb24c1b9f8f1a84166c8ddca45d54a34b4481756b18699"
 }
