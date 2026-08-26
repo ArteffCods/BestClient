@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.9.5",
-  "notes": "Right Shift now opens the client menu over any screen and closes it again, read straight from the keyboard so nothing can swallow it.",
-  "tag": "v0.8.9.9.5",
-  "asset": "BestClient-Setup-0.8.9.9.5.exe",
-  "sha256": "ab3dfe78ccb558d0c31cb6eebd7224577b83285a4fe3721cc05bca73e3b7b3b7"
+  "version": "0.8.9.9.6",
+  "notes": "The partner server hint now reads Double click to join without the hyphen.",
+  "tag": "v0.8.9.9.6",
+  "asset": "BestClient-Setup-0.8.9.9.6.exe",
+  "sha256": "92eb2be3a265c76bb2b3b9ee96c71a08bbd5ca71c56b4f0af3b008145b3d03ef"
 }
