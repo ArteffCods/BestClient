@@ -1,5 +1,27 @@
 [
   {
+    "version": "0.9.0.0.0",
+    "date": "2026-08-28",
+    "title": "One client on every version, and your sign-in locked away",
+    "description": "A Minecraft version could sit on an old copy of the client mod for as long as it liked, because the launcher decided a version was ready by its own build number, which does not move when only the mod is rebuilt. It now tracks the mod itself and compares what is installed by checksum rather than by file size. The mod also kept its settings inside each Minecraft folder, so every version started from nothing; there is one shared copy now that travels into every version before the game starts and comes back from whichever version was played. Alongside that, the Microsoft sign-in token was being written to disk as readable text, which is the whole account to anything that can open the file, and it is now encrypted with the key store the operating system provides.",
+    "changes": [
+      "A custom panorama behind the title screen on every Minecraft version",
+      "The Minecraft logo and the blinking splash text give way to the BestClient wordmark",
+      "Minimalist PvP becomes Clear Combat and makes fire, the totem and the shield smaller instead of hiding them",
+      "Hold Left Shift over a shulker box to open the real Minecraft container window",
+      "Cat Ears sit on the head instead of floating above it",
+      "Twenty new BestClient Plus models, taking the collection from eleven to thirty one",
+      "A proper icon for the FPS module",
+      "Minecraft 26.2 starts again; the fire overlay was hooked to a renamed method",
+      "The crosshair indicator now works on Minecraft 26 as well",
+      "The Microsoft sign-in token is encrypted at rest instead of stored as plain text",
+      "Modrinth packs are refused from lookalike domains and over plain HTTP",
+      "An update without a checksum is refused rather than installed unverified",
+      "The panel lockout can no longer be triggered from outside without solving the captcha",
+      "Key redemption, sign-in and request size are limited on the server"
+    ]
+  },
+  {
     "version": "0.8.9.9.9",
     "date": "2026-08-26",
     "title": "The installer looks like the client now",
