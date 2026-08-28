@@ -1,7 +1,7 @@
 {
-  "version": "0.8.9.9.9",
-  "notes": "The installer side panel and header are redrawn in the client's own palette and typeface.",
-  "tag": "v0.8.9.9.9",
-  "asset": "BestClient-Setup-0.8.9.9.9.exe",
-  "sha256": "acad1707667fe899b93ed77054a2db480851c73ba20739e15814f479f0283fb4"
+  "version": "0.9.0.0.0",
+  "notes": "Every Minecraft version runs the same client now, and your Microsoft sign-in is no longer kept in plain text.",
+  "tag": "v0.9.0.0.0",
+  "asset": "BestClient-Setup-0.9.0.0.0.exe",
+  "sha256": "665d081d661f43947aa9fbfd91de0546a2a924ebe7543b09616c92c76a06a639"
 }
