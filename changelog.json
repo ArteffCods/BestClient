@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.9.1.0",
+    "date": "2026-09-05",
+    "title": "The server loads for everyone, and the Java is ours",
+    "description": "Some players could not reach a server at all: no player count, no MOTD, and a refused connection if they typed the address in anyway. Their router or their provider was dropping the DNS record that says which port a Minecraft server listens on, so the game went knocking on the default port where nothing was listening. The client now reads that record a second way, over HTTPS, but only when the machine's own lookup comes back with nothing, and it does it for any address typed in rather than only for this one. A working connection is untouched, and if the second way finds nothing either the game carries on exactly as it did before. Ten Java runtimes and every startup flag the launcher sets were measured, five runs each. The flags turned out to be worth nothing on frame rate and were left alone on purpose. Which Java runs the game turned out to matter: OpenJ9 came in seventeen percent below the ordinary builds on average and forty four percent below at the tenth of a percent low, and GraalVM produced a quarter second stall in every run. The launcher used to take either if it found one on the machine. It now installs and uses the runtime it was measured against, whatever else is on the PC.",
+    "changes": [
+      "Servers that would not load now load: the client reads the SRV record over HTTPS when the machine's own lookup fails, for any address you type in",
+      "The server list shows a ping and a MOTD for players who saw neither",
+      "The game always runs on the Java the client was measured against, instead of whatever build happened to be installed on the PC",
+      "OpenJ9 and GraalVM are no longer used: both measured markedly worse, GraalVM with a quarter second stall in every run",
+      "A pack you install can no longer change your startup flags",
+      "A download that stalls gives up and retries instead of hanging on Installing",
+      "The update installer is checked against its checksum again in the moment before it is run",
+      "The privacy policy now lists everything the service stores, and what it does not"
+    ]
+  },
+  {
     "version": "0.9.0.0.0",
     "date": "2026-08-28",
     "title": "One client on every version, and your sign-in locked away",

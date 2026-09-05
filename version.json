@@ -1,7 +1,7 @@
 {
-  "version": "0.9.0.0.0",
-  "notes": "Every Minecraft version runs the same client now, and your Microsoft sign-in is no longer kept in plain text.",
-  "tag": "v0.9.0.0.0",
-  "asset": "BestClient-Setup-0.9.0.0.0.exe",
-  "sha256": "665d081d661f43947aa9fbfd91de0546a2a924ebe7543b09616c92c76a06a639"
+  "version": "0.9.1.0",
+  "notes": "Servers that would not load now load, and the game always runs on the Java the client was measured against.",
+  "tag": "v0.9.1.0",
+  "asset": "BestClient-Setup-0.9.1.0.exe",
+  "sha256": "3e4330ce6253f315d803d386fcb1fbef97542eb78e7b1d3e34d17647bb4d4355"
 }
