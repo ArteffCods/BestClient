@@ -1,5 +1,25 @@
 [
   {
+    "version": "0.9.2.0",
+    "date": "2026-09-13",
+    "title": "Packs open up, Plus arrives, and the Play screen behaves",
+    "description": "BestClient Packs now have a real public Browse page: cards show the mods inside, their icons, the settings a pack would change, installs, views, and a full page before you load anything. BestClient Plus is wired into the launcher with key redemption, the pink star, cached status, and coloured pack banners. The Play screen also reads cleaner while Minecraft is running: it says In game, the stop button says Close game, and the Plus star stays on the same row.",
+    "changes": [
+      "Public packs show mod icons, descriptions and settings before you install them",
+      "Pack pages now show installs, views, mod count, settings and every mod inside",
+      "Packs can be sorted by relevance, downloads, views or newest",
+      "Local packs show the same preview without needing the public service",
+      "Pack installs show step-by-step progress and report skipped or refused changes",
+      "BestClient Plus can be checked and redeemed inside the launcher",
+      "Plus members get the pink star and coloured pack banners",
+      "The Play screen now says In game while Minecraft is open",
+      "The stop button now says Close game instead of being icon-only",
+      "The Plus star stays on the same row while the game is running",
+      "Party summons and live social updates feel more immediate",
+      "The launcher has cleaner loading and fallback states across the new pack and social surfaces"
+    ]
+  },
+  {
     "version": "0.9.1.0",
     "date": "2026-09-05",
     "title": "The server loads for everyone, and the Java is ours",

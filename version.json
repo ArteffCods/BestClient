@@ -1,7 +1,7 @@
 {
-  "version": "0.9.1.0",
-  "notes": "Servers that would not load now load, and the game always runs on the Java the client was measured against.",
-  "tag": "v0.9.1.0",
-  "asset": "BestClient-Setup-0.9.1.0.exe",
-  "sha256": "3e4330ce6253f315d803d386fcb1fbef97542eb78e7b1d3e34d17647bb4d4355"
+  "version": "0.9.2.0",
+  "notes": "Packs open up with public previews, BestClient Plus arrives in the launcher, and the Play screen now behaves while Minecraft is running.",
+  "tag": "v0.9.2.0",
+  "asset": "BestClient-Setup-0.9.2.0.exe",
+  "sha256": "780654c5d1e24842a574bb070239c5d0f429cd53cdbe445db9f2eaec8f3b73ee"
 }
