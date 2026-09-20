@@ -1,5 +1,29 @@
 [
   {
+    "version": "0.9.2.5",
+    "date": "2026-09-20",
+    "title": "Minecraft 26.3, six tier lists, and you on the Play screen",
+    "description": "BestClient now covers Minecraft 26.3 alongside 26.2, 26.1.2 and 1.21.11. Tier tags can be read from any of six lists, set once for both the name tags in game and the launcher. The skin panel beside the launch button is your character now: head and shoulders up close, moving, with your name and tier over it in the game’s own font. Two new modules arrive, a time changer and a combo display, and the HUD stopped eating a third of the render thread.",
+    "changes": [
+      "Minecraft 26.3 is supported, with its own build of the client mod",
+      "Tier tags can read hutier.hu, mctiers.com, minetiers.tech, pvptiers.com, mcpvp.com or flowpvp.gg",
+      "One tier setting for both the launcher and the name tags in game, with kit icons beside the rung",
+      "Show a player’s best tier, or the one kit you care about",
+      "The skin panel is now your character, close up and moving, with your name and tier over it",
+      "New module: Time changer, for the time of day and the weather on your side only",
+      "New module: Combo display, counting your hits in a row",
+      "Rounded plates and icons in the HUD are one texture each, which took 39% of the render thread back",
+      "My Mods, Mods and Packs open faster, and the launcher stops animating while you are in game",
+      "Offline friends can no longer be invited to a party",
+      "Friends see your playtime, with a switch in Settings, Privacy to hide it",
+      "In a party the friends rail splits in half, friends above and the party below",
+      "Notifications can be dismissed one by one or cleared all at once",
+      "Settings is split into Game, Tiers, Account, Privacy and System",
+      "Packs no longer carry memory, the after-play behaviour or the client’s own content",
+      "Java comes from BellSoft Liberica only, and the bundled mod jars are checked at every start"
+    ]
+  },
+  {
     "version": "0.9.2.0",
     "date": "2026-09-13",
     "title": "Packs open up, Plus arrives, and the Play screen behaves",

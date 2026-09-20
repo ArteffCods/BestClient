@@ -1,7 +1,7 @@
 {
-  "version": "0.9.2.0",
-  "notes": "Packs open up with public previews, BestClient Plus arrives in the launcher, and the Play screen now behaves while Minecraft is running.",
-  "tag": "v0.9.2.0",
-  "asset": "BestClient-Setup-0.9.2.0.exe",
-  "sha256": "780654c5d1e24842a574bb070239c5d0f429cd53cdbe445db9f2eaec8f3b73ee"
+  "version": "0.9.2.5",
+  "notes": "Minecraft 26.3, six tier lists, and you on the Play screen.",
+  "tag": "v0.9.2.5",
+  "asset": "BestClient-Setup-0.9.2.5.exe",
+  "sha256": "e6ae8005aef8d4a5da0f7c57c3cf22a0cb3f39583ce6ce2eb3975a267321be4e"
 }
