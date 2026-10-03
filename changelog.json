@@ -1,5 +1,30 @@
 [
   {
+    "version": "0.9.3.0",
+    "date": "2026-10-03",
+    "title": "A crash comes with an answer, and your server list stays put",
+    "description": "The crash window says what went wrong in a sentence and offers one repair picked from the crash itself, and fixes written for a known crash reach every launcher. The server list can no longer be lost to a half-written file, and servers an older launcher set aside are put back. Colour saturation arrives as a new module, a skin picked in the launcher is worn at once in a game already open, and every module has a page of its own on a right click.",
+    "changes": [
+      "The crash window says what went wrong in one sentence and offers one repair for that crash",
+      "Auto repair turns off the mod that crashed, pins a working version, raises the memory, clears the flags, lowers the render distance or reinstalls the client",
+      "Fixes for known crashes reach the launcher and are kept for when you are offline",
+      "Mods known not to work together are checked as a pair",
+      "Out of memory is read properly, page file and render distance included",
+      "The console copies the whole log of the last game",
+      "servers.dat is never set aside as corrupt by a half-written read again, and lost servers are put back",
+      "New module: Colour saturation, six strengths, working together with motion blur",
+      "A skin picked in the launcher is worn at once in a game already open",
+      "The 3D skin layer is built per pixel, with its own depth for each part",
+      "Skins, mods and packs can be dropped in from the desktop",
+      "Right click a module for its own page, with a description, a live preview and grouped settings",
+      "The menu panorama can no longer be replaced by a resource pack",
+      "A mod nobody could be asked about no longer stops the game",
+      "Switching versions quickly can no longer mix up two versions’ mods",
+      "A party with Plus holds 50, and the launcher and Discord status say so",
+      "Error reports can be switched off in Settings, Privacy, and are stripped of your name before they are sent"
+    ]
+  },
+  {
     "version": "0.9.2.5",
     "date": "2026-09-20",
     "title": "Minecraft 26.3, six tier lists, and you on the Play screen",
