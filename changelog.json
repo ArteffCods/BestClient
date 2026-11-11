@@ -1,5 +1,24 @@
 [
   {
+    "version": "0.9.3.5",
+    "date": "2026-11-11",
+    "title": "26.x starts again, and your modules stay switched on",
+    "description": "0.9.3.0 crashed every 26.x version while the game was loading; this fixes it, and every build is now checked for that kind of crash before it leaves us. Modules and their settings no longer fall back to default when the launcher was not running as the game closed. A new instance button switches your setup to a saved pack in one click, and your playtime now lives with your account instead of on one PC.",
+    "changes": [
+      "26.1.2, 26.2 and 26.3 start again: 0.9.3.0 crashed them while the game was loading",
+      "Every 26.x build is checked for that kind of crash before it ships",
+      "Modules and their settings stay the way you left them, even when the launcher was closed before the game",
+      "Settings restored from your account are no longer overwritten on the first start",
+      "New instance button on the Play screen: switch to a saved pack in one click, version included",
+      "Store mods a pack does not list are turned off, not deleted, so switching back needs no download",
+      "Deleting a saved pack no longer leaves it marked as the active one",
+      "Playtime is kept with your account, the same on every PC, and what this launcher counted so far is uploaded once",
+      "The skin panel finds the skin you are wearing more reliably",
+      "VulkanMod no longer crashes the game when the menus are drawn while it rebuilds, for example on alt-tab",
+      "1.21.11: clicks register a little faster, input is read at the start of every frame"
+    ]
+  },
+  {
     "version": "0.9.3.0",
     "date": "2026-10-03",
     "title": "A crash comes with an answer, and your server list stays put",

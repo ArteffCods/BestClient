@@ -1,7 +1,7 @@
 {
-  "version": "0.9.3.0",
-  "notes": "Crashes come with a repair, the server list stays put, and colour saturation arrives.",
-  "tag": "v0.9.3.0",
-  "asset": "BestClient-Setup-0.9.3.0.exe",
-  "sha256": "e8446bdde1c30ae9e0a57f36c47ddcb7a47ddc3cd01e31944770db67eaf32d48"
+  "version": "0.9.3.5",
+  "notes": "26.x starts again, your modules stay switched on, and a one-click instance switch.",
+  "tag": "v0.9.3.5",
+  "asset": "BestClient-Setup-0.9.3.5.exe",
+  "sha256": "5b502a411e862890423ef08555fecdd38a45341931ba81afdd6cdbbf88ae2eab"
 }
